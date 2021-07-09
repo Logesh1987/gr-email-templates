@@ -1,11 +1,12 @@
 <template>
   <div>
     <h2>Reward Setup</h2>
+    <p v-if="newFomo">All fields are prefilled with default data</p>
     <div class="displaySetting">
       <div class="md-layout md-gutter" style="flex-grow: 1">
         <div class="md-layout-item md-size-50 md-xsmall-size-100 rewardsMode">
           <div class="setupMode">
-            <div class="head">
+            <div class="head disabled">
               <md-checkbox
                 v-model="formData.mode_instant"
                 :true-value="1"
@@ -18,6 +19,7 @@
                   ></i
                 ></md-checkbox
               >
+              <i class="soon">Coming Soon !!</i>
             </div>
             <div class="body p-20" v-if="formData.mode_instant == 1">
               <div class="radioTabs">
@@ -258,7 +260,7 @@
       </div>
     </div>
     <div class="topControl formSubmit">
-      <md-button class="md-raised" @click.prevent="close">Cancel</md-button>
+      <md-button class="md-raised" @click.prevent="close">Close</md-button>
       <md-button
         class="md-raised md-accent"
         :disabled="Object.keys(errors).length > 0"

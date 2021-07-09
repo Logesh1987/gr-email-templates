@@ -5,7 +5,11 @@
       <i class="fal fa-upload" alt="Replace image"></i>
       <input :id="id" type="file" accept="image/*" @change="handleFileChange" />
     </label>
-    <img v-if="data.value.length > 0" :src="getImgUrl(data.value)" alt="" />
+    <img
+      v-if="data.value && data.value.length > 0"
+      :src="getImgUrl(data.value)"
+      alt=""
+    />
     <div class="fileDimension" v-if="data.width && data.height">
       {{ data.width }} X {{ data.height }} pixels
     </div>

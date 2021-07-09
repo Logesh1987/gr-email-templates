@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2>Display Setup</h2>
+    <p v-if="newFomo">All fields are prefilled with default data</p>
     <div class="displaySetting fullDiv visibleTo">
       <h6 class="bLabel noBG">Visible to:</h6>
       <div>
@@ -31,8 +32,8 @@
             <label>Show on specific page(s)</label>
             <md-input v-model="formData.specific_pages"></md-input>
           </md-field>
-          <small class="text-info display-flex align-items-center">
-            <span class="material-icons">info</span>
+          <small class="text-info display-flex align-items-start">
+            <i class="fas fa-info-circle"></i>
             <span>
               Enter Slug, Part URL (E.g. products, myaccount, cart ..etc) to
               show the widget on the page(s) or page name
@@ -92,8 +93,8 @@
           >
         </md-select>
       </md-field>
-      <small class="text-info display-flex align-items-center">
-        <span class="material-icons">info</span>
+      <small class="text-info display-flex align-items-start">
+        <i class="fas fa-info-circle"></i>
         <span> Display in selected countries only </span>
       </small>
     </div>
@@ -133,8 +134,8 @@
           ></md-input>
           <span class="md-error" v-if="errors.scroll">{{ errors.scroll }}</span>
         </md-field>
-        <small class="text-info display-flex align-items-center">
-          <span class="material-icons">info</span>
+        <small class="text-info display-flex align-items-start">
+          <i class="fas fa-info-circle"></i>
           <span>
             Set the percentage a visitor needs to scroll down the page for the
             pop up to appear.
@@ -148,8 +149,8 @@
           <md-input v-model="formData.seconds" type="number"></md-input>
           <span class="md-error" v-if="errors.delay">{{ errors.delay }}</span>
         </md-field>
-        <small class="text-info display-flex align-items-center">
-          <span class="material-icons">info</span>
+        <small class="text-info display-flex align-items-start">
+          <i class="fas fa-info-circle"></i>
           <span>
             Set the number of seconds a visitor needs to be on your webpage
             before the pop up appears
@@ -158,12 +159,12 @@
       </div>
     </div>
     <div class="topControl formSubmit">
-      <md-button class="md-raised" @click.prevent="close">Cancel</md-button>
+      <md-button class="md-raised" @click.prevent="close">Close</md-button>
       <md-button
         class="md-raised md-accent"
         :disabled="Object.keys(errors).length > 0"
         @click.prevent="handleSave"
-        >Save</md-button
+        >{{ newFomo ? "Save & Proceed" : "Save" }}</md-button
       >
     </div>
   </div>
@@ -171,7 +172,7 @@
 <script>
 export default {
   name: "FomoDisplaySetup",
-  props: ["data", "content", "close", "save"],
+  props: ["data", "content", "close", "save", "newFomo"],
   mixins: ["createFormData"],
   data: function() {
     return {

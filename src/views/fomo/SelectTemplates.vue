@@ -15,16 +15,36 @@
           <div class="icon margin-right-10">
             <i :class="`fomoIcon icon_${fomoType}`"></i>
           </div>
-          <span>{{ fomoData.name }}</span>
+          <div v-if="editName == null">
+            <span>{{ fomoData.name }}</span>
+            <i class="fas fa-pen nameCTA" @click="editName = fomoData.name"></i>
+          </div>
+          <div class="nameEditContainer" v-else>
+            <md-field>
+              <md-input v-model="editName"></md-input>
+              <i class="fal fa-times nameCTA" @click="editName = null"></i>
+              <i
+                class="far fa-save nameCTA"
+                v-if="editName && editName.length"
+                @click.prevent="e => saveAttribute('name', editName)"
+              ></i>
+            </md-field>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="container fomoContainer" v-if="fomoData">
       <div class="md-layout md-gutter" v-if="activeEdit == false">
-        <div class="md-layout-item md-size-40 configSection">
+        <div class="md-layout-item md-size-30 configSection">
           <h2>FOMO Summary</h2>
-          <md-card class="mb-20" v-if="fomoData.config_setting">
+          <md-card
+            class="mb-20"
+            v-if="
+              fomoData.config_setting &&
+                Object.keys(fomoData.config_setting).length
+            "
+          >
             <md-card-content>
               <div class="innerConfigSection">
                 <div class="handBand">
@@ -36,7 +56,13 @@
                 </div>
               </div> </md-card-content
           ></md-card>
-          <md-card class="mb-20">
+          <md-card
+            class="mb-20"
+            v-if="
+              fomoData.reward_settings &&
+                Object.keys(fomoData.reward_settings).length
+            "
+          >
             <md-card-content>
               <div class="innerConfigSection">
                 <div class="handBand">
@@ -160,11 +186,12 @@
           </md-card>
         </div>
         <div
-          class="md-layout-item md-size-60 templateSection"
+          class="md-layout-item md-size-70 templateSection"
           v-if="templateData"
         >
           <div class="template activeTemplate">
             <figure class="template-inner">
+              <i>Active Template</i>
               <img
                 :src="
                   getAssetUrl(`fomo/theme/${fomoType}_${activeTemplate.id}.png`)
@@ -184,6 +211,7 @@
             </figcaption>
           </div>
           <div class="display-flex align-items-start otherTemplates">
+            <h4>Other Templates</h4>
             <div
               class="template"
               v-for="template in templateData.filter(
@@ -198,14 +226,14 @@
                   "
                   alt=""
                 />
+                <router-link :to="`/view/fomo/edit/${fomoId}/${template.id}`">
+                  <md-button class="md-raised">
+                    <span>Activate</span>
+                  </md-button>
+                </router-link>
               </figure>
               <figcaption class="template-info">
                 <p>{{ template.attributes.name }}</p>
-                <router-link :to="`/view/fomo/edit/${fomoId}/${template.id}`">
-                  <md-button class="md-raised">
-                    <span>Select & Edit</span>
-                  </md-button>
-                </router-link>
               </figcaption>
             </div>
           </div>
@@ -262,7 +290,8 @@ export default {
       activeEdit: false, // config || rewards || display
       loader: false,
       apiMessage: false,
-      apiResponse: null
+      apiResponse: null,
+      editName: null
     };
   },
   computed: {
@@ -296,9 +325,9 @@ export default {
             this.activeEdit = false;
           }
         })
-        .catch(({ data }) => {
-          console.log(data);
-          this.apiResponse = `<i class="fas fa-exclamation-circle"></i> ${data.data.message}`;
+        .catch(error => {
+          console.log(error);
+          this.apiResponse = `<i class="fas fa-exclamation-circle"></i> Internal error`;
           this.apiMessage = true;
         })
         .finally(() => (this.loader = false));
@@ -321,11 +350,32 @@ export default {
           this.apiMessage = true;
         })
         .finally(() => (this.loader = false));
+    },
+    saveAttribute: function(key, value) {
+      const url = this.getApiUrl("fomo/update");
+      const params = {
+        id: this.fomoId,
+        [key]: value
+      };
+      this.loader = true;
+      Axios.post(url, this.createFormData(params))
+        .then(({ data }) => {
+          this.fomoData[key] = value;
+          this.apiResponse = `<i class="fas fa-check-circle"></i> ${data.data.message}`;
+          this.apiMessage = true;
+          this.editName = null;
+        })
+        .catch(({ data }) => {
+          console.log(data);
+          this.apiResponse = `<i class="fas fa-exclamation-circle"></i> ${data.data.message}`;
+          this.apiMessage = true;
+        })
+        .finally(() => (this.loader = false));
     }
   },
   mounted: function() {
     const url = this.getApiUrl(`fomo/getDetails?id=${this.fomoId}`);
-    this.loader = false;
+    this.loader = true;
     Axios.get(url)
       .then(({ data }) => {
         const { attributes, relationship, includes, type } = data;
@@ -336,7 +386,7 @@ export default {
         if (this.newFomo) {
           this.fomoData.config_setting
             ? (this.activeEdit = "config")
-            : this.fomoData.reward_settings
+            : Object.keys(this.fomoData.reward_settings).length
             ? (this.activeEdit = "rewards")
             : (this.activeEdit = "display");
         }
@@ -361,6 +411,7 @@ export default {
   min-height: 100vh;
   overflow: visible;
   padding-top: 100px;
+  justify-content: center;
 
   .md-card {
     box-shadow: none;
@@ -414,11 +465,22 @@ export default {
   .templateSection {
     .otherTemplates {
       width: 100%;
+      flex-wrap: wrap;
+    }
+    h4 {
+      width: 100%;
+      margin: 20px 15px;
+      font-size: 1.4em;
+      border-bottom: 1px solid;
+      padding-bottom: 0.3em;
     }
     .template {
-      width: 33%;
-      margin: 0px 20px;
+      width: calc(33.3% - 30px);
+      margin: 0px 15px;
       position: relative;
+      &:hover figure a {
+        opacity: 1;
+      }
 
       &-inner {
         margin: 0;
@@ -427,10 +489,17 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: hidden;
         &:before {
           content: "";
           display: block;
           padding-bottom: 80%;
+        }
+        a {
+          box-shadow: 0 0 0em 6em rgba(0, 0, 0, 0.75);
+          position: relative;
+          opacity: 0;
+          transition: opacity 0.4s;
         }
         &.active {
           background-color: #43ef9f;
@@ -441,11 +510,24 @@ export default {
           position: absolute;
           object-fit: contain;
         }
+        i {
+          position: absolute;
+          right: 0;
+          top: 0;
+          background: #187aff;
+          padding: 0.4em 1.2em 0.6em 1.6em;
+          font-style: normal;
+          font-weight: 600;
+          color: #fff;
+          border-radius: 0 0 0 1em;
+          box-shadow: -0.5em 1em 1em rgba(0, 0, 0, 0.5);
+        }
       }
       &-info {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        margin: 0.5em 0;
       }
       &.activeTemplate {
         width: calc(100% - 40px);
@@ -462,11 +544,32 @@ export default {
     }
   }
 }
+.nameCTA {
+  cursor: pointer;
+}
+.nameEditContainer {
+  display: flex;
+  align-items: center;
+  .nameCTA {
+    font-size: 1.2em;
+    padding: 0 0.3em;
+  }
+  .md-field {
+    margin: 0;
+    padding: 0;
+    min-height: 0;
+    align-items: center;
+  }
+}
 </style>
 <style lang="less">
 @white: #ffffff;
 @blue: #187aff;
 @stroke: #d1d1d1;
+.nameCTA {
+  font-size: 0.9em;
+  padding: 0 0.8em;
+}
 .fomoContainer {
   .poppin {
     .topControl.formSubmit {
@@ -522,6 +625,16 @@ export default {
           font-weight: bold;
           border-bottom: 1px solid @stroke;
           background: @blue;
+          &.disabled {
+            .md-checkbox {
+              opacity: 0.5;
+              pointer-events: none;
+            }
+            .soon {
+              float: right;
+              margin: 1.1em;
+            }
+          }
         }
         .body {
           border-bottom: 1px solid @stroke;
@@ -532,17 +645,13 @@ export default {
         }
       }
     }
-
-    .md-checkbox.md-theme-default .md-checkbox-container {
-      border-color: @white;
-      --md-theme-default-background: @blue;
-      --md-theme-default-accent: @white;
-    }
     .text-info {
-      line-height: 1.2;
-      .material-icons {
+      line-height: 1.1;
+      i {
+        font-size: 1.6em;
         padding-right: 10px;
-        color: #5988bc;
+        color: #187aff;
+        transform: translateY(-0.2em);
       }
     }
   }

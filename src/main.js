@@ -19,11 +19,11 @@ var hostname = window.location.hostname;
 var pathname = window.location.pathname;
 
 if (hostname == "localhost") {
-  Vue.prototype.$callback_url = "https://logesh.devam.pro/gr/";
+  Vue.prototype.$callback_url = "https://logesh.devam.pro/gr";
 } else if (pathname.includes("/gr/")) {
-  Vue.prototype.$callback_url = "https://" + hostname + "/gr/";
+  Vue.prototype.$callback_url = "https://" + hostname + "/gr";
 } else {
-  Vue.prototype.$callback_url = "https://" + hostname + "/";
+  Vue.prototype.$callback_url = "https://" + hostname;
 }
 
 Vue.prototype.$shop_id = "1916";

@@ -1,12 +1,6 @@
 <template>
   <div class="home">
     <div class="fomoContainer">
-      <div class="fomo_block" v-if="errored">
-        <div class="warning">
-          We're sorry, we're not able to retrieve this information at the
-          moment, please try back later
-        </div>
-      </div>
       <Loader :status="loader" />
       <div class="fomo_block">
         <div class="active_fomo">
@@ -25,15 +19,22 @@
               >Create New & View all template</md-button
             >
           </div>
+          <div class="fomo_block" v-if="errored">
+            <div class="warning">
+              We're sorry, we're not able to retrieve this information at the
+              moment, please try back later
+            </div>
+          </div>
           <div class="fomoList" v-if="listData">
             <md-tabs class="fomo-tabs" md-alignment="fixed">
+              <template slot="md-tab" slot-scope="{ tab }">
+                {{ tab.label }}
+                <i class="badge" v-if="tab.data.badge">{{ tab.data.badge }}</i>
+              </template>
               <md-tab
                 id="tab-home"
-                :md-label="
-                  `Active Prompts ${
-                    activeFomo.length ? `(${activeFomo.length})` : ''
-                  }`
-                "
+                md-label="Active Prompts"
+                :md-template-data="{ badge: activeFomo.length }"
               >
                 <div
                   class="table-responsive tableList"
@@ -50,8 +51,12 @@
                         <th class="align-center">Action</th>
                       </tr>
                     </thead>
-                    <tbody class="sort-item">
-                      <tr v-for="data in activeFomo" :key="data.id">
+                    <transition-group name="alist" tag="tbody">
+                      <tr
+                        class="listItem"
+                        v-for="data in activeFomo"
+                        :key="data.id"
+                      >
                         <td class="font-size-mid">
                           {{ data.attributes.name }}
                         </td>
@@ -76,11 +81,11 @@
                         </td>
                         <td class="align-center">
                           <router-link :to="`/view/fomo/edit/${data.id}`">
-                            <i class="fas fa-edit"></i>
+                            <i class="fal fa-edit"></i>
                           </router-link>
                         </td>
                       </tr>
-                    </tbody>
+                    </transition-group>
                   </table>
                 </div>
                 <div v-else class="noData">
@@ -90,11 +95,8 @@
               </md-tab>
               <md-tab
                 id="tab-pages"
-                :md-label="
-                  `Paused Prompts ${
-                    inactiveFomo.length ? `(${inactiveFomo.length})` : ''
-                  }`
-                "
+                md-label="Paused Prompts"
+                :md-template-data="{ badge: inactiveFomo.length }"
               >
                 <div
                   class="table-responsive tableList"
@@ -111,7 +113,7 @@
                         <th class="align-center">Action</th>
                       </tr>
                     </thead>
-                    <tbody class="sort-item">
+                    <transition-group name="ilist" tag="tbody">
                       <tr v-for="data in inactiveFomo" :key="data.id">
                         <td class="font-size-mid">
                           {{ data.attributes.name }}
@@ -137,11 +139,11 @@
                         </td>
                         <td class="align-center">
                           <router-link :to="`/view/fomo/edit/${data.id}`">
-                            <md-icon>edit</md-icon>
+                            <i class="fal fa-edit"></i>
                           </router-link>
                         </td>
                       </tr>
-                    </tbody>
+                    </transition-group>
                   </table>
                 </div>
                 <div v-else class="noData">
@@ -333,6 +335,20 @@ export default {
 
 <style lang="less" scoped>
 @blue: #187aff;
+.md-tabs-navigation i {
+  background: red;
+  color: #fff;
+  font-style: normal;
+  width: 1.5em;
+  height: 1.5em;
+  display: inline-flex;
+  font-size: 0.8em;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: -0.6em;
+}
 /* Fomo */
 .fomoContainer {
   background: #f9f9f9;
@@ -431,12 +447,17 @@ export default {
   flex: 2;
 }
 .fomoHeader {
-  background: url(../../assets/fomo-header-bg.png) no-repeat scroll 0 center;
+  background: url("https://i.imgur.com/Dd9h0Qr.png") no-repeat scroll 0 center;
   background-size: cover;
-  padding: 50px 10% 72px;
+  padding: 50px 0 72px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  > div {
+    max-width: 1000px;
+    width: 80%;
+    margin: auto;
+  }
 }
 .statusBlock {
   display: flex;
@@ -673,20 +694,51 @@ export default {
     text-align: center;
   }
   .fomoList {
-    padding: 0 5%;
+    width: 90%;
   }
 
   .btnDrawer {
     margin-top: 25px;
   }
 }
+.ilist-enter-active,
+.ilist-leave-active,
+.alist-enter-active,
+.alist-leave-active {
+  transition: all 1s;
+}
+.alist-enter,
+.alist-leave-to {
+  opacity: 0;
+}
+.alist-leave-active {
+  transform: translate(25%, -200px) scale(0.6);
+  .loop(@i) when (@i <=10) {
+    &:nth-child(@{i}) {
+      transform: translate(25%, @i * -80px) scale(0.6);
+    }
+    .loop(@i + 1);
+  }
+  .loop(1);
+}
+.ilist-leave-active {
+  transform: translate(-25%, -200px) scale(0.6);
+  .loop(@i) when (@i <=10) {
+    &:nth-child(@{i}) {
+      transform: translate(-25%, @i * -80px) scale(0.6);
+    }
+    .loop(@i + 1);
+  }
+  .loop(1);
+}
 </style>
 
 <style lang="less">
 @blue: #187aff;
 .fomoList {
-  margin-top: -38px;
-  padding: 0 10%;
+  margin: -38px auto 0;
+  width: 80%;
+  max-width: 1000px;
   .md-content {
     .md-tab {
       padding: 0;
@@ -704,11 +756,11 @@ export default {
 }
 .fomo-tabs.md-tabs {
   .md-tab-nav-button {
-    background: #474747;
-    border-left: 1px solid #777;
+    background: #187aff;
+    border-left: 1px solid #0662de;
     flex-grow: 1;
     font-size: 13px;
-    color: #9e9e9e !important;
+    color: #ffffff !important;
     height: 38px;
     max-width: 100% !important;
     &:first-child {

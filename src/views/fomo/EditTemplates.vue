@@ -1,168 +1,170 @@
 <template>
-  <div v-if="fomoData">
-    <div class="fixedHeaderBlock">
-      <div class="fixedHeaderBlockInner">
-        <div class="linkBackBlock">
-          <a class="link-back" @click.prevent="handleBack">
-            <i class="fa fa-long-arrow-left"></i>
-          </a>
-          <div class="title">
-            <md-icon class="icon">
-              <i :class="`fomoIcon icon_${fomoType}`"></i>
-            </md-icon>
-            <span>{{ fomoData.name }}</span>
+  <div>
+    <div v-if="fomoData">
+      <div class="fixedHeaderBlock">
+        <div class="fixedHeaderBlockInner">
+          <div class="linkBackBlock">
+            <a class="link-back" @click.prevent="handleBack">
+              <i class="fa fa-long-arrow-left"></i>
+            </a>
+            <div class="title">
+              <md-icon class="icon">
+                <i :class="`fomoIcon icon_${fomoType}`"></i>
+              </md-icon>
+              <span>{{ fomoData.name }}</span>
+            </div>
           </div>
-        </div>
-        <div>
-          <!-- <md-button class="md-raised" @click="handleBack"
+          <div>
+            <!-- <md-button class="md-raised" @click="handleBack"
             >Discard</md-button
           > -->
-          <md-button
-            class="md-raised md-accent"
-            :disabled="Object.keys(hasError).length > 0"
-            @click.prevent="handleSave"
-            >Save</md-button
-          >
+            <md-button
+              class="md-raised md-accent"
+              :disabled="Object.keys(hasError).length > 0"
+              @click.prevent="handleSave"
+              >Save & Publish</md-button
+            >
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="editTemplate">
-      <div class="settingsBlock">
-        <md-tabs class="fomo-tabs" @md-changed="setActiveTab">
-          <md-tab
-            v-for="(item, key) in fomoData.settings"
-            :key="key"
-            :id="item.type"
-            :md-label="item.label"
-          >
-            <div v-if="item.attributes">
-              <div
-                class="item-types"
-                v-for="(control, name, index) in item.attributes"
-                :key="index"
-              >
-                <div v-if="control.type == 'text'">
-                  <div class="subTitle">
-                    <h3>{{ control.label }}</h3>
-                    <CustomVariables
-                      v-if="control.show_dynamic_variables"
-                      :data="dVars"
-                      :name="name"
-                      :index="key"
-                      :click="appendVarToKey"
+      <div class="editTemplate">
+        <div class="settingsBlock">
+          <md-tabs class="fomo-tabs" @md-changed="setActiveTab">
+            <md-tab
+              v-for="(item, key) in fomoData.settings"
+              :key="key"
+              :id="item.type"
+              :md-label="item.label"
+            >
+              <div v-if="item.attributes">
+                <div
+                  class="item-types"
+                  v-for="(control, name, index) in item.attributes"
+                  :key="index"
+                >
+                  <div v-if="control.type == 'text'">
+                    <div class="subTitle">
+                      <h3>{{ control.label }}</h3>
+                      <CustomVariables
+                        v-if="control.show_dynamic_variables"
+                        :data="dVars"
+                        :name="name"
+                        :index="key"
+                        :click="appendVarToKey"
+                      />
+                    </div>
+                    <input
+                      class="form-control"
+                      type="text"
+                      maxlength="200"
+                      :ref="`${key}-${name}`"
+                      v-model="control.value"
+                      @keyup="checkforError(control, name)"
+                    />
+                    <small v-if="hasError[name]" class="fieldError">
+                      This field cannot be empty
+                    </small>
+                  </div>
+                  <div v-if="control.type == 'textarea'">
+                    <div class="subTitle">
+                      <h3>{{ control.label }}</h3>
+                      <CustomVariables
+                        v-if="control.show_dynamic_variables"
+                        :data="dVars"
+                        :name="name"
+                        :index="key"
+                        :click="appendVarToKey"
+                      />
+                    </div>
+                    <quillEditor
+                      v-model="control.value"
+                      :options="eOptions"
+                      @focus="onEditorFocus($event, name)"
+                      @change="onEditorChange($event, control, name)"
+                      :ref="`${key}-${name}`"
+                    ></quillEditor>
+                    <small v-if="hasError[name]" class="fieldError">
+                      This field cannot be empty
+                    </small>
+                  </div>
+                  <div v-if="control.type == 'file'">
+                    <div class="subTitle">
+                      <h3>
+                        {{ control.label }}
+                        <i class="fas fa-question-circle"
+                          ><md-tooltip md-direction="right"
+                            >Supported file formats: JPEG, PNG</md-tooltip
+                          ></i
+                        >
+                      </h3>
+                    </div>
+                    <ImgUploadPreview
+                      :id="`${key}-${name}`"
+                      :handleFileChange="e => handleImgChange(e, key, name)"
+                      :data="control"
                     />
                   </div>
-                  <input
-                    class="form-control"
-                    type="text"
-                    maxlength="200"
-                    :ref="`${key}-${name}`"
-                    v-model="control.value"
-                    @keyup="checkforError(control, name)"
-                  />
-                  <small v-if="hasError[name]" class="fieldError">
-                    This field cannot be empty
-                  </small>
-                </div>
-                <div v-if="control.type == 'textarea'">
-                  <div class="subTitle">
-                    <h3>{{ control.label }}</h3>
-                    <CustomVariables
-                      v-if="control.show_dynamic_variables"
-                      :data="dVars"
-                      :name="name"
-                      :index="key"
-                      :click="appendVarToKey"
-                    />
+                  <div v-if="control.type == 'color'" class="colorPick">
+                    <div class="subTitle">
+                      <h3>{{ control.label }}</h3>
+                    </div>
+                    <ColorPicker
+                      :color="control.value"
+                      v-on:input="e => (control.value = e)"
+                    ></ColorPicker>
                   </div>
-                  <quillEditor
-                    v-model="control.value"
-                    :options="eOptions"
-                    @focus="onEditorFocus($event, name)"
-                    @change="onEditorChange($event, control, name)"
-                    :ref="`${key}-${name}`"
-                  ></quillEditor>
-                  <small v-if="hasError[name]" class="fieldError">
-                    This field cannot be empty
-                  </small>
-                </div>
-                <div v-if="control.type == 'file'">
-                  <div class="subTitle">
-                    <h3>
-                      {{ control.label }}
-                      <i class="fas fa-question-circle"
-                        ><md-tooltip md-direction="right"
-                          >Supported file formats: JPEG, PNG</md-tooltip
-                        ></i
-                      >
-                    </h3>
-                  </div>
-                  <ImgUploadPreview
-                    :id="`${key}-${name}`"
-                    :handleFileChange="e => handleImgChange(e)"
-                    :data="control"
-                  />
-                </div>
-                <div v-if="control.type == 'color'" class="colorPick">
-                  <div class="subTitle">
-                    <h3>{{ control.label }}</h3>
-                  </div>
-                  <ColorPicker
-                    :color="control.value"
-                    v-on:input="e => (control.value = e)"
-                  ></ColorPicker>
                 </div>
               </div>
+            </md-tab>
+          </md-tabs>
+        </div>
+        <div class="preview_block">
+          <div class="preview_block-title">
+            <h2>Fomo Preview</h2>
+            <div class="previewBlockBtn">
+              <md-button
+                class="md-raised btn-default"
+                v-on:click="embedCode = !embedCode"
+                >Embed</md-button
+              >
             </div>
-          </md-tab>
-        </md-tabs>
-      </div>
-      <div class="preview_block">
-        <div class="preview_block-title">
-          <h2>Fomo Preview</h2>
-          <div class="previewBlockBtn">
-            <md-button
-              class="md-raised btn-default"
-              v-on:click="embedCode = !embedCode"
-              >Embed</md-button
-            >
           </div>
-        </div>
-        <div class="preview_block-template">
-          <am-fomo :preview="dataForPreview"></am-fomo>
-        </div>
-        <div class="embed_visible" v-if="embedCode">
-          <div class="title">
-            <h3>Embed FOMO</h3>
-            <md-button class="md-raised btn-default" @click="doCopy"
-              >Copy</md-button
-            >
+          <div class="preview_block-template">
+            <am-fomo :preview="dataForPreview"></am-fomo>
           </div>
-          <textarea
-            class="iframe-block"
-            id="copiedText"
-            value="dasd564"
-          ></textarea>
-          <div class="link-block">
-            <a href="#" class="">API Reference</a>
-            <a href="#" class="">Developer Sample</a>
+          <div class="embed_visible" v-if="embedCode">
+            <div class="title">
+              <h3>Embed FOMO</h3>
+              <md-button class="md-raised btn-default" @click="doCopy"
+                >Copy</md-button
+              >
+            </div>
+            <textarea
+              class="iframe-block"
+              id="copiedText"
+              value="dasd564"
+            ></textarea>
+            <div class="link-block">
+              <a href="#" class="">API Reference</a>
+              <a href="#" class="">Developer Sample</a>
+            </div>
+            <p>
+              By embedding our program on your site, you are agreeing to our API
+              Terms of Service.
+            </p>
           </div>
-          <p>
-            By embedding our program on your site, you are agreeing to our API
-            Terms of Service.
-          </p>
         </div>
       </div>
+      <md-snackbar
+        class="msgSnack"
+        md-position="center"
+        :md-duration="4000"
+        :md-active.sync="apiMessage"
+      >
+        <span v-html="apiResponse"></span>
+      </md-snackbar>
     </div>
-    <md-snackbar
-      class="msgSnack"
-      md-position="center"
-      :md-duration="4000"
-      :md-active.sync="apiMessage"
-    >
-      <span v-html="apiResponse"></span>
-    </md-snackbar>
     <Loader :status="loader" />
   </div>
 </template>
@@ -189,6 +191,23 @@ let Embed = Quill.import("blots/embed");
 var Block = Quill.import("blots/block");
 Block.tagName = "DIV";
 Quill.register(Block, true);
+var Size = Quill.import("attributors/style/size");
+Size.whitelist = [
+  "normal",
+  "0.3em",
+  "0.5em",
+  "0.75em",
+  "1em",
+  "1.25em",
+  "1.5em",
+  "1.75em",
+  "2em",
+  "2.25em",
+  "2.5em",
+  "2.75em",
+  "3em"
+];
+Quill.register(Size, true);
 function lineBreakMatcher() {
   var newDelta = new Delta();
   newDelta.insert({ break: "" });
@@ -266,12 +285,30 @@ var options = {
         { list: "bullet" },
         { align: [] },
         { direction: "rtl" },
-        { size: ["small", false, "large", "huge"] },
+        {
+          size: [
+            "normal",
+            "0.3em",
+            "0.5em",
+            "0.75em",
+            "1em",
+            "1.25em",
+            "1.5em",
+            "1.75em",
+            "2em",
+            "2.25em",
+            "2.5em",
+            "2.75em",
+            "3em"
+          ]
+        },
         { header: [1, 2, 3, 4, 5, 6, false] }
       ],
       [
         { color: [] },
         { background: [] },
+        { script: "sub" },
+        { script: "super" },
         "bold",
         "italic",
         "underline",
@@ -358,8 +395,36 @@ export default {
     handleBack: function() {
       this.$router.go(-1);
     },
-    handleImgChange: function(e) {
-      console.log(e, "event");
+    handleImgChange: function(e, key, name) {
+      const file = e.target.files[0];
+
+      if (file) {
+        this.loader = true;
+        const url = this.getApiUrl(`S3Uploader/fomoTemplate`);
+        let formData = new FormData();
+        formData.append("Filedata", file);
+        formData.append("id", this.id);
+        formData.append("id_template", this.tempId);
+        Axios.post(url, formData)
+          .then(({ data }) => {
+            this.loader = false;
+            if (!data.error) {
+              this.fomoData.settings[key].attributes[name].value =
+                data.img_name;
+              this.apiResponse = `<i class="fas fa-check-circle"></i> Uploaded successfully`;
+            } else {
+              this.apiResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
+            }
+            this.apiMessage = true;
+          })
+          .catch(err => {
+            this.apiResponse = `<i class="fas fa-exclamation-circle"></i> ${err}`;
+            this.apiMessage = true;
+          })
+          .finally(() => {
+            this.loader = false;
+          });
+      }
     },
     onEditorFocus: function(quill, name) {
       this.quillEditor[name] = quill.selection.savedRange.index;
@@ -398,14 +463,22 @@ export default {
       const url = this.getApiUrl(
         `fomo/template?id=${this.id}&id_template=${this.tempId}`
       );
-      Axios.get(url).then(({ data }) => {
-        this.fomoData = data.data.attributes;
-        this.fomoType = data.data.type;
-        this.dVars = data.data.attributes.dynamic_variables.split(",");
-      });
+      this.loader = true;
+      Axios.get(url)
+        .then(({ data }) => {
+          this.fomoData = data.data.attributes;
+          this.fomoType = data.data.type;
+          this.dVars = data.data.attributes.dynamic_variables.split(",");
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => (this.loader = false));
     },
     handleSave: function() {
-      const url = this.getApiUrl(`fomo/template?id=${this.id}`);
+      const url = this.getApiUrl(
+        `fomo/template?id=${this.id}&id_template=${this.tempId}`
+      );
       this.loader = true;
       const params = {
         is_activated: 1,
@@ -483,7 +556,7 @@ export default {
 }
 
 .editTemplate {
-  margin: 6em 50px 4em;
+  padding: 6em 50px 4em;
   display: flex;
   justify-content: flex-start;
   ::v-deep {
@@ -516,11 +589,29 @@ export default {
     width: 100%;
   }
 
-  .settingsBlock {
+  .settingsBlock::v-deep {
     flex: 1;
     margin-right: 20px;
     max-width: 33%;
     overflow: hidden;
+    .ql-toolbar.ql-snow {
+      .ql-picker.ql-size {
+        .ql-picker-item:before {
+          content: attr(data-value) !important;
+        }
+        .ql-picker-label {
+          text-indent: -999em;
+          position: relative;
+          &:before {
+            content: attr(data-value) !important;
+            position: absolute;
+            left: 0;
+            top: 0;
+            text-indent: 0.3em;
+          }
+        }
+      }
+    }
   }
 
   .subTitle {
@@ -575,7 +666,8 @@ export default {
   .preview_block-template {
     background: #333;
     min-height: 500px;
-    position: relative;
+    position: sticky;
+    top: 70px;
     overflow: hidden;
     margin-top: 15px;
     border-radius: 4px;

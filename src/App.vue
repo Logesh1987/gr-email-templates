@@ -10,7 +10,7 @@ import Vue from "vue";
 import VueMaterial from "vue-material";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
-import "@/assets/icon/fontawesome.min.css";
+// import "@/assets/icon/fontawesome.min.css";
 
 Vue.use(VueMaterial);
 
@@ -47,7 +47,8 @@ Vue.mixin({
     getApiUrl: function(url) {
       var hostname = window.location.hostname;
       if (hostname == "localhost") {
-        return `${Vue.prototype.$callback_url}/${url}?id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`;
+        const linker = url.includes("?") ? "&" : "?";
+        return `${Vue.prototype.$callback_url}/${url}${linker}id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`;
       } else {
         return `${Vue.prototype.$callback_url}/${url}`;
       }
