@@ -339,15 +339,16 @@ export default {
   background: red;
   color: #fff;
   font-style: normal;
-  width: 1.5em;
-  height: 1.5em;
+  width: 17px;
+  height: 17px;
   display: inline-flex;
-  font-size: 0.8em;
+  font-size: 11px;
   border-radius: 50%;
   align-items: center;
   justify-content: center;
   position: relative;
-  top: -0.6em;
+  top: -8px;
+  font-weight: bold;
 }
 /* Fomo */
 .fomoContainer {

@@ -235,6 +235,9 @@ export default {
 .md-tooltip-bottom {
   transform: translateY(-8px);
 }
+.md-field .md-input {
+  box-shadow: none;
+}
 .md-field.md-disabled {
   opacity: 0.3;
 }
