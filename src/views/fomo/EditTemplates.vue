@@ -573,6 +573,8 @@ export default {
     }
     .md-tabs-content {
       overflow: visible;
+      position: relative;
+      z-index: 6;
     }
     .vc-chrome {
       right: 40px;
@@ -595,6 +597,10 @@ export default {
     max-width: 33%;
     overflow: hidden;
     .ql-toolbar.ql-snow {
+      .ql-picker-options {
+        height: 9em;
+        overflow: auto;
+      }
       .ql-picker.ql-size {
         .ql-picker-item:before {
           content: attr(data-value) !important;
@@ -664,7 +670,7 @@ export default {
     }
   }
   .preview_block-template {
-    background: #333;
+    background: #ababab;
     min-height: 500px;
     position: sticky;
     top: 70px;

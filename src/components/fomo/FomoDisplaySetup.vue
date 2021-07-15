@@ -1,8 +1,7 @@
 <template>
   <div>
     <h2>Display Setup</h2>
-    <p v-if="newFomo">All fields are prefilled with default data</p>
-    <div class="displaySetting fullDiv visibleTo">
+    <div class="displaySetting fullDiv visibleTo" style="margin-top: 40px">
       <h6 class="bLabel noBG">Visible to:</h6>
       <div>
         <md-field class="noMinHeight m-0 p-0">
@@ -16,7 +15,7 @@
     </div>
     <div class="displaySetting">
       <div class="splitDiv">
-        <h6 class="bLabel">Page Display</h6>
+        <h6 class="bLabel">Setup Page Display</h6>
         <div class="display-flex pageDisplay align-items-center">
           <label>Display FOMO in</label>
           <md-field>
@@ -42,7 +41,7 @@
         </div>
       </div>
       <div class="splitDiv">
-        <h6 class="bLabel">Positioning</h6>
+        <h6 class="bLabel">Setup Positioning</h6>
         <md-field>
           <md-select name="position" v-model="formData.position">
             <md-option
@@ -83,49 +82,41 @@
     </div>
     <div class="displaySetting fullDiv flex-direction-column">
       <h6 class="bLabel">Setup Geolocation</h6>
-      <md-field>
-        <md-select name="country" v-model="geolocation" multiple>
-          <md-option
-            :value="key"
-            v-for="(name, key) in content.countries"
-            :key="key"
-            >{{ name }}</md-option
-          >
-        </md-select>
-      </md-field>
+      <multiselect
+        v-model="geolocation"
+        tag-placeholder="Add this as new tag"
+        placeholder="Search or add a tag"
+        label="label"
+        track-by="value"
+        :hideSelected="true"
+        :options="allCountries"
+        :multiple="true"
+      ></multiselect>
       <small class="text-info display-flex align-items-start">
         <i class="fas fa-info-circle"></i>
         <span> Display in selected countries only </span>
       </small>
     </div>
-    <div class="displaySetting">
-      <div class="splitDiv">
-        <h6 class="bLabel">Show on first visit</h6>
-        <div>
-          <md-checkbox
-            v-model="formData.show_on_first_visit"
-            :true-value="1"
-            :false-value="0"
-            >Pop up will appear on the first visit</md-checkbox
-          >
-        </div>
+    <div class="displaySetting fullDiv flex-direction-column">
+      <h6 class="bLabel">Setup Behaviour</h6>
+      <div>
+        <md-checkbox
+          v-model="formData.show_on_first_visit"
+          :true-value="1"
+          :false-value="0"
+          >Pop should appear only on first visit</md-checkbox
+        >
       </div>
-      <div class="splitDiv">
-        <h6 class="bLabel">Show on exit intent</h6>
-        <div>
-          <md-checkbox
-            v-model="formData.show_on_exit"
-            :true-value="1"
-            :false-value="0"
-            >Popup will appear if a visitor’s mouse movement shows intent to
-            leave your website</md-checkbox
-          >
-        </div>
+      <div>
+        <md-checkbox
+          v-model="formData.show_on_exit"
+          :true-value="1"
+          :false-value="0"
+          >Popup will appear if a visitor’s mouse movement shows intent to leave
+          your website</md-checkbox
+        >
       </div>
-    </div>
-    <div class="displaySetting">
-      <div class="splitDiv">
-        <h6 class="bLabel">Show on scroll percentage</h6>
+      <div>
         <md-field :class="{ 'md-invalid': errors.scroll, 'mt-20': true }">
           <label>Scroll Percentage</label>
           <md-input
@@ -142,8 +133,7 @@
           </span>
         </small>
       </div>
-      <div class="splitDiv">
-        <h6 class="bLabel">Show after time on page</h6>
+      <div>
         <md-field :class="{ 'md-invalid': errors.delay, 'mt-20': true }">
           <label>Delay Seconds</label>
           <md-input v-model="formData.seconds" type="number"></md-input>
@@ -164,15 +154,19 @@
         class="md-raised md-accent"
         :disabled="Object.keys(errors).length > 0"
         @click.prevent="handleSave"
-        >{{ newFomo ? "Save & Proceed" : "Save" }}</md-button
+        >Save</md-button
       >
     </div>
   </div>
 </template>
 <script>
+import Multiselect from "vue-multiselect";
+import "vue-multiselect/dist/vue-multiselect.min.css";
+
 export default {
   name: "FomoDisplaySetup",
-  props: ["data", "content", "close", "save", "newFomo"],
+  props: ["data", "content", "close", "save"],
+  components: { Multiselect },
   mixins: ["createFormData"],
   data: function() {
     return {
@@ -203,11 +197,25 @@ export default {
     }
   },
   computed: {
+    allCountries: function() {
+      const all = [];
+      Object.keys(this.content.countries).forEach(key => {
+        all.push({
+          label: this.content.countries[key],
+          value: key
+        });
+      });
+      return all;
+    },
     geolocation: {
       // The allowed_countries initially comes as a string., need to change it as an array
       get: function() {
         return typeof this.formData.allowed_countries == "string"
-          ? this.formData.allowed_countries.split(",")
+          ? this.formData.allowed_countries.length > 0
+            ? this.formData.allowed_countries
+                .split(",")
+                .map(k => ({ value: k, label: this.content.countries[k] }))
+            : []
           : this.formData.allowed_countries;
       },
       set: function(v) {
@@ -220,17 +228,16 @@ export default {
       const { allowed_countries: ac } = this.formData;
       const params = {
         ...this.formData,
-        allowed_countries: typeof ac == "object" ? ac.join() : ac
+        allowed_countries:
+          typeof ac == "object" ? ac.map(i => i.value).join() : ac
       };
+      console.log(params);
       this.save(params);
     }
   }
 };
 </script>
 <style lang="less" scoped>
-@white: #ffffff;
-@blue: #187aff;
-@stroke: #d1d1d1;
 .md-field .md-error {
   left: auto;
   right: 0;
@@ -238,15 +245,15 @@ export default {
 .bLabel {
   font-size: 1.2em;
   font-weight: 600;
-  color: @white;
+  color: #fff;
   margin: 0;
-  background: @blue;
+  background: var(--main-blue);
   padding: 20px;
   margin: -20px -20px 0;
-  border-bottom: 1px solid @stroke;
+  border-bottom: 1px solid var(--stroke-grey);
   &.noBG {
     background: none;
-    color: @blue;
+    color: var(--main-blue);
     padding: 0;
     margin: 0;
     border-bottom: 0;
@@ -267,9 +274,9 @@ export default {
 }
 .splitDiv {
   width: 49%;
-  border: 1px solid @stroke;
+  border: 1px solid var(--stroke-grey);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-  background: @white;
+  background: #fff;
   padding: 20px;
 
   @media only screen and (max-width: 599px) {
@@ -281,8 +288,8 @@ export default {
   }
 }
 .fullDiv {
-  border: 1px solid @stroke;
-  background: @white;
+  border: 1px solid var(--stroke-grey);
+  background: #fff;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
   padding: 20px;
 }

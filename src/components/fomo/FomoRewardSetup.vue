@@ -1,9 +1,45 @@
 <template>
   <div>
     <h2>Reward Setup</h2>
-    <p v-if="newFomo">All fields are prefilled with default data</p>
     <div class="displaySetting">
       <div class="md-layout md-gutter" style="flex-grow: 1">
+        <div class="md-layout-item md-size-50 md-xsmall-size-100 pointsMode">
+          <div class="setupMode">
+            <div class="head">
+              <md-checkbox
+                v-model="formData.mode_points"
+                :true-value="1"
+                :false-value="0"
+                >Points Mode
+                <i class="fas fa-question-circle"
+                  ><md-tooltip md-direction="right"
+                    >Award Points for this action</md-tooltip
+                  ></i
+                ></md-checkbox
+              >
+            </div>
+            <div class="body p-20" v-if="formData.mode_points == 1">
+              <h6 class="bLabel">
+                Enter # Reward Points *
+                <i class="fas fa-question-circle"
+                  ><md-tooltip md-direction="right"
+                    >Enter the # Points you want to reward to users for
+                    completing this action</md-tooltip
+                  ></i
+                >
+              </h6>
+              <md-field :class="{ 'md-invalid': errors.worth_entries }">
+                <md-input
+                  v-model="formData.worth_entries"
+                  type="number"
+                ></md-input>
+                <span class="md-error" v-if="errors.worth_entries">{{
+                  errors.worth_entries
+                }}</span>
+              </md-field>
+            </div>
+          </div>
+        </div>
         <div class="md-layout-item md-size-50 md-xsmall-size-100 rewardsMode">
           <div class="setupMode">
             <div class="head disabled">
@@ -220,43 +256,6 @@
             </div>
           </div>
         </div>
-        <div class="md-layout-item md-size-50 md-xsmall-size-100 pointsMode">
-          <div class="setupMode">
-            <div class="head">
-              <md-checkbox
-                v-model="formData.mode_points"
-                :true-value="1"
-                :false-value="0"
-                >Points Mode
-                <i class="fas fa-question-circle"
-                  ><md-tooltip md-direction="right"
-                    >Award Points for this action</md-tooltip
-                  ></i
-                ></md-checkbox
-              >
-            </div>
-            <div class="body p-20" v-if="formData.mode_points == 1">
-              <h6 class="bLabel">
-                Enter # Reward Points *
-                <i class="fas fa-question-circle"
-                  ><md-tooltip md-direction="right"
-                    >Enter the # Points you want to reward to users for
-                    completing this action</md-tooltip
-                  ></i
-                >
-              </h6>
-              <md-field :class="{ 'md-invalid': errors.worth_entries }">
-                <md-input
-                  v-model="formData.worth_entries"
-                  type="number"
-                ></md-input>
-                <span class="md-error" v-if="errors.worth_entries">{{
-                  errors.worth_entries
-                }}</span>
-              </md-field>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     <div class="topControl formSubmit">
@@ -265,7 +264,7 @@
         class="md-raised md-accent"
         :disabled="Object.keys(errors).length > 0"
         @click.prevent="handleSave"
-        >{{ newFomo ? "Save & Proceed" : "Save" }}</md-button
+        >Save</md-button
       >
     </div>
   </div>
@@ -275,7 +274,7 @@
 
 export default {
   name: "FomoRewardSetup",
-  props: ["data", "close", "save", "newFomo"],
+  props: ["data", "close", "save"],
   // components: { ImgUploadPreview },
   data: function() {
     return {

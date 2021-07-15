@@ -38,6 +38,26 @@
       <div class="md-layout md-gutter" v-if="activeEdit == false">
         <div class="md-layout-item md-size-30 configSection">
           <h2>FOMO Summary</h2>
+          <md-card class="mb-20">
+            <md-card-content>
+              <div class="innerConfigSection">
+                <div class="handBand">
+                  <h3>Template :</h3>
+                  <router-link
+                    :to="`/view/fomo/edit/${fomoId}/${activeTemplate.id}`"
+                  >
+                    <i class="fas fa-edit editIcn"></i>
+                  </router-link>
+                </div>
+                <ul>
+                  <li>
+                    This FOMO uses
+                    {{ activeTemplate.attributes.name }}
+                  </li>
+                </ul>
+              </div>
+            </md-card-content></md-card
+          >
           <md-card
             class="mb-20"
             v-if="
@@ -48,7 +68,7 @@
             <md-card-content>
               <div class="innerConfigSection">
                 <div class="handBand">
-                  <h3>This FOMO :</h3>
+                  <h3>Config :</h3>
                   <i
                     class="fas fa-edit editIcn"
                     v-on:click.stop.prevent="activeEdit = 'config'"
@@ -66,7 +86,7 @@
             <md-card-content>
               <div class="innerConfigSection">
                 <div class="handBand">
-                  <h3>This FOMO :</h3>
+                  <h3>Reward :</h3>
                   <i
                     class="fas fa-edit editIcn"
                     v-on:click.stop.prevent="activeEdit = 'rewards'"
@@ -164,7 +184,7 @@
             <md-card-content>
               <div class="innerConfigSection">
                 <div class="handBand">
-                  <h3>This FOMO is :</h3>
+                  <h3>Display :</h3>
                   <i
                     class="fas fa-edit editIcn"
                     v-on:click.stop.prevent="activeEdit = 'display'"
@@ -172,7 +192,7 @@
                 </div>
                 <ul>
                   <li>Visible to {{ dInfo.visible_to }}</li>
-                  <li>Displayed only in {{ dInfo.show_on_page }} page</li>
+                  <li>Displayed in {{ dInfo.show_on_page }} pages</li>
                   <li v-if="dInfo.show_on_first_visit == 1">
                     Displayed on first visit only
                   </li>
@@ -204,7 +224,7 @@
               <router-link
                 :to="`/view/fomo/edit/${fomoId}/${activeTemplate.id}`"
               >
-                <md-button class="md-raised">
+                <md-button class="md-raised md-accent">
                   <span>Edit</span>
                 </md-button>
               </router-link>
@@ -227,7 +247,7 @@
                   alt=""
                 />
                 <router-link :to="`/view/fomo/edit/${fomoId}/${template.id}`">
-                  <md-button class="md-raised">
+                  <md-button class="md-raised md-accent">
                     <span>Activate</span>
                   </md-button>
                 </router-link>
@@ -246,7 +266,6 @@
           :id="fomoId"
           :close="closePopin"
           :save="saveRewards"
-          :newFomo="newFomo"
         />
         <FomoDisplaySetup
           v-if="activeEdit == 'display'"
@@ -254,7 +273,6 @@
           :save="saveDisplay"
           :content="contentData"
           :close="closePopin"
-          :newFomo="newFomo"
         />
       </div>
     </div>
@@ -279,7 +297,6 @@ export default {
   name: "SelectTemplates",
   components: { FomoDisplaySetup, FomoRewardSetup, Loader },
   mixins: ["renderTemplate", "getAssetUrl", "getApiUrl"],
-  props: ["newFomo"],
   data: function() {
     return {
       fomoId: this.$route.params.fomoId,
@@ -287,7 +304,7 @@ export default {
       fomoType: null,
       templateData: null,
       contentData: null,
-      activeEdit: false, // config || rewards || display
+      activeEdit: "display", // config || rewards || display
       loader: false,
       apiMessage: false,
       apiResponse: null,
@@ -321,9 +338,6 @@ export default {
 
           this.apiResponse = `<i class="fas fa-check-circle"></i> ${data.data.message}`;
           this.apiMessage = true;
-          if (this.newFomo) {
-            this.activeEdit = false;
-          }
         })
         .catch(error => {
           console.log(error);
@@ -340,9 +354,6 @@ export default {
           this.fomoData.reward_settings = params;
           this.apiResponse = `<i class="fas fa-check-circle"></i> ${data.data.message}`;
           this.apiMessage = true;
-          if (this.newFomo) {
-            this.activeEdit = "display";
-          }
         })
         .catch(({ data }) => {
           console.log(data);
@@ -383,13 +394,6 @@ export default {
         this.fomoData = attributes;
         this.contentData = relationship;
         this.templateData = includes.templates;
-        if (this.newFomo) {
-          this.fomoData.config_setting
-            ? (this.activeEdit = "config")
-            : Object.keys(this.fomoData.reward_settings).length
-            ? (this.activeEdit = "rewards")
-            : (this.activeEdit = "display");
-        }
       })
       .catch(({ data }) => {
         this.apiResponse = `<i class="fas fa-exclamation-circle"></i> ${data.data.message}`;
@@ -401,9 +405,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@white: #ffffff;
-@blue: #187aff;
-@stroke: #d1d1d1;
 .fomoContainer {
   margin: 0 auto;
   display: flex;
@@ -415,7 +416,7 @@ export default {
 
   .md-card {
     box-shadow: none;
-    border: 1px solid @stroke;
+    border: 1px solid var(--stroke-grey);
 
     .md-card-content {
       padding: 0;
@@ -435,15 +436,18 @@ export default {
       .handBand {
         display: flex;
         align-items: baseline;
-        background: @blue;
+        background: var(--main-blue);
         padding: 16px;
         margin-bottom: 16px;
-        border-bottom: 1px solid @stroke;
-        color: @white;
+        border-bottom: 1px solid var(--stroke-grey);
+        color: #fff;
         h3 {
-          color: @white;
+          color: #fff;
           flex: 100%;
           margin: 0;
+        }
+        a {
+          color: #fff;
         }
         .editIcn {
           text-align: right;
@@ -484,7 +488,7 @@ export default {
 
       &-inner {
         margin: 0;
-        background: #262321;
+        background: #ababab;
         position: relative;
         display: flex;
         align-items: center;
@@ -514,13 +518,14 @@ export default {
           position: absolute;
           right: 0;
           top: 0;
-          background: #187aff;
+          background: #52c509;
           padding: 0.4em 1.2em 0.6em 1.6em;
           font-style: normal;
           font-weight: 600;
           color: #fff;
           border-radius: 0 0 0 1em;
-          box-shadow: -0.5em 1em 1em rgba(0, 0, 0, 0.5);
+          box-shadow: -0.5em 0.5em 1.5em rgba(0, 0, 0, 0.5);
+          text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
         }
       }
       &-info {
@@ -563,9 +568,10 @@ export default {
 }
 </style>
 <style lang="less">
-@white: #ffffff;
-@blue: #187aff;
-@stroke: #d1d1d1;
+:root {
+  --main-blue: #005dff;
+  --stroke-grey: #d1d1d1;
+}
 .nameCTA {
   font-size: 0.9em;
   padding: 0 0.8em;
@@ -612,19 +618,19 @@ export default {
       }
 
       .setupMode {
-        border: 1px solid @stroke;
+        border: 1px solid var(--stroke-grey);
         border-bottom: none;
-        background: @white;
+        background: #fff;
 
         @media only screen and (max-width: 599px) {
           margin-bottom: 20px;
         }
         .head {
           padding: 0 20px;
-          color: @white;
+          color: #fff;
           font-weight: bold;
-          border-bottom: 1px solid @stroke;
-          background: @blue;
+          border-bottom: 1px solid var(--stroke-grey);
+          background: var(--main-blue);
           &.disabled {
             .md-checkbox {
               opacity: 0.5;
@@ -637,7 +643,7 @@ export default {
           }
         }
         .body {
-          border-bottom: 1px solid @stroke;
+          border-bottom: 1px solid var(--stroke-grey);
         }
         .md-field {
           padding-top: 0;
@@ -650,7 +656,7 @@ export default {
       i {
         font-size: 1.6em;
         padding-right: 10px;
-        color: #187aff;
+        color: var(--main-blue);
         transform: translateY(-0.2em);
       }
     }

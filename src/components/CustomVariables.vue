@@ -1,6 +1,13 @@
 <template>
   <md-menu md-direction="bottom-end" :mdCloseOnClick="true">
-    <a class="dLink" md-menu-trigger>Insert Dynamic Variable</a>
+    <a class="dLink" md-menu-trigger>
+      <span>Insert Dynamic Variable</span>
+      <i class="fas fa-question-circle">
+        <md-tooltip md-direction="right">
+          Dynamic variables tooltip text
+        </md-tooltip>
+      </i>
+    </a>
     <md-menu-content class="dLinkMenu">
       <md-menu-item
         v-for="item in data"
@@ -33,9 +40,18 @@ export default {
 <style lang="less" scoped>
 .dLink {
   font-size: 0.8em;
-  color: #5594de !important;
   font-weight: 400;
-  text-decoration: underline;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-decoration: none !important;
+  span {
+    text-decoration: underline;
+  }
+  i {
+    font-size: 1.2em;
+    margin-left: 0.4em;
+    transform: translateY(0.1em);
+  }
 }
 </style>

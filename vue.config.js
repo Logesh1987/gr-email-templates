@@ -10,7 +10,7 @@ module.exports = {
     },
     // Naming bundle 'email_templates_bo'
     entry: {
-      email_templates_bo: "./src/main.js"
+      fomo_bo: "./src/main.js"
     }
   }
   // css: {

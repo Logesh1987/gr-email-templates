@@ -6,7 +6,7 @@
         <div class="active_fomo">
           <div class="fomoHeader">
             <div>
-              <h2>Fomo Prompts</h2>
+              <h2>Fomo Prompts <small class="beta">Beta</small></h2>
               <p>Some text explains about this FOMO prompts can be here.</p>
               <!--<div class="statusBlock">
                 <div v-for="status in statuses" :key="status.count">
@@ -160,40 +160,8 @@
             <a href="#" class="btn_link btn_link-small">View all templates</a>
           </div>
           <div class="newFomoList">
-            <div
-              class="new_list"
-              v-for="template in templates"
-              :key="template.id"
-            >
-              <md-icon class="fomo_icon">
-                <span>V</span>
-                <i :class="`fomoIcon icon_${template.type}`"></i>
-              </md-icon>
-              <div class="fomo_details">
-                <h3>{{ template.attributes.name }}</h3>
-              </div>
-              <md-button
-                v-if="!template.attributes.disabled"
-                :md-ripple="false"
-                class="md-dense btn"
-                @click="createFomo(template.id)"
-                >Add</md-button
-              >
-            </div>
-          </div>
-        </div>
-        <md-drawer class="md-right mobile" :md-active.sync="showSidepanel">
-          <div class="create_fomo">
-            <div class="titleBlock">
-              <h2>Create New</h2>
-              <a href="#" class="btn_link btn_link-small">View all templates</a>
-            </div>
-            <div class="newFomoList">
-              <div
-                class="new_list"
-                v-for="template in templates"
-                :key="template.id"
-              >
+            <div v-for="template in templates" :key="template.id">
+              <div class="new_list" v-if="!template.attributes.disabled">
                 <md-icon class="fomo_icon">
                   <span>V</span>
                   <i :class="`fomoIcon icon_${template.type}`"></i>
@@ -205,8 +173,33 @@
                   v-if="!template.attributes.disabled"
                   :md-ripple="false"
                   class="md-dense btn"
+                  @click="createFomo(template.id)"
                   >Add</md-button
                 >
+              </div>
+            </div>
+          </div>
+        </div>
+        <md-drawer class="md-right mobile" :md-active.sync="showSidepanel">
+          <div class="create_fomo">
+            <div class="titleBlock">
+              <h2>Create New</h2>
+              <a href="#" class="btn_link btn_link-small">View all templates</a>
+            </div>
+            <div class="newFomoList">
+              <div v-for="template in templates" :key="template.id">
+                <div class="new_list" v-if="!template.attributes.disabled">
+                  <md-icon class="fomo_icon">
+                    <span>V</span>
+                    <i :class="`fomoIcon icon_${template.type}`"></i>
+                  </md-icon>
+                  <div class="fomo_details">
+                    <h3>{{ template.attributes.name }}</h3>
+                  </div>
+                  <md-button :md-ripple="false" class="md-dense btn"
+                    >Add</md-button
+                  >
+                </div>
               </div>
             </div>
           </div>
@@ -286,8 +279,8 @@ export default {
         this.$router.push({
           name: "FomoSelectTemplate",
           params: {
-            fomoId: data.data.id,
-            newFomo: true
+            fomoId: data.data.id
+            // newFomo: true
           }
         });
       });
@@ -334,7 +327,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@blue: #187aff;
 .md-tabs-navigation i {
   background: red;
   color: #fff;
@@ -362,6 +354,18 @@ export default {
     line-height: 41px;
     color: #333;
     margin: 30px 0 10px;
+    small {
+      background-color: var(--main-blue);
+      color: #fff;
+      font-size: 0.3em;
+      font-weight: 500;
+      padding: 0.4em 0.7em;
+      letter-spacing: 0.05em;
+      border-radius: 1em;
+      transform: translate(-0.6em, -1.7em);
+      display: inline-block;
+      line-height: 1;
+    }
   }
 
   p {
@@ -614,7 +618,7 @@ export default {
     font-size: 18px !important;
 
     span {
-      background: @blue;
+      background: var(--main-blue);
       border-radius: 50%;
       padding: 3px 5px;
       font-size: 9px;
@@ -735,7 +739,11 @@ export default {
 </style>
 
 <style lang="less">
-@blue: #187aff;
+:root {
+  --main-blue: #005dff;
+  --md-theme-default-accent: var(--main-blue) !important;
+  --md-theme-default-accent-on-background: var(--main-blue) !important;
+}
 .fomoList {
   margin: -38px auto 0;
   width: 80%;
@@ -757,7 +765,7 @@ export default {
 }
 .fomo-tabs.md-tabs {
   .md-tab-nav-button {
-    background: #187aff;
+    background: var(--main-blue);
     border-left: 1px solid #0662de;
     flex-grow: 1;
     font-size: 13px;
@@ -769,7 +777,7 @@ export default {
     }
     &.md-active {
       background: #fff;
-      color: @blue !important;
+      color: var(--main-blue) !important;
       font-weight: 500;
       font-size: 14px;
     }
@@ -777,8 +785,33 @@ export default {
 
   &.md-theme-default .md-tabs-indicator {
     background-color: #fff;
-    background-color: var(--md-theme-default-primary-on-background, @blue);
+    background-color: var(
+      --md-theme-default-primary-on-background,
+      var(--main-blue)
+    );
     top: 0;
+  }
+}
+.fomoContainer {
+  .multiselect {
+    margin: 1em 0;
+    &__tags {
+      border-color: rgba(0, 0, 0, 0.42);
+      border-radius: 0;
+      border-width: 0 0 1px 0;
+      padding: 8px 40px 0 0;
+      cursor: pointer;
+    }
+    &__option--highlight,
+    &__option--highlight:after,
+    &__tag-icon:hover,
+    &__tag {
+      background-color: var(--main-blue);
+    }
+    &__tag-icon:after {
+      color: #fff;
+      opacity: 0.5;
+    }
   }
 }
 </style>
