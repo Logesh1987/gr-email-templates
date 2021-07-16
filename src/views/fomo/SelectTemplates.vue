@@ -284,6 +284,7 @@
     >
       <span v-html="apiResponse"></span>
     </md-snackbar>
+    <FeedbackPopup :url="getApiUrl('fomo/sendReview')" />
     <Loader :status="loader" />
   </div>
 </template>
@@ -291,11 +292,12 @@
 import Axios from "axios";
 import FomoDisplaySetup from "@/components/fomo/FomoDisplaySetup.vue";
 import FomoRewardSetup from "@/components/fomo/FomoRewardSetup.vue";
+import FeedbackPopup from "@/components/FeedbackPopup.vue";
 import Loader from "@/components/Loader.vue";
 
 export default {
   name: "SelectTemplates",
-  components: { FomoDisplaySetup, FomoRewardSetup, Loader },
+  components: { FomoDisplaySetup, FomoRewardSetup, Loader, FeedbackPopup },
   mixins: ["renderTemplate", "getAssetUrl", "getApiUrl"],
   data: function() {
     return {
@@ -304,7 +306,7 @@ export default {
       fomoType: null,
       templateData: null,
       contentData: null,
-      activeEdit: "display", // config || rewards || display
+      activeEdit: false, // config || rewards || display
       loader: false,
       apiMessage: false,
       apiResponse: null,

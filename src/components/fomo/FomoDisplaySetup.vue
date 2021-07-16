@@ -171,7 +171,8 @@ export default {
   data: function() {
     return {
       formData: { ...this.data },
-      errors: {}
+      errors: {},
+      dirty: false
     };
   },
   watch: {

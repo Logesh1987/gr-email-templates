@@ -214,19 +214,20 @@
     >
       <span v-html="apiResponse"></span>
     </md-snackbar>
+    <FeedbackPopup :url="getApiUrl('fomo/sendReview')" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import Axios from "axios";
-//import Loader from "@/components/Loader.vue";
 import Loader from "@/components/Loader.vue";
+import FeedbackPopup from "@/components/FeedbackPopup.vue";
 
 export default {
   name: "FomoListing",
   mixins: ["createFormData", "getApiUrl"],
-  components: { Loader },
+  components: { Loader, FeedbackPopup },
   data: function() {
     return {
       listData: null,
@@ -280,7 +281,6 @@ export default {
           name: "FomoSelectTemplate",
           params: {
             fomoId: data.data.id
-            // newFomo: true
           }
         });
       });

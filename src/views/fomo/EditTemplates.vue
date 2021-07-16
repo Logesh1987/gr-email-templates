@@ -165,6 +165,7 @@
         <span v-html="apiResponse"></span>
       </md-snackbar>
     </div>
+    <FeedbackPopup :url="getApiUrl('fomo/sendReview')" />
     <Loader :status="loader" />
   </div>
 </template>
@@ -175,6 +176,7 @@ import Axios from "axios";
 import ColorPicker from "@/components/ColorPicker.vue";
 import CustomVariables from "@/components/CustomVariables.vue";
 import ImgUploadPreview from "@/components/ImgUploadPreview.vue";
+import FeedbackPopup from "@/components/FeedbackPopup.vue";
 import Quill from "quill";
 import { quillEditor } from "vue-quill-editor"; // require styles
 import "quill/dist/quill.core.css";
@@ -336,7 +338,8 @@ export default {
     ImgUploadPreview,
     quillEditor,
     CustomVariables,
-    Loader
+    Loader,
+    FeedbackPopup
   },
   mixins: ["createFormData", "renderTemplate", "getImgUrl", "getApiUrl"],
   data: function() {
