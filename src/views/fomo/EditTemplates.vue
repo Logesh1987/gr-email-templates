@@ -216,6 +216,8 @@ import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 import Loader from "@/components/Loader.vue";
 
+window.Vue = Vue;
+
 var Parchment = Quill.import("parchment");
 var Delta = Quill.import("delta");
 let Break = Quill.import("blots/break");
@@ -544,19 +546,19 @@ export default {
   },
   mounted: function() {
     this.fetchFomoData();
-    window.Vue = Vue;
-    console.log(window.Vue);
     const plugin = document.createElement("script");
+
     plugin.setAttribute(
       "src",
       `${Vue.prototype.$asset_url}/assets/js/fomo/am-fomo.js`
     );
     plugin.async = true;
     document.head.appendChild(plugin);
-  },
-  beforeDestroy: function() {
-    window.Vue = null;
   }
+  // destroyed: function() {
+  //   console.log("dsa");
+  //   window.Vue = null;
+  // }
 };
 </script>
 <style lang="less" scoped>
