@@ -1,0 +1,350 @@
+{
+	"new_product_1": {
+		"position": "bottom-left",
+		"settings": [
+			{
+				"label": "FOMO Template setup",
+				"type": "common",
+				"attributes": {
+					"prod_image": {
+						"type": "file",
+						"label": "Product image",
+						"value": "upload/img/fomo/5_373_1626666134.jpg",
+						"status": 1,
+						"url": "https://www.google.com/",
+						"url_status": 0,
+						"width": 450,
+						"height": 200,
+						"required": 0
+					},
+					"bg_color": {
+						"type": "color",
+						"label": "Background color",
+						"value": "#ffffff",
+						"required": 1
+					},
+					"btn_color": {
+						"type": "color",
+						"label": "Button Background",
+						"value": "#ED4610",
+						"required": 1
+					},
+					"btn_txt_color": {
+						"type": "color",
+						"label": "Button Text Color",
+						"value": "#ffffff",
+						"required": 1
+					},
+					"btn_text": {
+						"type": "text",
+						"show_dynamic_variables": 1,
+						"label": "Button Text",
+						"status": 1,
+						"max_length": 50,
+						"value": "Buy now",
+						"required": 1
+					},
+					"btn_url": {
+						"type": "text",
+						"show_dynamic_variables": 1,
+						"label": "Product URL",
+						"max_length": 50,
+						"value": "http://www.google.com",
+						"required": 1
+					},
+					"title": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Title",
+						"status": 1,
+						"max_length": 3000,
+						"rows": 4,
+						"value": "OnePlus anniversary sale! <br>Limited edition special offers.",
+						"required": 1
+					},
+					"description": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Description",
+						"status": 1,
+						"max_length": 3000,
+						"rows": 4,
+						"value": "Hurry! Starting at $1799!<br>Upto 6 months No Cost EMI!",
+						"required": 0
+					},
+					"price": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Description",
+						"status": 1,
+						"max_length": 3000,
+						"rows": 4,
+						"value": "<sup>$</sup>1024<sup>99</sup>",
+						"required": 0
+					}
+				}
+			}
+		]
+	},
+	"new_product_2": {
+		"position": "bottom-left",
+		"settings": [
+			{
+				"label": "FOMO Template setup",
+				"type": "common",
+				"attributes": {
+					"prod_image": {
+						"type": "file",
+						"label": "Product image",
+						"value": "upload/img/fomo/6_373_1626666797.png",
+						"status": 1,
+						"url": "https://www.google.com/",
+						"url_status": 0,
+						"width": 450,
+						"height": 450,
+						"required": 0
+					},
+					"bg_color": {
+						"type": "color",
+						"label": "Background color",
+						"value": "#ffffff",
+						"required": 1
+					},
+					"btn_color": {
+						"type": "color",
+						"label": "Button Background",
+						"value": "#10BDED",
+						"required": 1
+					},
+					"btn_txt_color": {
+						"type": "Button Text Color",
+						"label": "Button Text Color",
+						"value": "#ffffff",
+						"required": 1
+					},
+					"btn_text": {
+						"type": "text",
+						"show_dynamic_variables": 1,
+						"label": "Button Text",
+						"status": 1,
+						"max_length": 50,
+						"value": "Buy now",
+						"required": 1
+					},
+					"btn_url": {
+						"type": "text",
+						"show_dynamic_variables": 1,
+						"label": "Product URL",
+						"max_length": 50,
+						"value": "http://www.google.com",
+						"required": 1
+					},
+					"title": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Title",
+						"status": 1,
+						"max_length": 3000,
+						"rows": 4,
+						"value": "OnePlus anniversary sale! <br>Limited edition special offers.",
+						"required": 1
+					},
+					"description": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Description",
+						"status": 1,
+						"max_length": 3000,
+						"rows": 4,
+						"value": "Hurry! Starting at $1799!<br>Upto 6 months No Cost EMI!",
+						"required": 0
+					},
+					"price": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Description",
+						"status": 1,
+						"max_length": 3000,
+						"rows": 4,
+						"value": "<sup>$</sup>1024<sup>99</sup>",
+						"required": 0
+					}
+				}
+			}
+		]
+	},
+	"new_product_3": {
+		"position": "bottom-left",
+		"settings": [
+			{
+				"label": "FOMO Template setup",
+				"type": "common",
+				"attributes": {
+					"prod_image": {
+						"type": "file",
+						"label": "Product image",
+						"value": "upload/img/fomo/5_373_1626666134.jpg",
+						"status": 1,
+						"url": "https://www.google.com/",
+						"url_status": 0,
+						"width": 450,
+						"height": 450,
+						"required": 0
+					},
+					"bg_color": {
+						"type": "color",
+						"label": "Background color",
+						"value": "#ffffff",
+						"required": 1
+					},
+					"btn_color": {
+						"type": "color",
+						"label": "Button Background",
+						"value": "#21C6FF",
+						"required": 1
+					},
+					"btn_txt_color": {
+						"type": "color",
+						"label": "Button Text Color",
+						"value": "#ffffff",
+						"required": 1
+					},
+					"btn_text": {
+						"type": "text",
+						"show_dynamic_variables": 1,
+						"label": "Button Text",
+						"status": 1,
+						"max_length": 50,
+						"value": "Buy now",
+						"required": 1
+					},
+					"btn_url": {
+						"type": "text",
+						"show_dynamic_variables": 1,
+						"label": "Product URL",
+						"max_length": 50,
+						"value": "http://www.google.com",
+						"required": 1
+					},
+					"title": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Title",
+						"status": 1,
+						"max_length": 3000,
+						"rows": 4,
+						"value": "OnePlus anniversary sale! <br>Limited edition special offers.",
+						"required": 1
+					},
+					"description": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Description",
+						"status": 1,
+						"max_length": 3000,
+						"rows": 4,
+						"value": "Hurry! Starting at $1799!<br>Upto 6 months No Cost EMI!",
+						"required": 0
+					},
+					"price": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Description",
+						"status": 1,
+						"max_length": 3000,
+						"rows": 4,
+						"value": "<sup>$</sup>1024<sup>99</sup>",
+						"required": 0
+					}
+				}
+			}
+		]
+	},
+	"new_product_4": {
+		"position": "bottom-left",
+		"settings": [
+			{
+				"label": "FOMO Template setup",
+				"type": "common",
+				"attributes": {
+					"prod_image": {
+						"type": "file",
+						"label": "Product image",
+						"value": "upload/img/fomo/8_373_1626666995.jpg",
+						"status": 1,
+						"url": "https://www.google.com/",
+						"url_status": 0,
+						"width": 450,
+						"height": 600,
+						"required": 0
+					},
+					"bg_color": {
+						"type": "color",
+						"label": "Background color",
+						"value": "#ffffff",
+						"required": 1
+					},
+					"btn_color": {
+						"type": "color",
+						"label": "Button Background",
+						"value": "#030303",
+						"required": 1
+					},
+					"btn_txt_color": {
+						"type": "color",
+						"label": "Button Text Color",
+						"value": "#ffffff",
+						"required": 1
+					},
+					"btn_text": {
+						"type": "text",
+						"show_dynamic_variables": 1,
+						"label": "Button Text",
+						"status": 1,
+						"max_length": 50,
+						"value": "Join now",
+						"required": 1
+					},
+					"btn_url": {
+						"type": "text",
+						"show_dynamic_variables": 1,
+						"label": "Product URL",
+						"max_length": 50,
+						"value": "http://www.google.com",
+						"required": 1
+					},
+					"title": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Title",
+						"status": 1,
+						"max_length": 3000,
+						"rows": 4,
+						"value": "<div><strong>Best Online Photography Classes</strong></div>",
+						"required": 1
+					},
+					"description": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Description",
+						"status": 1,
+						"max_length": 3000,
+						"rows": 4,
+						"value": "<ul><li>New Live Sessions<br>Starting Soon !!!<br><br></li><li>Schedule of 6 Days<br>4 Theories + 2 Practicals</li></ul>",
+						"required": 0
+					},
+					"price": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Description",
+						"status": 1,
+						"max_length": 3000,
+						"rows": 4,
+						"value": "<div><sup style=\"font-size: 0.3em;\">starts from</sup><sup> </sup>1050<sup>$</sup></div>",
+						"required": 0
+					}
+				}
+			}
+		]
+	}
+}
