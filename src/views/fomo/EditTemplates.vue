@@ -45,7 +45,14 @@
                 >
                   <div v-if="control.type == 'text'">
                     <div class="subTitle">
-                      <h3>{{ control.label }}</h3>
+                      <h3>
+                        <md-checkbox
+                          v-model="control.status"
+                          :true-value="1"
+                          :false-value="0"
+                        ></md-checkbox>
+                        {{ control.label }}
+                      </h3>
                       <CustomVariables
                         v-if="control.show_dynamic_variables"
                         :data="dVars"
@@ -68,7 +75,14 @@
                   </div>
                   <div v-if="control.type == 'textarea'">
                     <div class="subTitle">
-                      <h3>{{ control.label }}</h3>
+                      <h3>
+                        <md-checkbox
+                          v-model="control.status"
+                          :true-value="1"
+                          :false-value="0"
+                        ></md-checkbox>
+                        {{ control.label }}
+                      </h3>
                       <CustomVariables
                         v-if="control.show_dynamic_variables"
                         :data="dVars"
@@ -91,6 +105,11 @@
                   <div v-if="control.type == 'file'">
                     <div class="subTitle">
                       <h3>
+                        <md-checkbox
+                          v-model="control.status"
+                          :true-value="1"
+                          :false-value="0"
+                        ></md-checkbox>
                         {{ control.label }}
                         <i class="fas fa-question-circle"
                           ><md-tooltip md-direction="right"
@@ -118,6 +137,19 @@
               </div>
             </md-tab>
           </md-tabs>
+          <div class="positioning">
+            <h6>Set Positioning</h6>
+            <md-field>
+              <md-select name="position" v-model="fomoData.position">
+                <md-option
+                  :value="key"
+                  v-for="(name, key) in allPositions"
+                  :key="key"
+                  >{{ name }}</md-option
+                >
+              </md-select>
+            </md-field>
+          </div>
         </div>
         <div class="preview_block">
           <div class="preview_block-title">
@@ -183,8 +215,6 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 import Loader from "@/components/Loader.vue";
-
-window.Vue = Vue;
 
 var Parchment = Quill.import("parchment");
 var Delta = Quill.import("delta");
@@ -348,6 +378,7 @@ export default {
       tempId: this.$route.params.templateId,
       embedCode: false,
       message: "Some dummy text",
+      allPositions: null,
       fomoData: null,
       fomoType: null,
       activeTab: null,
@@ -368,13 +399,20 @@ export default {
         id_template: this.tempId,
         show_screen: this.activeTab,
         template: {
+          position: this.fomoData.position,
           settings: {}
         }
       };
       this.fomoData.settings.forEach(data =>
-        Object.keys(data.attributes).forEach(
-          key => (dd.template.settings[key] = data.attributes[key].value)
-        )
+        Object.keys(data.attributes).forEach(key => {
+          if ("status" in data.attributes[key]) {
+            if (data.attributes[key].status == 1)
+              dd.template.settings[key] = data.attributes[key].value;
+            else dd.template.settings[key] = null;
+          } else {
+            dd.template.settings[key] = data.attributes[key].value;
+          }
+        })
       );
       return JSON.stringify(dd);
     }
@@ -396,7 +434,9 @@ export default {
       );
     },
     handleBack: function() {
-      this.$router.go(-1);
+      // this.$router.go(-1);
+      // this.$router.push("../");
+      window.history.back();
     },
     handleImgChange: function(e, key, name) {
       const file = e.target.files[0];
@@ -470,6 +510,7 @@ export default {
       Axios.get(url)
         .then(({ data }) => {
           this.fomoData = data.data.attributes;
+          this.allPositions = data.data.relationship.prompt_positions;
           this.fomoType = data.data.type;
           this.dVars = data.data.attributes.dynamic_variables.split(",");
         })
@@ -485,7 +526,8 @@ export default {
       this.loader = true;
       const params = {
         is_activated: 1,
-        settings: JSON.stringify(this.fomoData.settings)
+        settings: JSON.stringify(this.fomoData.settings),
+        position: this.fomoData.position
       };
       Axios.post(url, this.createFormData(params))
         .then(({ data }) => {
@@ -502,6 +544,8 @@ export default {
   },
   mounted: function() {
     this.fetchFomoData();
+    window.Vue = Vue;
+    console.log(window.Vue);
     const plugin = document.createElement("script");
     plugin.setAttribute(
       "src",
@@ -509,6 +553,9 @@ export default {
     );
     plugin.async = true;
     document.head.appendChild(plugin);
+  },
+  beforeDestroy: function() {
+    window.Vue = null;
   }
 };
 </script>
@@ -627,11 +674,25 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
+    .md-checkbox::v-deep {
+      margin: 0 5px 0 0;
+      .md-checkbox-container {
+        width: 15px;
+        min-width: 15px;
+        height: 15px;
+        &:after {
+          width: 5px;
+          height: 9px;
+          left: 3px;
+        }
+      }
+    }
     h3 {
       color: #007aff;
       font-size: 14px;
       line-height: 1;
+      display: flex;
+      align-items: center;
     }
     .md-menu {
       line-height: 0.9;
@@ -674,7 +735,7 @@ export default {
   }
   .preview_block-template {
     background: #ababab;
-    min-height: 500px;
+    min-height: 620px;
     position: sticky;
     top: 70px;
     overflow: hidden;
@@ -736,6 +797,22 @@ export default {
         }
       }
     }
+  }
+}
+.positioning {
+  background: #fff;
+  border: 1px solid var(--main-blue);
+  margin-top: 20px;
+  h6 {
+    background-color: var(--main-blue);
+    color: #fff;
+    font-size: 1.2em;
+    padding: 10px 15px;
+    margin: 0;
+  }
+  .md-field {
+    margin: 0px 15px 20px;
+    width: auto;
   }
 }
 </style>

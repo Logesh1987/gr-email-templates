@@ -42,16 +42,6 @@
       </div>
       <div class="splitDiv">
         <h6 class="bLabel">Setup Positioning</h6>
-        <md-field>
-          <md-select name="position" v-model="formData.position">
-            <md-option
-              :value="key"
-              v-for="(name, key) in content.prompt_positions"
-              :key="key"
-              >{{ name }}</md-option
-            >
-          </md-select>
-        </md-field>
         <div class="display-flex hv-position justify-content-space-between">
           <div class="form-group display-flex">
             <md-field :class="{ 'md-invalid': errors.horizontal }">

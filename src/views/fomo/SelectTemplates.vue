@@ -196,10 +196,6 @@
                   <li v-if="dInfo.show_on_first_visit == 1">
                     Displayed on first visit only
                   </li>
-                  <li>
-                    positioned at
-                    {{ contentData.prompt_positions[dInfo.position] }}
-                  </li>
                 </ul>
               </div>
             </md-card-content>
