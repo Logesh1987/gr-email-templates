@@ -18,8 +18,6 @@ if (window.location.origin.includes("localhost")) {
 var hostname = window.location.hostname;
 var pathname = window.location.pathname;
 
-console.log(hostname, "hostname");
-
 if (hostname == "localhost") {
   Vue.prototype.$callback_url = "https://logesh.devam.pro/gr";
 } else if (pathname.includes("/gr/")) {

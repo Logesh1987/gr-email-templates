@@ -216,8 +216,6 @@ import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 import Loader from "@/components/Loader.vue";
 
-window.Vue = Vue;
-
 var Parchment = Quill.import("parchment");
 var Delta = Quill.import("delta");
 let Break = Quill.import("blots/break");
@@ -545,20 +543,21 @@ export default {
     }
   },
   mounted: function() {
+    if (!window.Vue) {
+      window.Vue = Vue;
+    }
     this.fetchFomoData();
-    const plugin = document.createElement("script");
-
-    plugin.setAttribute(
-      "src",
-      `${Vue.prototype.$asset_url}/assets/js/fomo/am-fomo.js`
-    );
-    plugin.async = true;
-    document.head.appendChild(plugin);
+    if (!document.querySelector("#am-fomo-script")) {
+      const plugin = document.createElement("script");
+      plugin.setAttribute("id", "am-fomo-script");
+      plugin.setAttribute(
+        "src",
+        `${Vue.prototype.$asset_url}/assets/js/fomo/am-fomo.js`
+      );
+      plugin.async = true;
+      document.head.appendChild(plugin);
+    }
   }
-  // destroyed: function() {
-  //   console.log("dsa");
-  //   window.Vue = null;
-  // }
 };
 </script>
 <style lang="less" scoped>

@@ -451,10 +451,23 @@ export default {
           text-align: right;
           cursor: pointer;
         }
-
-        ul {
-          margin: 0;
-          padding-right: 24px;
+      }
+      ul {
+        margin: 0 15px;
+        padding: 0;
+        list-style: none;
+      }
+      li {
+        position: relative;
+        padding-left: 20px;
+        &:before {
+          color: #52c509;
+          content: "\f14a";
+          font-family: "Font Awesome 5 Pro";
+          font-weight: 600;
+          position: absolute;
+          left: 0;
+          top: 0;
         }
       }
     }
