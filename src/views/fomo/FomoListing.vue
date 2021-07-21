@@ -44,9 +44,9 @@
                     <thead>
                       <tr>
                         <th>FOMO Name</th>
-                        <!-- <th>Category</th> -->
-                        <!--<th>Clicks</th>
-                        <th>Visible to</th>-->
+                        <th>Category</th>
+                        <th class="align-center">Clicks</th>
+                        <!-- <th>Visible to</th> -->
                         <th class="align-center">Status</th>
                         <th class="align-center">Action</th>
                       </tr>
@@ -60,9 +60,12 @@
                         <td class="font-size-mid">
                           {{ data.attributes.name }}
                         </td>
-                        <!-- <td class="font-size-small">
-                          {{ data.type }}
-                        </td> -->
+                        <td class="font-size-mid">
+                          {{ mapCategory(data.type) }}
+                        </td>
+                        <td class="align-center">
+                          {{ data.attributes.clicks }}
+                        </td>
                         <td class="align-center">
                           <label
                             class="switch"
@@ -106,9 +109,9 @@
                     <thead>
                       <tr>
                         <th>FOMO Name</th>
-                        <!-- <th>Category</th> -->
-                        <!--<th>Clicks</th>
-                        <th>Visible to</th>-->
+                        <th>Category</th>
+                        <th class="align-center">Clicks</th>
+                        <!--<th>Visible to</th>-->
                         <th class="align-center">Status</th>
                         <th class="align-center">Action</th>
                       </tr>
@@ -118,9 +121,12 @@
                         <td class="font-size-mid">
                           {{ data.attributes.name }}
                         </td>
-                        <!-- <td class="font-size-small">
-                          {{ data.type }}
-                        </td> -->
+                        <td class="font-size-mid">
+                          {{ mapCategory(data.type) }}
+                        </td>
+                        <td class="align-center">
+                          {{ data.attributes.clicks }}
+                        </td>
                         <td class="align-center">
                           <label
                             class="switch"
@@ -237,7 +243,11 @@ export default {
       showNavigation: false,
       showSidepanel: false,
       apiMessage: false,
-      apiResponse: null
+      apiResponse: null,
+      categories: {
+        signup_bonus: "Signup Bonus",
+        new_product_release: "New Product"
+      }
     };
   },
   computed: {
@@ -249,6 +259,9 @@ export default {
     }
   },
   methods: {
+    mapCategory: function(type) {
+      return this.categories[type];
+    },
     fetchSiteFomo: function() {
       const url = this.getApiUrl("fomo");
       Axios.get(url)
