@@ -40,8 +40,8 @@ Vue.mixin({
     },
     getImgUrl: function(value) {
       return `${window.Config.s3_image_url}/${value}`;
-    }
-  }
+    },
+  },
 });
 
 export default {
@@ -49,7 +49,7 @@ export default {
   mounted: function() {
     document.documentElement.classList.remove("md-theme-default");
     document.querySelector("#app").classList.add("md-theme-default");
-  }
+  },
 };
 </script>
 

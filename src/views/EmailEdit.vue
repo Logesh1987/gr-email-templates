@@ -89,7 +89,7 @@
                     <div
                       :class="[
                         'eAccordion-items',
-                        { active: activeAccordion == key }
+                        { active: activeAccordion == key },
                       ]"
                       v-for="(item, key) in eData.json_fields"
                       :key="key"
@@ -268,8 +268,8 @@
                     'eAccordion-footer',
                     {
                       active:
-                        activeAccordion == 'footer' && isWl == 1 && wlImage
-                    }
+                        activeAccordion == 'footer' && isWl == 1 && wlImage,
+                    },
                   ]"
                 >
                   <div
@@ -505,7 +505,7 @@ function lineBreakMatcher() {
 var options = {
   modules: {
     clipboard: {
-      matchers: [["BR", lineBreakMatcher]]
+      matchers: [["BR", lineBreakMatcher]],
     },
     keyboard: {
       bindings: {
@@ -549,7 +549,7 @@ var options = {
               if (name === "link") return;
               this.quill.format(name, context.format[name], Quill.sources.USER);
             });
-          }
+          },
         },
         linebreak: {
           key: 13,
@@ -562,9 +562,9 @@ var options = {
               this.quill.insertEmbed(range.index, "break", true, "user");
             }
             this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
-          }
-        }
-      }
+          },
+        },
+      },
     },
     toolbar: [
       [
@@ -575,7 +575,7 @@ var options = {
         { align: [] },
         { direction: "rtl" },
         { size: ["small", false, "large", "huge"] },
-        { header: [1, 2, 3, 4, 5, 6, false] }
+        { header: [1, 2, 3, 4, 5, 6, false] },
       ],
       [
         { color: [] },
@@ -584,10 +584,10 @@ var options = {
         "italic",
         "underline",
         "strike",
-        "link"
-      ]
-    ]
-  }
+        "link",
+      ],
+    ],
+  },
 };
 
 Break.prototype.insertInto = function(parent, ref) {
@@ -609,7 +609,7 @@ export default {
     Loader,
     quillEditor,
     PreviewRenderer,
-    draggable
+    draggable,
   },
   mixins: ["createFormData", "renderTemplate", "getImgUrl"],
   data: function() {
@@ -639,7 +639,7 @@ export default {
       footerAction: false,
       showUnsavedpop: false,
       upgradePopup: false,
-      editted: 0
+      editted: 0,
     };
   },
   watch: {
@@ -662,7 +662,7 @@ export default {
           this.disableTest = true;
           this.editted = this.editted + 1;
         }
-      }
+      },
     },
     showMsg: function() {
       if (this.showMsg) {
@@ -675,7 +675,7 @@ export default {
           this.wlImage = true;
         }
       });
-    }
+    },
   },
   computed: {
     footerSection() {
@@ -686,9 +686,9 @@ export default {
         animation: 0,
         group: "description",
         disabled: false,
-        ghostClass: "ghost"
+        ghostClass: "ghost",
       };
-    }
+    },
   },
   methods: {
     setEdata: function(id) {
@@ -784,7 +784,7 @@ export default {
         id_theme: id_theme,
         type: this.emailType,
         is_enabled: 1,
-        json_fields: JSON.stringify(json_fields)
+        json_fields: JSON.stringify(json_fields),
       };
 
       Axios.post(
@@ -827,7 +827,7 @@ export default {
         `${window.Config.callback_url}/services/v2/email/resetEmailTemplate`,
         this.createFormData({
           id_email: this.id,
-          id_theme: this.eData.id_theme
+          id_theme: this.eData.id_theme,
         })
       ).then(res => {
         if (res.status == 200) {
@@ -853,7 +853,7 @@ export default {
           themes,
           is_wl,
           title,
-          type
+          type,
         } = data.data;
         this.dVars = dynamic_variables.split(",");
         this.allData = themes;
@@ -914,7 +914,7 @@ export default {
     },
     gotoPlans: function() {
       window.location.href = `${window.Config.callback_url}/admin/#/plans`;
-    }
+    },
   },
   mounted: function() {
     this.fetchTemplateData();
@@ -925,7 +925,7 @@ export default {
     const emailFooter = document.querySelector(".emailFooterTxt");
     if (emailFooter)
       emailFooter.addEventListener("click", this.triggerFooterListener);
-  }
+  },
 };
 </script>
 <style lang="less" scoped>

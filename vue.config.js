@@ -6,13 +6,13 @@ module.exports = {
   },
   configureWebpack: {
     optimization: {
-      splitChunks: false
+      splitChunks: false,
     },
     // Naming bundle 'email_templates_bo'
     entry: {
-      email_templates_bo: "./src/main.js"
-    }
-  }
+      email_templates_bo: "./src/main.js",
+    },
+  },
   // css: {
   //     extract: false,
   // }

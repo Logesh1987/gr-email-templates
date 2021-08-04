@@ -27,15 +27,15 @@ export default {
   name: "ColorPicker",
   props: ["color"],
   components: {
-    "chrome-picker": Chrome
+    "chrome-picker": Chrome,
   },
   data: function() {
     return {
       colors: {
-        hex: "#000000"
+        hex: "#000000",
       },
       colorValue: "",
-      displayPicker: false
+      displayPicker: false,
     };
   },
   mounted: function() {
@@ -49,7 +49,7 @@ export default {
     updateColors(color) {
       if (color.slice(0, 1) == "#") {
         this.colors = {
-          hex: color
+          hex: color,
         };
       } else if (color.slice(0, 4) == "rgba") {
         var rgba = color.replace(/^rgba?\(|\s+|\)$/g, "").split(","),
@@ -65,7 +65,7 @@ export default {
               .slice(1);
         this.colors = {
           hex: hex,
-          a: rgba[3]
+          a: rgba[3],
         };
       }
     },
@@ -106,7 +106,7 @@ export default {
       if (el !== target && !el.contains(target)) {
         this.hidePicker();
       }
-    }
+    },
   },
   watch: {
     colorValue(val) {
@@ -115,8 +115,8 @@ export default {
         this.$emit("input", val);
         //document.body.style.background = val;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

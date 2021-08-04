@@ -28,7 +28,7 @@
           <div
             :class="[
               'templateBox',
-              { active: template.id_theme == activeThemeId }
+              { active: template.id_theme == activeThemeId },
             ]"
             v-for="(template, index) in data"
             :key="template.id_theme"
@@ -78,8 +78,8 @@ export default {
       if (this.fromEditPage) {
         this.close();
       } else window.history.back();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

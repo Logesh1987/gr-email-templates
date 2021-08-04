@@ -1,0 +1,56 @@
+.amvip--header {
+    display: flex;
+    align-items: center;
+    background: #12443b;
+    @media (max-width: 959px) {
+        padding: 20px 0;
+        flex-direction: column;
+    }
+    @media (min-width: 960px) {
+        height: 100px;
+        justify-content: center;
+    }
+}
+.amvip--headerLogo {
+    display: inline-flex; 
+    align-items: flex-end;  
+    color: #fff;
+    text-transform: uppercase;
+    .icon-crown {
+        color: #d5c2b3;
+        font-size: 5vh;
+        margin-right: 10px;
+        margin-top: 5px;
+    }
+    > div {
+        text-align: center;
+        display: inline-flex;
+        align-items: flex-end;
+    }
+    h2, h3 {
+        font-weight: 400;
+        font-family: 'Times New Roman', Times, serif;
+    }
+    h2 {
+        font-size: 5vh;
+        line-height: .8;
+        letter-spacing: 2px;
+        margin-right: 5px;
+    }
+    h3 {
+        font-size: 3.4vh;
+        letter-spacing: 1px;
+        line-height: .8;
+        margin-right: 5px;
+    }
+    small {
+        font-size: 10px;
+        letter-spacing: 1px;
+        display: block;
+        text-align: right;
+        padding: 2px 5px 1px 0;
+    }
+    @media (max-width: 959px) {
+       margin-bottom: 20px;
+    }
+}

@@ -23,7 +23,7 @@
 <script>
 export default {
   name: "Loader",
-  props: ["status"]
+  props: ["status"],
 };
 </script>
 <style lang="less" scoped>

@@ -1,0 +1,28 @@
+<template>
+  <div id="shellWrapper">
+    <VipBanner :showBanner="showBanner"></VipBanner>
+    <router-view></router-view>
+  </div>
+</template>
+<style lang="less">
+@import url("./../../assets/vip-tier/style");
+</style>
+<script>
+import "./../../assets/vip-tier/font.css";
+import VipBanner from "./../../components/vip-tier/Banner";
+export default {
+  name: "Shell",
+  components: { VipBanner },
+  data: function() {
+    return {
+      showBanner: false,
+    };
+  },
+  watch: {
+    $route(to) {
+      const bannerDisabledRoutes = ["Home", "Intro", "Setup"];
+      this.showBanner = !(bannerDisabledRoutes.indexOf(to.name) > -1);
+    },
+  },
+};
+</script>

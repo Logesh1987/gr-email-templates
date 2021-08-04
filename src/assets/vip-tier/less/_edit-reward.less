@@ -1,0 +1,65 @@
+.amvip--twolColumnRow {
+    @media (min-width: 1200px) {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        
+        > * {
+            flex: 0 0 48.5%;
+            max-width: 48.5%;
+            padding-right: 15px;
+        }
+    }
+}
+.amvip--tabContent {
+    .amvip--rewardRadio {
+        margin-bottom: 2.5rem;
+    }
+}
+.amvip--tabHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+.amvip--tabTitle {
+    position: relative;
+    height: 4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #222;
+    font-size: 1.4rem;
+    background: #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    @media (max-width: 767px) {
+        padding: 0 10px;
+        margin: 0 5px;
+        min-width: 45%;
+    }
+    @media (min-width: 768px) {
+        padding: 0 30px;
+        min-width: 200px;
+        margin: 0 10px;
+    }
+    &:hover:not(.active) {
+        background: #bbb;
+    }
+    &.active {
+        color: #fff;
+        background: #0e5144;
+        &:after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-top: 8px solid #0e5144;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+        }
+    }
+}
