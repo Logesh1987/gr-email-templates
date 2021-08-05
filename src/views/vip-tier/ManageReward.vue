@@ -189,7 +189,7 @@ export default {
       currentElement.classList.add("active");
     },
     gotoManageTier() {
-      this.$router.push("edit-tier");
+      this.$router.push("/view/tiers/edit-tier");
     },
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];

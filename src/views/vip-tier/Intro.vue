@@ -122,7 +122,7 @@ export default {
   components: {},
   methods: {
     goBack() {
-      this.$router.push("home");
+      this.$router.push("/view/tiers/home");
     },
   },
 };

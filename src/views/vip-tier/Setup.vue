@@ -287,7 +287,7 @@ export default {
           returnData
         ).then(response => {
           console.log("response from server", response);
-          this.$router.push("manage-tier");
+          this.$router.push("/view/tiers/manage-tier");
         });
       } else {
         Axios.put(
@@ -295,7 +295,7 @@ export default {
           returnData
         ).then(response => {
           console.log("response from server", response);
-          this.$router.push("manage-tier");
+          this.$router.push("/view/tiers/manage-tier");
         });
       }
     },

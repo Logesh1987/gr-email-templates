@@ -177,10 +177,10 @@ export default {
   },
   methods: {
     gotoManageTier() {
-      this.$router.push("manage-tier");
+      this.$router.push("/view/tiers/manage-tier");
     },
     gotoManageReward() {
-      this.$router.push("manage-reward");
+      this.$router.push("/view/tiers/manage-reward");
     },
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
@@ -204,7 +204,7 @@ export default {
       this.userSaved = true;
       this.sending = false;
       console.log(returnData);
-      this.$router.push("manage-tier");
+      this.$router.push("/view/tiers/manage-tier");
       // Axios.post(
       //   "https://run.mocky.io/v3/a5c07983-6b99-4c29-99e6-c2a2b0b90c45",
       //   returnData

@@ -8,9 +8,9 @@ module.exports = {
     optimization: {
       splitChunks: false,
     },
-    // Naming bundle 'email_templates_bo'
+    // Naming bundle 'vip_tiers_bo'
     entry: {
-      email_templates_bo: "./src/main.js",
+      vip_tiers_bo: "./src/main.js",
     },
   },
   // css: {

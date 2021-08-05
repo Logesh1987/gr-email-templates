@@ -118,13 +118,13 @@ export default {
   methods: {
     gotoEditTier(data) {
       console.log("from edit tier fn=======", data);
-      this.$router.push("edit-tier");
+      this.$router.push("/view/tiers/edit-tier");
     },
     deleteTier(data) {
       console.log("delete Tier fn=====", data);
     },
     gotoAddTier() {
-      this.$router.push("add-tier");
+      this.$router.push("/view/tiers/add-tier");
     },
     showIconPopup() {
       this.enableIcon = true;

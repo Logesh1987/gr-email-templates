@@ -173,7 +173,7 @@ export default {
   },
   methods: {
     gotoSetup() {
-      this.$router.push({ path: "setupProgram" });
+      this.$router.push("/view/tiers/setupProgram");
     },
     accordionItemSelected(eve) {
       console.log("from home component", eve);
