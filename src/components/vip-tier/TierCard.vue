@@ -56,7 +56,6 @@ export default {
   data: () => ({}),
   methods: {
     getImgUrl(image) {
-      debugger;
       return require("./../../assets/vip-tier/images/" + image);
     },
     editTier(eve, data) {

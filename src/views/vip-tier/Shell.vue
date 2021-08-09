@@ -1,11 +1,14 @@
 <template>
-  <div id="shellWrapper">
+  <div id="shellWrapper" :class="getBannerClass()">
     <VipBanner :showBanner="showBanner"></VipBanner>
     <router-view></router-view>
   </div>
 </template>
 <style lang="less">
 @import url("./../../assets/vip-tier/style");
+#shellWrapper.noBanner .amvip--landingGrey {
+  padding-top: 0;
+}
 </style>
 <script>
 import "./../../assets/vip-tier/font.css";
@@ -17,6 +20,11 @@ export default {
     return {
       showBanner: false,
     };
+  },
+  methods: {
+    getBannerClass() {
+      return !this.showBanner ? "noBanner" : "";
+    },
   },
   watch: {
     $route(to) {

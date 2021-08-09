@@ -12,26 +12,26 @@
         <small>Beta</small>
       </div>
     </aside>
-    <section class="amvip-twoColContent">
+    <section class="amvip-twoColContent" id="setupProgram">
       <form novalidate class="md-layout" @submit.prevent="gotoManageTier">
         <section>
           <h2>Setup VIP Tier Program</h2>
           <div class="amvip--formRow">
-            <md-field :class="getValidationClass('title')">
-              <label for="title">
+            <md-field :class="getValidationClass('name')">
+              <label for="name">
                 Title
                 <span class="amvip--mandatory">*</span>
               </label>
               <md-input
-                name="title"
-                id="title"
-                v-model="form.title"
+                name="name"
+                id="name"
+                v-model="form.name"
                 :disabled="sending"
               />
-              <span class="md-error" v-if="!$v.form.title.required">
+              <span class="md-error" v-if="!$v.form.name.required">
                 Label is required
               </span>
-              <span class="md-error" v-else-if="!$v.form.title.minLenght">
+              <span class="md-error" v-else-if="!$v.form.name.minLenght">
                 Minimum of 3 letters required
               </span>
             </md-field>
@@ -51,24 +51,25 @@
             <div class="amvip--dateRow">
               <md-datepicker
                 md-immediately
-                :class="getValidationClass('startDate')"
-                name="startDate"
-                id="startDate"
-                v-model="form.startDate"
+                :class="getValidationClass('date_start')"
+                name="date_start"
+                id="date_start"
+                v-model="form.date_start"
                 :disabled="sending"
               >
                 <label>Select Date to begin the program</label>
               </md-datepicker>
               <span
                 class="md-custom-error padLeft-35"
-                v-if="!$v.form.startDate.required && $v.form.startDate.$dirty"
+                v-if="!$v.form.date_start.required && $v.form.date_start.$dirty"
               >
-                Date to bign the program is required.
+                Date to beign the program is required.
               </span>
               <span
                 class="md-custom-error padLeft-35 top-minus-20"
                 v-if="
-                  !$v.form.startDate.price_greater && $v.form.startDate.$dirty
+                  !$v.form.date_start.installed_data_validator &&
+                    $v.form.date_start.$dirty
                 "
               >
                 Date cannot be older than program installed date ({{
@@ -82,27 +83,30 @@
             <div>
               <div class="amvip--customRadio">
                 <md-radio
-                  v-model="form.tierType"
-                  value="purchase"
+                  v-model="form.selection_type"
+                  value="no_of_purchase"
                   id="purchase"
-                  name="tierType"
+                  name="selection_type"
                 >
                   Purchase
                 </md-radio>
               </div>
               <div class="amvip--customRadio">
                 <md-radio
-                  v-model="form.tierType"
-                  value="points"
+                  v-model="form.selection_type"
+                  value="no_of_points"
                   id="points"
-                  name="tierType"
+                  name="selection_type"
                 >
                   Points
                 </md-radio>
               </div>
               <span
                 class="md-custom-error top-minus-20"
-                v-if="!$v.form.tierType.required && $v.form.tierType.$dirty"
+                v-if="
+                  !$v.form.selection_type.required &&
+                    $v.form.selection_type.$dirty
+                "
               >
                 Tier Type is required
               </span>
@@ -113,10 +117,10 @@
             <div>
               <div class="amvip--customRadio">
                 <md-radio
-                  v-model="form.achievementType"
+                  v-model="form.time_slot"
                   value="lifetime"
                   id="lifetime"
-                  name="achievementType"
+                  name="time_slot"
                 >
                   Lifetime
                 </md-radio>
@@ -127,10 +131,10 @@
               </div>
               <div class="amvip--customRadio">
                 <md-radio
-                  v-model="form.achievementType"
-                  value="oneCalendarYear"
+                  v-model="form.time_slot"
+                  value="year"
                   id="calendarYear"
-                  name="achievementType"
+                  name="time_slot"
                 >
                   One Calendar Year
                 </md-radio>
@@ -140,10 +144,7 @@
               </div>
               <span
                 class="md-custom-error top-minus-20"
-                v-if="
-                  !$v.form.achievementType.required &&
-                    $v.form.achievementType.$dirty
-                "
+                v-if="!$v.form.time_slot.required && $v.form.time_slot.$dirty"
               >
                 Time to achieve a VIP Tier is required
               </span>
@@ -162,6 +163,12 @@
 <style lang="less">
 @import url("./../../assets/vip-tier/less/_home");
 @import url("./../../assets/vip-tier/less/_setup");
+.md-datepicker-overlay {
+  z-index: 10000;
+}
+.md-datepicker-dialog {
+  z-index: 10002;
+}
 .md-field.md-custom-invalid {
   margin-bottom: 2px;
   label {
@@ -198,11 +205,11 @@ export default {
   mixins: [validationMixin],
   data: () => ({
     form: {
-      title: null,
+      name: null,
       description: null,
-      startDate: null,
-      tierType: null,
-      achievementType: null,
+      date_start: null,
+      selection_type: null,
+      time_slot: null,
     },
     userSaved: false,
     installedDate: new Date("06/18/2021"),
@@ -212,20 +219,21 @@ export default {
   }),
   validations: {
     form: {
-      title: {
+      name: {
         required,
         minLength: minLength(3),
       },
-      startDate: {
+      date_start: {
         required,
-        price_greater(value) {
-          return value < this.$data.installedDate;
+        installed_data_validator(value) {
+          console.log(value);
+          return new Date(value) < this.$data.installedDate;
         },
       },
-      tierType: {
+      selection_type: {
         required,
       },
-      achievementType: {
+      time_slot: {
         required,
       },
     },
@@ -286,7 +294,7 @@ export default {
           "https://vip-tier.free.beeceptor.com/setupProgram",
           returnData
         ).then(response => {
-          console.log("response from server", response);
+          console.log("response from server", response.data);
           this.$router.push("/view/tiers/manage-tier");
         });
       } else {
@@ -294,7 +302,7 @@ export default {
           "https://vip-tier.free.beeceptor.com/setupProgram",
           returnData
         ).then(response => {
-          console.log("response from server", response);
+          console.log("response from server", response.data);
           this.$router.push("/view/tiers/manage-tier");
         });
       }
