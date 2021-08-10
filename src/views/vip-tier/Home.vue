@@ -163,7 +163,7 @@ export default {
         },
       ],
       accordionData: [],
-      isNewUser: false,
+      isNewUser: true,
     };
   },
   mounted() {

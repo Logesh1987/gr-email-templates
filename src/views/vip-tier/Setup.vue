@@ -254,11 +254,9 @@ export default {
         break;
     }
     if (this.mode == Mode.Edit) {
-      Axios.get("https://vip-tier.free.beeceptor.com/setupProgram").then(
-        res => {
-          this.updateFormData(res.data);
-        }
-      );
+      Axios.get("https://jinisha.devam.pro/gr/Tiers/Setupvip").then(res => {
+        this.updateFormData(res.data);
+      });
     }
   },
   methods: {
@@ -291,7 +289,7 @@ export default {
       this.sending = false;
       if (this.mode === Mode.Create) {
         Axios.post(
-          "https://vip-tier.free.beeceptor.com/setupProgram",
+          "https://jinisha.devam.pro/gr/Tiers/Setupvip",
           returnData
         ).then(response => {
           console.log("response from server", response.data);
@@ -299,7 +297,7 @@ export default {
         });
       } else {
         Axios.put(
-          "https://vip-tier.free.beeceptor.com/setupProgram",
+          "https://jinisha.devam.pro/gr/Tiers/Setupvip",
           returnData
         ).then(response => {
           console.log("response from server", response.data);
