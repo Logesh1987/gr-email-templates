@@ -38,8 +38,20 @@ Vue.mixin({
       }
       return formData;
     },
+    getAssetUrl: function(url) {
+      return `${Vue.prototype.$asset_url}/assets/img/${url}`;
+    },
     getImgUrl: function(value) {
       return `${window.Config.s3_image_url}/${value}`;
+    },
+    getApiUrl: function(url) {
+      var hostname = window.location.hostname;
+      if (hostname == "localhost") {
+        const linker = url.includes("?") ? "&" : "?";
+        return `${Vue.prototype.$callback_url}/${url}${linker}id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`;
+      } else {
+        return `${Vue.prototype.$callback_url}/${url}`;
+      }
     },
   },
 });

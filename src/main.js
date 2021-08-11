@@ -14,6 +14,21 @@ if (window.location.origin.includes("localhost")) {
   };
 }
 
+var hostname = window.location.hostname;
+var pathname = window.location.pathname;
+
+if (hostname == "localhost") {
+  Vue.prototype.$callback_url = "https://jinisha.devam.pro/gr";
+} else if (pathname.includes("/gr/")) {
+  Vue.prototype.$callback_url = "https://" + hostname + "/gr";
+} else {
+  Vue.prototype.$callback_url = "https://" + hostname;
+}
+
+Vue.prototype.$shop_id = "1953";
+Vue.prototype.$email = "akash@appsmav.com";
+Vue.prototype.$asset_url = `${Vue.prototype.$callback_url}/public`;
+
 new Vue({
   router,
   store,

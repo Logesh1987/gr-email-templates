@@ -158,6 +158,7 @@
         </section>
       </form>
     </section>
+    <Loader :status="loader"></Loader>
   </div>
 </template>
 <style lang="less">
@@ -195,6 +196,7 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import "./../../filters/vip-tier/date.js";
+import Loader from "./../../components/Loader.vue";
 import Axios from "axios";
 const Mode = {
   Create: "create",
@@ -203,6 +205,9 @@ const Mode = {
 export default {
   name: "Setup",
   mixins: [validationMixin],
+  components: {
+    Loader,
+  },
   data: () => ({
     form: {
       name: null,
@@ -216,6 +221,7 @@ export default {
     sending: false,
     lastUser: null,
     mode: Mode.create,
+    loader: false,
   }),
   validations: {
     form: {
@@ -238,7 +244,6 @@ export default {
       },
     },
   },
-  components: {},
   mounted() {
     const currentRoute = this.$route.path.split("/")[
       this.$route.path.split("/").length - 1
@@ -254,9 +259,18 @@ export default {
         break;
     }
     if (this.mode == Mode.Edit) {
-      Axios.get("https://jinisha.devam.pro/gr/Tiers/Setupvip").then(res => {
-        this.updateFormData(res.data);
-      });
+      const url = this.getApiUrl(`Tiers/Setupvip`);
+      this.loader = true;
+      Axios.get(url)
+        .then(res => {
+          this.updateFormData(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.loader = false;
+        });
     }
   },
   methods: {
@@ -288,21 +302,47 @@ export default {
       this.userSaved = true;
       this.sending = false;
       if (this.mode === Mode.Create) {
-        Axios.post(
-          "https://jinisha.devam.pro/gr/Tiers/Setupvip",
-          returnData
-        ).then(response => {
-          console.log("response from server", response.data);
-          this.$router.push("/view/tiers/manage-tier");
-        });
+        // Axios.post(
+        //   "https://jinisha.devam.pro/gr/Tiers/Setupvip",
+        //   returnData
+        // ).then(response => {
+        //   console.log("response from server", response.data);
+        //   this.$router.push("/view/tiers/manage-tier");
+        // });
+        const url = this.getApiUrl(`Tiers/Setupvip`);
+        this.loader = true;
+        Axios.post(url, returnData)
+          .then(res => {
+            console.log("response from server", res.data);
+            this.$router.push("/view/tiers/manage-tier");
+          })
+          .catch(err => {
+            console.log(err);
+          })
+          .finally(() => {
+            this.loader = false;
+          });
       } else {
-        Axios.put(
-          "https://jinisha.devam.pro/gr/Tiers/Setupvip",
-          returnData
-        ).then(response => {
-          console.log("response from server", response.data);
-          this.$router.push("/view/tiers/manage-tier");
-        });
+        // Axios.put(
+        //   "https://jinisha.devam.pro/gr/Tiers/Setupvip",
+        //   returnData
+        // ).then(response => {
+        //   console.log("response from server", response.data);
+        //   this.$router.push("/view/tiers/manage-tier");
+        // });
+        const url = this.getApiUrl(`Tiers/Setupvip`);
+        this.loader = true;
+        Axios.put(url, returnData)
+          .then(res => {
+            console.log("response from server", res.data);
+            this.$router.push("/view/tiers/manage-tier");
+          })
+          .catch(err => {
+            console.log(err);
+          })
+          .finally(() => {
+            this.loader = false;
+          });
       }
     },
     getFormData() {
