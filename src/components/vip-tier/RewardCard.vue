@@ -1,8 +1,10 @@
 <template>
   <div class="amvip-rewardItem">
-    <img :src="getImgUrl(rewardData.imgurl)" alt="rewardData.imgurl" /><span>{{
-      rewardData.value
-    }}</span>
+    <img
+      v-if="rewardData.reward_icon.length > 0"
+      :src="getImgUrl(rewardData.reward_icon)"
+      alt="rewardData.reward_icon"
+    /><span>{{ rewardData.name }}</span>
     <div class="amvip--rewardItemActions">
       <span class="icon-amedit" @click="editReward($event, rewardData)"></span
       ><span
@@ -12,8 +14,10 @@
     </div>
     <span
       class="amvip--rewardItemType"
-      :class="rewardData.rewardType == RewardType.OnGoing ? 'onGoing' : ''"
-      >{{ rewardData.rewardType }}</span
+      :class="
+        rewardData.settings.rewardtype == RewardType.OnGoing ? 'onGoing' : ''
+      "
+      >{{ rewardData.settings.rewardtype }}</span
     >
   </div>
 </template>
@@ -38,11 +42,9 @@ export default {
       return require("./../../assets/vip-tier/images/" + image);
     },
     editReward(eve, data) {
-      console.log("editClicked", data);
       this.$emit("editClicked", { context: this, data: data, eventObj: eve });
     },
     deleteReward(eve, data) {
-      console.log("deleteClicked", data);
       this.$emit("deleteClicked", { context: this, data: data, eventObj: eve });
     },
   },

@@ -44,6 +44,9 @@ Vue.mixin({
     getImgUrl: function(value) {
       return `${window.Config.s3_image_url}/${value}`;
     },
+    getCDNImage: function(value) {
+      return value;
+    },
     getApiUrl: function(url) {
       var hostname = window.location.hostname;
       if (hostname == "localhost") {

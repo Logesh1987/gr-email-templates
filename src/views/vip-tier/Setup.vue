@@ -84,21 +84,21 @@
               <div class="amvip--customRadio">
                 <md-radio
                   v-model="form.selection_type"
-                  value="no_of_purchase"
-                  id="purchase"
-                  name="selection_type"
-                >
-                  Purchase
-                </md-radio>
-              </div>
-              <div class="amvip--customRadio">
-                <md-radio
-                  v-model="form.selection_type"
                   value="no_of_points"
                   id="points"
                   name="selection_type"
                 >
                   Points
+                </md-radio>
+              </div>
+              <div class="amvip--customRadio">
+                <md-radio
+                  v-model="form.selection_type"
+                  value="no_of_purchase"
+                  id="purchase"
+                  name="selection_type"
+                >
+                  Purchase
                 </md-radio>
               </div>
               <span
@@ -136,7 +136,7 @@
                   id="calendarYear"
                   name="time_slot"
                 >
-                  One Calendar Year
+                  Annual
                 </md-radio>
                 <small>
                   A member qualifies for the calendar year (1st Jan - 31st Dec)
@@ -213,7 +213,7 @@ export default {
       name: null,
       description: null,
       date_start: null,
-      selection_type: null,
+      selection_type: "no_of_points",
       time_slot: null,
     },
     userSaved: false,
@@ -263,7 +263,7 @@ export default {
       this.loader = true;
       Axios.get(url)
         .then(res => {
-          this.updateFormData(res.data);
+          this.updateFormData(res.data.data);
         })
         .catch(err => {
           console.log(err);
@@ -302,18 +302,11 @@ export default {
       this.userSaved = true;
       this.sending = false;
       if (this.mode === Mode.Create) {
-        // Axios.post(
-        //   "https://jinisha.devam.pro/gr/Tiers/Setupvip",
-        //   returnData
-        // ).then(response => {
-        //   console.log("response from server", response.data);
-        //   this.$router.push("/view/tiers/manage-tier");
-        // });
         const url = this.getApiUrl(`Tiers/Setupvip`);
         this.loader = true;
         Axios.post(url, returnData)
           .then(res => {
-            console.log("response from server", res.data);
+            console.log("response from server", res.data.data);
             this.$router.push("/view/tiers/manage-tier");
           })
           .catch(err => {
@@ -323,18 +316,11 @@ export default {
             this.loader = false;
           });
       } else {
-        // Axios.put(
-        //   "https://jinisha.devam.pro/gr/Tiers/Setupvip",
-        //   returnData
-        // ).then(response => {
-        //   console.log("response from server", response.data);
-        //   this.$router.push("/view/tiers/manage-tier");
-        // });
         const url = this.getApiUrl(`Tiers/Setupvip`);
         this.loader = true;
         Axios.put(url, returnData)
           .then(res => {
-            console.log("response from server", res.data);
+            console.log("response from server", res.data.data);
             this.$router.push("/view/tiers/manage-tier");
           })
           .catch(err => {

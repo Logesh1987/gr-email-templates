@@ -1,15 +1,19 @@
 <template>
-  <div class="amvip--tierCol" :class="getTierClass(tierData.title)">
+  <div class="amvip--tierCol" :class="getTierClass(tierData.name)">
     <div>
-      <header>
+      <header :style="{ 'background-color': tierData.color }">
         <div class="amvip--cardImg">
-          <img :src="getImgUrl(tierData.imgurl)" :alt="tierData.imgurl" />
+          <img
+            :src="getCDNImage(tierData.icon)"
+            :alt="tierData.icon"
+            v-if="tierData.icon.length > 0"
+          />
           <span
             class="icon-amedit"
             @click="editTierIcon($event, tierData)"
           ></span>
         </div>
-        <h3>{{ tierData.title }}</h3>
+        <h3>{{ tierData.name }}</h3>
         <div class="amvip--cardAction">
           <span class="icon-amedit" @click="editTier($event, tierData)"></span>
           <span
@@ -19,19 +23,19 @@
         </div>
       </header>
       <div class="amvip--tierDetails">
-        <h4>{{ tierData.eleigibityTitle }}</h4>
+        <h4>Eligibility</h4>
         <ul class="amvip--bulletList">
-          <li
-            v-for="eligibility of tierData.elegibilityList"
-            :key="eligibility.index"
-          >
-            {{ eligibility }}
+          <li>
+            {{ tierData.goaltxt }}
           </li>
         </ul>
-        <h4>{{ tierData.benefitsTitle }}</h4>
+        <h4>Benefits</h4>
         <ul class="amvip--bulletList">
-          <li v-for="benefit of tierData.benefitsList" :key="benefit.index">
-            {{ benefit }}
+          <li v-for="benefit of tierData.rewards" :key="benefit.index">
+            {{ benefit.description }}
+          </li>
+          <li v-if="tierData.rewards.length == 0">
+            NA
           </li>
         </ul>
       </div>

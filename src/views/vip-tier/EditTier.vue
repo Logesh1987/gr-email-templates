@@ -91,12 +91,14 @@
             </div>
           </div>
         </div>
-        <div class="amvip--rewardsCol">
+        <div class="amvip--rewardsCol" v-if="rewardData.length > 0">
           <h3>Added Rewards</h3>
           <VipRewardCard
             :rewardData="rewardItem"
             v-for="rewardItem of rewardData"
             :key="rewardItem.index"
+            @editClicked="editCurrentReward($event)"
+            @deleteClicked="deleteCurrentReward($event)"
           ></VipRewardCard>
         </div>
       </section>
@@ -105,6 +107,7 @@
       <button class="amvip--btnSec" @click="clearForm">Cancel</button>
       <button class="amvip--btnPri" @click="updateTier">Save</button>
     </footer>
+    <Loader :status="loader"></Loader>
   </div>
 </template>
 <style lang="less">
@@ -115,19 +118,24 @@
     z-index: 2;
   }
 }
+.vc-chrome {
+  position: absolute;
+  top: 40px;
+}
 </style>
 <script>
 import { validationMixin } from "vuelidate";
 import { required, minLength, minValue } from "vuelidate/lib/validators";
 import ColorPicker from "./../../components/ColorPicker.vue";
-import VipRewardCard, {
-  RewardType,
-} from "./../../components/vip-tier/RewardCard.vue";
+import VipRewardCard from "./../../components/vip-tier/RewardCard.vue";
+import Loader from "./../../components/Loader.vue";
+import Axios from "axios";
 export default {
   name: "EditTier",
-  components: { ColorPicker, VipRewardCard },
+  components: { ColorPicker, VipRewardCard, Loader },
   mixins: [validationMixin],
   data: () => ({
+    loader: false,
     form: {
       title: null,
       description: null,
@@ -135,31 +143,28 @@ export default {
       colorValue: null,
       pointsNeeded: null,
     },
-    rewardData: [
-      {
-        imgurl: "tier-icon.png",
-        value: "10% Coupon",
-        rewardType: RewardType.OnGoing,
-      },
-      {
-        imgurl: "tier-icon.png",
-        value: "20% Coupon",
-        rewardType: RewardType.OnGoing,
-      },
-      {
-        imgurl: "tier-icon.png",
-        value:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio, facere?",
-        rewardType: RewardType.OneTime,
-      },
-      {
-        imgurl: "tier-icon.png",
-        value: "Test Value",
-        rewardType: RewardType.OnGoing,
-      },
-    ],
+    rewardData: [],
     sending: false,
+    currentRewardId: "",
   }),
+  mounted() {
+    this.loader = true;
+    const currentTierId = this.$route.params.currentTierId;
+    Axios.get(
+      "https://vip-tier.free.beeceptor.com/Tiers/Managetier/" + currentTierId
+    )
+      .then(res => {
+        console.log(res.data);
+        this.updateFormData(res.data);
+        this.rewardData = res.data.rewards;
+      })
+      .catch(err => {
+        console.log("error", err);
+      })
+      .finally(() => {
+        this.loader = false;
+      });
+  },
   validations: {
     form: {
       title: {
@@ -212,6 +217,13 @@ export default {
       //   console.log("response from server", response);
       // });
     },
+    updateFormData(data) {
+      this.form.title = data.name;
+      this.form.description = data.description;
+      this.form.tierIcon = data.icon;
+      this.form.colorValue = data.color;
+      this.form.pointsNeeded = data.goal;
+    },
     getFormData() {
       const returnObj = {};
       Object.keys(this.form).forEach(value => {
@@ -232,6 +244,15 @@ export default {
     },
     goBack() {
       history.back();
+    },
+    editCurrentReward(obj) {
+      console.log(obj);
+      const currentRewardId = obj.data.id_tier_rewards;
+      this.currentRewardId = currentRewardId;
+      this.$router.push("/view/tiers/manage-reward/" + currentRewardId);
+    },
+    deleteCurrentReward(data) {
+      console.log(data);
     },
   },
 };

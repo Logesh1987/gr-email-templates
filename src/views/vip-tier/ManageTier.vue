@@ -41,6 +41,7 @@
       v-on:confirmed="confirmClicked"
       v-on:canceled="cancelClicked"
     ></ConfirmPopup>
+    <Loader :status="loader"></Loader>
   </div>
 </template>
 <style lang="less">
@@ -51,74 +52,45 @@
 <script>
 import IconPopup from "./IconPopup";
 import ConfirmPopup from "./ConfirmPopup";
-import VipTierCard, { TierType } from "./../../components/vip-tier/TierCard";
+import VipTierCard from "./../../components/vip-tier/TierCard";
+import Axios from "axios";
+import Loader from "./../../components/Loader.vue";
 export default {
   name: "ManageTier",
   components: {
     IconPopup,
     ConfirmPopup,
     VipTierCard,
+    Loader,
   },
+  props: ["currentTierId"],
   data: function() {
     return {
       enableIcon: false,
       showConfirmPopup: false,
-      tierData: [
-        {
-          title: TierType.Gold,
-          imgurl: "tier-icon.png",
-          eleigibityTitle: "Eligibility",
-          elegibilityList: ["Earn 500 Points"],
-          benefitsTitle: "Benefits",
-          benefitsList: [
-            "2x points ongoing basis",
-            "50% coupon one time",
-            "Lorem lipsum dolor sit",
-          ],
-        },
-        {
-          title: TierType.Silver,
-          imgurl: "tier-icon.png",
-          eleigibityTitle: "Eligibility",
-          elegibilityList: ["Earn 500 Points"],
-          benefitsTitle: "Benefits",
-          benefitsList: [
-            "2x points ongoing basis",
-            "50% coupon one time",
-            "Lorem lipsum dolor sit",
-          ],
-        },
-        {
-          title: TierType.Bronze,
-          imgurl: "tier-icon.png",
-          eleigibityTitle: "Eligibility",
-          elegibilityList: ["Earn 500 Points"],
-          benefitsTitle: "Benefits",
-          benefitsList: [
-            "2x points ongoing basis",
-            "50% coupon one time",
-            "Lorem lipsum dolor sit",
-          ],
-        },
-        {
-          title: TierType.Platinum,
-          imgurl: "tier-icon.png",
-          eleigibityTitle: "Eligibility",
-          elegibilityList: ["Earn 500 Points"],
-          benefitsTitle: "Benefits",
-          benefitsList: [
-            "2x points ongoing basis",
-            "50% coupon one time",
-            "Lorem lipsum dolor sit",
-          ],
-        },
-      ],
+      tierData: [],
+      loader: false,
     };
   },
+  mounted() {
+    this.loader = true;
+    Axios.get("https://vip-tier.free.beeceptor.com/Tiers/Managetiers")
+      .then(res => {
+        console.log(res);
+        this.tierData = res.data;
+      })
+      .catch(err => {
+        console.log("error", err);
+      })
+      .finally(() => {
+        this.loader = false;
+      });
+  },
   methods: {
-    gotoEditTier(data) {
-      console.log("from edit tier fn=======", data);
-      this.$router.push("/view/tiers/edit-tier");
+    gotoEditTier(obj) {
+      console.log("from edit tier fn=======", obj);
+      this.currentTierId = obj.data.id;
+      this.$router.push("/view/tiers/edit-tier/" + this.currentTierId);
     },
     deleteTier(data) {
       console.log("delete Tier fn=====", data);

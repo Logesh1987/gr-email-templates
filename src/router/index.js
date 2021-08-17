@@ -66,9 +66,10 @@ const routes = [
         component: ManageTier,
       },
       {
-        path: "manage-reward",
+        path: "manage-reward/:currentRewardId",
         name: "ManageReward",
         component: ManageReward,
+        props: true,
       },
       {
         path: "add-tier",
@@ -76,9 +77,10 @@ const routes = [
         component: AddTier,
       },
       {
-        path: "edit-tier",
+        path: "edit-tier/:currentTierId",
         name: "EditTier",
         component: EditTier,
+        props: true,
       },
     ],
   },
