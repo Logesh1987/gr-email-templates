@@ -66,7 +66,7 @@ const routes = [
         component: ManageTier,
       },
       {
-        path: "manage-reward/:currentRewardId",
+        path: "manage-reward",
         name: "ManageReward",
         component: ManageReward,
         props: true,

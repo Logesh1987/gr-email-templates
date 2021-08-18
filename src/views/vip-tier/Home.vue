@@ -155,12 +155,6 @@ export default {
           routeLink: "manage-tier",
           key: 4,
         },
-        {
-          listType: "routeList",
-          title: "Edit Tier",
-          routeLink: "edit-tier",
-          key: 5,
-        },
       ],
       accordionData: [],
       isNewUser: false,
