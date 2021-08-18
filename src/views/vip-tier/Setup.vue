@@ -233,7 +233,7 @@ export default {
         required,
         installed_data_validator(value) {
           console.log(value);
-          return new Date(value) < this.$data.installedDate;
+          return new Date(value) >= this.$data.installedDate;
         },
       },
       selection_type: {

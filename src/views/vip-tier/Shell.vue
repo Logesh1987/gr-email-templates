@@ -6,8 +6,11 @@
 </template>
 <style lang="less">
 @import url("./../../assets/vip-tier/style");
-#shellWrapper.noBanner .amvip--landingGrey {
-  padding-top: 0;
+#shellWrapper {
+  position: relative;
+  .noBanner .amvip--landingGrey {
+    padding-top: 0;
+  }
 }
 </style>
 <script>
