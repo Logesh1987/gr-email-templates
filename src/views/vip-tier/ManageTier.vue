@@ -2,18 +2,20 @@
   <div class="amvip--wrapper">
     <div class="amvip--container">
       <hgroup class="amvip--pageHeader">
-        <span class="icon-next-arrow" @click="goBack"></span>
+        <span class="icon-next-arrow" @click="goHome"></span>
         <h2>Manage Tiers</h2>
         <div class="amvip--inlineFlex">
           <button class="amvip--btnCommon" @click="gotoAddTier">
             <span class="icon-plus"></span> <span>Add Tier</span>
           </button>
           <div class="amvip--statusToggle">
-            <span>Your Promotion is currently Inactive</span>
+            <span>Your Promotion is currently {{ getTierStatus() }}</span>
             <input
               type="checkbox"
-              name=""
+              name="status"
               id="statusToggle"
+              :checked="tierStatus"
+              v-model="tierStatus"
               @change="togglePromotion"
             />
             <label for="statusToggle" class="amvip--customToggle"></label>
@@ -24,8 +26,9 @@
       <section class="amvip--tierWrap">
         <VipTierCard
           :tierData="tierObj"
-          v-for="tierObj of tierData"
-          :key="tierObj.index"
+          v-for="(tierObj, index) in tierData"
+          :key="index"
+          :isDeleteEnabled="index != 0"
           v-on:editTierIconClicked="showIconPopup"
           v-on:editClicked="gotoEditTier"
           v-on:deleteClicked="deleteTier"
@@ -70,14 +73,26 @@ export default {
       showConfirmPopup: false,
       tierData: [],
       loader: false,
+      tierStatus: true,
     };
   },
   mounted() {
     this.loader = true;
-    Axios.get("https://vip-tier.free.beeceptor.com/Tiers/Managetiers")
+    const statusUrl = this.getApiUrl("Tiers/Viptierstatus");
+    Axios.get(statusUrl)
       .then(res => {
         console.log(res);
-        this.tierData = res.data;
+        this.tierStatus = res.data.data.status;
+      })
+      .catch(err => err)
+      .finally(() => {
+        this.loader = false;
+      });
+    const url = this.getApiUrl("Tiers/Managetiers");
+    Axios.get(url)
+      .then(res => {
+        console.log(res);
+        this.tierData = res.data.data;
       })
       .catch(err => {
         console.log("error", err);
@@ -87,13 +102,39 @@ export default {
       });
   },
   methods: {
+    getTierStatus() {
+      return this.tierStatus ? "Active" : "Inactive";
+    },
     gotoEditTier(obj) {
       console.log("from edit tier fn=======", obj);
       this.currentTierId = obj.data.id;
       this.$router.push("/view/tiers/edit-tier/" + this.currentTierId);
     },
-    deleteTier(data) {
-      console.log("delete Tier fn=====", data);
+    deleteTier(obj) {
+      console.log("delete Tier fn=====", obj.data.id);
+      this.loader = true;
+      const url = this.getApiUrl(`Tiers/Managetiers/${obj.data.id}`);
+      Axios.delete(url)
+        .then(res => {
+          console.log(res);
+          this.loader = true;
+          const manageUrl = this.getApiUrl("Tiers/Managetiers");
+          Axios.get(manageUrl)
+            .then(res => {
+              console.log(res);
+              this.tierData = res.data.data;
+            })
+            .catch(err => {
+              console.log("error", err);
+            })
+            .finally(() => {
+              this.loader = false;
+            });
+        })
+        .catch(err => err)
+        .finally(() => {
+          this.loader = false;
+        });
     },
     gotoAddTier() {
       this.$router.push("/view/tiers/add-tier");
@@ -109,14 +150,26 @@ export default {
     },
     confirmClicked() {
       this.showConfirmPopup = false;
+      this.loader = true;
+      const statusUrl = this.getApiUrl("Tiers/Viptierstatus");
+      Axios.post(statusUrl, { status: this.tierStatus ? 1 : 0 })
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+        .finally(() => {
+          this.loader = false;
+        });
+      this.getTierStatus();
     },
     cancelClicked() {
-      const checkboxEle = document.getElementById("statusToggle");
-      checkboxEle.checked = !checkboxEle.checked;
+      this.tierStatus = !this.tierStatus;
       this.showConfirmPopup = false;
+      this.getTierStatus();
     },
     goBack() {
-      history.back();
+      this.$router.push("/view/tiers/home");
+    },
+    goHome() {
+      this.$router.push("/view/tiers/home");
     },
   },
 };

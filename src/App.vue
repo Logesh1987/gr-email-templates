@@ -48,13 +48,7 @@ Vue.mixin({
       return value;
     },
     getApiUrl: function(url) {
-      var hostname = window.location.hostname;
-      if (hostname == "localhost") {
-        const linker = url.includes("?") ? "&" : "?";
-        return `${Vue.prototype.$callback_url}/${url}${linker}id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`;
-      } else {
-        return `${Vue.prototype.$callback_url}/${url}`;
-      }
+      return `${Vue.prototype.$callback_url}/${url}`;
     },
   },
 });

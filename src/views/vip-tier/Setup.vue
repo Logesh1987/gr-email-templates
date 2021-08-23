@@ -67,7 +67,7 @@
               </span>
               <span
                 class="md-custom-error padLeft-35 top-minus-20"
-                v-if="
+                v-else-if="
                   !$v.form.date_start.installed_data_validator &&
                     $v.form.date_start.$dirty
                 "
@@ -94,7 +94,7 @@
               <div class="amvip--customRadio">
                 <md-radio
                   v-model="form.selection_type"
-                  value="no_of_purchase"
+                  value="purchase_value"
                   id="purchase"
                   name="selection_type"
                 >
@@ -153,6 +153,7 @@
           <br />
           <br />
           <footer class="amvip-actionFooter">
+            <button class="amvip--btnSec" @click="goBack()">Cancel</button>
             <button class="amvip--btnPri">Save</button>
           </footer>
         </section>
@@ -164,6 +165,11 @@
 <style lang="less">
 @import url("./../../assets/vip-tier/less/_home");
 @import url("./../../assets/vip-tier/less/_setup");
+.noBanner {
+  .amvip--landingGrey {
+    padding-top: 0;
+  }
+}
 .md-datepicker-overlay {
   z-index: 10000;
 }
@@ -218,6 +224,7 @@ export default {
     },
     userSaved: false,
     installedDate: new Date("06/18/2021"),
+    tier_id: null,
     sending: false,
     lastUser: null,
     mode: Mode.create,
@@ -244,6 +251,7 @@ export default {
       },
     },
   },
+  beforeMount() {},
   mounted() {
     const currentRoute = this.$route.path.split("/")[
       this.$route.path.split("/").length - 1
@@ -259,17 +267,27 @@ export default {
         break;
     }
     if (this.mode == Mode.Edit) {
-      const url = this.getApiUrl(`Tiers/Setupvip`);
+      const url = this.getApiUrl(`Tiers/Setupvip/${this.tier_id}`);
+      const statusUrl = this.getApiUrl(`Tiers/settings`);
       this.loader = true;
-      Axios.get(url)
+      Axios.get(statusUrl)
         .then(res => {
-          this.updateFormData(res.data.data);
+          this.installedDate = new Date(res.data.data.install_date);
+          this.tier_id = res.data.data.tier_id;
+          Axios.get(url)
+            .then(res => {
+              this.updateFormData(res.data.data);
+            })
+            .catch(err => {
+              console.log(err);
+            })
+            .finally(() => {
+              this.loader = false;
+            });
         })
-        .catch(err => {
-          console.log(err);
-        })
+        .catch(err => console.log(err))
         .finally(() => {
-          this.loader = false;
+          // this.loader = false;
         });
     }
   },
@@ -295,6 +313,7 @@ export default {
       this.form.startDate = null;
       this.form.tierType = null;
       this.form.achievementType = null;
+      this.$router.push("/view/tiers/home");
     },
     saveUser() {
       this.sending = true;
@@ -355,6 +374,9 @@ export default {
       } else {
         this.saveUser();
       }
+    },
+    goBack() {
+      this.$router.push("/view/tiers/home");
     },
   },
 };

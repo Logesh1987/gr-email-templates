@@ -3,23 +3,22 @@
     <div class="amvip--container">
       <hgroup class="amvip--pageHeader">
         <span class="icon-next-arrow" @click="goBack"></span>
-        <h2>Edit Rewards</h2>
+        <h2>Add Reward</h2>
       </hgroup>
       <div class="amvip--tabs">
         <div class="amvip--tabHeader">
-          <div class="amvip--tabTitle active" data-index="0">
+          <input type="hidden" name="type" id="type" value="1" />
+          <div class="amvip--tabTitle active" data-value="1">
             One Time Reward
           </div>
-          <div class="amvip--tabTitle" data-index="1">On Going Reward</div>
+          <div class="amvip--tabTitle" data-value="2">On Going Reward</div>
         </div>
         <div class="amvip--tabContent">
           <div class="amvip--rewardRadio">
             <div class="amvip--customRadio">
-              <!-- <input type="radio" name="oneTimeReward" id="rewardCoupons" />
-              <label for="rewardCoupons"><span>Coupons</span></label> -->
               <md-radio
                 v-model="form.rewardType"
-                value="coupons"
+                value="coupon"
                 id="rewardCoupons"
                 name="rewardCoupons"
               >
@@ -27,11 +26,9 @@
               </md-radio>
             </div>
             <div class="amvip--customRadio">
-              <!-- <input type="radio" name="oneTimeReward" id="rewardPoints" />
-              <label for="rewardPoints"><span>Points</span></label> -->
               <md-radio
                 v-model="form.rewardType"
-                value="points"
+                value="point"
                 id="rewardPoints"
                 name="rewardPoints"
               >
@@ -39,13 +36,9 @@
               </md-radio>
             </div>
             <div class="amvip--customRadio">
-              <!-- <input type="radio" name="oneTimeReward" id="rewardExperience" />
-              <label for="rewardExperience"
-                ><span>Perks & Experience</span></label
-              > -->
               <md-radio
                 v-model="form.rewardType"
-                value="perk&expeience"
+                value="perk_expeience"
                 id="rewardExperience"
                 name="rewardExperience"
               >
@@ -61,30 +54,26 @@
           </div>
           <div class="amvip--twolColumnRow">
             <div class="amvip--formRow">
-              <!-- <label>Title<span class="amvip--mandatory">*</span></label>
-              <input type="text" class="amvip--textbox textBoxMedium" /> -->
-              <md-field :class="getValidationClass('title')">
-                <label for="title">
-                  Title
+              <md-field :class="getValidationClass('name')">
+                <label for="name">
+                  name
                   <span class="amvip--mandatory">*</span>
                 </label>
                 <md-input
-                  name="title"
-                  id="title"
-                  v-model="form.title"
+                  name="name"
+                  id="name"
+                  v-model="form.name"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.form.title.required">
-                  Label is required
+                <span class="md-error" v-if="!$v.form.name.required">
+                  Name is required
                 </span>
-                <span class="md-error" v-else-if="!$v.form.title.minLength">
+                <span class="md-error" v-else-if="!$v.form.name.minLength">
                   Minimum of 3 letters required
                 </span>
               </md-field>
             </div>
             <div class="amvip--formRow">
-              <!-- <label>Description</label>
-              <input type="text" class="amvip--textbox textBoxLarge" /> -->
               <md-field>
                 <label for="description">Description</label>
                 <md-textarea
@@ -98,11 +87,6 @@
           </div>
           <div class="amvip--twolColumnRow">
             <div class="amvip--formRow">
-              <!-- <label>Award a Coupon</label>
-              <select name="" id="">
-                <option value="Percentage Off">Percentage Off</option>
-                <option value="Percentage Off">Percentage Off</option>
-              </select> -->
               <md-field>
                 <label for="coupon">Award a Coupon</label>
                 <md-select
@@ -124,6 +108,7 @@
       <button class="amvip--btnSec" @click="clearForm">Cancel</button>
       <button class="amvip--btnPri" @click="saveRewardData">Save</button>
     </footer>
+    <Loader :status="loader"></Loader>
   </div>
 </template>
 <style lang="less">
@@ -144,25 +129,29 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
+import Loader from "./../../components/Loader";
+import Axios from "axios";
 export default {
-  name: "EditReward",
+  name: "AddReward",
   mixins: [validationMixin],
-  components: {},
+  components: { Loader },
   data: () => ({
     form: {
       rewardType: null,
-      title: null,
+      name: null,
       description: null,
       coupon: "0",
+      type: 1,
     },
     sending: false,
+    loader: false,
   }),
   validations: {
     form: {
       rewardType: {
         required,
       },
-      title: {
+      name: {
         required,
         minLength: minLength(3),
       },
@@ -177,6 +166,7 @@ export default {
         this.toggleActive(event.target);
       });
     });
+    this.form.type = document.getElementById("type").value;
   },
   methods: {
     toggleActive(currentElement) {
@@ -187,6 +177,10 @@ export default {
         element.classList.remove("active");
       });
       currentElement.classList.add("active");
+      document.getElementById("type").value = currentElement.getAttribute(
+        "data-value"
+      );
+      this.form.type = currentElement.getAttribute("data-value");
     },
     gotoManageTier() {
       this.$router.push("/view/tiers/edit-tier");
@@ -202,9 +196,10 @@ export default {
     clearForm() {
       this.$v.$reset();
       this.form.rewardType = null;
-      this.form.title = null;
+      this.form.name = null;
       this.form.description = null;
       this.form.coupon = null;
+      history.back();
     },
     saveRewardData() {
       if (!this.validateData()) {
@@ -215,12 +210,13 @@ export default {
       this.userSaved = true;
       this.sending = false;
       console.log(returnData);
-      // Axios.post(
-      //   "https://run.mocky.io/v3/a5c07983-6b99-4c29-99e6-c2a2b0b90c45",
-      //   returnData
-      // ).then(response => {
-      //   console.log("response from server", response);
-      // });
+      const url = this.getApiUrl("Tiers/Rewards/");
+      Axios.post(url, returnData)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+        .finally(() => {
+          this.loader = false;
+        });
     },
     getFormData() {
       const returnObj = {};

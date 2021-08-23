@@ -17,6 +17,7 @@
         <div class="amvip--cardAction">
           <span class="icon-amedit" @click="editTier($event, tierData)"></span>
           <span
+            v-if="isDeleteEnabled"
             class="icon-amdelete"
             @click="deleteTier($event, tierData)"
           ></span>
@@ -26,7 +27,7 @@
         <h4>Eligibility</h4>
         <ul class="amvip--bulletList">
           <li>
-            {{ tierData.goaltxt }}
+            {{ tierData.goal == 0 ? "NA" : tierData.goaltxt }}
           </li>
         </ul>
         <h4>Benefits</h4>
@@ -53,7 +54,7 @@ export const TierType = {
 };
 export default {
   name: "VipTierCard",
-  props: ["tierData"],
+  props: ["tierData", "isDeleteEnabled"],
   model: {
     event: "editClicked, deleteClicked, editTierIconClicked",
   },

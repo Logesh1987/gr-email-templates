@@ -15,7 +15,9 @@
     <span
       class="amvip--rewardItemType"
       :class="
-        rewardData.settings.rewardtype == RewardType.OnGoing ? 'onGoing' : ''
+        rewardData.settings.rewardtype == RewardType.OnGoing
+          ? 'onGoing'
+          : 'oneTime'
       "
       >{{ rewardData.settings.rewardtype }}</span
     >
@@ -37,6 +39,7 @@ export default {
   data: () => ({
     RewardType: RewardType,
   }),
+  mounted() {},
   methods: {
     getImgUrl(image) {
       return require("./../../assets/vip-tier/images/" + image);

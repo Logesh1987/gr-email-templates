@@ -1,0 +1,264 @@
+<template>
+  <div class="amvip--wrapper amvip-manageReward">
+    <div class="amvip--container">
+      <hgroup class="amvip--pageHeader">
+        <span class="icon-next-arrow" @click="goBack"></span>
+        <h2>Add Reward</h2>
+      </hgroup>
+      <div class="amvip--tabs">
+        <div class="amvip--tabHeader">
+          <input type="hidden" name="type" id="type" value="1" />
+          <div class="amvip--tabTitle active" data-value="1">
+            One Time Reward
+          </div>
+          <div class="amvip--tabTitle" data-value="2">On Going Reward</div>
+        </div>
+        <div class="amvip--tabContent">
+          <div class="amvip--rewardRadio">
+            <div class="amvip--customRadio">
+              <md-radio
+                v-model="form.rewardType"
+                value="coupon"
+                id="rewardCoupons"
+                name="rewardCoupons"
+              >
+                Coupons
+              </md-radio>
+            </div>
+            <div class="amvip--customRadio">
+              <md-radio
+                v-model="form.rewardType"
+                value="point"
+                id="rewardPoints"
+                name="rewardPoints"
+              >
+                Points
+              </md-radio>
+            </div>
+            <div class="amvip--customRadio">
+              <md-radio
+                v-model="form.rewardType"
+                value="perk_expeience"
+                id="rewardExperience"
+                name="rewardExperience"
+              >
+                Perks & Experience
+              </md-radio>
+            </div>
+          </div>
+          <div
+            class="md-custom-error top-minus-35 txt-center"
+            v-if="!$v.form.rewardType.required && $v.form.rewardType.$dirty"
+          >
+            Reward Type is required
+          </div>
+          <div class="amvip--twolColumnRow">
+            <div class="amvip--formRow">
+              <md-field :class="getValidationClass('name')">
+                <label for="name">
+                  name
+                  <span class="amvip--mandatory">*</span>
+                </label>
+                <md-input
+                  name="name"
+                  id="name"
+                  v-model="form.name"
+                  :disabled="sending"
+                />
+                <span class="md-error" v-if="!$v.form.name.required">
+                  Name is required
+                </span>
+                <span class="md-error" v-else-if="!$v.form.name.minLength">
+                  Minimum of 3 letters required
+                </span>
+              </md-field>
+            </div>
+            <div class="amvip--formRow">
+              <md-field>
+                <label for="description">Description</label>
+                <md-textarea
+                  name="description"
+                  id="description"
+                  v-model="form.description"
+                  :disabled="sending"
+                ></md-textarea>
+              </md-field>
+            </div>
+          </div>
+          <div class="amvip--twolColumnRow">
+            <div class="amvip--formRow">
+              <md-field>
+                <label for="coupon">Award a Coupon</label>
+                <md-select
+                  name="coupon"
+                  id="coupon"
+                  v-model="form.coupon"
+                  :disabled="sending"
+                >
+                  <md-option value="0">Percentage Off</md-option>
+                  <md-option value="1">points1</md-option>
+                </md-select>
+              </md-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="amvip-actionFooter">
+      <button class="amvip--btnSec" @click="clearForm">Cancel</button>
+      <button class="amvip--btnPri" @click="saveRewardData">Save</button>
+    </footer>
+    <Loader :status="loader"></Loader>
+  </div>
+</template>
+<style lang="less">
+@import url("./../../assets/vip-tier/less/_header");
+@import url("./../../assets/vip-tier/less/_edit-reward");
+.md-custom-error {
+  color: var(--md-theme-default-fieldvariant, #ff1744);
+  font-size: 12px;
+  &.top-minus-35 {
+    top: -35px;
+    position: relative;
+  }
+  &.txt-center {
+    text-align: center;
+  }
+}
+</style>
+<script>
+import { validationMixin } from "vuelidate";
+import { required, minLength } from "vuelidate/lib/validators";
+import Loader from "./../../components/Loader";
+import Axios from "axios";
+export default {
+  name: "AddReward",
+  mixins: [validationMixin],
+  components: { Loader },
+  data: () => ({
+    form: {
+      rewardType: null,
+      name: null,
+      description: null,
+      coupon: "0",
+      type: 1,
+    },
+    sending: false,
+    loader: false,
+  }),
+  validations: {
+    form: {
+      rewardType: {
+        required,
+      },
+      name: {
+        required,
+        minLength: minLength(3),
+      },
+    },
+  },
+  mounted() {
+    const tabButtons = document.querySelectorAll(
+      ".amvip-manageReward .amvip--tabTitle"
+    );
+    tabButtons.forEach(element => {
+      element.addEventListener("click", event => {
+        this.toggleActive(event.target);
+      });
+    });
+    this.form.type = document.getElementById("type").value;
+    const currentRewardId = this.$route.params.currentRewardId;
+    const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
+    Axios.get(url)
+      .then(res => {
+        console.log(res);
+        this.updateFormData(res);
+      })
+      .catch(err => console.log(err))
+      .finally(() => {
+        this.loader = false;
+      });
+  },
+  methods: {
+    toggleActive(currentElement) {
+      const tabButtons = document.querySelectorAll(
+        ".amvip-manageReward .amvip--tabTitle"
+      );
+      tabButtons.forEach(element => {
+        element.classList.remove("active");
+      });
+      currentElement.classList.add("active");
+      document.getElementById("type").value = currentElement.getAttribute(
+        "data-value"
+      );
+      this.form.type = currentElement.getAttribute("data-value");
+    },
+    gotoManageTier() {
+      this.$router.push("/view/tiers/edit-tier");
+    },
+    getValidationClass(fieldName) {
+      const field = this.$v.form[fieldName];
+      if (field) {
+        return {
+          "md-invalid": field.$invalid && field.$dirty,
+        };
+      }
+    },
+    clearForm() {
+      this.$v.$reset();
+      this.form.rewardType = null;
+      this.form.name = null;
+      this.form.description = null;
+      this.form.coupon = null;
+      history.back();
+    },
+    saveRewardData() {
+      if (!this.validateData()) {
+        return false;
+      }
+      this.sending = true;
+      const returnData = this.getFormData();
+      this.userSaved = true;
+      this.sending = false;
+      console.log(returnData);
+      const currentRewardId = this.$route.params.currentRewardId;
+      const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
+      Axios.put(url, returnData)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+        .finally(() => {
+          this.loader = false;
+        });
+    },
+    getFormData() {
+      const returnObj = {};
+      Object.keys(this.form).forEach(value => {
+        returnObj[value] = this.form[value];
+      });
+      return returnObj;
+    },
+    updateFormData(response) {
+      Object.keys(this.form).forEach(value => {
+        if (response[value]) {
+          this.form[value] = response[value];
+        }
+      });
+    },
+    validateData() {
+      this.$v.$touch();
+      let isValidated = false;
+      if (this.$v.$invalid) {
+        isValidated = false;
+        console.log("error");
+      } else {
+        // this.saveUser();
+        isValidated = true;
+      }
+      return isValidated;
+    },
+    goBack() {
+      history.back();
+    },
+  },
+};
+</script>

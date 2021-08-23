@@ -11,7 +11,8 @@ import Home from "./../views/vip-tier/Home.vue";
 import Intro from "./../views/vip-tier/Intro.vue";
 import Setup from "./../views/vip-tier/Setup.vue";
 import ManageTier from "./../views/vip-tier/ManageTier.vue";
-import ManageReward from "./../views/vip-tier/ManageReward.vue";
+import EditReward from "./../views/vip-tier/EditReward.vue";
+import AddReward from "./../views/vip-tier/AddReward.vue";
 import AddTier from "./../views/vip-tier/AddTier.vue";
 import EditTier from "./../views/vip-tier/EditTier.vue";
 
@@ -66,9 +67,15 @@ const routes = [
         component: ManageTier,
       },
       {
-        path: "manage-reward",
-        name: "ManageReward",
-        component: ManageReward,
+        path: "manage-reward/:currentRewardId",
+        name: "EditReward",
+        component: EditReward,
+        props: true,
+      },
+      {
+        path: "add-reward",
+        name: "AddReward",
+        component: AddReward,
         props: true,
       },
       {
