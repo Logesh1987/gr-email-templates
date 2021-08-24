@@ -99,6 +99,14 @@
       <button class="amvip--btnPri" @click="saveTier">Save</button>
     </footer>
     <Loader :status="loader"></Loader>
+    <md-snackbar
+      :md-position="'center'"
+      :md-duration="3000"
+      :md-active.sync="showSnackbar"
+      md-persistent
+    >
+      <span>{{ responseData }}</span>
+    </md-snackbar>
   </div>
 </template>
 <style lang="less">
@@ -139,6 +147,8 @@ export default {
     sending: false,
     loader: false,
     file: null,
+    showSnackbar: false,
+    responseData: "",
   }),
   filters: {
     blobUrl(val) {
@@ -184,11 +194,16 @@ export default {
       this.sending = false;
       this.loader = true;
       const url = this.getApiUrl("Tiers/Managetiers");
+      console.log("checking....");
       Axios.post(url, returnData)
         .then(res => {
-          if (res.error) {
+          if (res.data.error) {
+            console.log(res.data.message);
+            this.responseData = res.data.error.message;
+            this.showSnackbar = true;
             return false;
           } else {
+            this.responseData = res.data.data.message;
             this.$router.push("/view/tiers/manage-tier");
           }
         })
