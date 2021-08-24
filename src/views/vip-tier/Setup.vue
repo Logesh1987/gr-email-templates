@@ -267,7 +267,7 @@ export default {
         break;
     }
     if (this.mode == Mode.Edit) {
-      const url = this.getApiUrl(`Tiers/Setupvip/${this.tier_id}`);
+      const url = this.getApiUrl(`Tiers/Setupvip`);
       const statusUrl = this.getApiUrl(`Tiers/settings`);
       this.loader = true;
       Axios.get(statusUrl)

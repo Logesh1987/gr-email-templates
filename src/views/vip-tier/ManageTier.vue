@@ -28,7 +28,7 @@
           :tierData="tierObj"
           v-for="(tierObj, index) in tierData"
           :key="index"
-          :isDeleteEnabled="index != 0"
+          :isDeleteEnabled="tierObj.default !== 'Y'"
           v-on:editTierIconClicked="showIconPopup"
           v-on:editClicked="gotoEditTier"
           v-on:deleteClicked="deleteTier"

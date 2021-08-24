@@ -67,7 +67,7 @@
               <span class="md-error" v-if="!$v.form.goal.required">
                 Points Needed field is required
               </span>
-              <span class="md-error" v-else-if="!$v.form.goal.minLenght">
+              <span class="md-error" v-else-if="!$v.form.goal.customMinValue">
                 Minimum value of point needed would be 3
               </span>
             </md-field>
@@ -76,10 +76,22 @@
             <label>Tier Icon</label>
             <div class="amvip--icon">
               <span class="amvip--iconPreview">
-                <!-- <img src="images/tier-icon.png" alt=""
-              /> -->
+                <img v-if="file" :src="file | blobUrl" />
               </span>
-              <span class="icon-amedit"></span>
+              <md-field :class="getValidationClass('icon')">
+                <label for="icon">Upload</label>
+                <md-file
+                  accept="image/*"
+                  name="icon"
+                  id="icon"
+                  v-model="form.icon"
+                  :disabled="sending"
+                  @md-change="selectedFile"
+                />
+                <span class="md-error" v-if="!$v.form.icon.required">
+                  Tier Icon is required
+                </span>
+              </md-field>
             </div>
           </div>
           <div class="amvip--formRow multiCol">
@@ -116,6 +128,13 @@
   .amvip--colorInfo {
     z-index: 2;
   }
+  .amvip--icon {
+    display: flex;
+    .amvip--iconPreview {
+      min-width: 60px;
+      max-width: 60px;
+    }
+  }
 }
 .vc-chrome {
   position: absolute;
@@ -146,7 +165,15 @@ export default {
     rewardData: [],
     sending: false,
     currentTierId: null,
+    tierData: [],
+    file: null,
   }),
+  filters: {
+    blobUrl(val) {
+      if (!val || !val.constructor || val.constructor !== File) return "";
+      return URL.createObjectURL(val);
+    },
+  },
   mounted() {
     this.renderData();
   },
@@ -156,12 +183,15 @@ export default {
         required,
         minLength: minLength(3),
       },
-      // icon: {
-      //   required,
-      // },
+      icon: {
+        required,
+      },
       goal: {
         required,
-        minValue: minValue(3),
+        customMinValue(value) {
+          console.log(value);
+          return this.tierData.default === "Y" ? minValue(0) : minValue(25);
+        },
       },
     },
   },
@@ -172,6 +202,7 @@ export default {
       const url = this.getApiUrl("Tiers/Managetiers/" + this.currentTierId);
       Axios.get(url)
         .then(res => {
+          this.tierData = res.data.data[0];
           this.updateFormData(res.data.data[0]);
           this.rewardData =
             res.data.data[0]?.rewards?.length > 0
@@ -185,6 +216,10 @@ export default {
         .finally(() => {
           this.loader = false;
         });
+    },
+    selectedFile(file) {
+      console.log(file);
+      this.file = file[0];
     },
     gotoManageTier() {
       this.$router.push("/view/tiers/manage-tier");

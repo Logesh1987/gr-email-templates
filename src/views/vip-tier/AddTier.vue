@@ -73,7 +73,9 @@
         <div class="amvip--formRow multiCol">
           <label>Tier Icon</label>
           <div class="amvip--icon">
-            <span class="amvip--iconPreview"></span>
+            <span class="amvip--iconPreview">
+              <img v-if="file" :src="file | blobUrl" />
+            </span>
             <md-field :class="getValidationClass('icon')">
               <label for="icon">Upload</label>
               <md-file
@@ -82,6 +84,7 @@
                 id="icon"
                 v-model="form.icon"
                 :disabled="sending"
+                @md-change="selectedFile"
               />
               <span class="md-error" v-if="!$v.form.icon.required">
                 Tier Icon is required
@@ -106,6 +109,13 @@
   .amvip--colorInfo {
     z-index: 2;
   }
+  .amvip--icon {
+    display: flex;
+    .amvip--iconPreview {
+      min-width: 60px;
+      max-width: 60px;
+    }
+  }
 }
 </style>
 <script>
@@ -128,7 +138,14 @@ export default {
     },
     sending: false,
     loader: false,
+    file: null,
   }),
+  filters: {
+    blobUrl(val) {
+      if (!val || !val.constructor || val.constructor !== File) return "";
+      return URL.createObjectURL(val);
+    },
+  },
   validations: {
     form: {
       name: {
@@ -168,13 +185,22 @@ export default {
       this.loader = true;
       const url = this.getApiUrl("Tiers/Managetiers");
       Axios.post(url, returnData)
-        .then(res => res)
+        .then(res => {
+          if (res.error) {
+            return false;
+          } else {
+            this.$router.push("/view/tiers/manage-tier");
+          }
+        })
         .catch(err => err)
         .finally(() => {
           this.loader = false;
-          this.$router.push("/view/tiers/manage-tier");
         });
       console.log(returnData);
+    },
+    selectedFile(file) {
+      console.log(file);
+      this.file = file[0];
     },
     getFormData() {
       const returnObj = {};
