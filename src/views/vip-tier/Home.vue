@@ -18,7 +18,7 @@
         :dataSource="accordionData"
         v-on:listItemClicked="accordionItemSelected"
       ></ExpansionList>
-      <div class="amvip--landingBtnwrap" v-visible="isNewUser">
+      <div class="amvip--landingBtnwrap">
         <md-button
           class="md-raised amvip--btn amvip--btnHome"
           @click="gotoSetup"
@@ -106,18 +106,22 @@ export default {
         },
       ],
       accordionData: [],
-      isNewUser: false,
+      isNewUser: true,
     };
   },
   mounted() {
     this.loader = true;
+    this.accordionData = this.newUserListData;
     const url = this.getApiUrl("Tiers/settings");
     Axios.get(url)
       .then(res => {
         this.isNewUser = res.data.data.tier_id == null ? true : false;
-        this.accordionData = this.isNewUser
-          ? this.newUserListData
-          : this.existingUserListData;
+        // this.accordionData = this.isNewUser
+        //   ? this.newUserListData
+        //   : this.existingUserListData;
+        if (!this.isNewUser) {
+          this.$router.push("/view/tiers/manage-tier");
+        }
       })
       .catch(err => console.log(err))
       .finally(() => {

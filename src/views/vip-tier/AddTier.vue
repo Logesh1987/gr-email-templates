@@ -4,12 +4,12 @@
       <div class="amvip--container amvip--addTier">
         <hgroup class="amvip--pageHeader">
           <span class="icon-next-arrow" @click="goBack"></span>
-          <h2>Add Tier</h2>
+          <h2>Add tier</h2>
         </hgroup>
         <div class="amvip--formRow">
           <md-field :class="getValidationClass('name')">
             <label for="name">
-              name
+              Name
               <span class="amvip--mandatory">*</span>
             </label>
             <md-input
@@ -19,7 +19,7 @@
               :disabled="sending"
             />
             <span class="md-error" v-if="!$v.form.name.required">
-              name is required
+              Name is required
             </span>
             <span class="md-error" v-else-if="!$v.form.name.minLenght">
               Minimum of 3 letters required
@@ -38,7 +38,7 @@
           </md-field>
         </div>
         <div class="amvip--formRow multiCol">
-          <label for="color">Background Color</label>
+          <label for="color">Background color</label>
           <div class="amvip--colorInfo">
             <ColorPicker
               id="color"
@@ -52,7 +52,7 @@
         <div class="amvip--formRow multiCol">
           <md-field :class="getValidationClass('goal')">
             <label for="goal">
-              Points Needed
+              Points needed
               <span class="amvip--mandatory">*</span>
             </label>
             <md-input
@@ -63,15 +63,18 @@
               :disabled="sending"
             />
             <span class="md-error" v-if="!$v.form.goal.required">
-              Points Needed field is required
+              Points needed field is required
             </span>
             <span class="md-error" v-else-if="!$v.form.goal.minLenght">
-              Minimum value of point needed would be 3
+              Minimum value of point needed would be 50
             </span>
           </md-field>
         </div>
         <div class="amvip--formRow multiCol">
-          <label>Tier Icon</label>
+          <label
+            >Tier Icon
+            <span class="amvip--mandatory">*</span>
+          </label>
           <div class="amvip--icon">
             <span class="amvip--iconPreview">
               <img v-if="file" :src="file | blobUrl" />
@@ -87,7 +90,7 @@
                 @md-change="selectedFile"
               />
               <span class="md-error" v-if="!$v.form.icon.required">
-                Tier Icon is required
+                Tier icon is required
               </span>
             </md-field>
           </div>

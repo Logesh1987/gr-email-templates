@@ -3,14 +3,14 @@
     <div class="amvip--container">
       <hgroup class="amvip--pageHeader">
         <span class="icon-next-arrow" @click="goBack"></span>
-        <h2>Edit Tier</h2>
+        <h2>Edit tier</h2>
       </hgroup>
       <section class="amvip--editTierRow">
         <div class="amvip--editTierContent">
           <div class="amvip--formRow">
             <md-field :class="getValidationClass('name')">
               <label for="name">
-                name
+                Name
                 <span class="amvip--mandatory">*</span>
               </label>
               <md-input
@@ -39,7 +39,7 @@
             </md-field>
           </div>
           <div class="amvip--formRow multiCol">
-            <label for="color">Background Color</label>
+            <label for="color">Background color</label>
             <div class="amvip--colorInfo">
               <ColorPicker
                 ref="colorPicker"
@@ -54,7 +54,7 @@
           <div class="amvip--formRow multiCol">
             <md-field :class="getValidationClass('goal')">
               <label for="goal">
-                Points Needed
+                Points needed
                 <span class="amvip--mandatory">*</span>
               </label>
               <md-input
@@ -65,7 +65,7 @@
                 :disabled="sending"
               />
               <span class="md-error" v-if="!$v.form.goal.required">
-                Points Needed field is required
+                Points needed field is required
               </span>
               <span class="md-error" v-else-if="!$v.form.goal.customMinValue">
                 Minimum value of point needed would be 3
@@ -73,7 +73,7 @@
             </md-field>
           </div>
           <div class="amvip--formRow multiCol">
-            <label>Tier Icon</label>
+            <label>Tier icon <span class="amvip--mandatory">*</span></label>
             <div class="amvip--icon">
               <span class="amvip--iconPreview">
                 <img v-if="file" :src="file | blobUrl" />
@@ -89,7 +89,7 @@
                   @md-change="selectedFile"
                 />
                 <span class="md-error" v-if="!$v.form.icon.required">
-                  Tier Icon is required
+                  Tier icon is required
                 </span>
               </md-field>
             </div>
@@ -98,12 +98,12 @@
             <label>Rewards</label>
             <div class="amvip--btnCommon" @click="gotoAddReward">
               <span class="icon-plus"></span>
-              <span>Add Reward</span>
+              <span>Add reward</span>
             </div>
           </div>
         </div>
         <div class="amvip--rewardsCol" v-if="rewardData.length > 0">
-          <h3>Added Rewards</h3>
+          <h3>Added rewards</h3>
           <VipRewardCard
             :rewardData="rewardItem"
             v-for="rewardItem of rewardData"

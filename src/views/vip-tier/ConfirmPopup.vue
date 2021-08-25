@@ -1,27 +1,11 @@
 <template>
-  <!-- <div class="amvip--dialog" v-if="showPopup">
-    <div class="amvip--dialogBody">
-      <h2>Confirm Activation</h2>
-      <section>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore sequi
-          reprehenderit exercitationem culpa fugit optio architecto magni
-          temporibus aut perferendis?
-        </p>
-      </section>
-      <footer class="amvip-actionFooter">
-        <button class="amvip--btnSec" @click="cancelClick">Cancel</button>
-        <button class="amvip--btnPri" @click="confirmClick">Confirm</button>
-      </footer>
-    </div>
-  </div> -->
-  <div>
+  <div v-if="popupConfig">
     <md-dialog-confirm
-      :md-active.sync="showPopup"
-      md-title="Use Google's location service?"
-      md-content="Let Google help apps determine location. <br> This means sending <strong>anonymous</strong> location data to Google, even when no apps are running."
-      md-confirm-text="Agree"
-      md-cancel-text="Disagree"
+      :md-active.sync="openPopup"
+      :md-title="popupConfig.title"
+      :md-content="popupConfig.content"
+      :md-confirm-text="popupConfig.confirmText"
+      :md-cancel-text="popupConfig.cancelText"
       @md-cancel="onCancel"
       @md-confirm="onConfirm"
     />
@@ -33,23 +17,36 @@
 export default {
   name: "ConfirmPopup",
   event: ["confirmed", "canceled"],
-  props: ["showPopup"],
+  props: ["showPopup", "popupConfig"],
   data: function() {
     return {
       active: false,
       value: null,
+      dialogId: this.popupConfig.id,
     };
+  },
+  computed: {
+    openPopup: {
+      // getter
+      get: function() {
+        return this.$props.showPopup;
+      },
+      // setter
+      set: function(newValue) {
+        this.$props.showPopup = newValue;
+      },
+    },
   },
   methods: {
     onConfirm() {
-      this.value = "Agreed";
+      this.value = this.popupConfig.confirmText;
       this.active = false;
-      this.$emit("confirmed");
+      this.$emit("confirmed", { id: this.dialogId });
     },
     onCancel() {
-      this.value = "Disagreed";
+      this.value = this.popupConfig.cancelText;
       this.active = false;
-      this.$emit("canceled");
+      this.$emit("canceled", { id: this.dialogId });
     },
   },
 };

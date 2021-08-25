@@ -15,11 +15,11 @@
     <section class="amvip-twoColContent" id="setupProgram">
       <form novalidate class="md-layout" @submit.prevent="gotoManageTier">
         <section>
-          <h2>Setup VIP Tier Program</h2>
+          <h2>Setup VIP tier program</h2>
           <div class="amvip--formRow">
             <md-field :class="getValidationClass('name')">
               <label for="name">
-                Title
+                Name
                 <span class="amvip--mandatory">*</span>
               </label>
               <md-input
@@ -29,7 +29,7 @@
                 :disabled="sending"
               />
               <span class="md-error" v-if="!$v.form.name.required">
-                Label is required
+                Name is required
               </span>
               <span class="md-error" v-else-if="!$v.form.name.minLenght">
                 Minimum of 3 letters required
@@ -57,7 +57,7 @@
                 v-model="form.date_start"
                 :disabled="sending"
               >
-                <label>Select Date to begin the program</label>
+                <label>Select date to begin the program</label>
               </md-datepicker>
               <span
                 class="md-custom-error padLeft-35"
@@ -79,7 +79,7 @@
             </div>
           </div>
           <div class="amvip--radioRow">
-            <div class="formLabel">What should define your Tiers</div>
+            <div class="formLabel">What should define your tiers</div>
             <div>
               <div class="amvip--customRadio">
                 <md-radio
@@ -108,12 +108,12 @@
                     $v.form.selection_type.$dirty
                 "
               >
-                Tier Type is required
+                Tier type is required
               </span>
             </div>
           </div>
           <div class="amvip--radioRow btmBorder">
-            <div class="formLabel">Time to achieve a VIP Tier</div>
+            <div class="formLabel">Time to achieve a VIP tier</div>
             <div>
               <div class="amvip--customRadio">
                 <md-radio
@@ -146,7 +146,7 @@
                 class="md-custom-error top-minus-20"
                 v-if="!$v.form.time_slot.required && $v.form.time_slot.$dirty"
               >
-                Time to achieve a VIP Tier is required
+                Time to achieve a VIP tier is required
               </span>
             </div>
           </div>

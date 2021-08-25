@@ -41,8 +41,9 @@
     ></IconPopup>
     <ConfirmPopup
       :showPopup="showConfirmPopup"
-      v-on:confirmed="confirmClicked"
-      v-on:canceled="cancelClicked"
+      :popupConfig="popupConfig"
+      v-on:confirmed="confirmClicked($event)"
+      v-on:canceled="cancelClicked($event)"
     ></ConfirmPopup>
     <Loader :status="loader"></Loader>
   </div>
@@ -71,6 +72,7 @@ export default {
     return {
       enableIcon: false,
       showConfirmPopup: false,
+      popupConfig: {},
       tierData: [],
       loader: false,
       tierStatus: true,
@@ -146,9 +148,17 @@ export default {
       this.enableIcon = false;
     },
     togglePromotion() {
+      this.popupConfig = {
+        title: "Confirm!",
+        content: "Are you agree to change the tier status?",
+        confirmText: "Agree",
+        cancelText: "Disagree",
+        id: "statusPopup",
+      };
       this.showConfirmPopup = true;
     },
-    confirmClicked() {
+    confirmClicked(eve) {
+      console.log(eve);
       this.showConfirmPopup = false;
       this.loader = true;
       const statusUrl = this.getApiUrl("Tiers/Viptierstatus");
@@ -160,7 +170,8 @@ export default {
         });
       this.getTierStatus();
     },
-    cancelClicked() {
+    cancelClicked(eve) {
+      console.log(eve);
       this.tierStatus = !this.tierStatus;
       this.showConfirmPopup = false;
       this.getTierStatus();

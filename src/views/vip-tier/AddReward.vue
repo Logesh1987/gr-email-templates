@@ -3,15 +3,15 @@
     <div class="amvip--container">
       <hgroup class="amvip--pageHeader">
         <span class="icon-next-arrow" @click="goBack"></span>
-        <h2>Add Reward</h2>
+        <h2>Add reward</h2>
       </hgroup>
       <div class="amvip--tabs">
         <div class="amvip--tabHeader">
           <input type="hidden" name="type" id="type" value="1" />
           <div class="amvip--tabTitle active" data-value="1">
-            One Time Reward
+            One time reward
           </div>
-          <div class="amvip--tabTitle" data-value="2">On Going Reward</div>
+          <div class="amvip--tabTitle" data-value="2">On going reward</div>
         </div>
         <div class="amvip--tabContent">
           <div class="amvip--rewardRadio">
@@ -50,13 +50,13 @@
             class="md-custom-error top-minus-35 txt-center"
             v-if="!$v.form.rewardType.required && $v.form.rewardType.$dirty"
           >
-            Reward Type is required
+            Reward type is required
           </div>
           <div class="amvip--twolColumnRow">
             <div class="amvip--formRow">
               <md-field :class="getValidationClass('name')">
                 <label for="name">
-                  name
+                  Name
                   <span class="amvip--mandatory">*</span>
                 </label>
                 <md-input
@@ -88,14 +88,14 @@
           <div class="amvip--twolColumnRow">
             <div class="amvip--formRow">
               <md-field>
-                <label for="coupon">Award a Coupon</label>
+                <label for="coupon">Award a coupon</label>
                 <md-select
                   name="coupon"
                   id="coupon"
                   v-model="form.coupon"
                   :disabled="sending"
                 >
-                  <md-option value="0">Percentage Off</md-option>
+                  <md-option value="0">Percentage off</md-option>
                   <md-option value="1">points1</md-option>
                 </md-select>
               </md-field>

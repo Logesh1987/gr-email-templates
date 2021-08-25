@@ -15,7 +15,7 @@
     <section class="amvip-accordContent">
       <section>
         <span class="icon-next-arrow goBack" @click="goBack"> </span>
-        <h2>Benefits of <br />VIP Tiers</h2>
+        <h2>Benefits of <br />VIP tiers</h2>
 
         <md-list :md-expand-single="true" id="introExpansionList">
           <md-list-item md-expand :md-expanded="true">
@@ -37,8 +37,8 @@
                 <md-tab id="tab-home" md-label="Once-off rewards">
                   <section class="amvip--rewardTabItem">
                     <ul class="amvip--bulletList">
-                      <li>Get XX Points</li>
-                      <li>Get Instant coupon</li>
+                      <li>Get XX points</li>
+                      <li>Get instant coupon</li>
                       <li>
                         Get non financial reward<small
                           >e.g. personal invite to new stock viewing</small
@@ -50,15 +50,15 @@
                 <md-tab id="tab-pages" md-label="Ongoing rewards">
                   <section class="amvip--rewardTabItem">
                     <ul class="amvip--bulletList">
-                      <li>Get XX Points</li>
-                      <li>Get Instant coupon</li>
+                      <li>Get XX points</li>
+                      <li>Get instant coupon</li>
                     </ul>
                   </section>
                 </md-tab>
                 <md-tab id="tab-posts" md-label="Other rewards">
                   <section class="amvip--rewardTabItem">
                     <ul class="amvip--bulletList">
-                      <li>Get Instant coupon</li>
+                      <li>Get instant coupon</li>
                     </ul>
                   </section>
                 </md-tab>
@@ -67,13 +67,13 @@
           </md-list-item>
 
           <md-list-item md-expand>
-            <span class="md-list-item-text">Admin Dashboard</span>
+            <span class="md-list-item-text">Admin dashboard</span>
             <div
               class="amvip--accordionBody list-content-wrapper"
               slot="md-expand"
             >
               <p>
-                Admin Dashboard Lorem ipsum dolor sit amet consectetur
+                Admin dashboard lorem ipsum dolor sit amet consectetur
                 adipisicing elit. Mollitia, nam?
               </p>
             </div>
@@ -86,7 +86,7 @@
               slot="md-expand"
             >
               <p>
-                Analytics Lorem ipsum dolor sit amet consectetur adipisicing
+                Analytics lorem ipsum dolor sit amet consectetur adipisicing
                 elit. Mollitia, nam?
               </p>
             </div>
