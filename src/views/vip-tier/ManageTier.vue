@@ -2,9 +2,12 @@
   <div class="amvip--wrapper">
     <div class="amvip--container">
       <hgroup class="amvip--pageHeader">
-        <span class="icon-next-arrow" @click="goHome"></span>
+        <!-- <span class="icon-next-arrow" @click="goHome"></span> -->
         <h2>Manage Tiers</h2>
         <div class="amvip--inlineFlex">
+          <router-link to="/view/tiers/home" class="homeLink"
+            >Edit Program</router-link
+          >
           <button class="amvip--btnCommon" @click="gotoAddTier">
             <span class="icon-plus"></span> <span>Add Tier</span>
           </button>
@@ -52,6 +55,10 @@
 @import url("./../../assets/vip-tier/less/_header");
 @import url("./../../assets/vip-tier/less/_home");
 @import url("./../../assets/vip-tier/less/_tier");
+.homeLink {
+  margin: 0 20px;
+  font-weight: bold;
+}
 </style>
 <script>
 import IconPopup from "./IconPopup";

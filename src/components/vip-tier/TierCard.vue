@@ -23,7 +23,7 @@
           ></span>
         </div>
       </header>
-      <div class="amvip--tierDetails">
+      <div class="amvip--tierDetails" v-if="tierData.default !== 'Y'">
         <h4>Eligibility</h4>
         <ul class="amvip--bulletList">
           <li>
@@ -40,10 +40,18 @@
           </li>
         </ul>
       </div>
+      <div class="amvip--tierDetails pt-20" v-else>
+        <!-- <h4>Description</h4> -->
+        <p>{{ tierData.description }}</p>
+      </div>
     </div>
   </div>
 </template>
-<style lang="less"></style>
+<style lang="less">
+.pt-20 {
+  padding-top: 20px;
+}
+</style>
 <script>
 export const TierType = {
   Bronze: "Bronze",

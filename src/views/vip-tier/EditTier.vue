@@ -75,8 +75,11 @@
           <div class="amvip--formRow multiCol">
             <label>Tier icon <span class="amvip--mandatory">*</span></label>
             <div class="amvip--icon">
-              <span class="amvip--iconPreview">
-                <img v-if="file" :src="file | blobUrl" />
+              <span
+                v-if="file"
+                class="amvip--iconPreview"
+                v-bind:style="{ backgroundImage: 'url(' + blobUrl(file) + ')' }"
+              >
               </span>
               <md-field :class="getValidationClass('icon')">
                 <label for="icon">Upload</label>
@@ -168,12 +171,6 @@ export default {
     tierData: [],
     file: null,
   }),
-  filters: {
-    blobUrl(val) {
-      if (!val || !val.constructor || val.constructor !== File) return "";
-      return URL.createObjectURL(val);
-    },
-  },
   mounted() {
     this.renderData();
   },
@@ -217,9 +214,28 @@ export default {
           this.loader = false;
         });
     },
+    blobUrl(val) {
+      if (!val || !val.constructor || val.constructor !== File) return val;
+      return URL.createObjectURL(val);
+    },
     selectedFile(file) {
       console.log(file);
+      this.loader = true;
       this.file = file[0];
+      const imgUploadUrl = "S3Uploader/tier";
+      const payLoad = {
+        suffix: "tier",
+        Filedata: URL.createObjectURL(this.file),
+      };
+      Axios.post(imgUploadUrl, payLoad)
+        .then(res => {
+          const imageUrl = this.getImgUrl(res.data.img_name);
+          this.form.icon = imageUrl;
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+          this.loader = false;
+        });
     },
     gotoManageTier() {
       this.$router.push("/view/tiers/manage-tier");

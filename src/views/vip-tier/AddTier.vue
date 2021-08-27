@@ -76,8 +76,11 @@
             <span class="amvip--mandatory">*</span>
           </label>
           <div class="amvip--icon">
-            <span class="amvip--iconPreview">
-              <img v-if="file" :src="file | blobUrl" />
+            <span
+              v-if="file"
+              class="amvip--iconPreview"
+              v-bind:style="{ backgroundImage: 'url(' + blobUrl(file) + ')' }"
+            >
             </span>
             <md-field :class="getValidationClass('icon')">
               <label for="icon">Upload</label>
@@ -153,12 +156,6 @@ export default {
     showSnackbar: false,
     responseData: "",
   }),
-  filters: {
-    blobUrl(val) {
-      if (!val || !val.constructor || val.constructor !== File) return "";
-      return URL.createObjectURL(val);
-    },
-  },
   validations: {
     form: {
       name: {
@@ -179,6 +176,10 @@ export default {
           "md-invalid": field.$invalid && field.$dirty,
         };
       }
+    },
+    blobUrl(val) {
+      if (!val || !val.constructor || val.constructor !== File) return val;
+      return URL.createObjectURL(val);
     },
     clearForm() {
       this.$v.$reset();
@@ -218,7 +219,22 @@ export default {
     },
     selectedFile(file) {
       console.log(file);
+      this.loader = true;
       this.file = file[0];
+      const imgUploadUrl = "S3Uploader/tier";
+      const payLoad = {
+        suffix: "tier",
+        Filedata: URL.createObjectURL(this.file),
+      };
+      Axios.post(imgUploadUrl, payLoad)
+        .then(res => {
+          const imageUrl = this.getImgUrl(res.data.img_name);
+          this.form.icon = imageUrl;
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+          this.loader = false;
+        });
     },
     getFormData() {
       const returnObj = {};
