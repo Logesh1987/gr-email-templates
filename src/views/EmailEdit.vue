@@ -211,7 +211,7 @@
                   :class="[
                     'eAccordion-items',
                     'eAccordion-footer',
-                    { active: activeAccordion == 'footer' && isWl == 1 },
+                    { active: activeAccordion == 'footer' && isWl == 1 }
                   ]"
                 >
                   <div
@@ -337,7 +337,7 @@
               class="msgSnack"
               md-position="center"
               :md-active.sync="showMsg"
-               md-persistent
+              md-persistent
             >
               <span v-html="emailResponse"></span>
             </md-snackbar>
@@ -365,7 +365,7 @@
               md-confirm-text="Take me there"
               md-cancel-text="I'll do it later"
               @md-cancel="() => (footerAction = false)"
-              @md-confirm="gotoLanguageTab" 
+              @md-confirm="gotoLanguageTab"
             />
           </div>
         </div>
@@ -490,10 +490,10 @@ var options = {
         "italic",
         "underline",
         "strike",
-        "link",
-      ],
-    ],
-  },
+        "link"
+      ]
+    ]
+  }
 };
 
 Break.prototype.insertInto = function(parent, ref) {
@@ -560,11 +560,11 @@ export default {
       deep: true,
       handler: function(val, oldVal) {
         if (oldVal !== null) this.disableTest = true;
-      },
+      }
     },
     showMsg: function() {
-      if(this.showMsg) {
-        setTimeout(() => this.showMsg = false, 4000)
+      if (this.showMsg) {
+        setTimeout(() => (this.showMsg = false), 4000);
       }
     }
   },
@@ -774,22 +774,23 @@ export default {
         e.returnValue = "Are you sure you want to exit?";
       }
     },
-    triggerFooterListener: function () {
+    triggerFooterListener: function() {
       this.footerAction = true;
     },
     gotoLanguageTab: function() {
-      console.log(`${window.Config.callback_url}/admin/#/view/locales`)
-      window.location.href = `${window.Config.callback_url}/admin/#/view/locales`
+      console.log(`${window.Config.callback_url}/admin/#/view/locales`);
+      window.location.href = `${window.Config.callback_url}/admin/#/view/locales`;
     }
-   },
-  mounted: function () {
+  },
+  mounted: function() {
     this.fetchTemplateData();
     window.addEventListener("beforeunload", this.showReloadAlert);
     // const ft = document.querySelector(".emailFooterTxt");
   },
-  updated: function () {
+  updated: function() {
     const emailFooter = document.querySelector(".emailFooterTxt");
-    if (emailFooter) emailFooter.addEventListener("click", this.triggerFooterListener);
+    if (emailFooter)
+      emailFooter.addEventListener("click", this.triggerFooterListener);
   }
 };
 </script>

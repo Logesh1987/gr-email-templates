@@ -165,7 +165,7 @@ export default {
       showMobileMenu: false,
       referralCode: "amaze.me/urlhere/Referral",
       date: new Date().toISOString().substr(0, 10),
-      inline: "",
+      inline: ""
     };
   },
   mixins: [""],

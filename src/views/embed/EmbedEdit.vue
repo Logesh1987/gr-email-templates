@@ -112,7 +112,8 @@
                         :max="1000"
                         :processStyle="sliderCustomzie.processStyle"
                         :lineHeight="sliderCustomzie.lineHeight"
-                        :tooltipStyles="sliderCustomzie.tooltipStyles">
+                        :tooltipStyles="sliderCustomzie.tooltipStyles"
+                      >
                       </vue-slide-bar>
                       <small>Total 740 points ($14.50 Worth)</small>
                     </div>
@@ -162,7 +163,7 @@ import Newsletter from "../../components/Newsletter.vue";
 import ReferNearn from "../../components/ReferNearn.vue";
 import CelebrateEvents from "../../components/CelebrateEvents.vue";
 import Carouselslide from "../../components/Carouselslide.vue";
-import VueSlideBar from 'vue-slide-bar';
+import VueSlideBar from "vue-slide-bar";
 
 export default {
   name: "EmailEdit",
@@ -196,15 +197,15 @@ export default {
         val: 320,
         lineHeight: 10,
         processStyle: {
-          backgroundColor: '#8f75be',
+          backgroundColor: "#8f75be"
         },
         tooltipStyles: {
-          backgroundColor: '#f94949',
-          borderColor: '#f94949',
-          borderRadius: '4px',
-          fontSize: '12px',
-          padding: '5px 10px',
-          top: '-10px',
+          backgroundColor: "#f94949",
+          borderColor: "#f94949",
+          borderRadius: "4px",
+          fontSize: "12px",
+          padding: "5px 10px",
+          top: "-10px"
         }
       }
     };
@@ -445,7 +446,7 @@ export default {
             }
           }
           @media only screen and (max-width: 599px) {
-            flex-direction: column-reverse;            
+            flex-direction: column-reverse;
             .slider {
               margin-bottom: 20px;
             }

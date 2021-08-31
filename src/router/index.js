@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import Settings from "../views/settings/Settings.vue";
 import EmailListing from "../views/EmailListing.vue";
 import EmailEdit from "../views/EmailEdit.vue";
 import EmbedLanding from "../views/embed/EmbedLanding.vue";
@@ -48,6 +49,11 @@ const routes = [
     path: "/view/embed/Fo/",
     name: "EmbedFo",
     component: EmbedFo
+  },
+  {
+    path: "/view/settings/",
+    name: "Settings",
+    component: Settings
   }
 ];
 

@@ -58,7 +58,7 @@ export default {
   data: function() {
     return {
       referralCode: "amaze.me/urlhere/Referral",
-      inline: "",
+      inline: ""
     };
   },
   methods: {
