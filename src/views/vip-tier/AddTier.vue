@@ -88,7 +88,7 @@
                 accept="image/*"
                 name="icon"
                 id="icon"
-                v-model="form.icon"
+                v-model="existingFileName"
                 :disabled="sending"
                 @md-change="selectedFile"
               />
@@ -155,6 +155,8 @@ export default {
     file: null,
     showSnackbar: false,
     responseData: "",
+    existingFile: null,
+    existingFileName: "",
   }),
   validations: {
     form: {
@@ -204,11 +206,16 @@ export default {
           if (res.data.error) {
             console.log(res.data.message);
             this.responseData = res.data.error.message;
-            this.showSnackbar = true;
+            if (this.responseData.length > 0) {
+              this.showSnackbar = true;
+            }
             return false;
           } else {
             this.responseData = res.data.data.message;
             this.$router.push("/view/tiers/manage-tier");
+            if (this.responseData.length > 0) {
+              this.showSnackbar = true;
+            }
           }
         })
         .catch(err => err)
@@ -219,14 +226,21 @@ export default {
     },
     selectedFile(file) {
       console.log(file);
+      if (file.length > 0) {
+        this.existingFile = file[0];
+      }
+      this.file = file.length > 0 ? file[0] : this.existingFile;
+      const formData = new FormData();
+      formData.append("Filedata", file[0]);
+      formData.append("suffix", "tier");
+      this.existingFileName =
+        file.length > 0 ? file[0] : this.existingFile.name;
+      if (file.length == 0) {
+        return false;
+      }
       this.loader = true;
-      this.file = file[0];
-      const imgUploadUrl = "S3Uploader/tier";
-      const payLoad = {
-        suffix: "tier",
-        Filedata: URL.createObjectURL(this.file),
-      };
-      Axios.post(imgUploadUrl, payLoad)
+      const imgUploadUrl = this.getApiUrl("S3Uploader/tier");
+      Axios.post(imgUploadUrl, formData)
         .then(res => {
           const imageUrl = this.getImgUrl(res.data.img_name);
           this.form.icon = imageUrl;

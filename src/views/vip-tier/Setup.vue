@@ -153,13 +153,29 @@
           <br />
           <br />
           <footer class="amvip-actionFooter">
-            <button class="amvip--btnSec" @click="goBack()">Cancel</button>
+            <button class="amvip--btnSec" @click="confirmCancelSetup">
+              Cancel
+            </button>
             <button class="amvip--btnPri">Save</button>
           </footer>
         </section>
       </form>
     </section>
     <Loader :status="loader"></Loader>
+    <ConfirmPopup
+      :showPopup="showConfirmPopup"
+      :popupConfig="popupConfig"
+      v-on:confirmed="confirmClicked($event)"
+      v-on:canceled="cancelClicked($event)"
+    ></ConfirmPopup>
+    <md-snackbar
+      :md-position="'center'"
+      :md-duration="3000"
+      :md-active.sync="showSnackbar"
+      md-persistent
+    >
+      <span>{{ responseData }}</span>
+    </md-snackbar>
   </div>
 </template>
 <style lang="less">
@@ -203,6 +219,7 @@ import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import "./../../filters/vip-tier/date.js";
 import Loader from "./../../components/Loader.vue";
+import ConfirmPopup from "./ConfirmPopup.vue";
 import Axios from "axios";
 const Mode = {
   Create: "create",
@@ -213,6 +230,7 @@ export default {
   mixins: [validationMixin],
   components: {
     Loader,
+    ConfirmPopup,
   },
   data: () => ({
     form: {
@@ -229,6 +247,9 @@ export default {
     lastUser: null,
     mode: Mode.create,
     loader: false,
+    showConfirmPopup: false,
+    showSnackbar: false,
+    responseData: "",
   }),
   validations: {
     form: {
@@ -276,7 +297,20 @@ export default {
           this.tier_id = res.data.data.tier_id;
           Axios.get(url)
             .then(res => {
-              this.updateFormData(res.data.data);
+              if (res.data.error) {
+                console.log(res.data.message);
+                this.responseData = res.data.error.message;
+                if (this.responseData.length > 0) {
+                  this.showSnackbar = true;
+                }
+                return false;
+              } else {
+                this.responseData = res.data.data.message;
+                if (this.responseData.length > 0) {
+                  this.showSnackbar = true;
+                }
+                this.updateFormData(res.data.data);
+              }
             })
             .catch(err => {
               console.log(err);
@@ -306,6 +340,26 @@ export default {
         };
       }
     },
+    confirmCancelSetup() {
+      this.popupConfig = {
+        title: "Confirm!",
+        content: "Are you sure, you want to cancel the setup?",
+        confirmText: "Agree",
+        cancelText: "Disagree",
+        id: "deleteTierPopup",
+      };
+      this.showConfirmPopup = true;
+    },
+    confirmClicked(eve) {
+      console.log(eve);
+      this.showConfirmPopup = false;
+      this.clearForm();
+      this.$router.push("/view/tiers/home");
+    },
+    cancelClicked(eve) {
+      console.log(eve);
+      this.showConfirmPopup = false;
+    },
     clearForm() {
       this.$v.$reset();
       this.form.title = null;
@@ -313,7 +367,6 @@ export default {
       this.form.startDate = null;
       this.form.tierType = null;
       this.form.achievementType = null;
-      this.$router.push("/view/tiers/home");
     },
     saveUser() {
       this.sending = true;
@@ -339,8 +392,21 @@ export default {
         this.loader = true;
         Axios.put(url, returnData)
           .then(res => {
-            console.log("response from server", res.data.data);
-            this.$router.push("/view/tiers/manage-tier");
+            if (res.data.error) {
+              console.log(res.data.message);
+              this.responseData = res.data.error.message;
+              if (this.responseData.length > 0) {
+                this.showSnackbar = true;
+              }
+              return false;
+            } else {
+              this.responseData = res.data.data.message;
+              if (this.responseData.length > 0) {
+                this.showSnackbar = true;
+              }
+              console.log("response from server", res.data.data);
+              this.$router.push("/view/tiers/manage-tier");
+            }
           })
           .catch(err => {
             console.log(err);

@@ -76,18 +76,20 @@
             <label>Tier icon <span class="amvip--mandatory">*</span></label>
             <div class="amvip--icon">
               <span
-                v-if="file"
+                v-if="form.icon"
                 class="amvip--iconPreview"
-                v-bind:style="{ backgroundImage: 'url(' + blobUrl(file) + ')' }"
+                v-bind:style="{
+                  backgroundImage: 'url(' + form.icon + ')',
+                }"
               >
               </span>
               <md-field :class="getValidationClass('icon')">
                 <label for="icon">Upload</label>
                 <md-file
+                  ref="fileUpload"
                   accept="image/*"
                   name="icon"
                   id="icon"
-                  v-model="form.icon"
                   :disabled="sending"
                   @md-change="selectedFile"
                 />
@@ -170,6 +172,7 @@ export default {
     currentTierId: null,
     tierData: [],
     file: null,
+    existingFile: null,
   }),
   mounted() {
     this.renderData();
@@ -198,8 +201,14 @@ export default {
       this.currentTierId = this.$route.params.currentTierId;
       const url = this.getApiUrl("Tiers/Managetiers/" + this.currentTierId);
       Axios.get(url)
-        .then(res => {
+        .then(async res => {
           this.tierData = res.data.data[0];
+          this.icon = res.data.data[0].icon;
+          if (this.icon.length > 0) {
+            const blobData = await fetch(this.icon).then(res => res.blob);
+            this.existingFile = new File([blobData], res.data.data[0].name);
+            this.$refs.fileUpload.value = res.data.data[0].name;
+          }
           this.updateFormData(res.data.data[0]);
           this.rewardData =
             res.data.data[0]?.rewards?.length > 0
@@ -220,14 +229,21 @@ export default {
     },
     selectedFile(file) {
       console.log(file);
+      if (file.length > 0) {
+        this.existingFile = file[0];
+      }
+      this.file = file.length > 0 ? file[0] : this.existingFile;
+      const formData = new FormData();
+      formData.append("Filedata", file[0]);
+      formData.append("suffix", "tier");
+      this.existingFileName =
+        file.length > 0 ? file[0] : this.existingFile.name;
+      if (file.length == 0) {
+        return false;
+      }
       this.loader = true;
-      this.file = file[0];
-      const imgUploadUrl = "S3Uploader/tier";
-      const payLoad = {
-        suffix: "tier",
-        Filedata: URL.createObjectURL(this.file),
-      };
-      Axios.post(imgUploadUrl, payLoad)
+      const imgUploadUrl = this.getApiUrl("S3Uploader/tier");
+      Axios.post(imgUploadUrl, formData)
         .then(res => {
           const imageUrl = this.getImgUrl(res.data.img_name);
           this.form.icon = imageUrl;

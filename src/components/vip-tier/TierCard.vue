@@ -2,12 +2,20 @@
   <div class="amvip--tierCol" :class="getTierClass(tierData.name)">
     <div>
       <header :style="{ 'background-color': tierData.color }">
-        <div class="amvip--cardImg">
-          <img
-            :src="getCDNImage(tierData.icon)"
-            :alt="tierData.icon"
-            v-if="tierData.icon.length > 0"
-          />
+        <div
+          class="amvip--cardImg"
+          v-if="tierData.icon.length > 0"
+          v-bind:style="{
+            backgroundImage: 'url(' + getCDNImage(tierData.icon) + ')',
+            backgroundSize: '100% 100%',
+          }"
+        >
+          <span
+            class="icon-amedit"
+            @click="editTierIcon($event, tierData)"
+          ></span>
+        </div>
+        <div class="amvip--cardImg" v-else>
           <span
             class="icon-amedit"
             @click="editTierIcon($event, tierData)"
@@ -48,7 +56,7 @@
   </div>
 </template>
 <style lang="less">
-.pt-20 {
+.amvip--tierDetails.pt-20 {
   padding-top: 20px;
 }
 </style>

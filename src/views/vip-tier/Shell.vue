@@ -24,15 +24,23 @@ export default {
       showBanner: false,
     };
   },
+  mounted() {
+    console.log("Shell ========== ", this.$route);
+    const urlName = this.$route.name;
+    this.toggleBanner(urlName);
+  },
   methods: {
     getBannerClass() {
       return !this.showBanner ? "noBanner" : "";
     },
+    toggleBanner(name) {
+      const bannerDisabledRoutes = ["Home", "Intro", "Setup"];
+      this.showBanner = !(bannerDisabledRoutes.indexOf(name) > -1);
+    },
   },
   watch: {
     $route(to) {
-      const bannerDisabledRoutes = ["Home", "Intro", "Setup"];
-      this.showBanner = !(bannerDisabledRoutes.indexOf(to.name) > -1);
+      this.toggleBanner(to.name);
     },
   },
 };

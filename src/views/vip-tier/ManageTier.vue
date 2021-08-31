@@ -5,7 +5,7 @@
         <!-- <span class="icon-next-arrow" @click="goHome"></span> -->
         <h2>Manage Tiers</h2>
         <div class="amvip--inlineFlex">
-          <router-link to="/view/tiers/home" class="homeLink"
+          <router-link to="/view/tiers/editProgram" class="homeLink"
             >Edit Program</router-link
           >
           <button class="amvip--btnCommon" @click="gotoAddTier">
@@ -19,7 +19,7 @@
               id="statusToggle"
               :checked="tierStatus"
               v-model="tierStatus"
-              @change="togglePromotion"
+              @change="confirmTogglePromotion"
             />
             <label for="statusToggle" class="amvip--customToggle"></label>
           </div>
@@ -34,7 +34,7 @@
           :isDeleteEnabled="tierObj.default !== 'Y'"
           v-on:editTierIconClicked="showIconPopup"
           v-on:editClicked="gotoEditTier"
-          v-on:deleteClicked="deleteTier"
+          v-on:deleteClicked="confirmDelete"
         ></VipTierCard>
       </section>
     </div>
@@ -49,6 +49,14 @@
       v-on:canceled="cancelClicked($event)"
     ></ConfirmPopup>
     <Loader :status="loader"></Loader>
+    <md-snackbar
+      :md-position="'center'"
+      :md-duration="3000"
+      :md-active.sync="showSnackbar"
+      md-persistent
+    >
+      <span>{{ responseData }}</span>
+    </md-snackbar>
   </div>
 </template>
 <style lang="less">
@@ -83,6 +91,8 @@ export default {
       tierData: [],
       loader: false,
       tierStatus: true,
+      showSnackbar: false,
+      responseData: "",
     };
   },
   mounted() {
@@ -100,8 +110,21 @@ export default {
     const url = this.getApiUrl("Tiers/Managetiers");
     Axios.get(url)
       .then(res => {
-        console.log(res);
-        this.tierData = res.data.data;
+        if (res.data.error) {
+          console.log(res.data.message);
+          this.responseData = res.data.error.message;
+          if (this.responseData.length > 0) {
+            this.showSnackbar = true;
+          }
+          return false;
+        } else {
+          this.responseData = res.data.data.message;
+          console.log(res.data.data);
+          this.tierData = res.data.data;
+          if (this.responseData.length > 0) {
+            this.showSnackbar = true;
+          }
+        }
       })
       .catch(err => {
         console.log("error", err);
@@ -119,8 +142,19 @@ export default {
       this.currentTierId = obj.data.id;
       this.$router.push("/view/tiers/edit-tier/" + this.currentTierId);
     },
+    confirmDelete(obj) {
+      console.log(obj);
+      this.popupConfig = {
+        title: "Confirm!",
+        content: "Are you sure, you want to delete the tier?",
+        confirmText: "Agree",
+        cancelText: "Disagree",
+        id: "deleteTierPopup",
+        params: obj,
+      };
+      this.showConfirmPopup = true;
+    },
     deleteTier(obj) {
-      console.log("delete Tier fn=====", obj.data.id);
       this.loader = true;
       const url = this.getApiUrl(`Tiers/Managetiers/${obj.data.id}`);
       Axios.delete(url)
@@ -130,8 +164,21 @@ export default {
           const manageUrl = this.getApiUrl("Tiers/Managetiers");
           Axios.get(manageUrl)
             .then(res => {
-              console.log(res);
-              this.tierData = res.data.data;
+              if (res.data.error) {
+                console.log(res.data.message);
+                this.responseData = res.data.error.message;
+                if (this.responseData.length > 0) {
+                  this.showSnackbar = true;
+                }
+                return false;
+              } else {
+                this.responseData = res.data.data.message;
+                console.log(res);
+                if (this.responseData.length > 0) {
+                  this.showSnackbar = true;
+                }
+                this.tierData = res.data.data;
+              }
             })
             .catch(err => {
               console.log("error", err);
@@ -154,34 +201,69 @@ export default {
     hideIconPopup() {
       this.enableIcon = false;
     },
-    togglePromotion() {
+    confirmTogglePromotion() {
       this.popupConfig = {
         title: "Confirm!",
         content: "Are you agree to change the tier status?",
         confirmText: "Agree",
         cancelText: "Disagree",
-        id: "statusPopup",
+        id: "statusUpdatePopup",
       };
       this.showConfirmPopup = true;
     },
-    confirmClicked(eve) {
-      console.log(eve);
-      this.showConfirmPopup = false;
+    updateStatus() {
       this.loader = true;
       const statusUrl = this.getApiUrl("Tiers/Viptierstatus");
       Axios.post(statusUrl, { status: this.tierStatus ? 1 : 0 })
-        .then(res => console.log(res))
+        .then(res => {
+          if (res.data.error) {
+            console.log(res.data.message);
+            this.responseData = res.data.error.message;
+            if (this.responseData.length > 0) {
+              this.showSnackbar = true;
+            }
+            return false;
+          } else {
+            this.responseData = res.data.data.message;
+            if (this.responseData.length > 0) {
+              this.showSnackbar = true;
+            }
+            console.log(res);
+            this.getTierStatus();
+          }
+        })
         .catch(err => console.log(err))
         .finally(() => {
           this.loader = false;
         });
-      this.getTierStatus();
+    },
+    confirmClicked(eve) {
+      console.log(eve);
+      this.showConfirmPopup = false;
+      switch (eve.id) {
+        case "deleteTierPopup":
+          this.deleteTier(eve.params);
+          break;
+        case "statusUpdatePopup":
+          this.updateStatus();
+          break;
+        default:
+          break;
+      }
     },
     cancelClicked(eve) {
       console.log(eve);
-      this.tierStatus = !this.tierStatus;
       this.showConfirmPopup = false;
-      this.getTierStatus();
+      switch (eve.id) {
+        case "deleteTierPopup":
+          break;
+        case "statusUpdatePopup":
+          this.tierStatus = !this.tierStatus;
+          this.getTierStatus();
+          break;
+        default:
+          break;
+      }
     },
     goBack() {
       this.$router.push("/view/tiers/home");

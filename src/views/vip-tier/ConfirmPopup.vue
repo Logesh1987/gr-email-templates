@@ -8,6 +8,8 @@
       :md-cancel-text="popupConfig.cancelText"
       @md-cancel="onCancel"
       @md-confirm="onConfirm"
+      :md-close-on-esc="false"
+      :md-click-outside-to-close="false"
     />
   </div>
 </template>
@@ -41,12 +43,18 @@ export default {
     onConfirm() {
       this.value = this.popupConfig.confirmText;
       this.active = false;
-      this.$emit("confirmed", { id: this.dialogId });
+      this.$emit("confirmed", {
+        id: this.popupConfig.id,
+        params: this.popupConfig.params,
+      });
     },
     onCancel() {
       this.value = this.popupConfig.cancelText;
       this.active = false;
-      this.$emit("canceled", { id: this.dialogId });
+      this.$emit("canceled", {
+        id: this.popupConfig.id,
+        params: this.popupConfig.params,
+      });
     },
   },
 };
