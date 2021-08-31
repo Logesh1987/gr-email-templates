@@ -45,7 +45,8 @@ export default {
     listItemclick(eve, data) {
       if (data.listType === "routeList") {
         this.$router.push(data.routeLink).catch(err => {
-          console.log(err);
+          this.responseData = JSON.stringify(err);
+          this.showSnackbar = true;
         });
       }
       this.$emit("listItemClicked", { context: this, data: data });

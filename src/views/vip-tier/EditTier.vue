@@ -124,6 +124,14 @@
       <button class="amvip--btnPri" @click="updateTier">Save</button>
     </footer>
     <Loader :status="loader"></Loader>
+    <md-snackbar
+      :md-position="'center'"
+      :md-duration="3000"
+      :md-active.sync="showSnackbar"
+      md-persistent
+    >
+      <span>{{ responseData }}</span>
+    </md-snackbar>
   </div>
 </template>
 <style lang="less">
@@ -173,6 +181,8 @@ export default {
     tierData: [],
     file: null,
     existingFile: null,
+    responseData: "",
+    showSnackbar: false,
   }),
   mounted() {
     this.renderData();
@@ -202,22 +212,36 @@ export default {
       const url = this.getApiUrl("Tiers/Managetiers/" + this.currentTierId);
       Axios.get(url)
         .then(async res => {
-          this.tierData = res.data.data[0];
-          this.icon = res.data.data[0].icon;
-          if (this.icon.length > 0) {
-            const blobData = await fetch(this.icon).then(res => res.blob);
-            this.existingFile = new File([blobData], res.data.data[0].name);
-            this.$refs.fileUpload.value = res.data.data[0].name;
+          console.log(
+            `Tiers/Managetiers/${this.currentTierId} ${JSON.stringify(res)}`
+          );
+          if (res.data.error && res.data.error == 1) {
+            this.responseData = res.data.error.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+            return false;
+          } else {
+            this.responseData = res.data.data.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+            this.tierData = res.data.data[0];
+            this.icon = res.data.data[0].icon;
+            if (this.icon.length > 0) {
+              const blobData = await fetch(this.icon).then(res => res.blob);
+              this.existingFile = new File([blobData], res.data.data[0].name);
+              this.$refs.fileUpload.value = res.data.data[0].name;
+            }
+            this.updateFormData(res.data.data[0]);
+            this.rewardData =
+              res.data.data[0]?.rewards?.length > 0
+                ? res.data.data[0].rewards
+                : [];
+            this.rewardData = JSON.parse(this.rewardData);
           }
-          this.updateFormData(res.data.data[0]);
-          this.rewardData =
-            res.data.data[0]?.rewards?.length > 0
-              ? res.data.data[0].rewards
-              : [];
-          this.rewardData = JSON.parse(this.rewardData);
         })
         .catch(err => {
-          console.log("error", err);
+          this.responseData = JSON.stringify(err);
+          this.showSnackbar = true;
         })
         .finally(() => {
           this.loader = false;
@@ -228,7 +252,6 @@ export default {
       return URL.createObjectURL(val);
     },
     selectedFile(file) {
-      console.log(file);
       if (file.length > 0) {
         this.existingFile = file[0];
       }
@@ -245,10 +268,26 @@ export default {
       const imgUploadUrl = this.getApiUrl("S3Uploader/tier");
       Axios.post(imgUploadUrl, formData)
         .then(res => {
-          const imageUrl = this.getImgUrl(res.data.img_name);
-          this.form.icon = imageUrl;
+          console.log("S3Uploader/tier  ", JSON.stringify(res));
+          if (res.data.error && res.data.error == 1) {
+            this.file = this.existingFile ? this.existingFile : null;
+            this.responseData = res.data.msg;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+            return false;
+          } else {
+            this.responseData = res.data.message;
+            console.log(res);
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+            const imageUrl = this.getImgUrl(res.data.img_name);
+            this.form.icon = imageUrl;
+          }
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          this.responseData = JSON.stringify(err);
+          this.showSnackbar = true;
+        })
         .finally(() => {
           this.loader = false;
         });
@@ -278,20 +317,33 @@ export default {
         return false;
       }
       this.sending = true;
-      console.log("update");
-      // const returnData = this.getFormData();
       this.loader = true;
       const url = this.getApiUrl("Tiers/Managetiers/" + this.currentTierId);
       Axios.put(url, this.form)
-        .then(res => res)
-        .catch(err => err)
+        .then(res => {
+          console.log(
+            `Tiers/Managetiers/${this.currentTierId} ${JSON.stringify(res)}`
+          );
+          if (res.data.error && res.data.error == 1) {
+            this.responseData = res.data.error.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+            return false;
+          } else {
+            this.responseData = res.data.data.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+          }
+        })
+        .catch(err => {
+          this.responseData = JSON.stringify(err);
+          this.showSnackbar = true;
+        })
         .finally(() => {
           this.loader = false;
         });
       this.userSaved = true;
       this.sending = false;
-      console.log(this.form);
-
       this.$router.push("/view/tiers/manage-tier");
     },
     updateFormData(data) {
@@ -324,22 +376,36 @@ export default {
       this.$router.push("/view/tiers/manage-tier");
     },
     editCurrentReward(obj) {
-      console.log(obj);
       const currentRewardId = obj.data.id_tier_rewards;
       this.currentRewardId = currentRewardId;
       this.$router.push("/view/tiers/manage-reward/" + currentRewardId);
     },
     deleteCurrentReward(obj) {
-      console.log(obj);
       const currentRewardId = obj.data.id_tier_rewards;
       const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
       this.loader = true;
       Axios.delete(url)
         .then(res => {
-          console.log(res);
-          this.renderData();
+          console.log(
+            `Tiers/Rewards/${currentRewardId} ${JSON.stringify(res)}`
+          );
+          if (res.data.error && res.data.error == 1) {
+            this.responseData = res.data.error.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+            return false;
+          } else {
+            this.responseData = res.data.data.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+            console.log(res);
+            this.renderData();
+          }
         })
-        .catch(err => err)
+        .catch(err => {
+          this.responseData = JSON.stringify(err);
+          this.showSnackbar = true;
+        })
         .finally(() => {
           this.loader = false;
         });

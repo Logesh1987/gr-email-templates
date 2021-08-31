@@ -209,11 +209,25 @@ export default {
       const returnData = this.getFormData();
       this.userSaved = true;
       this.sending = false;
-      console.log(returnData);
       const url = this.getApiUrl("Tiers/Rewards/");
       Axios.post(url, returnData)
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
+        .then(res => {
+          console.log("Tiers/Rewards/", JSON.stringify(res));
+          if (res.data.error && res.data.error == 1) {
+            this.responseData = res.data.error.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+            return false;
+          } else {
+            this.responseData = res.data.data.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+          }
+        })
+        .catch(err => {
+          this.responseData = JSON.stringify(err);
+          this.showSnackbar = true;
+        })
         .finally(() => {
           this.loader = false;
         });

@@ -260,7 +260,6 @@ export default {
       date_start: {
         required,
         installed_data_validator(value) {
-          console.log(value);
           return new Date(value) >= this.$data.installedDate;
         },
       },
@@ -293,33 +292,50 @@ export default {
       this.loader = true;
       Axios.get(statusUrl)
         .then(res => {
-          this.installedDate = new Date(res.data.data.install_date);
-          this.tier_id = res.data.data.tier_id;
-          Axios.get(url)
-            .then(res => {
-              if (res.data.error) {
-                console.log(res.data.message);
-                this.responseData = res.data.error.message;
-                if (this.responseData.length > 0) {
+          console.log(`Tiers/settings ${JSON.stringify(res)}`);
+          if (res.data.error && res.data.error == 1) {
+            this.responseData = res.data.error.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+            return false;
+          } else {
+            this.responseData = res.data.data.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+            this.installedDate = new Date(res.data.data.install_date);
+            this.tier_id = res.data.data.tier_id;
+            Axios.get(url)
+              .then(res => {
+                console.log(`Tiers/Setupvip ${res}`);
+                if (res.data.error && res.data.error == 1) {
+                  this.responseData = res.data.error.message;
+                  if (this.responseData && this.responseData.length > 0) {
+                    this.showSnackbar = true;
+                  }
+                  return false;
+                } else {
+                  this.responseData = res.data.data.message;
+                  if (this.responseData && this.responseData.length > 0) {
+                    this.showSnackbar = true;
+                  }
+                  this.updateFormData(res.data.data);
+                }
+              })
+              .catch(err => {
+                {
+                  this.responseData = JSON.stringify(err);
                   this.showSnackbar = true;
                 }
-                return false;
-              } else {
-                this.responseData = res.data.data.message;
-                if (this.responseData.length > 0) {
-                  this.showSnackbar = true;
-                }
-                this.updateFormData(res.data.data);
-              }
-            })
-            .catch(err => {
-              console.log(err);
-            })
-            .finally(() => {
-              this.loader = false;
-            });
+              })
+              .finally(() => {
+                this.loader = false;
+              });
+          }
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          this.responseData = JSON.stringify(err);
+          this.showSnackbar = true;
+        })
         .finally(() => {
           // this.loader = false;
         });
@@ -328,9 +344,6 @@ export default {
   methods: {
     gotoManageTier() {
       this.validateUser();
-      if (this.userSaved) {
-        console.log("from goto ", this.$v.form.title);
-      }
     },
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
@@ -350,14 +363,12 @@ export default {
       };
       this.showConfirmPopup = true;
     },
-    confirmClicked(eve) {
-      console.log(eve);
+    confirmClicked() {
       this.showConfirmPopup = false;
       this.clearForm();
       this.$router.push("/view/tiers/home");
     },
-    cancelClicked(eve) {
-      console.log(eve);
+    cancelClicked() {
       this.showConfirmPopup = false;
     },
     clearForm() {
@@ -378,11 +389,24 @@ export default {
         this.loader = true;
         Axios.post(url, returnData)
           .then(res => {
-            console.log("response from server", res.data.data);
-            this.$router.push("/view/tiers/manage-tier");
+            console.log(`Tiers/Setupvip ${JSON.stringify(res)}`);
+            if (res.data.error && res.data.error == 1) {
+              this.responseData = res.data.error.message;
+              if (this.responseData && this.responseData.length > 0) {
+                this.showSnackbar = true;
+              }
+              return false;
+            } else {
+              this.responseData = res.data.data.message;
+              if (this.responseData && this.responseData.length > 0) {
+                this.showSnackbar = true;
+              }
+              this.$router.push("/view/tiers/manage-tier");
+            }
           })
           .catch(err => {
-            console.log(err);
+            this.responseData = JSON.stringify(err);
+            this.showSnackbar = true;
           })
           .finally(() => {
             this.loader = false;
@@ -392,24 +416,23 @@ export default {
         this.loader = true;
         Axios.put(url, returnData)
           .then(res => {
-            if (res.data.error) {
-              console.log(res.data.message);
+            if (res.data.error && res.data.error == 1) {
               this.responseData = res.data.error.message;
-              if (this.responseData.length > 0) {
+              if (this.responseData && this.responseData.length > 0) {
                 this.showSnackbar = true;
               }
               return false;
             } else {
               this.responseData = res.data.data.message;
-              if (this.responseData.length > 0) {
+              if (this.responseData && this.responseData.length > 0) {
                 this.showSnackbar = true;
               }
-              console.log("response from server", res.data.data);
               this.$router.push("/view/tiers/manage-tier");
             }
           })
           .catch(err => {
-            console.log(err);
+            this.responseData = JSON.stringify(err);
+            this.showSnackbar = true;
           })
           .finally(() => {
             this.loader = false;

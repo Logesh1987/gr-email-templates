@@ -100,34 +100,42 @@ export default {
     const statusUrl = this.getApiUrl("Tiers/Viptierstatus");
     Axios.get(statusUrl)
       .then(res => {
-        console.log(res);
-        this.tierStatus = res.data.data.status;
+        console.log(`Tiers/Viptierstatus ${JSON.stringify(res)}`);
+        if (res.data.error && res.data.error == 1) {
+          this.responseData = res.data.error.message;
+          this.showSnackbar = this.responseData && this.responseData.length > 0;
+          return false;
+        } else {
+          this.responseData = res.data.data.message;
+          this.showSnackbar = this.responseData && this.responseData.length > 0;
+          this.tierStatus = res.data.data.status;
+        }
       })
-      .catch(err => err)
+      .catch(err => {
+        this.responseData = JSON.stringify(err);
+        this.showSnackbar = true;
+      })
       .finally(() => {
         this.loader = false;
       });
     const url = this.getApiUrl("Tiers/Managetiers");
     Axios.get(url)
       .then(res => {
-        if (res.data.error) {
-          console.log(res.data.message);
+        console.log(`Tiers/Managetiers ${JSON.stringify(res)}`);
+        if (res.data.error && res.data.error == 1) {
           this.responseData = res.data.error.message;
-          if (this.responseData.length > 0) {
-            this.showSnackbar = true;
-          }
+          this.showSnackbar = this.responseData && this.responseData.length > 0;
           return false;
         } else {
           this.responseData = res.data.data.message;
-          console.log(res.data.data);
+          console.log(this.responseData);
           this.tierData = res.data.data;
-          if (this.responseData.length > 0) {
-            this.showSnackbar = true;
-          }
+          this.showSnackbar = this.responseData && this.responseData.length > 0;
         }
       })
       .catch(err => {
-        console.log("error", err);
+        this.responseData = JSON.stringify(err);
+        this.showSnackbar = true;
       })
       .finally(() => {
         this.loader = false;
@@ -138,17 +146,15 @@ export default {
       return this.tierStatus ? "Active" : "Inactive";
     },
     gotoEditTier(obj) {
-      console.log("from edit tier fn=======", obj);
       this.currentTierId = obj.data.id;
       this.$router.push("/view/tiers/edit-tier/" + this.currentTierId);
     },
     confirmDelete(obj) {
-      console.log(obj);
       this.popupConfig = {
         title: "Confirm!",
         content: "Are you sure, you want to delete the tier?",
-        confirmText: "Agree",
-        cancelText: "Disagree",
+        confirmText: "OK",
+        cancelText: "Cancel",
         id: "deleteTierPopup",
         params: obj,
       };
@@ -159,35 +165,51 @@ export default {
       const url = this.getApiUrl(`Tiers/Managetiers/${obj.data.id}`);
       Axios.delete(url)
         .then(res => {
-          console.log(res);
-          this.loader = true;
-          const manageUrl = this.getApiUrl("Tiers/Managetiers");
-          Axios.get(manageUrl)
-            .then(res => {
-              if (res.data.error) {
-                console.log(res.data.message);
-                this.responseData = res.data.error.message;
-                if (this.responseData.length > 0) {
-                  this.showSnackbar = true;
+          console.log(
+            `Tiers/Managetiers/${obj.data.id} ${JSON.stringify(res)}`
+          );
+          if (res.data.error && res.data.error == 1) {
+            this.responseData = res.data.error.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+            return false;
+          } else {
+            this.responseData = res.data.data.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+            this.loader = true;
+            const manageUrl = this.getApiUrl("Tiers/Managetiers");
+            Axios.get(manageUrl)
+              .then(res => {
+                console.log(`Tiers/Managetiers ${JSON.stringify(res)}`);
+                if (res.data.error && res.data.error == 1) {
+                  this.responseData = res.data.error.message;
+                  if (this.responseData && this.responseData.length > 0) {
+                    this.showSnackbar = true;
+                  }
+                  return false;
+                } else {
+                  this.responseData = res.data.data.message;
+                  console.log(this.responseData);
+                  if (this.responseData && this.responseData.length > 0) {
+                    this.showSnackbar = true;
+                  }
+                  this.tierData = res.data.data;
                 }
-                return false;
-              } else {
-                this.responseData = res.data.data.message;
-                console.log(res);
-                if (this.responseData.length > 0) {
-                  this.showSnackbar = true;
-                }
-                this.tierData = res.data.data;
-              }
-            })
-            .catch(err => {
-              console.log("error", err);
-            })
-            .finally(() => {
-              this.loader = false;
-            });
+              })
+              .catch(err => {
+                this.responseData = JSON.stringify(err);
+                this.showSnackbar = true;
+              })
+              .finally(() => {
+                this.loader = false;
+              });
+          }
         })
-        .catch(err => err)
+        .catch(err => {
+          this.responseData = JSON.stringify(err);
+          this.showSnackbar = true;
+        })
         .finally(() => {
           this.loader = false;
         });
@@ -216,29 +238,28 @@ export default {
       const statusUrl = this.getApiUrl("Tiers/Viptierstatus");
       Axios.post(statusUrl, { status: this.tierStatus ? 1 : 0 })
         .then(res => {
-          if (res.data.error) {
-            console.log(res.data.message);
+          console.log(`Tiers/Viptierstatus ${JSON.stringify(res)}`);
+          if (res.data.error && res.data.error == 1) {
             this.responseData = res.data.error.message;
-            if (this.responseData.length > 0) {
-              this.showSnackbar = true;
-            }
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
             return false;
           } else {
             this.responseData = res.data.data.message;
-            if (this.responseData.length > 0) {
-              this.showSnackbar = true;
-            }
-            console.log(res);
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
             this.getTierStatus();
           }
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          this.responseData = JSON.stringify(err);
+          this.showSnackbar = true;
+        })
         .finally(() => {
           this.loader = false;
         });
     },
     confirmClicked(eve) {
-      console.log(eve);
       this.showConfirmPopup = false;
       switch (eve.id) {
         case "deleteTierPopup":
@@ -252,7 +273,6 @@ export default {
       }
     },
     cancelClicked(eve) {
-      console.log(eve);
       this.showConfirmPopup = false;
       switch (eve.id) {
         case "deleteTierPopup":

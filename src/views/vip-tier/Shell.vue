@@ -25,7 +25,6 @@ export default {
     };
   },
   mounted() {
-    console.log("Shell ========== ", this.$route);
     const urlName = this.$route.name;
     this.toggleBanner(urlName);
   },

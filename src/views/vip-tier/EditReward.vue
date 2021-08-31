@@ -171,10 +171,21 @@ export default {
     const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
     Axios.get(url)
       .then(res => {
-        console.log(res);
-        this.updateFormData(res);
+        console.log(`Tiers/Rewards/${currentRewardId} ${JSON.stringify(res)}`);
+        if (res.data.error && res.data.error == 1) {
+          this.responseData = res.data.error.message;
+          this.showSnackbar = this.responseData && this.responseData.length > 0;
+          return false;
+        } else {
+          this.responseData = res.data.data.message;
+          this.showSnackbar = this.responseData && this.responseData.length > 0;
+          this.updateFormData(res);
+        }
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        this.responseData = JSON.stringify(err);
+        this.showSnackbar = true;
+      })
       .finally(() => {
         this.loader = false;
       });
@@ -220,12 +231,28 @@ export default {
       const returnData = this.getFormData();
       this.userSaved = true;
       this.sending = false;
-      console.log(returnData);
       const currentRewardId = this.$route.params.currentRewardId;
       const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
       Axios.put(url, returnData)
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
+        .then(res => {
+          console.log(
+            `Tiers/Rewards/${currentRewardId} ${JSON.stringify(res)}`
+          );
+          if (res.data.error && res.data.error == 1) {
+            this.responseData = res.data.error.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+            return false;
+          } else {
+            this.responseData = res.data.data.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+          }
+        })
+        .catch(err => {
+          this.responseData = JSON.stringify(err);
+          this.showSnackbar = true;
+        })
         .finally(() => {
           this.loader = false;
         });

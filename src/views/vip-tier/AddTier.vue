@@ -200,32 +200,26 @@ export default {
       this.sending = false;
       this.loader = true;
       const url = this.getApiUrl("Tiers/Managetiers");
-      console.log("checking....");
       Axios.post(url, returnData)
         .then(res => {
-          if (res.data.error) {
-            console.log(res.data.message);
+          if (res.data.error && res.data.error == 1) {
             this.responseData = res.data.error.message;
-            if (this.responseData.length > 0) {
-              this.showSnackbar = true;
-            }
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
             return false;
           } else {
             this.responseData = res.data.data.message;
             this.$router.push("/view/tiers/manage-tier");
-            if (this.responseData.length > 0) {
-              this.showSnackbar = true;
-            }
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
           }
         })
         .catch(err => err)
         .finally(() => {
           this.loader = false;
         });
-      console.log(returnData);
     },
     selectedFile(file) {
-      console.log(file);
       if (file.length > 0) {
         this.existingFile = file[0];
       }
@@ -242,10 +236,25 @@ export default {
       const imgUploadUrl = this.getApiUrl("S3Uploader/tier");
       Axios.post(imgUploadUrl, formData)
         .then(res => {
-          const imageUrl = this.getImgUrl(res.data.img_name);
-          this.form.icon = imageUrl;
+          console.log("S3Uploader/tier", JSON.stringify(res));
+          if (res.data.error && res.data.error == 1) {
+            this.file = this.existingFile ? this.existingFile : null;
+            this.responseData = res.data.msg;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+            return false;
+          } else {
+            this.responseData = res.data.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+            const imageUrl = this.getImgUrl(res.data.img_name);
+            this.form.icon = imageUrl;
+          }
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          this.responseData = JSON.stringify(err);
+          this.showSnackbar = true;
+        })
         .finally(() => {
           this.loader = false;
         });

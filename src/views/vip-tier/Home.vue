@@ -115,15 +115,24 @@ export default {
     const url = this.getApiUrl("Tiers/settings");
     Axios.get(url)
       .then(res => {
-        this.isNewUser = res.data.data.tier_id == null ? true : false;
-        // this.accordionData = this.isNewUser
-        //   ? this.newUserListData
-        //   : this.existingUserListData;
-        if (!this.isNewUser) {
-          this.$router.push("/view/tiers/manage-tier");
+        console.log(`Tiers/settings ${JSON.stringify(res)}`);
+        if (res.data.error && res.data.error == 1) {
+          this.responseData = res.data.error.message;
+          this.showSnackbar = this.responseData && this.responseData.length > 0;
+          return false;
+        } else {
+          this.responseData = res.data.data.message;
+          this.showSnackbar = this.responseData && this.responseData.length > 0;
+          this.isNewUser = res.data.data.tier_id == null ? true : false;
+          if (!this.isNewUser) {
+            this.$router.push("/view/tiers/manage-tier");
+          }
         }
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        this.responseData = JSON.stringify(err);
+        this.showSnackbar = true;
+      })
       .finally(() => {
         this.loader = false;
       });

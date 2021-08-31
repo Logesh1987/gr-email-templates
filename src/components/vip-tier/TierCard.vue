@@ -80,11 +80,9 @@ export default {
       return require("./../../assets/vip-tier/images/" + image);
     },
     editTier(eve, data) {
-      console.log("editClicked", data);
       this.$emit("editClicked", { context: this, data: data, eventObj: eve });
     },
     editTierIcon(eve, data) {
-      console.log("editIconClicked", data);
       this.$emit("editTierIconClicked", {
         context: this,
         data: data,
@@ -92,7 +90,6 @@ export default {
       });
     },
     deleteTier(eve, data) {
-      console.log("deleteClicked", data);
       this.$emit("deleteClicked", { context: this, data: data, eventObj: eve });
     },
     getTierClass(title) {
