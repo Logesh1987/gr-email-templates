@@ -47,7 +47,7 @@
             {{ benefit.description }}
           </li>
           <li v-if="tierData.rewards.length == 0">
-            NA
+            Rewards yet to be added!!!
           </li>
         </ul>
       </div>
