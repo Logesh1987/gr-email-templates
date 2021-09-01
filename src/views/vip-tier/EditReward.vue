@@ -172,7 +172,7 @@ export default {
     Axios.get(url)
       .then(res => {
         console.log(`Tiers/Rewards/${currentRewardId} ${JSON.stringify(res)}`);
-        if (res.data.error && res.data.error == 1) {
+        if (res.data.error) {
           this.responseData = res.data.error.message;
           this.showSnackbar = this.responseData && this.responseData.length > 0;
           return false;
@@ -183,7 +183,8 @@ export default {
         }
       })
       .catch(err => {
-        this.responseData = JSON.stringify(err);
+        console.log(err);
+        this.responseData = err;
         this.showSnackbar = true;
       })
       .finally(() => {
@@ -238,7 +239,7 @@ export default {
           console.log(
             `Tiers/Rewards/${currentRewardId} ${JSON.stringify(res)}`
           );
-          if (res.data.error && res.data.error == 1) {
+          if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
               this.responseData && this.responseData.length > 0;
@@ -250,7 +251,8 @@ export default {
           }
         })
         .catch(err => {
-          this.responseData = JSON.stringify(err);
+          console.log(err);
+          this.responseData = err;
           this.showSnackbar = true;
         })
         .finally(() => {

@@ -6,7 +6,7 @@
         <h2>Manage Tiers</h2>
         <div class="amvip--inlineFlex">
           <router-link to="/view/tiers/editProgram" class="homeLink"
-            >Edit Program</router-link
+            >Edit program</router-link
           >
           <button class="amvip--btnCommon" @click="gotoAddTier">
             <span class="icon-plus"></span> <span>Add Tier</span>
@@ -101,18 +101,22 @@ export default {
     Axios.get(statusUrl)
       .then(res => {
         console.log(`Tiers/Viptierstatus ${JSON.stringify(res)}`);
-        if (res.data.error && res.data.error == 1) {
+        if (res.data.error) {
           this.responseData = res.data.error.message;
           this.showSnackbar = this.responseData && this.responseData.length > 0;
           return false;
         } else {
-          this.responseData = res.data.data.message;
-          this.showSnackbar = this.responseData && this.responseData.length > 0;
+          if (res.data.data.message != undefined) {
+            this.responseData = res.data.data.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+          }
           this.tierStatus = res.data.data.status;
         }
       })
       .catch(err => {
-        this.responseData = JSON.stringify(err);
+        console.log(err);
+        this.responseData = err;
         this.showSnackbar = true;
       })
       .finally(() => {
@@ -122,19 +126,23 @@ export default {
     Axios.get(url)
       .then(res => {
         console.log(`Tiers/Managetiers ${JSON.stringify(res)}`);
-        if (res.data.error && res.data.error == 1) {
+        if (res.data.error) {
           this.responseData = res.data.error.message;
           this.showSnackbar = this.responseData && this.responseData.length > 0;
           return false;
         } else {
-          this.responseData = res.data.data.message;
+          if (res.data.data.message != undefined) {
+            this.responseData = res.data.data.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+          }
           console.log(this.responseData);
           this.tierData = res.data.data;
-          this.showSnackbar = this.responseData && this.responseData.length > 0;
         }
       })
       .catch(err => {
-        this.responseData = JSON.stringify(err);
+        console.log(err);
+        this.responseData = err;
         this.showSnackbar = true;
       })
       .finally(() => {
@@ -168,37 +176,41 @@ export default {
           console.log(
             `Tiers/Managetiers/${obj.data.id} ${JSON.stringify(res)}`
           );
-          if (res.data.error && res.data.error == 1) {
+          if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
               this.responseData && this.responseData.length > 0;
             return false;
           } else {
-            this.responseData = res.data.data.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
+            if (res.data.data.message != undefined) {
+              this.responseData = res.data.data.message;
+              this.showSnackbar =
+                this.responseData && this.responseData.length > 0;
+            }
             this.loader = true;
             const manageUrl = this.getApiUrl("Tiers/Managetiers");
             Axios.get(manageUrl)
               .then(res => {
                 console.log(`Tiers/Managetiers ${JSON.stringify(res)}`);
-                if (res.data.error && res.data.error == 1) {
+                if (res.data.error) {
                   this.responseData = res.data.error.message;
                   if (this.responseData && this.responseData.length > 0) {
                     this.showSnackbar = true;
                   }
                   return false;
                 } else {
-                  this.responseData = res.data.data.message;
-                  console.log(this.responseData);
-                  if (this.responseData && this.responseData.length > 0) {
-                    this.showSnackbar = true;
+                  if (res.data.data.message != undefined) {
+                    this.responseData = res.data.data.message;
+                    if (this.responseData && this.responseData.length > 0) {
+                      this.showSnackbar = true;
+                    }
                   }
                   this.tierData = res.data.data;
                 }
               })
               .catch(err => {
-                this.responseData = JSON.stringify(err);
+                console.log(err);
+                this.responseData = err;
                 this.showSnackbar = true;
               })
               .finally(() => {
@@ -207,7 +219,8 @@ export default {
           }
         })
         .catch(err => {
-          this.responseData = JSON.stringify(err);
+          console.log(err);
+          this.responseData = err;
           this.showSnackbar = true;
         })
         .finally(() => {
@@ -239,20 +252,23 @@ export default {
       Axios.post(statusUrl, { status: this.tierStatus ? 1 : 0 })
         .then(res => {
           console.log(`Tiers/Viptierstatus ${JSON.stringify(res)}`);
-          if (res.data.error && res.data.error == 1) {
+          if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
               this.responseData && this.responseData.length > 0;
             return false;
           } else {
-            this.responseData = res.data.data.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
+            if (res.data.data.message != undefined) {
+              this.responseData = res.data.data.message;
+              this.showSnackbar =
+                this.responseData && this.responseData.length > 0;
+            }
             this.getTierStatus();
           }
         })
         .catch(err => {
-          this.responseData = JSON.stringify(err);
+          console.log(err);
+          this.responseData = err;
           this.showSnackbar = true;
         })
         .finally(() => {

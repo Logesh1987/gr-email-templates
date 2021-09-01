@@ -68,7 +68,7 @@
                 Points needed field is required
               </span>
               <span class="md-error" v-else-if="!$v.form.goal.customMinValue">
-                Minimum value of point needed would be 3
+                Minimum value of point needed would be 25
               </span>
             </md-field>
           </div>
@@ -156,7 +156,7 @@
 </style>
 <script>
 import { validationMixin } from "vuelidate";
-import { required, minLength, minValue } from "vuelidate/lib/validators";
+import { required, minLength } from "vuelidate/lib/validators";
 import ColorPicker from "./../../components/ColorPicker.vue";
 import VipRewardCard from "./../../components/vip-tier/RewardCard.vue";
 import Loader from "./../../components/Loader.vue";
@@ -199,8 +199,7 @@ export default {
       goal: {
         required,
         customMinValue(value) {
-          console.log(value);
-          return this.tierData.default === "Y" ? minValue(0) : minValue(25);
+          return this.tierData.default === "Y" ? value >= 0 : value >= 25;
         },
       },
     },
@@ -211,37 +210,52 @@ export default {
       this.currentTierId = this.$route.params.currentTierId;
       const url = this.getApiUrl("Tiers/Managetiers/" + this.currentTierId);
       Axios.get(url)
+        .catch(err => {
+          console.log(err);
+          this.responseData = err;
+          this.showSnackbar = true;
+        })
         .then(async res => {
           console.log(
             `Tiers/Managetiers/${this.currentTierId} ${JSON.stringify(res)}`
           );
-          if (res.data.error && res.data.error == 1) {
+          if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
               this.responseData && this.responseData.length > 0;
             return false;
           } else {
-            this.responseData = res.data.data.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
+            console.log(res.data.data.message);
+            if (res.data.data.message != undefined) {
+              this.responseData = res.data.data.message;
+              this.showSnackbar =
+                this.responseData && this.responseData.length > 0;
+            }
             this.tierData = res.data.data[0];
             this.icon = res.data.data[0].icon;
             if (this.icon.length > 0) {
-              const blobData = await fetch(this.icon).then(res => res.blob);
-              this.existingFile = new File([blobData], res.data.data[0].name);
-              this.$refs.fileUpload.value = res.data.data[0].name;
+              try {
+                const blobData = await fetch(this.icon)
+                  .then(blobRes => blobRes.blob)
+                  .catch(blobErr => {
+                    console.log(blobErr);
+                    this.responseData = blobErr;
+                    this.showSnackbar = true;
+                  });
+                this.existingFile = new File([blobData], res.data.data[0].name);
+                this.$refs.fileUpload.value = res.data.data[0].name;
+              } catch (error) {
+                console.log(error);
+                this.responseData = error;
+                this.showSnackbar = true;
+              }
             }
             this.updateFormData(res.data.data[0]);
             this.rewardData =
               res.data.data[0]?.rewards?.length > 0
-                ? res.data.data[0].rewards
+                ? JSON.parse(res.data.data[0].rewards)
                 : [];
-            this.rewardData = JSON.parse(this.rewardData);
           }
-        })
-        .catch(err => {
-          this.responseData = JSON.stringify(err);
-          this.showSnackbar = true;
         })
         .finally(() => {
           this.loader = false;
@@ -267,6 +281,11 @@ export default {
       this.loader = true;
       const imgUploadUrl = this.getApiUrl("S3Uploader/tier");
       Axios.post(imgUploadUrl, formData)
+        .catch(err => {
+          console.log(err);
+          this.responseData = err;
+          this.showSnackbar = true;
+        })
         .then(res => {
           console.log("S3Uploader/tier  ", JSON.stringify(res));
           if (res.data.error && res.data.error == 1) {
@@ -276,17 +295,15 @@ export default {
               this.responseData && this.responseData.length > 0;
             return false;
           } else {
-            this.responseData = res.data.message;
-            console.log(res);
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
+            console.log(res.data.img_name);
+            if (res.data.message != undefined) {
+              this.responseData = res.data.message;
+              this.showSnackbar =
+                this.responseData && this.responseData.length > 0;
+            }
             const imageUrl = this.getImgUrl(res.data.img_name);
             this.form.icon = imageUrl;
           }
-        })
-        .catch(err => {
-          this.responseData = JSON.stringify(err);
-          this.showSnackbar = true;
         })
         .finally(() => {
           this.loader = false;
@@ -320,31 +337,33 @@ export default {
       this.loader = true;
       const url = this.getApiUrl("Tiers/Managetiers/" + this.currentTierId);
       Axios.put(url, this.form)
+        .catch(err => {
+          console.log(err);
+          this.responseData = err;
+          this.showSnackbar = true;
+        })
         .then(res => {
-          console.log(
-            `Tiers/Managetiers/${this.currentTierId} ${JSON.stringify(res)}`
-          );
-          if (res.data.error && res.data.error == 1) {
+          console.log(JSON.stringify(res));
+          if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
               this.responseData && this.responseData.length > 0;
             return false;
           } else {
-            this.responseData = res.data.data.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
+            if (res.data.data.message != undefined) {
+              this.responseData = res.data.data.message;
+              this.showSnackbar =
+                this.responseData && this.responseData.length > 0;
+            }
+            this.$router.push("/view/tiers/manage-tier");
           }
-        })
-        .catch(err => {
-          this.responseData = JSON.stringify(err);
-          this.showSnackbar = true;
         })
         .finally(() => {
           this.loader = false;
         });
       this.userSaved = true;
       this.sending = false;
-      this.$router.push("/view/tiers/manage-tier");
+      // this.$router.push("/view/tiers/manage-tier");
     },
     updateFormData(data) {
       this.form.name = data.name;
@@ -385,26 +404,29 @@ export default {
       const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
       this.loader = true;
       Axios.delete(url)
+        .catch(err => {
+          console.log(err);
+          this.responseData = err;
+          this.showSnackbar = true;
+        })
         .then(res => {
           console.log(
             `Tiers/Rewards/${currentRewardId} ${JSON.stringify(res)}`
           );
-          if (res.data.error && res.data.error == 1) {
+          if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
               this.responseData && this.responseData.length > 0;
             return false;
           } else {
-            this.responseData = res.data.data.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
+            if (res.data.data.message != undefined) {
+              this.responseData = res.data.data.message;
+              this.showSnackbar =
+                this.responseData && this.responseData.length > 0;
+            }
             console.log(res);
             this.renderData();
           }
-        })
-        .catch(err => {
-          this.responseData = JSON.stringify(err);
-          this.showSnackbar = true;
         })
         .finally(() => {
           this.loader = false;

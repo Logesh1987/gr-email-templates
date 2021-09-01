@@ -66,7 +66,7 @@
               Points needed field is required
             </span>
             <span class="md-error" v-else-if="!$v.form.goal.minLenght">
-              Minimum value of point needed would be 50
+              Minimum value of point needed would be 25
             </span>
           </md-field>
         </div>
@@ -167,7 +167,7 @@ export default {
       icon: {
         required,
       },
-      goal: { required, minValue: minValue(3) },
+      goal: { required, minValue: minValue(25) },
     },
   },
   methods: {
@@ -194,7 +194,6 @@ export default {
       if (!this.validate()) {
         return false;
       }
-      this.sending = true;
       const returnData = this.getFormData();
       this.userSaved = true;
       this.sending = false;
@@ -202,19 +201,25 @@ export default {
       const url = this.getApiUrl("Tiers/Managetiers");
       Axios.post(url, returnData)
         .then(res => {
-          if (res.data.error && res.data.error == 1) {
+          if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
               this.responseData && this.responseData.length > 0;
             return false;
           } else {
-            this.responseData = res.data.data.message;
+            if (res.data.data.message != undefined) {
+              this.responseData = res.data.data.message;
+              this.showSnackbar =
+                this.responseData && this.responseData.length > 0;
+            }
             this.$router.push("/view/tiers/manage-tier");
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
           }
         })
-        .catch(err => err)
+        .catch(err => {
+          console.log(err);
+          this.responseData = err;
+          this.showSnackbar = true;
+        })
         .finally(() => {
           this.loader = false;
         });
@@ -244,15 +249,18 @@ export default {
               this.responseData && this.responseData.length > 0;
             return false;
           } else {
-            this.responseData = res.data.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
+            if (res.data.message != undefined) {
+              this.responseData = res.data.message;
+              this.showSnackbar =
+                this.responseData && this.responseData.length > 0;
+            }
             const imageUrl = this.getImgUrl(res.data.img_name);
             this.form.icon = imageUrl;
           }
         })
         .catch(err => {
-          this.responseData = JSON.stringify(err);
+          console.log(err);
+          this.responseData = err;
           this.showSnackbar = true;
         })
         .finally(() => {

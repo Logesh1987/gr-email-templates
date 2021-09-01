@@ -293,39 +293,42 @@ export default {
       Axios.get(statusUrl)
         .then(res => {
           console.log(`Tiers/settings ${JSON.stringify(res)}`);
-          if (res.data.error && res.data.error == 1) {
+          if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
               this.responseData && this.responseData.length > 0;
             return false;
           } else {
-            this.responseData = res.data.data.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
+            if (res.data.data.message != undefined) {
+              this.responseData = res.data.data.message;
+              this.showSnackbar =
+                this.responseData && this.responseData.length > 0;
+            }
             this.installedDate = new Date(res.data.data.install_date);
             this.tier_id = res.data.data.tier_id;
             Axios.get(url)
               .then(res => {
-                console.log(`Tiers/Setupvip ${res}`);
-                if (res.data.error && res.data.error == 1) {
+                console.log(`Tiers/Setupvip ${JSON.stringify(res)}`);
+                if (res.data.error) {
                   this.responseData = res.data.error.message;
                   if (this.responseData && this.responseData.length > 0) {
                     this.showSnackbar = true;
                   }
                   return false;
                 } else {
-                  this.responseData = res.data.data.message;
-                  if (this.responseData && this.responseData.length > 0) {
-                    this.showSnackbar = true;
+                  if (res.data.data.message != undefined) {
+                    this.responseData = res.data.data.message;
+                    if (this.responseData && this.responseData.length > 0) {
+                      this.showSnackbar = true;
+                    }
                   }
                   this.updateFormData(res.data.data);
                 }
               })
               .catch(err => {
-                {
-                  this.responseData = JSON.stringify(err);
-                  this.showSnackbar = true;
-                }
+                console.log(err);
+                this.responseData = err;
+                this.showSnackbar = true;
               })
               .finally(() => {
                 this.loader = false;
@@ -333,7 +336,8 @@ export default {
           }
         })
         .catch(err => {
-          this.responseData = JSON.stringify(err);
+          console.log(err);
+          this.responseData = err;
           this.showSnackbar = true;
         })
         .finally(() => {
@@ -390,22 +394,25 @@ export default {
         Axios.post(url, returnData)
           .then(res => {
             console.log(`Tiers/Setupvip ${JSON.stringify(res)}`);
-            if (res.data.error && res.data.error == 1) {
+            if (res.data.error) {
               this.responseData = res.data.error.message;
               if (this.responseData && this.responseData.length > 0) {
                 this.showSnackbar = true;
               }
               return false;
             } else {
-              this.responseData = res.data.data.message;
-              if (this.responseData && this.responseData.length > 0) {
-                this.showSnackbar = true;
+              if (res.data.data.message != undefined) {
+                this.responseData = res.data.data.message;
+                if (this.responseData && this.responseData.length > 0) {
+                  this.showSnackbar = true;
+                }
               }
               this.$router.push("/view/tiers/manage-tier");
             }
           })
           .catch(err => {
-            this.responseData = JSON.stringify(err);
+            console.log(err);
+            this.responseData = err;
             this.showSnackbar = true;
           })
           .finally(() => {
@@ -416,22 +423,25 @@ export default {
         this.loader = true;
         Axios.put(url, returnData)
           .then(res => {
-            if (res.data.error && res.data.error == 1) {
+            if (res.data.error) {
               this.responseData = res.data.error.message;
               if (this.responseData && this.responseData.length > 0) {
                 this.showSnackbar = true;
               }
               return false;
             } else {
-              this.responseData = res.data.data.message;
-              if (this.responseData && this.responseData.length > 0) {
-                this.showSnackbar = true;
+              if (res.data.data.message != undefined) {
+                this.responseData = res.data.data.message;
+                if (this.responseData && this.responseData.length > 0) {
+                  this.showSnackbar = true;
+                }
               }
               this.$router.push("/view/tiers/manage-tier");
             }
           })
           .catch(err => {
-            this.responseData = JSON.stringify(err);
+            console.log(err);
+            this.responseData = err;
             this.showSnackbar = true;
           })
           .finally(() => {

@@ -213,7 +213,7 @@ export default {
       Axios.post(url, returnData)
         .then(res => {
           console.log("Tiers/Rewards/", JSON.stringify(res));
-          if (res.data.error && res.data.error == 1) {
+          if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
               this.responseData && this.responseData.length > 0;
@@ -225,7 +225,8 @@ export default {
           }
         })
         .catch(err => {
-          this.responseData = JSON.stringify(err);
+          console.log(err);
+          this.responseData = err;
           this.showSnackbar = true;
         })
         .finally(() => {

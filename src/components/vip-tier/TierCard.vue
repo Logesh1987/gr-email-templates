@@ -31,7 +31,10 @@
           ></span>
         </div>
       </header>
-      <div class="amvip--tierDetails" v-if="tierData.default !== 'Y'">
+      <div
+        class="amvip--tierDetails"
+        v-if="tierData.default !== 'Y' || tierData.goal !== 0"
+      >
         <h4>Eligibility</h4>
         <ul class="amvip--bulletList">
           <li>
