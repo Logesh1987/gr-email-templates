@@ -1,7 +1,7 @@
 <template>
   <div class="amvip-rewardItem">
     <img
-      v-if="rewardData.reward_icon.length > 0"
+      v-if="rewardData.reward_icon && rewardData.reward_icon.length > 0"
       :src="getImgUrl(rewardData.reward_icon)"
       alt="rewardData.reward_icon"
     /><span>{{ rewardData.name }}</span>

@@ -7,11 +7,20 @@
       </hgroup>
       <div class="amvip--tabs">
         <div class="amvip--tabHeader">
-          <input type="hidden" name="type" id="type" value="1" />
-          <div class="amvip--tabTitle active" data-value="1">
+          <div
+            class="amvip--tabTitle"
+            v-bind:class="form.type == 'onetime' ? 'active' : ''"
+            data-value="onetime"
+          >
             One time reward
           </div>
-          <div class="amvip--tabTitle" data-value="2">On going reward</div>
+          <div
+            class="amvip--tabTitle"
+            v-bind:class="form.type == 'ongoing' ? 'active' : ''"
+            data-value="ongoing"
+          >
+            On going reward
+          </div>
         </div>
         <div class="amvip--tabContent">
           <div class="amvip--rewardRadio">
@@ -137,11 +146,17 @@ export default {
   components: { Loader },
   data: () => ({
     form: {
-      rewardType: null,
       name: null,
       description: null,
+      type: "ongoing",
+      rewardtype: null,
+      couponamount: null,
+      minspend: null,
+      coupon_type: null,
+      expiry: null,
+      id_tier: null,
+      id_tier_list: null,
       coupon: "0",
-      type: 1,
     },
     sending: false,
     loader: false,
@@ -163,25 +178,11 @@ export default {
     );
     tabButtons.forEach(element => {
       element.addEventListener("click", event => {
-        this.toggleActive(event.target);
+        this.form.type = event.target.getAttribute("data-value");
       });
     });
-    this.form.type = document.getElementById("type").value;
   },
   methods: {
-    toggleActive(currentElement) {
-      const tabButtons = document.querySelectorAll(
-        ".amvip-manageReward .amvip--tabTitle"
-      );
-      tabButtons.forEach(element => {
-        element.classList.remove("active");
-      });
-      currentElement.classList.add("active");
-      document.getElementById("type").value = currentElement.getAttribute(
-        "data-value"
-      );
-      this.form.type = currentElement.getAttribute("data-value");
-    },
     gotoManageTier() {
       this.$router.push("/view/tiers/edit-tier");
     },
@@ -205,12 +206,20 @@ export default {
       if (!this.validateData()) {
         return false;
       }
+      this.currentTierId = this.$route.params.currentTierId;
+      this.form.id_tier_list = this.currentTierId;
+      const url = this.getApiUrl("Tiers/Rewards/" + this.currentTierId);
       this.sending = true;
       const returnData = this.getFormData();
       this.userSaved = true;
       this.sending = false;
-      const url = this.getApiUrl("Tiers/Rewards/");
+      this.loader = true;
       Axios.post(url, returnData)
+        .catch(err => {
+          console.log(err);
+          this.responseData = err;
+          this.showSnackbar = true;
+        })
         .then(res => {
           console.log("Tiers/Rewards/", JSON.stringify(res));
           if (res.data.error) {
@@ -222,12 +231,8 @@ export default {
             this.responseData = res.data.data.message;
             this.showSnackbar =
               this.responseData && this.responseData.length > 0;
+            this.$router.push("/view/tiers/edit-tier/" + this.currentTierId);
           }
-        })
-        .catch(err => {
-          console.log(err);
-          this.responseData = err;
-          this.showSnackbar = true;
         })
         .finally(() => {
           this.loader = false;

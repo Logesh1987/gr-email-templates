@@ -73,7 +73,7 @@ const routes = [
         props: true,
       },
       {
-        path: "add-reward",
+        path: "add-reward/:currentTierId",
         name: "AddReward",
         component: AddReward,
         props: true,

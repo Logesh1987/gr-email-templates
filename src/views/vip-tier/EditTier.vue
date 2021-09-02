@@ -253,7 +253,7 @@ export default {
             this.updateFormData(res.data.data[0]);
             this.rewardData =
               res.data.data[0]?.rewards?.length > 0
-                ? JSON.parse(res.data.data[0].rewards)
+                ? res.data.data[0].rewards
                 : [];
           }
         })
@@ -313,7 +313,7 @@ export default {
       this.$router.push("/view/tiers/manage-tier");
     },
     gotoAddReward() {
-      this.$router.push("/view/tiers/add-reward");
+      this.$router.push(`/view/tiers/add-reward/${this.currentTierId}`);
     },
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
