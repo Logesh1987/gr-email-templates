@@ -14,12 +14,8 @@
     </div>
     <span
       class="amvip--rewardItemType"
-      :class="
-        rewardData.settings.rewardtype == RewardType.OnGoing
-          ? 'onGoing'
-          : 'oneTime'
-      "
-      >{{ rewardData.settings.rewardtype }}</span
+      :class="rewardData.is_onetime_ongoing == 2 ? 'onGoing' : 'oneTime'"
+      >{{ rewardData.is_onetime_ongoing == 2 ? "On Going" : "One Time" }}</span
     >
   </div>
 </template>

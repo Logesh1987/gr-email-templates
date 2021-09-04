@@ -156,16 +156,12 @@ export default {
       expiry: null,
       id_tier: null,
       id_tier_list: null,
-      coupon: "0",
     },
     sending: false,
     loader: false,
   }),
   validations: {
     form: {
-      rewardType: {
-        required,
-      },
       name: {
         required,
         minLength: minLength(3),

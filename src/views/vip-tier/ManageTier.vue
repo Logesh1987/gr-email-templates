@@ -34,7 +34,7 @@
           :isDeleteEnabled="tierObj.default !== 'Y'"
           v-on:editTierIconClicked="showIconPopup"
           v-on:editClicked="gotoEditTier"
-          v-on:deleteClicked="confirmDelete"
+          :deleteClicked="confirmDelete"
         ></VipTierCard>
       </section>
     </div>
@@ -152,6 +152,10 @@ export default {
   methods: {
     getTierStatus() {
       return this.tierStatus ? "Active" : "Inactive";
+    },
+    gotoEditReward(obj) {
+      const currentRewardId = obj.data.id_tier_rewards;
+      this.$router.push("/view/tiers/edit-reward/" + currentRewardId);
     },
     gotoEditTier(obj) {
       this.currentTierId = obj.data.id;

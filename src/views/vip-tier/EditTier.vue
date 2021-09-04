@@ -114,7 +114,7 @@
             v-for="rewardItem of rewardData"
             :key="rewardItem.index"
             @editClicked="editCurrentReward($event)"
-            @deleteClicked="deleteCurrentReward($event)"
+            @deleteClicked="confirmDeleteReward($event)"
           ></VipRewardCard>
         </div>
       </section>
@@ -132,6 +132,12 @@
     >
       <span>{{ responseData }}</span>
     </md-snackbar>
+    <ConfirmPopup
+      :showPopup="showConfirmPopup"
+      :popupConfig="popupConfig"
+      v-on:confirmed="confirmClicked($event)"
+      v-on:canceled="cancelClicked($event)"
+    ></ConfirmPopup>
   </div>
 </template>
 <style lang="less">
@@ -157,13 +163,14 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
-import ColorPicker from "./../../components/ColorPicker.vue";
-import VipRewardCard from "./../../components/vip-tier/RewardCard.vue";
-import Loader from "./../../components/Loader.vue";
+import ColorPicker from "./../../components/ColorPicker";
+import VipRewardCard from "./../../components/vip-tier/RewardCard";
+import Loader from "./../../components/Loader";
+import ConfirmPopup from "./ConfirmPopup";
 import Axios from "axios";
 export default {
   name: "EditTier",
-  components: { ColorPicker, VipRewardCard, Loader },
+  components: { ColorPicker, VipRewardCard, Loader, ConfirmPopup },
   mixins: [validationMixin],
   props: ["currentRewardId"],
   data: () => ({
@@ -175,6 +182,8 @@ export default {
       color: null,
       goal: null,
     },
+    showConfirmPopup: false,
+    popupConfig: {},
     rewardData: [],
     sending: false,
     currentTierId: null,
@@ -255,6 +264,9 @@ export default {
               res.data.data[0]?.rewards?.length > 0
                 ? res.data.data[0].rewards
                 : [];
+            if (this.rewardData.length > 0 && this.rewardData.settings) {
+              this.rewardData.settings = JSON.parse(this.rewardData.settings);
+            }
           }
         })
         .finally(() => {
@@ -397,7 +409,18 @@ export default {
     editCurrentReward(obj) {
       const currentRewardId = obj.data.id_tier_rewards;
       this.currentRewardId = currentRewardId;
-      this.$router.push("/view/tiers/manage-reward/" + currentRewardId);
+      this.$router.push("/view/tiers/edit-reward/" + currentRewardId);
+    },
+    confirmDeleteReward(obj) {
+      this.popupConfig = {
+        title: "Confirm!",
+        content: "Are you sure, you want to delete the reward?",
+        confirmText: "OK",
+        cancelText: "Cancel",
+        id: "deleteRewardPopup",
+        params: obj,
+      };
+      this.showConfirmPopup = true;
     },
     deleteCurrentReward(obj) {
       const currentRewardId = obj.data.id_tier_rewards;
@@ -424,13 +447,35 @@ export default {
               this.showSnackbar =
                 this.responseData && this.responseData.length > 0;
             }
-            console.log(res);
             this.renderData();
           }
         })
         .finally(() => {
           this.loader = false;
         });
+    },
+    confirmClicked(eve) {
+      this.showConfirmPopup = false;
+      switch (eve.id) {
+        case "deleteRewardPopup":
+          this.deleteCurrentReward(eve.params);
+          break;
+        default:
+          break;
+      }
+    },
+    cancelClicked(eve) {
+      this.showConfirmPopup = false;
+      switch (eve.id) {
+        case "deleteTierPopup":
+          break;
+        case "statusUpdatePopup":
+          this.tierStatus = !this.tierStatus;
+          this.getTierStatus();
+          break;
+        default:
+          break;
+      }
     },
   },
 };

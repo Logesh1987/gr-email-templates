@@ -7,11 +7,20 @@
       </hgroup>
       <div class="amvip--tabs">
         <div class="amvip--tabHeader">
-          <input type="hidden" name="type" id="type" value="1" />
-          <div class="amvip--tabTitle active" data-value="1">
+          <div
+            class="amvip--tabTitle"
+            v-bind:class="form.type == 'onetime' ? 'active' : ''"
+            data-value="onetime"
+          >
             One time reward
           </div>
-          <div class="amvip--tabTitle" data-value="2">On going reward</div>
+          <div
+            class="amvip--tabTitle"
+            v-bind:class="form.type == 'ongoing' ? 'active' : ''"
+            data-value="ongoing"
+          >
+            On going reward
+          </div>
         </div>
         <div class="amvip--tabContent">
           <div class="amvip--rewardRadio">
@@ -96,7 +105,7 @@
                   :disabled="sending"
                 >
                   <md-option value="0">Percentage off</md-option>
-                  <md-option value="1">Points1</md-option>
+                  <md-option value="1">points1</md-option>
                 </md-select>
               </md-field>
             </div>
@@ -132,25 +141,27 @@ import { required, minLength } from "vuelidate/lib/validators";
 import Loader from "./../../components/Loader";
 import Axios from "axios";
 export default {
-  name: "AddReward",
+  name: "EditReward",
   mixins: [validationMixin],
   components: { Loader },
   data: () => ({
     form: {
-      rewardType: null,
       name: null,
       description: null,
-      coupon: "0",
-      type: 1,
+      type: "ongoing",
+      rewardtype: null,
+      couponamount: null,
+      minspend: null,
+      coupon_type: null,
+      expiry: null,
+      id_tier: null,
+      id_tier_list: null,
     },
     sending: false,
     loader: false,
   }),
   validations: {
     form: {
-      rewardType: {
-        required,
-      },
       name: {
         required,
         minLength: minLength(3),
@@ -163,10 +174,9 @@ export default {
     );
     tabButtons.forEach(element => {
       element.addEventListener("click", event => {
-        this.toggleActive(event.target);
+        this.form.type = event.target.getAttribute("data-value");
       });
     });
-    this.form.type = document.getElementById("type").value;
     const currentRewardId = this.$route.params.currentRewardId;
     const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
     Axios.get(url)
@@ -179,7 +189,7 @@ export default {
         } else {
           this.responseData = res.data.data.message;
           this.showSnackbar = this.responseData && this.responseData.length > 0;
-          this.updateFormData(res);
+          this.updateFormData(res.data.data);
         }
       })
       .catch(err => {
@@ -218,11 +228,17 @@ export default {
     },
     clearForm() {
       this.$v.$reset();
-      this.form.rewardType = null;
       this.form.name = null;
       this.form.description = null;
-      this.form.coupon = null;
-      history.back();
+      this.form.type = null;
+      this.form.rewardtype = null;
+      this.form.couponamount = null;
+      this.form.minspend = null;
+      this.form.coupon_type = null;
+      this.form.expiry = null;
+      this.form.id_tier = null;
+      this.form.id_tier_list = null;
+      this.gotoManageTier();
     },
     saveRewardData() {
       if (!this.validateData()) {
@@ -267,11 +283,19 @@ export default {
       return returnObj;
     },
     updateFormData(response) {
-      Object.keys(this.form).forEach(value => {
-        if (response[value]) {
-          this.form[value] = response[value];
-        }
-      });
+      if (typeof response.settings == "string") {
+        response.settings = JSON.parse(response.settings);
+      }
+      this.form.name = response.name;
+      this.form.description = response.description;
+      this.form.type = response.is_onetime_ongoing == 1 ? "onetime" : "ongoing";
+      this.form.rewardtype = response.settings.rewardtype;
+      this.form.couponamount = response.settings.value;
+      this.form.minspend = response.settings.minorder;
+      this.form.coupon_type = response.settings.coupontype;
+      this.form.expiry = response.settings.expiry;
+      this.form.id_tier = null;
+      this.form.id_tier_list = null;
     },
     validateData() {
       this.$v.$touch();
