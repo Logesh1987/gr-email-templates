@@ -2,7 +2,7 @@
   <div class="amvip--wrapper amvip-manageReward">
     <div class="amvip--container">
       <hgroup class="amvip--pageHeader">
-        <span class="icon-next-arrow" @click="goBack"></span>
+        <span class="icon-next-arrow" @click="gotoEditTier"></span>
         <h2>Edit reward</h2>
       </hgroup>
       <div class="amvip--tabs">
@@ -26,7 +26,7 @@
           <div class="amvip--rewardRadio">
             <div class="amvip--customRadio">
               <md-radio
-                v-model="form.rewardType"
+                v-model="form.rewardtype"
                 value="coupon"
                 id="rewardCoupons"
                 name="rewardCoupons"
@@ -36,8 +36,8 @@
             </div>
             <div class="amvip--customRadio">
               <md-radio
-                v-model="form.rewardType"
-                value="point"
+                v-model="form.rewardtype"
+                value="points"
                 id="rewardPoints"
                 name="rewardPoints"
               >
@@ -46,7 +46,7 @@
             </div>
             <div class="amvip--customRadio">
               <md-radio
-                v-model="form.rewardType"
+                v-model="form.rewardtype"
                 value="perk_expeience"
                 id="rewardExperience"
                 name="rewardExperience"
@@ -57,7 +57,7 @@
           </div>
           <div
             class="md-custom-error top-minus-35 txt-center"
-            v-if="!$v.form.rewardType.required && $v.form.rewardType.$dirty"
+            v-if="!$v.form.rewardtype.required && $v.form.rewardtype.$dirty"
           >
             Reward type is required
           </div>
@@ -166,6 +166,9 @@ export default {
         required,
         minLength: minLength(3),
       },
+      rewardtype: {
+        required,
+      },
     },
   },
   mounted() {
@@ -178,7 +181,10 @@ export default {
       });
     });
     const currentRewardId = this.$route.params.currentRewardId;
+    console.log(this.$route.params);
     const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
+    this.loader = true;
+    this.sending = true;
     Axios.get(url)
       .then(res => {
         console.log(`Tiers/Rewards/${currentRewardId} ${JSON.stringify(res)}`);
@@ -199,6 +205,7 @@ export default {
       })
       .finally(() => {
         this.loader = false;
+        this.sending = false;
       });
   },
   methods: {
@@ -215,8 +222,8 @@ export default {
       );
       this.form.type = currentElement.getAttribute("data-value");
     },
-    gotoManageTier() {
-      this.$router.push("/view/tiers/edit-tier");
+    gotoEditTier() {
+      this.$router.push("/view/tiers/edit-tier/" + this.$route.params.id_tier);
     },
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
@@ -238,7 +245,7 @@ export default {
       this.form.expiry = null;
       this.form.id_tier = null;
       this.form.id_tier_list = null;
-      this.gotoManageTier();
+      this.gotoEditTier();
     },
     saveRewardData() {
       if (!this.validateData()) {
@@ -250,6 +257,7 @@ export default {
       this.sending = false;
       const currentRewardId = this.$route.params.currentRewardId;
       const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
+      this.loader = true;
       Axios.put(url, returnData)
         .then(res => {
           console.log(
@@ -264,6 +272,7 @@ export default {
             this.responseData = res.data.data.message;
             this.showSnackbar =
               this.responseData && this.responseData.length > 0;
+            this.gotoEditTier();
           }
         })
         .catch(err => {
@@ -308,9 +317,6 @@ export default {
         isValidated = true;
       }
       return isValidated;
-    },
-    goBack() {
-      history.back();
     },
   },
 };

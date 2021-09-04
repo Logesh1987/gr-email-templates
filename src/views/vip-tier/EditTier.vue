@@ -409,7 +409,13 @@ export default {
     editCurrentReward(obj) {
       const currentRewardId = obj.data.id_tier_rewards;
       this.currentRewardId = currentRewardId;
-      this.$router.push("/view/tiers/edit-reward/" + currentRewardId);
+      this.$router.replace({
+        name: "EditReward",
+        params: {
+          id_tier: this.currentTierId,
+          currentRewardId: currentRewardId,
+        },
+      });
     },
     confirmDeleteReward(obj) {
       this.popupConfig = {

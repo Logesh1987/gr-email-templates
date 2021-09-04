@@ -26,8 +26,8 @@
           <div class="amvip--rewardRadio">
             <div class="amvip--customRadio">
               <md-radio
-                v-model="form.rewardType"
-                value="coupon"
+                v-model="form.rewardtype"
+                value="coupons"
                 id="rewardCoupons"
                 name="rewardCoupons"
               >
@@ -36,7 +36,7 @@
             </div>
             <div class="amvip--customRadio">
               <md-radio
-                v-model="form.rewardType"
+                v-model="form.rewardtype"
                 value="point"
                 id="rewardPoints"
                 name="rewardPoints"
@@ -46,7 +46,7 @@
             </div>
             <div class="amvip--customRadio">
               <md-radio
-                v-model="form.rewardType"
+                v-model="form.rewardtype"
                 value="perk_expeience"
                 id="rewardExperience"
                 name="rewardExperience"
@@ -57,7 +57,7 @@
           </div>
           <div
             class="md-custom-error top-minus-35 txt-center"
-            v-if="!$v.form.rewardType.required && $v.form.rewardType.$dirty"
+            v-if="!$v.form.rewardtype.required && $v.form.rewardtype.$dirty"
           >
             Reward type is required
           </div>
@@ -166,6 +166,9 @@ export default {
         required,
         minLength: minLength(3),
       },
+      rewardtype: {
+        required,
+      },
     },
   },
   mounted() {
@@ -192,7 +195,7 @@ export default {
     },
     clearForm() {
       this.$v.$reset();
-      this.form.rewardType = null;
+      this.form.rewardtype = null;
       this.form.name = null;
       this.form.description = null;
       this.form.coupon = null;
