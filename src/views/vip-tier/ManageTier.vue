@@ -155,7 +155,7 @@ export default {
     },
     gotoEditReward(obj) {
       const currentRewardId = obj.data.id_tier_rewards;
-      this.$router.push("/view/tiers/edit-reward/" + currentRewardId);
+      this.$router.push("/view/tiers/manage-reward/" + currentRewardId);
     },
     gotoEditTier(obj) {
       this.currentTierId = obj.data.id;
