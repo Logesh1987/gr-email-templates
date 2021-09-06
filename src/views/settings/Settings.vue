@@ -4,11 +4,19 @@
   <div class="settingContainer">
     <Notifications />
     <md-tabs>
-      <md-tab id="businessSettings" md-label="Business Settings"></md-tab>
-      <md-tab id="pointsExpiry" md-label="Points Expiry"></md-tab>
+      <md-tab
+        id="businessSettings"
+        v-on:click="activetab = 1"
+        md-label="Business Settings"
+      ></md-tab>
+      <md-tab
+        id="pointsExpiry"
+        v-on:click="activetab = 2"
+        md-label="Points Expiry"
+      ></md-tab>
     </md-tabs>
 
-    <div class="businessSettings">
+    <div v-if="activetab === 1" class="businessSettings">
       <div class="md-layout md-gutter">
         <div class="md-layout-item">
           <label for="siteName"
@@ -22,16 +30,24 @@
             ></md-input>
           </md-field>
 
-          <label for="site_url" class="flexBlock">
-            Site URL <span class="fa fa-asterisk asterisk"></span>
-            <span class="material-icons">
-              help
-              <md-tooltip
-                >Enter the website URL on which Gratisfaction is
-                installed.</md-tooltip
-              >
-            </span>
-          </label>
+          <div class="flexBlock-Space-between">
+            <label for="site_url" class="flexBlock">
+              Site URL <span class="fa fa-asterisk asterisk"></span>
+              <span class="material-icons">
+                help
+                <md-tooltip
+                  >Enter the website URL on which Gratisfaction is
+                  installed.</md-tooltip
+                >
+              </span>
+            </label>
+            <a :href="visitUrl" class="small" target="_blank">
+              Visit Site URL
+              <span class="material-icons">
+                outbound
+              </span>
+            </a>
+          </div>
           <md-field md-inline>
             <md-input
               id="site_url"
@@ -40,25 +56,28 @@
             ></md-input>
           </md-field>
 
-          <label for="site_timezone">
+          <label for="siteTimezone">
             Time zone <span class="fa fa-asterisk asterisk"></span>
           </label>
           <md-field>
             <md-select
-              v-model="site_timezone"
-              name="site_timezone"
-              id="site_timezone"
+              v-model="siteTimezone"
+              name="siteTimezone"
+              id="siteTimezone"
               placeholder="(UTC-11:00) Pacific/Pago_Pago"
             >
               <md-input
-                id="site_timezone"
+                id="siteTimezone"
                 class="selectSearch"
                 v-model="inline"
                 placeholder=""
               ></md-input>
-              <md-option value="m/d/Y">(UTC-11:00) Pacific/Pago_Pago</md-option>
-              <md-option value="d/m/Y">(UTC-11:00) Pacific/Pago_Pago</md-option>
-              <md-option value="Y/m/d">(UTC-11:00) Pacific/Pago_Pago</md-option>
+              <md-option
+                v-for="siteTimezoneVal in siteTimezoneVals"
+                v-bind:value="siteTimezoneVal.value"
+                :key="siteTimezoneVal.id"
+                >{{ siteTimezoneVal.text }}</md-option
+              >
             </md-select>
           </md-field>
 
@@ -67,14 +86,17 @@
           </label>
           <md-field>
             <md-select
-              v-model="date_display"
-              name="date_display"
-              id="date_display"
+              v-model="dateDisplays"
+              name="dateDisplays"
+              id="dateDisplays"
               placeholder="DD/MM/YYYY"
             >
-              <md-option value="m/d/Y">MM/DD/YYYY</md-option>
-              <md-option value="d/m/Y">DD/MM/YYYY</md-option>
-              <md-option value="Y/m/d">YYYY/MM/DD</md-option>
+              <md-option
+                v-for="dateDisplayVal in dateDisplayVals"
+                v-bind:value="dateDisplayVal.value"
+                :key="dateDisplayVal.id"
+                >{{ dateDisplayVal.text }}</md-option
+              >
             </md-select>
           </md-field>
 
@@ -96,17 +118,26 @@
             ></md-input>
           </md-field>
 
-          <label for="site_email_from" class="flexBlock">
-            Email From Address <span class="fa fa-asterisk asterisk"></span>
-            <span class="material-icons">
-              help
-              <md-tooltip
-                >All system generated emails to entrants will have this as the
-                'Sender's email address. Ensure it starts with
-                NoReply@</md-tooltip
-              >
-            </span>
-          </label>
+          <div class="flexBlock-Space-between">
+            <label for="site_email_from" class="flexBlock">
+              Email From Address <span class="fa fa-asterisk asterisk"></span>
+              <span class="material-icons">
+                help
+                <md-tooltip
+                  >All system generated emails to entrants will have this as the
+                  'Sender's email address. Ensure it starts with
+                  NoReply@</md-tooltip
+                >
+              </span>
+            </label>
+            <a
+              href="#"
+              onclick="CustomEmail.sendTestEmail(this, 'test');return false;"
+              class="small"
+              style="line-height: 1;margin-top: 4px;"
+              >Send Test Email</a
+            >
+          </div>
           <md-field md-inline>
             <span class="md-prefix">NoReply@</span>
             <md-input
@@ -141,6 +172,77 @@
       </div>
     </div>
 
+    <div v-if="activetab === 2" class="pointsExpiry">
+      <div class="flexBlock-Space-between-center boxTitle">
+        <label class="flexBlock">Activate Points Expiry</label>
+        <md-switch v-model="boolean" class="md-primary">
+          <span v-if="boolean">On</span>
+          <span v-if="!boolean">Off</span>
+        </md-switch>
+      </div>
+      <div class="md-layout md-gutter">
+        <div class="md-layout-item">
+          <label for="expiryTime">
+            Frequency <span class="fa fa-asterisk asterisk"></span>
+          </label>
+          <md-field>
+            <md-select
+              v-model="expiryTime"
+              name="expiryTime"
+              id="expiryTime"
+              placeholder="DD/MM/YYYY"
+            >
+              <md-option
+                v-for="expiryTimeOptionVal in expiryTimeOptionVals"
+                v-bind:value="expiryTimeOptionVal.value"
+                :key="expiryTimeOptionVal.id"
+                >{{ expiryTimeOptionVal.text }}</md-option
+              >
+            </md-select>
+          </md-field>
+
+          <label for="expiryTimeOption">
+            Email Notification <span class="fa fa-asterisk asterisk"></span>
+          </label>
+          <md-switch v-model="boolean" class="md-primary custom">
+            <span v-if="boolean">On</span>
+            <span v-if="!boolean">Off</span>
+          </md-switch>
+
+          <label for="pointsExpiryNotifyDays" class="flexBlock">
+            Email Notification Days
+            <span class="fa fa-asterisk asterisk"></span>
+          </label>
+          <md-field md-inline>
+            <md-input
+              id="pointsExpiryNotifyDays"
+              v-model="inline"
+              maxlength="5"
+              placeholder=""
+            ></md-input>
+            <span class="md-suffix">DAYS, PRIOR TO THE EXPIRY</span>
+          </md-field>
+        </div>
+        <div class="md-layout-item">
+          <div class="alert alert-info">
+            <div id="last_expiry_holder" style="display: none;">
+              <label>Last Expiry Date:</label>
+              <div id="last_expiry_val">&nbsp;</div>
+            </div>
+            <div id="next_expiry_holder" style="display: block;">
+              <label>Next Expiry Date:</label>
+              <div id="next_expiry_val">01/01/2022</div>
+            </div>
+          </div>
+          <p class="alert small">
+            <span class="material-icons">warning</span>
+            Points will expire and reset to zero for all users on the
+            above-mentioned date.
+          </p>
+        </div>
+      </div>
+    </div>
+
     <Loader :status="loader" />
 
     <Footer />
@@ -164,7 +266,26 @@ export default {
   },
   data: function() {
     return {
-      loader: false
+      loader: false,
+      activetab: 1,
+      visitUrl: "http://maverickmav.org/dhanqa",
+      boolean: true,
+      siteTimezoneVals: [
+        { text: "(UTC-11:00) Pacific/Pago_Pago", value: "m/d/Y" },
+        { text: "(UTC-11:00) Pacific/Pago_Pago", value: "d/m/Y" },
+        { text: "(UTC-11:00) Pacific/Pago_Pago", value: "Y/m/d" }
+      ],
+      dateDisplayVals: [
+        { text: "MM/DD/YYYY", value: "m/d/Y" },
+        { text: "DD/MM/YYYY", value: "d/m/Y" },
+        { text: "YYYY/MM/DD", value: "Y/m/d" }
+      ],
+      expiryTimeOptionVals: [
+        { text: "Every start of the Year", value: "m/d/Y" },
+        { text: "Every start of the Month", value: "d/m/Y" },
+        { text: "Exact Date (one Time)", value: "Y/m/d" }
+      ],
+      siteTimezone: null
     };
   },
   computed: {},
@@ -176,13 +297,49 @@ export default {
 <style lang="less" scoped>
 .settingContainer {
   margin: 20px;
-  .businessSettings {
+  .businessSettings,
+  .pointsExpiry {
     background: #fff;
     border: solid 1px #ddd;
     padding: 20px;
+    .boxTitle {
+      border-bottom: 1px solid #bbb;
+      margin-bottom: 20px;
+    }
   }
   .rightAlign {
     text-align: right;
+  }
+  .small {
+    color: #428bca;
+    text-decoration: none;
+    font-size: 85%;
+    display: flex;
+    align-items: center;
+    .material-icons {
+      margin-left: 5px;
+    }
+  }
+  .md-switch.custom {
+    width: 100%;
+    margin: 4px 0 24px;
+  }
+  .alert-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    padding: 20px;
+    label {
+      font-weight: 600;
+    }
+  }
+  .alert.small {
+    color: #e30303;
+    font-size: 85%;
+    .material-icons {
+      margin-left: 0;
+      padding-right: 10px;
+    }
   }
 }
 </style>
@@ -238,10 +395,20 @@ export default {
   .material-icons {
     font-size: 21px;
   }
+  .flexBlock-Space-between {
+    display: flex;
+    justify-content: space-between;
+  }
+  .flexBlock-Space-between-center {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   label.flexBlock {
     display: flex;
   }
-  .md-field .md-prefix {
+  .md-field .md-prefix,
+  .md-field .md-suffix {
     display: block;
     line-height: 20px;
     padding: 6px 12px;
@@ -249,8 +416,23 @@ export default {
     font-weight: 400;
     text-align: center;
     background-color: #eee;
+  }
+  .md-field .md-prefix {
     margin-left: -10px;
     margin-right: 10px;
+  }
+  .md-field .md-suffix {
+    margin-left: 10px;
+    margin-right: -10px;
+  }
+  .md-switch.md-theme-default.md-checked.md-primary {
+    color: #24c16f;
+    .md-switch-container {
+      background: rgba(36, 193, 111, 0.3);
+    }
+    .md-switch-thumb {
+      background: #24c16f;
+    }
   }
 }
 .md-select-menu {
