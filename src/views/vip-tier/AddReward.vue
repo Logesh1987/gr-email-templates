@@ -340,12 +340,12 @@
                   >
                     <label>Select bonus point expiry date</label>
                   </md-datepicker>
-                  <div
+                  <!-- <div
                     class="md-custom-error padLeft-35"
                     v-if="!$v.form.expiry.required && $v.form.expiry.$dirty"
                   >
                     Bonus expiry date is required.
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -443,9 +443,6 @@ export default {
         required,
       },
       coupon_type: {
-        required,
-      },
-      expiry: {
         required,
       },
     },
