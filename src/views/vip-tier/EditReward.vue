@@ -27,7 +27,7 @@
             <div class="amvip--customRadio">
               <md-radio
                 v-model="form.rewardtype"
-                value="coupons"
+                value="coupon"
                 id="rewardCoupons"
                 name="rewardCoupons"
                 @change="rewardTypeChange"
@@ -100,13 +100,13 @@
           <section
             id="coupons"
             class="tabSection"
-            v-if="form.rewardtype === 'coupons'"
+            v-if="form.rewardtype === 'coupon'"
           >
             <div class="amvip--formRow">
               <label for="coupon_type">Coupon Type:</label>
               <md-radio
                 v-model="form.coupon_type"
-                value="percentage"
+                value="percent"
                 id="percentage"
                 name="coupon_type"
               >
@@ -114,8 +114,8 @@
               </md-radio>
               <md-radio
                 v-model="form.coupon_type"
-                value="fixedAmount"
-                id="fixedAmount"
+                value="fixed"
+                id="fixed"
                 name="coupon_type"
               >
                 Fixed Amount
@@ -212,8 +212,8 @@
               </md-radio>
               <md-radio
                 v-model="form.coupon_type"
-                value="fixedPoints"
-                id="fixedPoints"
+                value="fixed"
+                id="fixed"
                 name="coupon_type"
               >
                 Fixed bonus points
@@ -285,10 +285,7 @@
                   </span>
                 </md-field>
               </div>
-              <div
-                class="amvip--formRow"
-                v-if="form.coupon_type == 'fixedPoints'"
-              >
+              <div class="amvip--formRow" v-if="form.coupon_type == 'fixed'">
                 <md-field :class="getValidationClass('couponamount')">
                   <label for="couponamount">
                     Fixed bonus points
@@ -451,13 +448,11 @@ export default {
       });
     });
     const currentRewardId = this.$route.params.currentRewardId;
-    console.log(this.$route.params);
     const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
     this.loader = true;
     this.sending = true;
     Axios.get(url)
       .then(res => {
-        console.log(`Tiers/Rewards/${currentRewardId} ${JSON.stringify(res)}`);
         if (res.data.error) {
           this.responseData = res.data.error.message;
           this.showSnackbar = this.responseData && this.responseData.length > 0;
@@ -469,7 +464,6 @@ export default {
         }
       })
       .catch(err => {
-        console.log(err);
         this.responseData = err;
         this.showSnackbar = true;
       })
@@ -521,9 +515,6 @@ export default {
       this.loader = true;
       Axios.put(url, returnData)
         .then(res => {
-          console.log(
-            `Tiers/Rewards/${currentRewardId} ${JSON.stringify(res)}`
-          );
           if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
@@ -537,7 +528,6 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err);
           this.responseData = err;
           this.showSnackbar = true;
         })
@@ -556,13 +546,16 @@ export default {
       if (typeof response.settings == "string") {
         response.settings = JSON.parse(response.settings);
       }
+      if (this.form.coupon_type == "freeShipping") {
+        this.form.couponamount = null;
+      }
       this.form.name = response.name;
       this.form.description = response.description;
       this.form.type = response.is_onetime_ongoing == 1 ? "onetime" : "ongoing";
       this.form.rewardtype = response.settings.rewardtype;
       this.form.couponamount = response.settings.realtime_coupon_value;
       this.form.minspend = response.settings.realtime_min_order;
-      this.form.coupon_type = response.settings.realtime_coupon_type;
+      this.form.coupon_type = response.settings.coupon_type;
       this.form.expiry = new Date(response.settings.expire_in);
     },
     validateData() {
@@ -570,7 +563,8 @@ export default {
       let isValidated = false;
       if (this.$v.$invalid) {
         isValidated = false;
-        console.log("error");
+        this.responseData = "Validation Errors!!!";
+        this.showSnackbar = true;
       } else {
         // this.saveUser();
         isValidated = true;

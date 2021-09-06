@@ -216,7 +216,6 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err);
           this.responseData = err;
           this.showSnackbar = true;
         })
@@ -241,7 +240,6 @@ export default {
       const imgUploadUrl = this.getApiUrl("S3Uploader/tier");
       Axios.post(imgUploadUrl, formData)
         .then(res => {
-          console.log("S3Uploader/tier", JSON.stringify(res));
           if (res.data.error && res.data.error == 1) {
             this.file = this.existingFile ? this.existingFile : null;
             this.responseData = res.data.msg;
@@ -259,7 +257,6 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err);
           this.responseData = err;
           this.showSnackbar = true;
         })
@@ -279,7 +276,8 @@ export default {
       this.$v.$touch();
       if (this.$v.$invalid) {
         isValidated = false;
-        console.log("error");
+        this.responseData = "Validation Errors!!!";
+        this.showSnackbar = true;
       } else {
         isValidated = true;
       }

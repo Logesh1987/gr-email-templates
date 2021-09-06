@@ -27,7 +27,7 @@
             <div class="amvip--customRadio">
               <md-radio
                 v-model="form.rewardtype"
-                value="coupons"
+                value="coupon"
                 id="rewardCoupons"
                 name="rewardCoupons"
                 @change="rewardTypeChange"
@@ -100,22 +100,22 @@
           <section
             id="coupons"
             class="tabSection"
-            v-if="form.rewardtype === 'coupons'"
+            v-if="form.rewardtype === 'coupon'"
           >
             <div class="amvip--formRow">
               <label for="coupon_type">Coupon Type:</label>
               <md-radio
                 v-model="form.coupon_type"
-                value="percentage"
-                id="percentage"
+                value="percent"
+                id="percent"
                 name="coupon_type"
               >
                 Percentage
               </md-radio>
               <md-radio
                 v-model="form.coupon_type"
-                value="fixedAmount"
-                id="fixedAmount"
+                value="fixed"
+                id="fixed"
                 name="coupon_type"
               >
                 Fixed Amount
@@ -212,7 +212,7 @@
               </md-radio>
               <md-radio
                 v-model="form.coupon_type"
-                value="fixedPoints"
+                value="fixed"
                 id="fixedPoints"
                 name="coupon_type"
               >
@@ -220,7 +220,7 @@
               </md-radio>
               <md-radio
                 v-model="form.coupon_type"
-                value="percetageBonus"
+                value="percent"
                 id="percetageBonus"
                 name="coupon_type"
               >
@@ -258,10 +258,7 @@
                   </span>
                 </md-field>
               </div>
-              <div
-                class="amvip--formRow"
-                v-if="form.coupon_type == 'percetageBonus'"
-              >
+              <div class="amvip--formRow" v-if="form.coupon_type == 'percent'">
                 <md-field :class="getValidationClass('couponamount')">
                   <label for="couponamount">
                     Percentage bonus points
@@ -285,10 +282,7 @@
                   </span>
                 </md-field>
               </div>
-              <div
-                class="amvip--formRow"
-                v-if="form.coupon_type == 'fixedPoints'"
-              >
+              <div class="amvip--formRow" v-if="form.coupon_type == 'fixed'">
                 <md-field :class="getValidationClass('couponamount')">
                   <label for="couponamount">
                     Fixed bonus points
@@ -484,18 +478,19 @@ export default {
       this.form.id_tier_list = this.currentTierId;
       const url = this.getApiUrl("Tiers/Rewards/" + this.currentTierId);
       this.sending = true;
+      if (this.form.coupon_type == "freeShipping") {
+        this.form.couponamount = null;
+      }
       const returnData = this.getFormData();
       this.userSaved = true;
       this.sending = false;
       this.loader = true;
       Axios.post(url, returnData)
         .catch(err => {
-          console.log(err);
           this.responseData = err;
           this.showSnackbar = true;
         })
         .then(res => {
-          console.log("Tiers/Rewards/", JSON.stringify(res));
           if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
@@ -531,7 +526,8 @@ export default {
       let isValidated = false;
       if (this.$v.$invalid) {
         isValidated = false;
-        console.log("error");
+        this.responseData = "Validation Errors!!!";
+        this.showSnackbar = true;
       } else {
         // this.saveUser();
         isValidated = true;

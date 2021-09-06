@@ -34,7 +34,7 @@
           :isDeleteEnabled="tierObj.default !== 'Y'"
           v-on:editTierIconClicked="showIconPopup"
           v-on:editClicked="gotoEditTier"
-          :deleteClicked="confirmDelete"
+          v-on:deleteClicked="confirmDelete"
         ></VipTierCard>
       </section>
     </div>
@@ -100,7 +100,6 @@ export default {
     const statusUrl = this.getApiUrl("Tiers/Viptierstatus");
     Axios.get(statusUrl)
       .then(res => {
-        console.log(`Tiers/Viptierstatus ${JSON.stringify(res)}`);
         if (res.data.error) {
           this.responseData = res.data.error.message;
           this.showSnackbar = this.responseData && this.responseData.length > 0;
@@ -115,7 +114,6 @@ export default {
         }
       })
       .catch(err => {
-        console.log(err);
         this.responseData = err;
         this.showSnackbar = true;
       })
@@ -125,7 +123,6 @@ export default {
     const url = this.getApiUrl("Tiers/Managetiers");
     Axios.get(url)
       .then(res => {
-        console.log(`Tiers/Managetiers ${JSON.stringify(res)}`);
         if (res.data.error) {
           this.responseData = res.data.error.message;
           this.showSnackbar = this.responseData && this.responseData.length > 0;
@@ -136,12 +133,10 @@ export default {
             this.showSnackbar =
               this.responseData && this.responseData.length > 0;
           }
-          console.log(this.responseData);
           this.tierData = res.data.data;
         }
       })
       .catch(err => {
-        console.log(err);
         this.responseData = err;
         this.showSnackbar = true;
       })
@@ -177,9 +172,6 @@ export default {
       const url = this.getApiUrl(`Tiers/Managetiers/${obj.data.id}`);
       Axios.delete(url)
         .then(res => {
-          console.log(
-            `Tiers/Managetiers/${obj.data.id} ${JSON.stringify(res)}`
-          );
           if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
@@ -195,7 +187,6 @@ export default {
             const manageUrl = this.getApiUrl("Tiers/Managetiers");
             Axios.get(manageUrl)
               .then(res => {
-                console.log(`Tiers/Managetiers ${JSON.stringify(res)}`);
                 if (res.data.error) {
                   this.responseData = res.data.error.message;
                   if (this.responseData && this.responseData.length > 0) {
@@ -213,7 +204,6 @@ export default {
                 }
               })
               .catch(err => {
-                console.log(err);
                 this.responseData = err;
                 this.showSnackbar = true;
               })
@@ -223,7 +213,6 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err);
           this.responseData = err;
           this.showSnackbar = true;
         })
@@ -255,7 +244,6 @@ export default {
       const statusUrl = this.getApiUrl("Tiers/Viptierstatus");
       Axios.post(statusUrl, { status: this.tierStatus ? 1 : 0 })
         .then(res => {
-          console.log(`Tiers/Viptierstatus ${JSON.stringify(res)}`);
           if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
@@ -271,7 +259,6 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err);
           this.responseData = err;
           this.showSnackbar = true;
         })

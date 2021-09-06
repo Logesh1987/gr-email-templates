@@ -220,21 +220,16 @@ export default {
       const url = this.getApiUrl("Tiers/Managetiers/" + this.currentTierId);
       Axios.get(url)
         .catch(err => {
-          console.log(err);
           this.responseData = err;
           this.showSnackbar = true;
         })
         .then(async res => {
-          console.log(
-            `Tiers/Managetiers/${this.currentTierId} ${JSON.stringify(res)}`
-          );
           if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
               this.responseData && this.responseData.length > 0;
             return false;
           } else {
-            console.log(res.data.data.message);
             if (res.data.data.message != undefined) {
               this.responseData = res.data.data.message;
               this.showSnackbar =
@@ -247,14 +242,12 @@ export default {
                 const blobData = await fetch(this.icon)
                   .then(blobRes => blobRes.blob)
                   .catch(blobErr => {
-                    console.log(blobErr);
                     this.responseData = blobErr;
                     this.showSnackbar = true;
                   });
                 this.existingFile = new File([blobData], res.data.data[0].name);
                 this.$refs.fileUpload.value = res.data.data[0].name;
               } catch (error) {
-                console.log(error);
                 this.responseData = error;
                 this.showSnackbar = true;
               }
@@ -294,12 +287,10 @@ export default {
       const imgUploadUrl = this.getApiUrl("S3Uploader/tier");
       Axios.post(imgUploadUrl, formData)
         .catch(err => {
-          console.log(err);
           this.responseData = err;
           this.showSnackbar = true;
         })
         .then(res => {
-          console.log("S3Uploader/tier  ", JSON.stringify(res));
           if (res.data.error && res.data.error == 1) {
             this.file = this.existingFile ? this.existingFile : null;
             this.responseData = res.data.msg;
@@ -307,7 +298,6 @@ export default {
               this.responseData && this.responseData.length > 0;
             return false;
           } else {
-            console.log(res.data.img_name);
             if (res.data.message != undefined) {
               this.responseData = res.data.message;
               this.showSnackbar =
@@ -350,12 +340,10 @@ export default {
       const url = this.getApiUrl("Tiers/Managetiers/" + this.currentTierId);
       Axios.put(url, this.form)
         .catch(err => {
-          console.log(err);
           this.responseData = err;
           this.showSnackbar = true;
         })
         .then(res => {
-          console.log(JSON.stringify(res));
           if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
@@ -397,7 +385,8 @@ export default {
       this.$v.$touch();
       if (this.$v.$invalid) {
         isValidated = false;
-        console.log("error");
+        this.responseData = "Validation Errors!!!";
+        this.showSnackbar = true;
       } else {
         isValidated = true;
       }
@@ -434,14 +423,10 @@ export default {
       this.loader = true;
       Axios.delete(url)
         .catch(err => {
-          console.log(err);
           this.responseData = err;
           this.showSnackbar = true;
         })
         .then(res => {
-          console.log(
-            `Tiers/Rewards/${currentRewardId} ${JSON.stringify(res)}`
-          );
           if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =

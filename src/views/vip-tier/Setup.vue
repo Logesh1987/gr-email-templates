@@ -13,7 +13,7 @@
       </div>
     </aside>
     <section class="amvip-twoColContent" id="setupProgram">
-      <form novalidate class="md-layout" @submit.prevent="gotoManageTier">
+      <form novalidate class="md-layout">
         <section>
           <h2>Setup VIP tier program</h2>
           <div class="amvip--formRow">
@@ -156,7 +156,7 @@
             <button class="amvip--btnSec" @click="confirmCancelSetup">
               Cancel
             </button>
-            <button class="amvip--btnPri">Save</button>
+            <button class="amvip--btnPri" @click="gotoManageTier">Save</button>
           </footer>
         </section>
       </form>
@@ -292,7 +292,6 @@ export default {
       this.loader = true;
       Axios.get(statusUrl)
         .then(res => {
-          console.log(`Tiers/settings ${JSON.stringify(res)}`);
           if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
@@ -308,7 +307,6 @@ export default {
             this.tier_id = res.data.data.tier_id;
             Axios.get(url)
               .then(res => {
-                console.log(`Tiers/Setupvip ${JSON.stringify(res)}`);
                 if (res.data.error) {
                   this.responseData = res.data.error.message;
                   if (this.responseData && this.responseData.length > 0) {
@@ -326,7 +324,6 @@ export default {
                 }
               })
               .catch(err => {
-                console.log(err);
                 this.responseData = err;
                 this.showSnackbar = true;
               })
@@ -336,7 +333,6 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err);
           this.responseData = err;
           this.showSnackbar = true;
         })
@@ -361,9 +357,9 @@ export default {
       this.popupConfig = {
         title: "Confirm!",
         content: "Are you sure, you want to cancel the setup?",
-        confirmText: "Agree",
-        cancelText: "Disagree",
-        id: "deleteTierPopup",
+        confirmText: "OK",
+        cancelText: "Cancel",
+        id: "cancelSetup",
       };
       this.showConfirmPopup = true;
     },
@@ -393,7 +389,6 @@ export default {
         this.loader = true;
         Axios.post(url, returnData)
           .then(res => {
-            console.log(`Tiers/Setupvip ${JSON.stringify(res)}`);
             if (res.data.error) {
               this.responseData = res.data.error.message;
               if (this.responseData && this.responseData.length > 0) {
@@ -411,7 +406,6 @@ export default {
             }
           })
           .catch(err => {
-            console.log(err);
             this.responseData = err;
             this.showSnackbar = true;
           })
@@ -440,7 +434,6 @@ export default {
             }
           })
           .catch(err => {
-            console.log(err);
             this.responseData = err;
             this.showSnackbar = true;
           })
@@ -469,7 +462,8 @@ export default {
     validateUser() {
       this.$v.$touch();
       if (this.$v.$invalid) {
-        console.log("error");
+        this.responseData = "Validation Errors!!!";
+        this.showSnackbar = true;
       } else {
         this.saveUser();
       }
