@@ -67,322 +67,347 @@
           >
             Reward type is required
           </div>
-          <div class="amvip--twolColumnRow">
-            <div class="amvip--formRow">
-              <md-field :class="getValidationClass('name')">
-                <label for="name">
-                  Name
-                  <span class="amvip--mandatory">*</span>
-                </label>
-                <md-input
-                  name="name"
-                  id="name"
-                  ref="name"
-                  v-model="form.name"
-                  :disabled="sending"
-                />
-                <span class="md-error" v-if="!$v.form.name.required">
-                  Name is required
-                </span>
-                <span class="md-error" v-else-if="!$v.form.name.minLength">
-                  Minimum of 3 letters required
-                </span>
-              </md-field>
-            </div>
-            <div class="amvip--formRow">
-              <md-field>
-                <label for="description">Description</label>
-                <md-textarea
-                  name="description"
-                  id="description"
-                  v-model="form.description"
-                  :disabled="sending"
-                ></md-textarea>
-              </md-field>
-            </div>
-          </div>
-          <section
-            id="coupons"
-            class="tabSection"
-            v-if="form.rewardtype === 'coupon'"
-          >
-            <div class="amvip--formRow">
-              <label for="coupon_type">Coupon Type:</label>
-              <md-radio
-                v-model="form.coupon_type"
-                value="percent"
-                ref="coupon_type"
-                id="percentage"
-                name="coupon_type"
-              >
-                Percentage
-              </md-radio>
-              <md-radio
-                v-model="form.coupon_type"
-                value="fixed"
-                ref="coupon_type"
-                id="fixed"
-                name="coupon_type"
-              >
-                Fixed Amount
-              </md-radio>
-              <md-radio
-                v-model="form.coupon_type"
-                value="freeShipping"
-                ref="coupon_type"
-                id="freeShipping"
-                name="coupon_type"
-              >
-                Free Shipping
-              </md-radio>
-            </div>
-            <div
-              class="md-custom-error top-minus-35 txt-center"
-              v-if="!$v.form.coupon_type.required && $v.form.coupon_type.$dirty"
-            >
-              Coupon type is required
-            </div>
-            <div class="amvip--twolColumnRow">
-              <div
-                class="amvip--formRow"
-                v-if="form.coupon_type !== 'freeShipping'"
-              >
-                <md-field :class="getValidationClass('couponamount')">
-                  <label for="couponamount">
-                    Coupon amount
+          <div class="sideBySide">
+            <div class="amvip--twolColumnRow vertical left">
+              <div class="amvip--formRow">
+                <md-field :class="getValidationClass('name')">
+                  <label for="name">
+                    Name
                     <span class="amvip--mandatory">*</span>
                   </label>
                   <md-input
-                    name="couponamount"
-                    ref="couponamount"
-                    id="couponamount"
-                    v-model="form.couponamount"
+                    name="name"
+                    id="name"
+                    ref="name"
+                    v-model="form.name"
                     :disabled="sending"
-                    type="number"
                   />
-                  <span class="md-error" v-if="!$v.form.couponamount.required">
-                    Coupon amount is required
+                  <span class="md-error" v-if="!$v.form.name.required">
+                    Name is required
                   </span>
-                  <span
-                    class="md-error"
-                    v-else-if="!$v.form.couponamount.minValue"
-                  >
-                    The minimum value shoube greater than or equal to 5
+                  <span class="md-error" v-else-if="!$v.form.name.minLength">
+                    Minimum of 3 letters required
                   </span>
                 </md-field>
               </div>
               <div class="amvip--formRow">
-                <md-field :class="getValidationClass('minspend')">
-                  <label for="minspend">
-                    Minimum Spend
-                  </label>
-                  <md-input
-                    name="minspend"
-                    id="minspend"
-                    v-model="form.minspend"
+                <md-field>
+                  <label for="description">Description</label>
+                  <md-textarea
+                    name="description"
+                    id="description"
+                    v-model="form.description"
                     :disabled="sending"
-                    type="number"
-                  />
+                  ></md-textarea>
                 </md-field>
               </div>
             </div>
-            <div class="amvip--twolColumnRow">
-              <div class="amvip--formRow">
-                <md-field :class="getValidationClass('maxspend')">
-                  <label for="maxspend">
-                    Maximum Spend
-                  </label>
-                  <md-input
-                    name="maxspend"
-                    id="maxspend"
-                    v-model="form.maxspend"
-                    :disabled="sending"
-                    type="number"
-                  />
-                </md-field>
-              </div>
-            </div>
-          </section>
-          <section
-            id="points"
-            class="tabSection"
-            v-if="form.rewardtype === 'points'"
-          >
-            <div class="amvip--formRow">
-              <label for="coupon_type">Bonus points Type:</label>
-              <md-radio
-                v-model="form.coupon_type"
-                value="multiple"
-                id="multiple"
-                ref="coupon_type"
-                name="coupon_type"
-              >
-                Multiple
-              </md-radio>
-              <md-radio
-                v-model="form.coupon_type"
-                value="fixed"
-                id="fixed"
-                ref="coupon_type"
-                name="coupon_type"
-              >
-                Fixed bonus points
-              </md-radio>
-              <md-radio
-                v-model="form.coupon_type"
-                value="percetageBonus"
-                ref="coupon_type"
-                id="percetageBonus"
-                name="coupon_type"
-              >
-                Percentage bonus points
-              </md-radio>
-            </div>
-            <div
-              class="md-custom-error top-minus-35 txt-center"
-              v-if="!$v.form.coupon_type.required && $v.form.coupon_type.$dirty"
+            <section
+              id="coupons"
+              class="tabSection vertical right"
+              v-if="form.rewardtype === 'coupon'"
             >
-              Bonus point type is required
-            </div>
-            <div class="amvip--twolColumnRow">
-              <div class="amvip--formRow" v-if="form.coupon_type == 'multiple'">
-                <md-field :class="getValidationClass('couponamount')">
-                  <label for="couponamount">
-                    Multiples
-                    <span class="amvip--mandatory">*</span>
-                  </label>
-                  <md-input
-                    name="couponamount"
-                    id="couponamount"
-                    v-model="form.couponamount"
-                    ref="couponamount"
-                    :disabled="sending"
-                    type="number"
-                  />
-                  <span class="md-suffix">X</span>
-                  <span class="md-helper-text"
-                    >E.g. 2X (If the customer would have normally earned 100
-                    points as per your points setup, at 2X they earn a total of
-                    200 points.)</span
+              <div class="amvip--formRow vertical">
+                <label for="coupon_type">Coupon Type:</label>
+                <div class="couponTypeRadio">
+                  <md-radio
+                    v-model="form.coupon_type"
+                    value="percent"
+                    ref="coupon_type"
+                    id="percentage"
+                    name="coupon_type"
                   >
-                  <span class="md-error" v-if="!$v.form.couponamount.required">
-                    Multiple is required
-                  </span>
-                </md-field>
+                    Percentage
+                  </md-radio>
+                  <md-radio
+                    v-model="form.coupon_type"
+                    value="fixed"
+                    ref="coupon_type"
+                    id="fixed"
+                    name="coupon_type"
+                  >
+                    Fixed Amount
+                  </md-radio>
+                  <md-radio
+                    v-model="form.coupon_type"
+                    value="freeShipping"
+                    ref="coupon_type"
+                    id="freeShipping"
+                    name="coupon_type"
+                  >
+                    Free Shipping
+                  </md-radio>
+                </div>
               </div>
               <div
-                class="amvip--formRow"
-                v-if="form.coupon_type == 'percetageBonus'"
+                class="md-custom-error top-minus-35 txt-center"
+                v-if="
+                  !$v.form.coupon_type.required && $v.form.coupon_type.$dirty
+                "
               >
-                <md-field :class="getValidationClass('couponamount')">
-                  <label for="couponamount">
-                    Percentage bonus points
-                    <span class="amvip--mandatory">*</span>
-                  </label>
-                  <md-input
-                    name="couponamount"
-                    id="couponamount"
-                    v-model="form.couponamount"
-                    :disabled="sending"
-                    ref="couponamount"
-                    type="number"
-                  />
-                  <span class="md-suffix">%</span>
-                  <span class="md-helper-text"
-                    >E.g. 10% bonus points (If the customer would have normally
-                    earned 100 points, they will now earn 100 points + 10%
-                    bonus= 110 points)</span
-                  >
-                  <span class="md-error" v-if="!$v.form.couponamount.required">
-                    Percentage bonus point is required
-                  </span>
-                </md-field>
+                Coupon type is required
               </div>
-              <div class="amvip--formRow" v-if="form.coupon_type == 'fixed'">
-                <md-field :class="getValidationClass('couponamount')">
-                  <label for="couponamount">
+              <div class="amvip--twolColumnRow vertical">
+                <div
+                  class="amvip--formRow"
+                  v-if="form.coupon_type !== 'freeShipping'"
+                >
+                  <md-field :class="getValidationClass('couponamount')">
+                    <label for="couponamount">
+                      Coupon amount
+                      <span class="amvip--mandatory">*</span>
+                    </label>
+                    <md-input
+                      name="couponamount"
+                      ref="couponamount"
+                      id="couponamount"
+                      v-model="form.couponamount"
+                      :disabled="sending"
+                      type="number"
+                    />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.couponamount.required"
+                    >
+                      Coupon amount is required
+                    </span>
+                    <span
+                      class="md-error"
+                      v-else-if="!$v.form.couponamount.minValue"
+                    >
+                      The minimum value shoube greater than or equal to 5
+                    </span>
+                  </md-field>
+                </div>
+                <div class="amvip--formRow">
+                  <md-field :class="getValidationClass('minspend')">
+                    <label for="minspend">
+                      Minimum Spend
+                    </label>
+                    <md-input
+                      name="minspend"
+                      id="minspend"
+                      v-model="form.minspend"
+                      :disabled="sending"
+                      type="number"
+                    />
+                  </md-field>
+                </div>
+              </div>
+              <div class="amvip--twolColumnRow vertical">
+                <div class="amvip--formRow">
+                  <md-field :class="getValidationClass('maxspend')">
+                    <label for="maxspend">
+                      Maximum Spend
+                    </label>
+                    <md-input
+                      name="maxspend"
+                      id="maxspend"
+                      v-model="form.maxspend"
+                      :disabled="sending"
+                      type="number"
+                    />
+                  </md-field>
+                </div>
+              </div>
+            </section>
+            <section
+              id="points"
+              class="tabSection vertical right"
+              v-if="form.rewardtype === 'points'"
+            >
+              <div class="amvip--formRow vertical">
+                <label for="coupon_type">Bonus points Type:</label>
+                <div class="couponType">
+                  <md-radio
+                    v-model="form.coupon_type"
+                    value="multiple"
+                    id="multiple"
+                    ref="coupon_type"
+                    name="coupon_type"
+                  >
+                    Multiple
+                  </md-radio>
+                  <md-radio
+                    v-model="form.coupon_type"
+                    value="fixed"
+                    id="fixed"
+                    ref="coupon_type"
+                    name="coupon_type"
+                  >
                     Fixed bonus points
-                    <span class="amvip--mandatory">*</span>
-                  </label>
-                  <md-input
-                    name="couponamount"
-                    id="couponamount"
-                    v-model="form.couponamount"
-                    ref="couponamount"
-                    :disabled="sending"
-                    type="number"
-                  />
-                  <span class="md-suffix">Pts</span>
-                  <span class="md-helper-text"
-                    >E.g. 10 bonus points (If the customer would have normally
-                    earned 100 points, they will now earn 100 points + 10 bonus
-                    points= 110 points)</span
+                  </md-radio>
+                  <md-radio
+                    v-model="form.coupon_type"
+                    value="percetageBonus"
+                    ref="coupon_type"
+                    id="percetageBonus"
+                    name="coupon_type"
                   >
-                  <span class="md-error" v-if="!$v.form.couponamount.required">
-                    fixed bonus point is required
-                  </span>
-                </md-field>
+                    Percentage bonus points
+                  </md-radio>
+                </div>
               </div>
-              <div class="amvip--formRow">
-                <md-field :class="getValidationClass('minspend')">
-                  <label for="minspend">
-                    Minimum Spend
-                  </label>
-                  <md-input
-                    name="minspend"
-                    id="minspend"
-                    v-model="form.minspend"
-                    :disabled="sending"
-                    type="number"
-                  />
-                </md-field>
+              <div
+                class="md-custom-error top-minus-35 txt-center"
+                v-if="
+                  !$v.form.coupon_type.required && $v.form.coupon_type.$dirty
+                "
+              >
+                Bonus point type is required
               </div>
-            </div>
-            <div class="amvip--twolColumnRow">
-              <div class="amvip--formRow">
-                <div class="expiryDate">
-                  <md-datepicker
-                    md-immediately
-                    :class="getValidationClass('expiry')"
-                    name="expiry"
-                    id="expiry"
-                    v-model="form.expiry"
-                    :disabled="sending"
-                  >
-                    <label>Select bonus point expiry date</label>
-                  </md-datepicker>
-                  <!-- <div
+              <div class="amvip--twolColumnRow vertical">
+                <div
+                  class="amvip--formRow"
+                  v-if="form.coupon_type == 'multiple'"
+                >
+                  <md-field :class="getValidationClass('couponamount')">
+                    <label for="couponamount">
+                      Multiples
+                      <span class="amvip--mandatory">*</span>
+                    </label>
+                    <md-input
+                      name="couponamount"
+                      id="couponamount"
+                      v-model="form.couponamount"
+                      ref="couponamount"
+                      :disabled="sending"
+                      type="number"
+                    />
+                    <span class="md-suffix">X</span>
+                    <span class="md-helper-text"
+                      >E.g. 2X (If the customer would have normally earned 100
+                      points as per your points setup, at 2X they earn a total
+                      of 200 points.)</span
+                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.couponamount.required"
+                    >
+                      Multiple is required
+                    </span>
+                  </md-field>
+                </div>
+                <div
+                  class="amvip--formRow"
+                  v-if="form.coupon_type == 'percetageBonus'"
+                >
+                  <md-field :class="getValidationClass('couponamount')">
+                    <label for="couponamount">
+                      Percentage bonus points
+                      <span class="amvip--mandatory">*</span>
+                    </label>
+                    <md-input
+                      name="couponamount"
+                      id="couponamount"
+                      v-model="form.couponamount"
+                      :disabled="sending"
+                      ref="couponamount"
+                      type="number"
+                    />
+                    <span class="md-suffix">%</span>
+                    <span class="md-helper-text"
+                      >E.g. 10% bonus points (If the customer would have
+                      normally earned 100 points, they will now earn 100 points
+                      + 10% bonus= 110 points)</span
+                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.couponamount.required"
+                    >
+                      Percentage bonus point is required
+                    </span>
+                  </md-field>
+                </div>
+                <div class="amvip--formRow" v-if="form.coupon_type == 'fixed'">
+                  <md-field :class="getValidationClass('couponamount')">
+                    <label for="couponamount">
+                      Fixed bonus points
+                      <span class="amvip--mandatory">*</span>
+                    </label>
+                    <md-input
+                      name="couponamount"
+                      id="couponamount"
+                      v-model="form.couponamount"
+                      ref="couponamount"
+                      :disabled="sending"
+                      type="number"
+                    />
+                    <span class="md-suffix">Pts</span>
+                    <span class="md-helper-text"
+                      >E.g. 10 bonus points (If the customer would have normally
+                      earned 100 points, they will now earn 100 points + 10
+                      bonus points= 110 points)</span
+                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.couponamount.required"
+                    >
+                      fixed bonus point is required
+                    </span>
+                  </md-field>
+                </div>
+                <div class="amvip--formRow">
+                  <md-field :class="getValidationClass('minspend')">
+                    <label for="minspend">
+                      Minimum Spend
+                    </label>
+                    <md-input
+                      name="minspend"
+                      id="minspend"
+                      v-model="form.minspend"
+                      :disabled="sending"
+                      type="number"
+                    />
+                  </md-field>
+                </div>
+              </div>
+              <div class="amvip--twolColumnRow vertical">
+                <div class="amvip--formRow">
+                  <div class="expiryDate">
+                    <md-datepicker
+                      md-immediately
+                      :class="getValidationClass('expiry')"
+                      name="expiry"
+                      id="expiry"
+                      v-model="form.expiry"
+                      :disabled="sending"
+                    >
+                      <label>Select bonus point expiry date</label>
+                    </md-datepicker>
+                    <!-- <div
                     class="md-custom-error padLeft-35"
                     v-if="!$v.form.expiry.required && $v.form.expiry.$dirty"
                   >
                     Bonus expiry date is required.
                   </div> -->
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
-          <section
-            id="points"
-            class="tabSection"
-            v-if="form.rewardtype === 'perk_expeience'"
-          >
-            <div class="amvip--twolColumnRow">
-              <div class="amvip--formRow">
-                <md-field :class="getValidationClass('email')">
-                  <label for="email">
-                    Email
-                  </label>
-                  <md-input
-                    name="email"
-                    id="email"
-                    v-model="form.email"
-                    :disabled="sending"
-                    type="email"
-                  />
-                </md-field>
+            </section>
+            <section
+              id="points"
+              class="tabSection vertical right"
+              v-if="form.rewardtype === 'perk_expeience'"
+            >
+              <div class="amvip--twolColumnRow vertical">
+                <div class="amvip--formRow">
+                  <md-field :class="getValidationClass('email')">
+                    <label for="email">
+                      Email
+                    </label>
+                    <md-input
+                      name="email"
+                      id="email"
+                      v-model="form.email"
+                      :disabled="sending"
+                      type="email"
+                    />
+                  </md-field>
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+          </div>
         </div>
       </div>
     </div>

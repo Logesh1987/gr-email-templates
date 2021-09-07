@@ -31,36 +31,35 @@
           ></span>
         </div>
       </header>
-      <div
-        class="amvip--tierDetails"
-        v-if="tierData.default !== 'Y' || tierData.goal !== 0"
-      >
+      <div class="amvip--tierDetails">
         <h4>Eligibility</h4>
         <ul class="amvip--bulletList">
           <li>
-            {{ tierData.goal == 0 ? "NA" : tierData.goaltxt }}
+            {{ tierData.goal == 0 ? tierData.name : tierData.goaltxt }}
           </li>
         </ul>
         <h4>Benefits</h4>
         <ul class="amvip--bulletList">
           <li v-for="benefit of tierData.rewards" :key="benefit.index">
-            {{ benefit.description }}
+            {{ benefit.name }}
           </li>
-          <li v-if="tierData.rewards.length == 0">
+          <li v-if="tierData.rewards.length == 0" class="info">
             Rewards yet to be added!!!
           </li>
         </ul>
       </div>
-      <div class="amvip--tierDetails pt-20" v-else>
-        <!-- <h4>Description</h4> -->
-        <p>{{ tierData.description }}</p>
-      </div>
+      <!-- <div class="amvip--tierDetails pt-20" v-else>
+        <p>{{ tierData.name }}</p>
+      </div> -->
     </div>
   </div>
 </template>
 <style lang="less">
 .amvip--tierDetails.pt-20 {
   padding-top: 20px;
+}
+li.info {
+  color: red;
 }
 </style>
 <script>
