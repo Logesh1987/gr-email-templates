@@ -16,6 +16,7 @@
               name="name"
               id="name"
               v-model="form.name"
+              ref="name"
               :disabled="sending"
             />
             <span class="md-error" v-if="!$v.form.name.required">
@@ -59,6 +60,7 @@
               name="goal"
               id="goal"
               type="number"
+              ref="goal"
               v-model="form.goal"
               :disabled="sending"
             />
@@ -88,6 +90,7 @@
                 accept="image/*"
                 name="icon"
                 id="icon"
+                ref="icon"
                 v-model="existingFileName"
                 :disabled="sending"
                 @md-change="selectedFile"
@@ -164,10 +167,10 @@ export default {
         required,
         minLength: minLength(3),
       },
+      goal: { required, minValue: minValue(25) },
       icon: {
         required,
       },
-      goal: { required, minValue: minValue(25) },
     },
   },
   methods: {
@@ -276,6 +279,7 @@ export default {
       this.$v.$touch();
       if (this.$v.$invalid) {
         isValidated = false;
+        this.focusFirstStatus(this.$v.form, this.$refs);
         this.responseData = "Validation Errors!!!";
         this.showSnackbar = true;
       } else {

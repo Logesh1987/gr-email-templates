@@ -30,6 +30,7 @@
                 value="coupon"
                 id="rewardCoupons"
                 name="rewardCoupons"
+                ref="rewardtype"
                 @change="rewardTypeChange"
               >
                 Coupons
@@ -39,6 +40,7 @@
               <md-radio
                 v-model="form.rewardtype"
                 value="points"
+                ref="rewardtype"
                 id="rewardPoints"
                 name="rewardPoints"
                 @change="rewardTypeChange"
@@ -49,6 +51,7 @@
             <div class="amvip--customRadio">
               <md-radio
                 v-model="form.rewardtype"
+                ref="rewardtype"
                 value="perk_expeience"
                 id="rewardExperience"
                 name="rewardExperience"
@@ -74,6 +77,7 @@
                 <md-input
                   name="name"
                   id="name"
+                  ref="name"
                   v-model="form.name"
                   :disabled="sending"
                 />
@@ -107,6 +111,7 @@
               <md-radio
                 v-model="form.coupon_type"
                 value="percent"
+                ref="coupon_type"
                 id="percent"
                 name="coupon_type"
               >
@@ -114,6 +119,7 @@
               </md-radio>
               <md-radio
                 v-model="form.coupon_type"
+                ref="coupon_type"
                 value="fixed"
                 id="fixed"
                 name="coupon_type"
@@ -122,6 +128,7 @@
               </md-radio>
               <md-radio
                 v-model="form.coupon_type"
+                ref="coupon_type"
                 value="freeShipping"
                 id="freeShipping"
                 name="coupon_type"
@@ -149,6 +156,7 @@
                     name="couponamount"
                     id="couponamount"
                     v-model="form.couponamount"
+                    ref="couponamount"
                     :disabled="sending"
                     type="number"
                   />
@@ -206,6 +214,7 @@
                 v-model="form.coupon_type"
                 value="multiple"
                 id="multiple"
+                ref="coupon_type"
                 name="coupon_type"
               >
                 Multiple
@@ -214,6 +223,7 @@
                 v-model="form.coupon_type"
                 value="fixed"
                 id="fixedPoints"
+                ref="coupon_type"
                 name="coupon_type"
               >
                 Fixed bonus points
@@ -222,6 +232,7 @@
                 v-model="form.coupon_type"
                 value="percent"
                 id="percetageBonus"
+                ref="coupon_type"
                 name="coupon_type"
               >
                 Percentage bonus points
@@ -245,6 +256,7 @@
                     id="couponamount"
                     v-model="form.couponamount"
                     :disabled="sending"
+                    ref="couponamount"
                     type="number"
                   />
                   <span class="md-suffix">X</span>
@@ -266,6 +278,7 @@
                   </label>
                   <md-input
                     name="couponamount"
+                    ref="couponamount"
                     id="couponamount"
                     v-model="form.couponamount"
                     :disabled="sending"
@@ -290,6 +303,7 @@
                   </label>
                   <md-input
                     name="couponamount"
+                    ref="couponamount"
                     id="couponamount"
                     v-model="form.couponamount"
                     :disabled="sending"
@@ -399,7 +413,7 @@
 </style>
 <script>
 import { validationMixin } from "vuelidate";
-import { required, minLength } from "vuelidate/lib/validators";
+import { required, minLength, requiredIf } from "vuelidate/lib/validators";
 import Loader from "./../../components/Loader";
 import Axios from "axios";
 export default {
@@ -434,10 +448,14 @@ export default {
         required,
       },
       couponamount: {
-        required,
+        required: requiredIf(function() {
+          return this.form.rewardtype !== "perk_expeience";
+        }),
       },
       coupon_type: {
-        required,
+        required: requiredIf(function() {
+          return this.form.rewardtype !== "perk_expeience";
+        }),
       },
     },
   },
@@ -526,6 +544,7 @@ export default {
       let isValidated = false;
       if (this.$v.$invalid) {
         isValidated = false;
+        this.focusFirstStatus(this.$v.form, this.$refs);
         this.responseData = "Validation Errors!!!";
         this.showSnackbar = true;
       } else {

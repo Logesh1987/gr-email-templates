@@ -56,6 +56,24 @@ Vue.mixin({
         return `${Vue.prototype.$callback_url}/${url}`;
       }
     },
+    focusFirstStatus(formData, refrences) {
+      // 1. Loop the keys
+      for (let key in Object.keys(formData)) {
+        // 2. Extract the input
+        const input = Object.keys(formData)[key];
+        // 3. Remove special properties
+        if (input.includes("$")) return false;
+
+        // 4. Check for errors
+        if (formData[input]?.$error) {
+          // 5. Focus the input with the error
+          refrences[input]?.$el.focus();
+
+          // 6. Break out of the loop
+          break;
+        }
+      }
+    },
   },
 });
 

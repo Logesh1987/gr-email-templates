@@ -17,6 +17,7 @@
                 name="name"
                 id="name"
                 v-model="form.name"
+                ref="name"
                 :disabled="sending"
               />
               <span class="md-error" v-if="!$v.form.name.required">
@@ -60,6 +61,7 @@
               <md-input
                 name="goal"
                 id="goal"
+                ref="goal"
                 type="number"
                 v-model="form.goal"
                 :disabled="sending"
@@ -86,7 +88,7 @@
               <md-field :class="getValidationClass('icon')">
                 <label for="icon">Upload</label>
                 <md-file
-                  ref="fileUpload"
+                  ref="icon"
                   accept="image/*"
                   name="icon"
                   id="icon"
@@ -246,7 +248,7 @@ export default {
                     this.showSnackbar = true;
                   });
                 this.existingFile = new File([blobData], res.data.data[0].name);
-                this.$refs.fileUpload.value = res.data.data[0].name;
+                this.$refs.icon.value = res.data.data[0].name;
               } catch (error) {
                 this.responseData = error;
                 this.showSnackbar = true;
@@ -385,6 +387,7 @@ export default {
       this.$v.$touch();
       if (this.$v.$invalid) {
         isValidated = false;
+        this.focusFirstStatus(this.$v.form, this.$refs);
         this.responseData = "Validation Errors!!!";
         this.showSnackbar = true;
       } else {

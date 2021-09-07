@@ -30,6 +30,7 @@
                 value="coupon"
                 id="rewardCoupons"
                 name="rewardCoupons"
+                ref="rewardtype"
                 @change="rewardTypeChange"
               >
                 Coupons
@@ -40,6 +41,7 @@
                 v-model="form.rewardtype"
                 value="points"
                 id="rewardPoints"
+                ref="rewardtype"
                 name="rewardPoints"
                 @change="rewardTypeChange"
               >
@@ -50,6 +52,7 @@
               <md-radio
                 v-model="form.rewardtype"
                 value="perk_expeience"
+                ref="rewardtype"
                 id="rewardExperience"
                 name="rewardExperience"
                 @change="rewardTypeChange"
@@ -74,6 +77,7 @@
                 <md-input
                   name="name"
                   id="name"
+                  ref="name"
                   v-model="form.name"
                   :disabled="sending"
                 />
@@ -107,6 +111,7 @@
               <md-radio
                 v-model="form.coupon_type"
                 value="percent"
+                ref="coupon_type"
                 id="percentage"
                 name="coupon_type"
               >
@@ -115,6 +120,7 @@
               <md-radio
                 v-model="form.coupon_type"
                 value="fixed"
+                ref="coupon_type"
                 id="fixed"
                 name="coupon_type"
               >
@@ -123,6 +129,7 @@
               <md-radio
                 v-model="form.coupon_type"
                 value="freeShipping"
+                ref="coupon_type"
                 id="freeShipping"
                 name="coupon_type"
               >
@@ -147,6 +154,7 @@
                   </label>
                   <md-input
                     name="couponamount"
+                    ref="couponamount"
                     id="couponamount"
                     v-model="form.couponamount"
                     :disabled="sending"
@@ -206,6 +214,7 @@
                 v-model="form.coupon_type"
                 value="multiple"
                 id="multiple"
+                ref="coupon_type"
                 name="coupon_type"
               >
                 Multiple
@@ -214,6 +223,7 @@
                 v-model="form.coupon_type"
                 value="fixed"
                 id="fixed"
+                ref="coupon_type"
                 name="coupon_type"
               >
                 Fixed bonus points
@@ -221,6 +231,7 @@
               <md-radio
                 v-model="form.coupon_type"
                 value="percetageBonus"
+                ref="coupon_type"
                 id="percetageBonus"
                 name="coupon_type"
               >
@@ -244,6 +255,7 @@
                     name="couponamount"
                     id="couponamount"
                     v-model="form.couponamount"
+                    ref="couponamount"
                     :disabled="sending"
                     type="number"
                   />
@@ -272,6 +284,7 @@
                     id="couponamount"
                     v-model="form.couponamount"
                     :disabled="sending"
+                    ref="couponamount"
                     type="number"
                   />
                   <span class="md-suffix">%</span>
@@ -295,6 +308,7 @@
                     name="couponamount"
                     id="couponamount"
                     v-model="form.couponamount"
+                    ref="couponamount"
                     :disabled="sending"
                     type="number"
                   />
@@ -563,6 +577,7 @@ export default {
       let isValidated = false;
       if (this.$v.$invalid) {
         isValidated = false;
+        this.focusFirstStatus(this.$v.form, this.$refs);
         this.responseData = "Validation Errors!!!";
         this.showSnackbar = true;
       } else {

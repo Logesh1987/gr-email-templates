@@ -27,6 +27,7 @@
                 id="name"
                 v-model="form.name"
                 :disabled="sending"
+                ref="name"
               />
               <span class="md-error" v-if="!$v.form.name.required">
                 Name is required
@@ -56,6 +57,7 @@
                 id="date_start"
                 v-model="form.date_start"
                 :disabled="sending"
+                ref="date_start"
               >
                 <label>Select date to begin the program</label>
               </md-datepicker>
@@ -86,17 +88,19 @@
                   v-model="form.selection_type"
                   value="no_of_points"
                   id="points"
+                  ref="selection_type"
                   name="selection_type"
                 >
                   Points
                 </md-radio>
-              </div>
-              <div class="amvip--customRadio">
+                <!-- </div>
+              <div class="amvip--customRadio"> -->
                 <md-radio
                   v-model="form.selection_type"
                   value="purchase_value"
                   id="purchase"
                   name="selection_type"
+                  ref="selection_type"
                 >
                   Purchase
                 </md-radio>
@@ -121,6 +125,7 @@
                   value="lifetime"
                   id="lifetime"
                   name="time_slot"
+                  ref="time_slot"
                 >
                   Lifetime
                 </md-radio>
@@ -128,13 +133,14 @@
                   Once a member achieves a tier, they will keep their status
                   forever.
                 </small>
-              </div>
-              <div class="amvip--customRadio">
+                <!-- </div>
+              <div class="amvip--customRadio"> -->
                 <md-radio
                   v-model="form.time_slot"
                   value="year"
                   id="calendarYear"
                   name="time_slot"
+                  ref="time_slot"
                 >
                   Annual
                 </md-radio>
@@ -163,6 +169,7 @@
     </section>
     <Loader :status="loader"></Loader>
     <ConfirmPopup
+      v-if="showConfirmPopup"
       :showPopup="showConfirmPopup"
       :popupConfig="popupConfig"
       v-on:confirmed="confirmClicked($event)"
@@ -250,6 +257,7 @@ export default {
     showConfirmPopup: false,
     showSnackbar: false,
     responseData: "",
+    popupConfig: null,
   }),
   validations: {
     form: {
@@ -462,6 +470,22 @@ export default {
     validateUser() {
       this.$v.$touch();
       if (this.$v.$invalid) {
+        this.focusFirstStatus(this.$v.form, this.$refs);
+        // for (let key in Object.keys(this.$v.form)) {
+        //   // 2. Extract the input
+        //   const input = Object.keys(this.$v.form)[key];
+        //   // 3. Remove special properties
+        //   if (input.includes("$")) return false;
+
+        //   // 4. Check for errors
+        //   if (this.$v.form[input].$error) {
+        //     // 5. Focus the input with the error
+        //     this.$refs[input].$el.focus();
+
+        //     // 6. Break out of the loop
+        //     break;
+        //   }
+        // }
         this.responseData = "Validation Errors!!!";
         this.showSnackbar = true;
       } else {
