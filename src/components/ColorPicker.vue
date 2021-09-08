@@ -122,29 +122,31 @@ export default {
 <style lang="less" scoped>
 .color-picker {
   display: flex;
-  width: 200px;
   input.form-control {
     padding: 5px;
     border: 1px solid #d2d2d2;
     font-size: 11px;
     height: 36px;
-    width: 80%;
+    width: 100%;
+    border-radius: 5px 0 0 5px;
   }
   .color-picker-container {
     position: relative;
-    right: 33px;
-    top: 6px;
+    right: 0;
+    top: 0;
     display: flex;
     flex-direction: column;
-    width: 29px;
-    align-items: center;
+    width: 35px;
+    align-items: flex-end;
 
     .current-color {
       display: inline-block;
-      width: 24px;
-      height: 24px;
+      width: 37px;
+      height: 36px;
       background-color: #000;
       cursor: pointer;
+      border: 1px solid #d2d2d2;
+      border-radius: 0 5px 5px 0;
     }
   }
 }

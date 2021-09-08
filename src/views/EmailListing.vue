@@ -65,12 +65,12 @@
             </div>
             <div class="actions">
               <router-link :to="'/view/email/templates/' + mail.id_email">
-                <i class="fal fa-edit"
+                <i class="far fa-edit"
                   ><md-tooltip md-direction="left">Edit</md-tooltip></i
                 >
               </router-link>
               <a href="#" @click.prevent="e => sendTestEmail(mail.id_email)">
-                <i class="fal fa-envelope"
+                <i class="far fa-paper-plane"
                   ><md-tooltip md-direction="left"
                     >Send Test Email</md-tooltip
                   ></i
@@ -83,7 +83,6 @@
           </li>
         </ul>
         <div v-if="inactiveList.length > 0" class="otherEmail">
-          <h2>Activate these email</h2>
           <ul class="emailList">
             <li class="head">
               <div class="name">Email Name</div>
@@ -95,8 +94,7 @@
                 <div>
                   <h5>{{ mail.title }}</h5>
                   <p>
-                    Email dummy sample text shown here. Text must be replaced
-                    from api data.
+                    {{ mail.description }}
                   </p>
                 </div>
               </div>
@@ -120,12 +118,12 @@
               </div>
               <div class="actions">
                 <router-link :to="'/view/email/templates/' + mail.id_email">
-                  <i class="fal fa-edit"
+                  <i class="far fa-edit"
                     ><md-tooltip md-direction="left">Edit</md-tooltip></i
                   >
                 </router-link>
                 <a href="#" @click.prevent="e => sendTestEmail(mail.id_email)">
-                  <i class="fal fa-envelope"
+                  <i class="far fa-paper-plane"
                     ><md-tooltip md-direction="left"
                       >Send Test Email</md-tooltip
                     ></i
@@ -140,7 +138,7 @@
         <div>
           <h4>
             <span
-              >WAIT! These sections need <br />
+              >ATTENTION! These sections need <br />
               to be checked as well</span
             >
           </h4>
@@ -239,7 +237,7 @@ export default {
         formData.append(key, params[key]);
       }
       Axios.post(
-        `${window.Config.callback_url}/services/email/updateEmailStatus`,
+        `${window.Config.callback_url}/services/v2/email/updateEmailStatus`,
         formData
       ).then(({ data, status }) => {
         this.loader = false;
@@ -258,7 +256,7 @@ export default {
     sendTestEmail: function(id) {
       this.loader = true;
       Axios.post(
-        `${window.Config.callback_url}/services/email/sendTestEmail`,
+        `${window.Config.callback_url}/services/v2/email/sendTestEmail`,
         this.createFormData({ id_email: id })
       ).then(({ data, status }) => {
         this.loader = false;
@@ -273,7 +271,7 @@ export default {
   mounted: function() {
     this.loader = true;
     Axios.get(
-      `${window.Config.callback_url}/services/email/getEmailTemplates`
+      `${window.Config.callback_url}/services/v2/email/getEmailTemplates`
     ).then(({ data }) => {
       this.listData = data.data;
       this.loader = false;
@@ -359,6 +357,7 @@ export default {
 .emailListingContainer {
   margin-top: -52px;
   display: flex;
+  align-items: flex-start;
   .emailItems {
     flex-grow: 1;
   }
@@ -488,6 +487,8 @@ export default {
   p {
     margin: 0;
     font-size: 12px;
+    line-height: 1.4;
+    margin-top: 3px;
   }
 
   h5 {
@@ -513,7 +514,7 @@ export default {
 
 .emailList li > div {
   flex-grow: 1;
-  padding: 15px 0;
+  padding: 20px 0;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -540,7 +541,7 @@ export default {
 }
 
 .emailList .actions a {
-  font-size: 1.5em;
+  font-size: 1.7em;
   color: rgba(34, 43, 69, 0.5);
   line-height: 1;
 

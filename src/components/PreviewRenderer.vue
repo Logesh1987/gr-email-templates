@@ -23,9 +23,11 @@ export default {
             if (data[property]) {
               if (property == "white_label_image")
                 return data[property].value ? "block" : "none";
+              else if (data[property].type === "file")
+                return `${window.Config.s3_image_url}/${data[property].value}`;
               else return data[property].value;
             } else {
-              return property;
+              return `[[${property}]]`;
             }
           })
         : "<div>Invalid Template</div>"

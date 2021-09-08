@@ -21,19 +21,22 @@
               >Sent Test Email</md-button
             >
             <md-button
-              @click.prevent="togglePageview"
+              @click.prevent="
+                e =>
+                  editted > 2 ? (showUnsavedpop = 'change') : togglePageview()
+              "
               class="md-raised md-accent"
               >Change Template</md-button
             >
             <md-button @click.prevent="handleSave" class="md-raised md-accent"
-              >Save</md-button
+              >Save and Publish</md-button
             >
           </div>
         </div>
         <div class="upgradeBlock" v-if="showWlMsg == 0">
           <p>
-            Would you like to upgrade to our premium services? Have your own
-            branding
+            Do you want to display your branding on the front end? Upgrade to
+            Footer credit add on
           </p>
           <md-button href="#/plan" class="md-raised btnUpgrade"
             >Upgrade now</md-button
@@ -56,7 +59,22 @@
                     :click="appendVarToKey"
                   />
                 </div>
-                <input type="text" ref="subject" v-model="eData.subject" />
+                <input
+                  type="text"
+                  ref="subject"
+                  maxlength="100"
+                  v-model="eData.subject"
+                />
+                <div style="text-align: right">
+                  <small
+                    v-if="eData.subject.trim() == ''"
+                    class="fieldError"
+                    style="float: left"
+                  >
+                    This field cannot be empty
+                  </small>
+                  <small> Char(s): {{ 100 - eData.subject.length }} </small>
+                </div>
               </div>
               <h3 class="bodyHead">Body for your Email</h3>
               <div class="eAccordion">
@@ -98,7 +116,7 @@
                               promptAction = { type: 'Clone', key: key }
                             "
                             href="#"
-                            ><i class="fal fa-clone"></i
+                            ><i class="far fa-clone"></i
                             ><md-tooltip md-direction="left"
                               >Clone</md-tooltip
                             ></a
@@ -109,7 +127,7 @@
                               promptAction = { type: 'Delete', key: key }
                             "
                             href="#"
-                            ><i class="fal fa-trash-alt"></i>
+                            ><i class="far fa-trash-alt"></i>
                             <md-tooltip md-direction="left"
                               >Delete</md-tooltip
                             ></a
@@ -139,9 +157,17 @@
                               <input
                                 class="form-control"
                                 type="text"
+                                maxlength="200"
                                 :ref="`${key}-${name}`"
                                 v-model="control.value"
                               />
+                              <small
+                                v-if="control.value.trim() == ''"
+                                class="fieldError"
+                                style="display: block"
+                              >
+                                This field cannot be empty
+                              </small>
                             </div>
                             <div v-if="control.type == 'textarea'">
                               <div class="subTitle">
@@ -158,40 +184,69 @@
                                 v-model="control.value"
                                 :options="eOptions"
                                 @focus="onEditorFocus($event, name)"
+                                @change="onEditorChange($event)"
                                 :ref="`${key}-${name}`"
                               ></quillEditor>
+                              <small
+                                v-if="control.value.trim() == ''"
+                                class="fieldError"
+                                style="display: block"
+                              >
+                                This field cannot be empty
+                              </small>
                             </div>
                             <div v-if="control.type == 'file'">
                               <div class="subTitle">
-                                <h3>{{ control.label }}</h3>
+                                <h3>
+                                  {{ control.label }}
+                                  <i class="fas fa-question-circle"
+                                    ><md-tooltip md-direction="right"
+                                      >Supported file formats: JPEG,
+                                      PNG</md-tooltip
+                                    ></i
+                                  >
+                                </h3>
                               </div>
                               <div class="uploadWrap">
-                                <label
-                                  class="md-button md-raised md-accent md-theme-default"
-                                  :for="`${key}-${name}`"
-                                >
-                                  <i class="fal fa-upload"></i>
-                                  <span v-if="control.value.length > 0"
-                                    >Replace Image</span
+                                <label :for="`${key}-${name}`"
+                                  ><md-tooltip md-direction="right"
+                                    >Replace image</md-tooltip
                                   >
-                                  <span v-else>Add Image</span>
+                                  <i
+                                    class="fal fa-upload"
+                                    alt="Replace image"
+                                  ></i>
                                   <input
                                     :id="`${key}-${name}`"
                                     type="file"
                                     accept="image/*"
                                     @change="
-                                      e => handleFileChange(e, key, name)
+                                      e =>
+                                        handleFileChange(
+                                          e,
+                                          key,
+                                          name,
+                                          control.width,
+                                          control.height
+                                        )
                                     "
                                   />
                                 </label>
                                 <img
                                   v-if="control.value.length > 0"
-                                  :src="control.value"
+                                  :src="getImgUrl(control.value)"
                                   alt=""
                                 />
+                                <div class="fileDimension">
+                                  {{ control.width }} X
+                                  {{ control.height }} pixels
+                                </div>
                               </div>
                             </div>
-                            <div v-if="control.type == 'color'">
+                            <div
+                              v-if="control.type == 'color'"
+                              class="colorPick"
+                            >
                               <div class="subTitle">
                                 <h3>{{ control.label }}</h3>
                               </div>
@@ -211,26 +266,29 @@
                   :class="[
                     'eAccordion-items',
                     'eAccordion-footer',
-                    { active: activeAccordion == 'footer' && isWl == 1 }
+                    {
+                      active:
+                        activeAccordion == 'footer' && isWl == 1 && wlImage
+                    }
                   ]"
                 >
                   <div
                     class="eAccordion-title"
                     @click.prevent="
                       e =>
-                        footerSection.data.length !== 0 &&
-                        isWl == 1 &&
-                        toggleAccordion('footer')
+                        footerSection.data.length !== 0 && isWl == 1 && wlImage
+                          ? toggleAccordion('footer')
+                          : (upgradePopup = true)
                     "
                   >
                     <span class="title">
                       {{ footerSection.label }}
                     </span>
-                    <nav v-if="isWl == 1">
+                    <nav v-if="isWl == 1 && wlImage">
                       <i class="far fa-chevron-right"></i>
                     </nav>
                   </div>
-                  <div class="eAccordion-content" v-if="isWl == 1">
+                  <div class="eAccordion-content" v-if="isWl == 1 && wlImage">
                     <div>
                       <div
                         class="item-types"
@@ -286,7 +344,7 @@
                 <h3>Reset template to defaults</h3>
                 <md-button
                   size="small"
-                  v-on:click.stop.prevent="promptAction = { type: 'Reset' }"
+                  v-on:click.stop.prevent="resetAction = true"
                   class="md-raised md-accent"
                   >Reset</md-button
                 >
@@ -295,7 +353,7 @@
 
             <div class="md-layout-item md-size-55">
               <div class="previewBlock">
-                <div class="emailTemplate">
+                <div class="emailTemplate" :data-tpl="eData.tpl_name">
                   <table
                     role="presentation"
                     border="0"
@@ -342,23 +400,50 @@
               <span v-html="emailResponse"></span>
             </md-snackbar>
             <md-dialog-confirm
-              :class="[{ warn: promptAction.type == 'Reset' }]"
-              :md-active.sync="promptAction"
-              :md-title="
-                `${promptAction.type} ${
-                  promptAction.type == 'Reset' ? 'Template' : 'Section'
-                }`
+              class="warn"
+              :md-active.sync="resetAction"
+              md-title="Reset Template"
+              md-content="
+                Are you sure, Do you wish to reset this template
               "
+              md-confirm-text="Confirm"
+              md-cancel-text="Cancel"
+              @md-cancel="e => (resetAction = false)"
+              @md-confirm="confirmReset"
+            />
+            <md-dialog-confirm
+              class="warn"
+              :md-active.sync="showUnsavedpop"
+              :md-title="
+                showUnsavedpop == 'change'
+                  ? 'Change Template'
+                  : 'Language Settings'
+              "
+              md-content="
+                There are unsaved changes, Are you sure you wish to proceed ?
+              "
+              md-confirm-text="Confirm"
+              md-cancel-text="Cancel"
+              @md-cancel="e => (showUnsavedpop = false)"
+              @md-confirm="
+                e =>
+                  showUnsavedpop == 'change'
+                    ? togglePageview()
+                    : pushtoLanguageTab()
+              "
+            />
+            <md-dialog-confirm
+              :md-active.sync="promptAction"
+              :md-title="`${promptAction.type} Section`"
               :md-content="
-                `Are you sure, Do you wish to ${promptAction.type} this ${
-                  promptAction.type == 'Reset' ? 'template' : 'section'
-                }`
+                `Are you sure, Do you wish to ${promptAction.type} this section`
               "
               md-confirm-text="Confirm"
               md-cancel-text="Cancel"
               @md-cancel="e => (promptAction = null)"
               @md-confirm="confirmAction"
-            /><md-dialog-confirm
+            />
+            <md-dialog-confirm
               :md-active.sync="footerAction"
               md-title="Change this in the Languages tab"
               md-content="This is a global change and it should be done in the languages tab"
@@ -366,6 +451,15 @@
               md-cancel-text="I'll do it later"
               @md-cancel="() => (footerAction = false)"
               @md-confirm="gotoLanguageTab"
+            />
+            <md-dialog-confirm
+              :md-active.sync="upgradePopup"
+              md-title="Upgrade Now"
+              md-content="Do you want to display your branding on the front end? Upgrade to Footer credit add on"
+              md-confirm-text="Upgrade"
+              md-cancel-text="Not now"
+              @md-cancel="() => (upgradePopup = false)"
+              @md-confirm="gotoPlans"
             />
           </div>
         </div>
@@ -517,12 +611,13 @@ export default {
     PreviewRenderer,
     draggable
   },
-  mixins: ["createFormData", "renderTemplate"],
+  mixins: ["createFormData", "renderTemplate", "getImgUrl"],
   data: function() {
     return {
       isWl: 1,
       showWlMsg: 1,
       editPageView: false,
+      wlImage: false,
       id: this.$route.params.emailId,
       eData: null,
       allData: null,
@@ -540,7 +635,11 @@ export default {
       fromEditPage: false,
       disableTest: false,
       promptAction: false,
-      footerAction: false
+      resetAction: false,
+      footerAction: false,
+      showUnsavedpop: false,
+      upgradePopup: false,
+      editted: 0
     };
   },
   watch: {
@@ -552,20 +651,30 @@ export default {
       if (active) {
         setTimeout(() => {
           const ele = active.querySelector(".eAccordion-content");
-          ele.focus();
+          ele?.focus();
         }, 500);
       }
     },
     eData: {
       deep: true,
       handler: function(val, oldVal) {
-        if (oldVal !== null) this.disableTest = true;
+        if (oldVal !== null) {
+          this.disableTest = true;
+          this.editted = this.editted + 1;
+        }
       }
     },
     showMsg: function() {
       if (this.showMsg) {
         setTimeout(() => (this.showMsg = false), 4000);
       }
+    },
+    editPageView: function() {
+      setTimeout(() => {
+        if (this.isWl == 1 && document.querySelector(".footerWlImage")) {
+          this.wlImage = true;
+        }
+      });
     }
   },
   computed: {
@@ -585,6 +694,7 @@ export default {
     setEdata: function(id) {
       this.eData = this.allData.find(({ id_theme }) => id_theme == id);
       this.disableTest = false;
+      this.editted = 0;
     },
     toggleAccordion: function(index) {
       this.activeAccordion = this.activeAccordion === index ? null : index;
@@ -596,40 +706,48 @@ export default {
     onEditorFocus: function(quill, name) {
       this.quillEditor[name] = quill.selection.savedRange.index;
     },
+    onEditorChange: function({ quill }) {
+      const limit = 3000;
+      if (quill.getLength() > limit) {
+        quill.deleteText(limit, quill.getLength());
+      }
+    },
     handleWlImg: function(status) {
       const footerimg = document.querySelector(".footerWlImage");
-      console.log(footerimg);
       if (status) footerimg.classList.add("hide");
       else footerimg.classList.remove("hide");
     },
-    handleFileChange: function(e, index, name) {
-      console.log(index);
+    handleFileChange: function(e, index, name, width, height) {
       const file = e.target.files[0];
-      this.loader = true;
-      let formData = new FormData();
-      formData.append("Filedata", file);
-      formData.append("suffix", name);
-      formData.append("id_template", 1);
 
-      Axios.post(
-        `${window.Config.callback_url}/S3Uploader/emailTemplate`,
-        formData
-      )
-        .then(({ data }) => {
-          this.loader = false;
-          if (!data.error) {
-            this.eData.json_fields[index].data[name].value =
-              "https://cdn.devam.pro/gr/master/" + data.img_name;
-          } else {
-            this.emailResponse = `<i class="fas fa-exclamation-circle"></i> Uploaded successfully`;
+      if (file) {
+        let formData = new FormData();
+        this.loader = true;
+        formData.append("Filedata", file);
+        formData.append("suffix", name);
+        formData.append("id_template", 1);
+        formData.append("width", width);
+        formData.append("height", height);
+        Axios.post(
+          `${window.Config.callback_url}/S3Uploader/emailTemplate`,
+          formData
+        )
+          .then(({ data }) => {
+            this.loader = false;
+            if (!data.error) {
+              this.eData.json_fields[index].data[name].value = data.img_name;
+              this.emailResponse = `<i class="fas fa-check-circle"></i> Uploaded successfully`;
+            } else {
+              this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
+            }
             this.showMsg = true;
-          }
-        })
-        .catch(({ data }) => {
-          this.loader = false;
-          this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
-          this.showMsg = true;
-        });
+          })
+          .catch(({ data }) => {
+            this.loader = false;
+            this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
+            this.showMsg = true;
+          });
+      }
     },
     appendVarToKey: function(id, name, item) {
       if (name == "subject") {
@@ -670,7 +788,7 @@ export default {
       };
 
       Axios.post(
-        `${window.Config.callback_url}/services/email/saveEmailTemplate`,
+        `${window.Config.callback_url}/services/v2/email/saveEmailTemplate`,
         this.createFormData(params)
       )
         .then(({ data, status }) => {
@@ -692,7 +810,7 @@ export default {
     sendTestEmail: function() {
       this.loader = true;
       Axios.post(
-        `${window.Config.callback_url}/services/email/sendTestEmail`,
+        `${window.Config.callback_url}/services/v2/email/sendTestEmail`,
         this.createFormData({ id_email: this.id })
       ).then(({ data, status }) => {
         this.loader = false;
@@ -706,7 +824,7 @@ export default {
     resetTemplate: function() {
       this.loader = true;
       Axios.post(
-        `${window.Config.callback_url}/services/email/resetEmailTemplate`,
+        `${window.Config.callback_url}/services/v2/email/resetEmailTemplate`,
         this.createFormData({
           id_email: this.id,
           id_theme: this.eData.id_theme
@@ -725,8 +843,9 @@ export default {
     fetchTemplateData: function() {
       this.loader = true;
       this.eData = null;
+      // `${window.Config.callback_url}/services/v2/email/getEmailTemplate/${this.id}`
       Axios.get(
-        `${window.Config.callback_url}/services/email/getEmailTemplate/${this.id}`
+        `${window.Config.callback_url}/services/v2/email/getEmailTemplate/${this.id}`
       ).then(({ data }) => {
         const {
           active_id_theme,
@@ -754,20 +873,27 @@ export default {
       let jFields = [...this.eData.json_fields];
       jFields.splice(index + 1, 0, JSON.parse(JSON.stringify(jFields[index])));
       this.eData = { ...this.eData, json_fields: jFields };
+      this.emailResponse = `<i class="fas fa-check-circle"></i> ${jFields[index].label} cloned successfully`;
+      this.showMsg = true;
     },
     deleteBlock: function(index) {
       let jFields = [...this.eData.json_fields];
       jFields.splice(index, 1);
       this.eData = { ...this.eData, json_fields: jFields };
+      this.emailResponse = `<i class="fas fa-check-circle"></i> ${jFields[index].label} deleted successfully`;
+      this.showMsg = true;
     },
     confirmAction: function() {
       if (this.promptAction.type == "Clone")
         this.cloneBlock(this.promptAction.key);
       else if (this.promptAction.type == "Delete")
         this.deleteBlock(this.promptAction.key);
-      else this.resetTemplate();
 
       this.promptAction = false;
+    },
+    confirmReset: function() {
+      this.resetTemplate();
+      this.resetAction = false;
     },
     showReloadAlert: function(e) {
       if (this.disableTest) {
@@ -778,8 +904,16 @@ export default {
       this.footerAction = true;
     },
     gotoLanguageTab: function() {
-      console.log(`${window.Config.callback_url}/admin/#/view/locales`);
+      if (this.editted > 2) {
+        this.showUnsavedpop = "language";
+        this.footerAction = false;
+      } else this.pushtoLanguageTab();
+    },
+    pushtoLanguageTab: function() {
       window.location.href = `${window.Config.callback_url}/admin/#/view/locales`;
+    },
+    gotoPlans: function() {
+      window.location.href = `${window.Config.callback_url}/admin/#/plans`;
     }
   },
   mounted: function() {
@@ -795,6 +929,18 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.fileDimension {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  background: #000;
+  padding: 2px 4px 1px 11px;
+  border-top-left-radius: 15px;
+  color: #fff;
+  font-size: 11px;
+  opacity: 0.4;
+}
 .editWrap {
   padding-top: 50px;
 }
@@ -898,6 +1044,11 @@ export default {
     h3 {
       color: #007aff;
       font-size: 14px;
+      line-height: 1;
+    }
+    .md-menu {
+      line-height: 0.9;
+      margin: 10px 0;
     }
   }
 
@@ -972,16 +1123,35 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 5px;
+  min-height: 40px;
+  position: relative;
+  i {
+    cursor: pointer;
+  }
   img {
     max-width: 50%;
-    margin: 20px auto 0;
+    margin: 0 auto;
+  }
+}
+.colorPick {
+  margin: 1em 0 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  h3 {
+    margin: 0.6em 0;
   }
 }
 </style>
 
 <style lang="less">
 :root {
-  --md-theme-default-accent: #5bb74d !important;
+  --md-theme-default-accent: #187aff !important;
+  --md-theme-default-accent-on-background: #187aff !important;
+  --md-theme-default-primary-on-background: #187aff !important;
 }
 .quill-editor {
   background-color: #fff;
@@ -991,8 +1161,16 @@ export default {
   flex-wrap: wrap;
   justify-content: space-between;
   .ql-formats {
-    margin-right: 10px;
+    margin-right: 10px !important;
   }
+}
+.ql-snow .ql-tooltip {
+  left: -1px !important;
+  position: static;
+  transform: none;
+}
+.ql-snow .ql-picker.ql-expanded .ql-picker-options {
+  z-index: 99;
 }
 .md-overlay {
   z-index: 10000;
@@ -1007,7 +1185,7 @@ export default {
   display: none !important;
 }
 .flip-list-move {
-  transition: transform 5s;
+  transition: transform 0.5s;
 }
 .no-move {
   transition: transform 0s;
@@ -1019,12 +1197,14 @@ export default {
 .md-button {
   text-transform: capitalize;
   padding: 0 10px;
-  border-radius: 4px;
+  border-radius: 0 !important;
   box-shadow: none !important;
   margin: 0;
-
   i {
     margin-right: 10px;
+  }
+  &[disabled] {
+    background: transparent !important;
   }
 }
 
@@ -1084,6 +1264,7 @@ export default {
       align-items: center;
       padding-right: 5px;
       position: absolute;
+      font-size: 1.1em;
       right: 0;
       top: 50%;
       transform: translateY(-50%);
@@ -1112,25 +1293,36 @@ export default {
     > div {
       border: 1px solid #e8e8e8;
       padding: 10px;
+      border-top: 0;
     }
   }
   &-items {
     &.active {
       .eAccordion-content {
         max-height: 2000px;
-        background-color: #efefef;
+        background-color: #eef9f9;
+        animation: 1s o-visible 1s forwards;
         > div {
           border-color: #afafaf;
         }
       }
       .eAccordion-title {
         border-color: #afafaf;
-        background-color: #bfbfbf;
+        background-color: #187aff;
+        color: #fff;
+        a {
+          color: #fff !important;
+        }
         .fa-chevron-right {
           transform: rotate(90deg);
         }
       }
     }
+  }
+}
+@keyframes o-visible {
+  to {
+    overflow: visible;
   }
 }
 </style>

@@ -8,7 +8,14 @@
 				"header_image": {
 					"type": "file",
 					"label": "header image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_password_1.png"
+					"value": "assets/img/email_assets/header_default_1.png",
+					"width": 550,
+					"height": 100
+				},
+				"header_bg": {
+					"type": "color",
+					"label": "Header bg color",
+					"value": "#ffffff"
 				}
 			}
 		},
@@ -54,7 +61,9 @@
 				"header_image": {
 					"type": "file",
 					"label": "header image",
-					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615895238.png"
+					"value": "assets/img/email_assets/header_campaign_1.png",
+					"width": 325,
+					"height": 180
 				},
 				"header_background_color": {
 					"type": "color",
@@ -79,7 +88,9 @@
 				"block_image": {
 					"type": "file",
 					"label": "Image",
-					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_block_image_1617886568.png"
+					"value": "assets/img/email_assets/campaign_1.png",
+					"width": 113,
+					"height": 113
 				},
 				"title": {
 					"type": "text",
@@ -115,7 +126,9 @@
 				"block_image": {
 					"type": "file",
 					"label": "Image",
-					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_block_image_1617886578.png"
+					"value": "assets/img/email_assets/campaign_2.png",
+					"width": 113,
+					"height": 113
 				},
 				"title": {
 					"type": "text",
@@ -154,7 +167,7 @@
 					"label": "Footer content 2",
 					"max_length": 3000,
 					"rows": 4,
-					"value": "<p>Regards [[campaign_name]]<br><br></p>"
+					"value": "<p>Regards [[Site Name]]<br><br></p>"
 				}
 			}
 		},
@@ -180,7 +193,9 @@
 				"header_image": {
 					"type": "file",
 					"label": "header image",
-					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615895940.png"
+					"value": "assets/img/email_assets/header_campaign_2.png",
+					"width": 550,
+					"height": 200
 				},
 				"header_bg": {
 					"type": "color",
@@ -205,12 +220,16 @@
 				"block_image_1": {
 					"type": "file",
 					"label": "Side image 1",
-					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_block_image_1_1615895985.png"
+					"value": "assets/img/email_assets/campaign_3.png",
+					"width": 113,
+					"height": 113
 				},
 				"block_image_2": {
 					"type": "file",
 					"label": "Side image 2",
-					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_block_image_2_1615896008.png"
+					"value": "assets/img/email_assets/campaign_4.png",
+					"width": 113,
+					"height": 113
 				},
 				"subbg_1": {
 					"type": "color",
@@ -275,7 +294,7 @@
 					"label": "Footer content 2",
 					"max_length": 3000,
 					"rows": 4,
-					"value": "<p>Regards [[campaign_name]]</p>"
+					"value": "<p>Regards [[Site Name]]</p>"
 				}
 			}
 		},
@@ -301,7 +320,9 @@
 				"header_image": {
 					"type": "file",
 					"label": "header image",
-					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615900791.png"
+					"value": "assets/img/email_assets/header_campaign_3.png",
+					"width": 390,
+					"height": 210
 				},
 				"header_bg": {
 					"type": "color",
@@ -326,7 +347,9 @@
 				"section_image": {
 					"type": "file",
 					"label": "Section image",
-					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_section_image_1615900830.png"
+					"value": "assets/img/email_assets/campaign_5.png",
+					"width": 270,
+					"height": 100
 				},
 				"section_bg": {
 					"type": "color",
@@ -359,7 +382,9 @@
 				"section_image": {
 					"type": "file",
 					"label": "Section image",
-					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_section_image_1615900873.png"
+					"value": "assets/img/email_assets/campaign_6.png",
+					"width": 270,
+					"height": 100
 				},
 				"section_bg": {
 					"type": "color",
@@ -408,7 +433,7 @@
 					"label": "Footer content 2",
 					"max_length": 3000,
 					"rows": 4,
-					"value": "<p>Regards [[Campaign Name]]</p>"
+					"value": "<p>Regards [[Site Name]]</p>"
 				}
 			}
 		},
@@ -425,7 +450,7 @@
 			}
 		}
 	],
-	"loyalty_1": [
+	"welcome_referral_1": [
 		{
 			"name": "header",
 			"label": "Header component",
@@ -434,7 +459,9 @@
 				"header_image": {
 					"type": "file",
 					"label": "Header image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_loyalty_1.png"
+					"value": "assets/img/email_assets/header_loyalty_1.png",
+					"width": 550,
+					"height": 250
 				},
 				"background_color": {
 					"type": "color",
@@ -487,7 +514,7 @@
 					"label": "Section title",
 					"max_length": 3000,
 					"rows": 4,
-					"value": "<p>You can now earn points for many activities and redeem them for great rewards.</p>"
+					"value": "<p>You can now earn points for many <br/>activities and redeem them for great rewards.</p>"
 				},
 				"block_background_color": {
 					"type": "color",
@@ -497,7 +524,9 @@
 				"block_image": {
 					"type": "file",
 					"label": "Section image",
-					"value": "http://maverickmav.org/ui/email-template/images/loyalty_1.png"
+					"value": "assets/img/email_assets/loyalty_1.png",
+					"width": 110,
+					"height": 120
 				},
 				"block_description_1": {
 					"type": "textarea",
@@ -513,7 +542,7 @@
 					"label": "Section description 2",
 					"max_length": 3000,
 					"rows": 4,
-					"value": "<p>Regards, [[Company Name]]</p>"
+					"value": "<p>Regards, [[Site Name]]</p>"
 				}
 			}
 		},
@@ -530,7 +559,7 @@
 			}
 		}
 	],
-	"loyalty_2": [
+	"welcome_referral_2": [
 		{
 			"name": "header",
 			"label": "Header component",
@@ -539,7 +568,9 @@
 				"header_image": {
 					"type": "file",
 					"label": "header image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_loyalty_2.png"
+					"value": "assets/img/email_assets/header_loyalty_2.png",
+					"width": 350,
+					"height": 310
 				},
 				"header_background_color": {
 					"type": "color",
@@ -617,7 +648,7 @@
 			}
 		}
 	],
-	"loyalty_3": [
+	"welcome_referral_3": [
 		{
 			"name": "header",
 			"label": "Header component",
@@ -626,7 +657,9 @@
 				"header_image": {
 					"type": "file",
 					"label": "header image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_loyalty_3.png"
+					"value": "assets/img/email_assets/header_loyalty_3.png",
+					"width": 335,
+					"height": 245
 				},
 				"background_color": {
 					"type": "color",
@@ -676,12 +709,16 @@
 				"block_image_1": {
 					"type": "file",
 					"label": "Block image 1",
-					"value": "http://maverickmav.org/ui/email-template/images/loyalty_2.png"
+					"value": "assets/img/email_assets/loyalty_2.png",
+					"width": 135,
+					"height": 135
 				},
 				"block_image_2": {
 					"type": "file",
 					"label": "Block image 2",
-					"value": "http://maverickmav.org/ui/email-template/images/loyalty_3.png"
+					"value": "assets/img/email_assets/loyalty_3.png",
+					"width": 135,
+					"height": 135
 				},
 				"block_description_1": {
 					"type": "textarea",
@@ -705,7 +742,7 @@
 					"label": "Section description 3",
 					"max_length": 3000,
 					"rows": 4,
-					"value": "<p>Regards, [[Company Name]]</p>"
+					"value": "<p>Regards, [[Site Name]]</p>"
 				}
 			}
 		},
@@ -731,7 +768,9 @@
 				"header_image": {
 					"type": "file",
 					"label": "header image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_purchase_1.png"
+					"value": "assets/img/email_assets/header_purchase_1.png",
+					"width": 310,
+					"height": 300
 				},
 				"background_color": {
 					"type": "color",
@@ -772,7 +811,7 @@
 					"label": "Section description 3",
 					"max_length": 3000,
 					"rows": 4,
-					"value": "<p>Keep an eye out to win more rewards.<br/>Regards, [[Company Name]]</p>"
+					"value": "<p>Keep an eye out to win more rewards.<br/>Regards, [[Site Name]]</p>"
 				}
 			}
 		},
@@ -826,7 +865,9 @@
 				"block_image": {
 					"type": "file",
 					"label": "header image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_purchase_2.png"
+					"value": "assets/img/email_assets/header_purchase_2.png",
+					"width": 450,
+					"height": 450
 				},
 				"background_color": {
 					"type": "color",
@@ -843,7 +884,7 @@
 				"background_color": {
 					"type": "color",
 					"label": "section bg color",
-					"value": "#423a82"
+					"value": "#ffffff"
 				},
 				"block_description": {
 					"type": "textarea",
@@ -851,7 +892,7 @@
 					"label": "Section description",
 					"max_length": 3000,
 					"rows": 4,
-					"value": "Keep an eye out to win more rewards.<br/>Regards, [[Company Name]]"
+					"value": "Keep an eye out to win more rewards.<br/>Regards, [[Site Name]]"
 				}
 			}
 		},
@@ -877,7 +918,9 @@
 				"header_image": {
 					"type": "file",
 					"label": "header image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_purchase_3.png"
+					"value": "assets/img/email_assets/header_purchase_3.png",
+					"width": 550,
+					"height": 300
 				},
 				"background_color": {
 					"type": "color",
@@ -910,7 +953,7 @@
 					"label": "Section Description",
 					"max_length": 3000,
 					"rows": 4,
-					"value": "Keep an eye out to win more rewards.<br/>Regards, [[Company Name]]"
+					"value": "Keep an eye out to win more rewards.<br/>Regards, [[Site Name]]"
 				}
 			}
 		},
@@ -927,6 +970,618 @@
 			}
 		}
 	],
+	"forgot_password_1": [
+		{
+			"name": "header",
+			"label": "Header",
+			"clone": 1,
+			"data": {
+				"background_color": {
+					"type": "color",
+					"label": "bg color",
+					"value": "#ffffff"
+				},
+				"header_image": {
+					"type": "file",
+					"label": "Header image",
+					"value": "assets/img/email_assets/header_password_1.png",
+					"width": 550,
+					"height": 110
+				}
+			}
+		},
+		{
+			"name": "header",
+			"label": "Hero Image",
+			"clone": 1,
+			"data": {
+				"background_color": {
+					"type": "color",
+					"label": "bg color",
+					"value": "#ffffff"
+				},
+				"header_image": {
+					"type": "file",
+					"label": "Header image",
+					"value": "assets/img/email_assets/key_password_3.png",
+					"width": 550,
+					"height": 170
+				}
+			}
+		},
+		{
+			"name": "section_1",
+			"label": "Section 1",
+			"clone": 1,
+			"data": {
+				"background_color": {
+					"type": "color",
+					"label": "bg color",
+					"value": "#ffffff"
+				},
+				"subtitle": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Section Subtitle",
+					"max_length": 3000,
+					"value": "HI [[Name]]"
+				},
+				"title": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Section Title",
+					"max_length": 3000,
+					"value": "Did you request a new password?"
+				},
+				"button_color": {
+					"type": "color",
+					"label": "button color",
+					"value": "#FB3636"
+				},
+				"button_text": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Button text",
+					"max_length": 3000,
+					"value": "Reset password"
+				}
+			}
+		},
+		{
+			"name": "section_2",
+			"label": "Section 2",
+			"clone": 1,
+			"data": {
+				"background_color": {
+					"type": "color",
+					"label": "bg color",
+					"value": "#f5f6fb"
+				},
+				"description": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Section Text",
+					"max_length": 3000,
+					"value": "Not you? Please discard this email"
+				}
+			}
+		},
+		{
+			"name": "footer",
+			"label": "Footer Section",
+			"clone": 0,
+			"data": {
+				"white_label_image": {
+					"type": "checkbox",
+					"label": "Show white label image",
+					"value": 1
+				}
+			}
+		}
+	],
+	"forgot_password_2": [
+		{
+			"name": "header",
+			"label": "Header",
+			"clone": 1,
+			"data": {
+				"header_image": {
+					"type": "file",
+					"label": "Header image",
+					"value": "assets/img/email_assets/header_password_2.png",
+					"width": 400,
+					"height": 200
+				},
+				"background_color": {
+					"type": "color",
+					"label": "bg color",
+					"value": "#292D5C"
+				}
+			}
+		},
+		{
+			"name": "section_1",
+			"label": "Section 1",
+			"clone": 1,
+			"data": {
+				"background_color_1": {
+					"type": "color",
+					"label": "bg color 1",
+					"value": "#f8f8f8"
+				},
+				"background_color_2": {
+					"type": "color",
+					"label": "bg color 2",
+					"value": "#ffffff"
+				},
+				"subtitle": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Section Subtitle",
+					"max_length": 3000,
+					"value": "HI [[Name]]"
+				},
+				"title": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Section Title",
+					"max_length": 3000,
+					"value": "Did you request a new password?"
+				},
+				"button_color": {
+					"type": "color",
+					"label": "button color",
+					"value": "#FB3636"
+				},
+				"button_text": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Button text",
+					"max_length": 3000,
+					"value": "Reset password"
+				},
+				"description": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Section Text",
+					"max_length": 3000,
+					"value": "Not you? Please discard this email"
+				}
+			}
+		},
+		{
+			"name": "section_2",
+			"label": "Section 2",
+			"clone": 1,
+			"data": {
+				"block_image": {
+					"type": "file",
+					"label": "Header image",
+					"value": "assets/img/email_assets/footer_password_2.png",
+					"width": 550,
+					"height": 15
+				},
+				"background_color": {
+					"type": "color",
+					"label": "bg color",
+					"value": "#f8f8f8"
+				}
+			}
+		},
+		{
+			"name": "footer",
+			"label": "Footer Section",
+			"clone": 0,
+			"data": {
+				"white_label_image": {
+					"type": "checkbox",
+					"label": "Show white label image",
+					"value": 1
+				}
+			}
+		}
+	],
+	"forgot_password_3": [
+		{
+			"name": "block_image",
+			"label": "Block Image",
+			"clone": 1,
+			"data": {
+				"block_image": {
+					"type": "file",
+					"label": "Block image",
+					"value": "assets/img/email_assets/bg_top_password_3.png",
+					"width": 550,
+					"height": 90
+				}
+			}
+		},
+		{
+			"name": "section",
+			"label": "Section",
+			"clone": 1,
+			"data": {
+				"background_color_1": {
+					"type": "color",
+					"label": "bg color 1",
+					"value": "#ffffff"
+				},
+				"background_color_2": {
+					"type": "color",
+					"label": "bg color 2",
+					"value": "#fff2e1"
+				},
+				"block_image": {
+					"type": "file",
+					"label": "Block image",
+					"value": "assets/img/email_assets/key_password_4.png",
+					"width": 205,
+					"height": 160
+				},
+				"subtitle": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Section Subtitle",
+					"max_length": 3000,
+					"value": "HI [[Name]]"
+				},
+				"title": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Section Title",
+					"max_length": 3000,
+					"value": "Click here to reset your password"
+				},
+				"button_color": {
+					"type": "color",
+					"label": "button color",
+					"value": "#FB3636"
+				},
+				"button_text": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Button text",
+					"max_length": 3000,
+					"value": "Reset password"
+				},
+				"description": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Section Text",
+					"max_length": 3000,
+					"value": "Not you? Please discard this email"
+				}
+			}
+		},
+		{
+			"name": "block_image",
+			"label": "Block Image",
+			"clone": 1,
+			"data": {
+				"block_image": {
+					"type": "file",
+					"label": "Block image",
+					"value": "assets/img/email_assets/bg_bot_password_3.png",
+					"width": 550,
+					"height": 70
+				}
+			}
+		},
+		{
+			"name": "footer",
+			"label": "Footer Section",
+			"clone": 0,
+			"data": {
+				"white_label_image": {
+					"type": "checkbox",
+					"label": "Show white label image",
+					"value": 1
+				}
+			}
+		}
+	],
+	"redeem_points_1": [
+		{
+			"name": "header",
+			"label": "Header",
+			"clone": 1,
+			"data": {
+				"header_image": {
+					"type": "file",
+					"label": "Header image",
+					"value": "assets/img/email_assets/header_congrats_1.png",
+					"width": 400,
+					"height": 300
+				},
+				"background_color": {
+					"type": "color",
+					"label": "bg color",
+					"value": "#7343c3"
+				},
+				"title": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Title",
+					"max_length": 3000,
+					"value": "Congratulations!"
+				}
+			}
+		},
+		{
+			"name": "section_1",
+			"label": "Section Body",
+			"clone": 1,
+			"data": {
+				"background_color": {
+					"type": "color",
+					"label": "bg color",
+					"value": "#7343c3"
+				},
+				"background_color_1": {
+					"type": "color",
+					"label": "bg color 1",
+					"value": "#ffffff"
+				},
+				"background_color_2": {
+					"type": "color",
+					"label": "bg color 2",
+					"value": "#3c0775"
+				},
+				"background_color_3": {
+					"type": "color",
+					"label": "bg color 3",
+					"value": "#ffdcb8"
+				},
+				"description": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Description",
+					"max_length": 3000,
+					"value": "You have redeemed<br/>Reward [[Reward Title]]"
+				},
+				"subtitle_1": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Title 1",
+					"max_length": 3000,
+					"value": "Your current balance is"
+				},
+				"subtitle_2": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Title 2",
+					"max_length": 3000,
+					"value": "Your redeemed points"
+				}
+			}
+		},
+		{
+			"name": "section_2",
+			"label": "Section Footer",
+			"clone": 1,
+			"data": {
+				"background_color": {
+					"type": "color",
+					"label": "bg color",
+					"value": "#7343c3"
+				},
+				"description": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Description",
+					"max_length": 3000,
+					"value": "Regards, [[Site Name]]"
+				}
+			}
+		},
+		{
+			"name": "footer",
+			"label": "Footer Section",
+			"clone": 0,
+			"data": {
+				"white_label_image": {
+					"type": "checkbox",
+					"label": "Show white label image",
+					"value": 1
+				}
+			}
+		}
+	],
+	"redeem_points_2": [
+		{
+			"name": "header",
+			"label": "Header",
+			"clone": 1,
+			"data": {
+				"header_image": {
+					"type": "file",
+					"label": "Header image",
+					"value": "assets/img/email_assets/header_congrats_2.png",
+					"width": 550,
+					"height": 260
+				},
+				"background_color": {
+					"type": "color",
+					"label": "bg color",
+					"value": "#ffdcb8"
+				}
+			}
+		},
+		{
+			"name": "section_1",
+			"label": "Section Body",
+			"clone": 1,
+			"data": {
+				"background_color": {
+					"type": "color",
+					"label": "bg color",
+					"value": "#ffdcb8"
+				},
+				"title": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Title",
+					"max_length": 3000,
+					"value": "Congratulations!"
+				},
+				"description": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Description",
+					"max_length": 3000,
+					"value": "You have redeemed<br/>Reward [[Reward Title]]"
+				}
+			}
+		},
+		{
+			"name": "section_2",
+			"label": "Section Content",
+			"clone": 1,
+			"data": {
+				"background_color": {
+					"type": "color",
+					"label": "bg color",
+					"value": "#ffdcb8"
+				},
+				"subtitle_1": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Title 1",
+					"max_length": 3000,
+					"value": "Your current balance is"
+				},
+				"subtitle_2": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Title 2",
+					"max_length": 3000,
+					"value": "Your redeemed points"
+				},
+				"description": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Description",
+					"max_length": 3000,
+					"value": "Regards, [[Site Name]]"
+				}
+			}
+		},
+		{
+			"name": "footer",
+			"label": "Footer Section",
+			"clone": 0,
+			"data": {
+				"white_label_image": {
+					"type": "checkbox",
+					"label": "Show white label image",
+					"value": 1
+				}
+			}
+		}
+	],
+	"redeem_points_3": [
+		{
+			"name": "header",
+			"label": "Header",
+			"clone": 1,
+			"data": {
+				"header_image": {
+					"type": "file",
+					"label": "Header image",
+					"value": "assets/img/email_assets/header_congrats_3.png",
+					"width": 375,
+					"height": 250
+				},
+				"background_color": {
+					"type": "color",
+					"label": "bg color",
+					"value": "#000000"
+				}
+			}
+		},
+		{
+			"name": "section_1",
+			"label": "Section 1",
+			"clone": 1,
+			"data": {
+				"background_color": {
+					"type": "color",
+					"label": "bg color",
+					"value": "#2c2b2b"
+				},
+				"title": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Title",
+					"max_length": 3000,
+					"value": "Congratulations!"
+				},
+				"description": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Description",
+					"max_length": 3000,
+					"value": "You have redeemed<br/>Reward [[Reward Title]]"
+				}
+			}
+		},
+		{
+			"name": "section_2",
+			"label": "Section 2",
+			"clone": 1,
+			"data": {
+				"background_color": {
+					"type": "color",
+					"label": "bg color",
+					"value": "#f5d1cf"
+				},
+				"coupon_bg": {
+					"type": "color",
+					"label": "Coupon bg color",
+					"value": "#c2397e"
+				},
+				"subtitle_1": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Title 1",
+					"max_length": 3000,
+					"value": "Your current balance is"
+				},
+				"subtitle_2": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Title 2",
+					"max_length": 3000,
+					"value": "Your redeemed points"
+				},
+				"background_color_2": {
+					"type": "color",
+					"label": "Footer bg color",
+					"value": "#ffdcb8"
+				},
+				"description": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Description",
+					"max_length": 3000,
+					"value": "Regards, [[Site Name]]"
+				}
+			}
+		},
+		{
+			"name": "footer",
+			"label": "Footer Section",
+			"clone": 0,
+			"data": {
+				"white_label_image": {
+					"type": "checkbox",
+					"label": "Show white label image",
+					"value": 1
+				}
+			}
+		}
+	],
+	/* OTHERS NOT YET  DONE */
 	"campaign_referral_1": [
 		{
 			"name": "section_1",
@@ -971,7 +1626,7 @@
 				"block_image": {
 					"type": "file",
 					"label": "block image",
-					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615900791.png"
+					"value": "assets/img/email_assets/header_campaign_referral_1.png"
 				},
 				"background_color": {
 					"type": "color",
@@ -1058,7 +1713,7 @@
 				"block_image": {
 					"type": "file",
 					"label": "block image",
-					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615900791.png"
+					"value": "assets/img/email_assets/campaign_refeeral_1.png"
 				}
 			}
 		},
@@ -1112,7 +1767,7 @@
 				"header_image": {
 					"type": "file",
 					"label": "header image",
-					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615900791.png"
+					"value": "assets/img/email_assets/header_campaign_referral_3.png"
 				},
 				"background_color": {
 					"type": "color",
@@ -1161,11 +1816,6 @@
 					"label": "Section desc 3",
 					"max_length": 3000,
 					"value": "Here is your referral reward:"
-				},
-				"block_image": {
-					"type": "file",
-					"label": "block image",
-					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615900791.png"
 				}
 			}
 		},
@@ -1219,7 +1869,7 @@
 				"header_image": {
 					"type": "file",
 					"label": "header image",
-					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615900791.png"
+					"value": "assets/img/email_assets/1_header_image_1615900791.png"
 				},
 				"background_color": {
 					"type": "color",
@@ -1286,7 +1936,7 @@
 				"block_image": {
 					"type": "file",
 					"label": "header image",
-					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615900791.png"
+					"value": "assets/img/email_assets/1_header_image_1615900791.png"
 				},
 				"block_description_1": {
 					"type": "textarea",
@@ -1316,7 +1966,7 @@
 				"header_image": {
 					"type": "file",
 					"label": "header image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_celebrate_events_2.png"
+					"value": "assets/img/email_assets/header_celebrate_events_2.png"
 				},
 				"background_color": {
 					"type": "color",
@@ -1423,7 +2073,7 @@
 				"block_image": {
 					"type": "file",
 					"label": "header image",
-					"value": "http://maverickmav.org/ui/email-template/images/celebrate_events_2.png"
+					"value": "assets/img/email_assets/celebrate_events_2.png"
 				},
 				"background_color": {
 					"type": "color",
@@ -1442,7 +2092,7 @@
 				"header_image": {
 					"type": "file",
 					"label": "header image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_celebrate_events_3.png"
+					"value": "assets/img/email_assets/header_celebrate_events_3.png"
 				},
 				"background_color": {
 					"type": "color",
@@ -1521,7 +2171,7 @@
 				"block_image": {
 					"type": "file",
 					"label": "header image",
-					"value": "http://maverickmav.org/ui/email-template/images/celebrate_events_3.png"
+					"value": "assets/img/email_assets/celebrate_events_3.png"
 				},
 				"background_color": {
 					"type": "color",
@@ -1568,7 +2218,7 @@
 				"header_image": {
 					"type": "file",
 					"label": "header image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_loyalty_referral_enrollment_1.png"
+					"value": "assets/img/email_assets/header_loyalty_referral_enrollment_1.png"
 				},
 				"background_color": {
 					"type": "color",
@@ -1670,7 +2320,7 @@
 				"block_image": {
 					"type": "file",
 					"label": "block image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_loyalty_referral_enrollment_2.png"
+					"value": "assets/img/email_assets/header_loyalty_referral_enrollment_2.png"
 				},
 				"background_color": {
 					"type": "color",
@@ -1713,7 +2363,7 @@
 				"block_image": {
 					"type": "file",
 					"label": "block image",
-					"value": "http://maverickmav.org/ui/email-template/images/footer_loyalty_referral_enrollment_2.png"
+					"value": "assets/img/email_assets/footer_loyalty_referral_enrollment_2.png"
 				},
 				"background_color": {
 					"type": "color",
@@ -1751,7 +2401,7 @@
 				"block_image": {
 					"type": "file",
 					"label": "block image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_loyalty_referral_enrollment_3.png"
+					"value": "assets/img/email_assets/header_loyalty_referral_enrollment_3.png"
 				},
 				"background_color": {
 					"type": "color",
@@ -1801,7 +2451,7 @@
 				"block_image": {
 					"type": "file",
 					"label": "block image",
-					"value": "http://maverickmav.org/ui/email-template/images/footer_loyalty_referral_enrollment_3.png"
+					"value": "assets/img/email_assets/footer_loyalty_referral_enrollment_3.png"
 				},
 				"background_color": {
 					"type": "color",
@@ -1825,7 +2475,7 @@
 				"header_image": {
 					"type": "file",
 					"label": "Header image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_loyalty_referral_reward_1.png"
+					"value": "assets/img/email_assets/header_loyalty_referral_reward_1.png"
 				},
 				"subtitle": {
 					"type": "text",
@@ -1896,7 +2546,7 @@
 				"block_image": {
 					"type": "file",
 					"label": "Block image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_loyalty_referral_reward_2_1.png"
+					"value": "assets/img/email_assets/header_loyalty_referral_reward_2_1.png"
 				}
 			}
 		},
@@ -1939,7 +2589,7 @@
 				"block_image": {
 					"type": "file",
 					"label": "Block image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_loyalty_referral_reward_2.png"
+					"value": "assets/img/email_assets/header_loyalty_referral_reward_2.png"
 				}
 			}
 		},
@@ -1982,7 +2632,7 @@
 				"block_image": {
 					"type": "file",
 					"label": "Block image",
-					"value": "http://maverickmav.org/ui/email-template/images/footer_loyalty_referral_reward_2.png"
+					"value": "assets/img/email_assets/footer_loyalty_referral_reward_2.png"
 				}
 			}
 		}
@@ -2001,7 +2651,7 @@
 				"header_image": {
 					"type": "file",
 					"label": "Header image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_loyalty_referral_reward_3.png"
+					"value": "assets/img/email_assets/header_loyalty_referral_reward_3.png"
 				},
 				"subtitle": {
 					"type": "text",
@@ -2054,508 +2704,6 @@
 					"label": "Section Text",
 					"max_length": 3000,
 					"value": "<p>When they shop at our store, you get additional rewards.<br/>Thank you once again for shopping with us.</p><p>Regards, [[Business Name]]</p>"
-				}
-			}
-		}
-	],
-	"password_1": [
-		{
-			"name": "header",
-			"label": "Header",
-			"clone": 1,
-			"data": {
-				"background_color": {
-					"type": "color",
-					"label": "bg color",
-					"value": "#251b3d"
-				},
-				"header_bg": {
-					"type": "file",
-					"label": "Header image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_password_1.png"
-				},
-				"header_image": {
-					"type": "file",
-					"label": "Header image",
-					"value": "http://maverickmav.org/ui/email-template/images/key_password_3.png"
-				}
-			}
-		},
-		{
-			"name": "section_1",
-			"label": "Section 1",
-			"clone": 1,
-			"data": {
-				"background_color": {
-					"type": "color",
-					"label": "bg color",
-					"value": "#ffffff"
-				},
-				"subtitle": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Section Subtitle",
-					"max_length": 3000,
-					"value": "HI [[First Name]]"
-				},
-				"title": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Section Title",
-					"max_length": 3000,
-					"value": "Did you request a new password?"
-				},
-				"button_color": {
-					"type": "color",
-					"label": "button color",
-					"value": "#FB3636"
-				},
-				"button_text": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Button text",
-					"max_length": 3000,
-					"value": "Reset password"
-				}
-			}
-		},
-		{
-			"name": "section_2",
-			"label": "Section 2",
-			"clone": 1,
-			"data": {
-				"background_color": {
-					"type": "color",
-					"label": "bg color",
-					"value": "#999999"
-				},
-				"description": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Section Text",
-					"max_length": 3000,
-					"value": "Not you? Please discard this email"
-				}
-			}
-		}
-	],
-	"password_2": [
-		{
-			"name": "header",
-			"label": "Header",
-			"clone": 1,
-			"data": {
-				"background_color": {
-					"type": "color",
-					"label": "bg color",
-					"value": "#292D5C"
-				},
-				"header_image": {
-					"type": "file",
-					"label": "Header image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_password_2.png"
-				}
-			}
-		},
-		{
-			"name": "section_1",
-			"label": "Section 1",
-			"clone": 1,
-			"data": {
-				"background_color_1": {
-					"type": "color",
-					"label": "bg color 1",
-					"value": "#f8f8f8"
-				},
-				"background_color_2": {
-					"type": "color",
-					"label": "bg color 2",
-					"value": "#ffffff"
-				},
-				"subtitle": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Section Subtitle",
-					"max_length": 3000,
-					"value": "HI [[First Name]]"
-				},
-				"title": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Section Title",
-					"max_length": 3000,
-					"value": "Did you request a new password?"
-				},
-				"button_color": {
-					"type": "color",
-					"label": "button color",
-					"value": "#FB3636"
-				},
-				"button_text": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Button text",
-					"max_length": 3000,
-					"value": "Reset password"
-				},
-				"description": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Section Text",
-					"max_length": 3000,
-					"value": "Not you? Please discard this email"
-				}
-			}
-		},
-		{
-			"name": "section_2",
-			"label": "Section 2",
-			"clone": 1,
-			"data": {
-				"background_color": {
-					"type": "color",
-					"label": "bg color",
-					"value": "#f8f8f8"
-				},
-				"block_image": {
-					"type": "file",
-					"label": "Header image",
-					"value": "http://maverickmav.org/ui/email-template/images/footer_password_2.png"
-				}
-			}
-		}
-	],
-	"password_3": [
-		{
-			"name": "block_image",
-			"label": "Block Image",
-			"clone": 1,
-			"data": {
-				"block_image": {
-					"type": "file",
-					"label": "Block image",
-					"value": "http://maverickmav.org/ui/email-template/images/bg_top_password_3.png"
-				}
-			}
-		},
-		{
-			"name": "section",
-			"label": "Section",
-			"clone": 1,
-			"data": {
-				"background_color_1": {
-					"type": "color",
-					"label": "bg color 1",
-					"value": "#ffffff"
-				},
-				"background_color_2": {
-					"type": "color",
-					"label": "bg color 2",
-					"value": "##fff2e1"
-				},
-				"subtitle": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Section Subtitle",
-					"max_length": 3000,
-					"value": "HI [[First Name]]"
-				},
-				"title": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Section Title",
-					"max_length": 3000,
-					"value": "Click here to reset your password"
-				},
-				"button_color": {
-					"type": "color",
-					"label": "button color",
-					"value": "#FB3636"
-				},
-				"button_text": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Button text",
-					"max_length": 3000,
-					"value": "Reset password"
-				},
-				"description": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Section Text",
-					"max_length": 3000,
-					"value": "Not you? Please discard this email"
-				}
-			}
-		},
-		{
-			"name": "block_image",
-			"label": "Block Image",
-			"clone": 1,
-			"data": {
-				"block_image": {
-					"type": "file",
-					"label": "Block image",
-					"value": "http://maverickmav.org/ui/email-template/images/bg_bot_password_3.png"
-				}
-			}
-		}
-	],
-	"congratulations_1": [
-		{
-			"name": "header",
-			"label": "Header",
-			"clone": 1,
-			"data": {
-				"background_color": {
-					"type": "color",
-					"label": "bg color",
-					"value": "#7343c3"
-				},
-				"header_image": {
-					"type": "file",
-					"label": "Header image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_congrats_1.png"
-				},
-				"title": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Title",
-					"max_length": 3000,
-					"value": "Congratulations!"
-				}
-			}
-		},
-		{
-			"name": "section_1",
-			"label": "Section Body",
-			"clone": 1,
-			"data": {
-				"background_color": {
-					"type": "color",
-					"label": "bg color",
-					"value": "#7343c3"
-				},
-				"background_color_1": {
-					"type": "color",
-					"label": "bg color 1",
-					"value": "#ffffff"
-				},
-				"background_color_2": {
-					"type": "color",
-					"label": "bg color 2",
-					"value": "#3c0775"
-				},
-				"background_color_3": {
-					"type": "color",
-					"label": "bg color 3",
-					"value": "#ffdcb8"
-				},
-				"description": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Description",
-					"max_length": 3000,
-					"value": "You have redeemed<br/>Reward [[Reward Title]]"
-				},
-				"subtitle_1": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Title 1",
-					"max_length": 3000,
-					"value": "Your current balance is"
-				},
-				"subtitle_2": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Title 2",
-					"max_length": 3000,
-					"value": "Your redeemed points"
-				}
-			}
-		},
-		{
-			"name": "section_2",
-			"label": "Section Footer",
-			"clone": 1,
-			"data": {
-				"background_color": {
-					"type": "color",
-					"label": "bg color",
-					"value": "#7343c3"
-				},
-				"description": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Description",
-					"max_length": 3000,
-					"value": "Regards, [[Company Name]]"
-				}
-			}
-		}
-	],
-	"congratulations_2": [
-		{
-			"name": "header",
-			"label": "Header",
-			"clone": 1,
-			"data": {
-				"background_color": {
-					"type": "color",
-					"label": "bg color",
-					"value": "#ffdcb8"
-				},
-				"header_image": {
-					"type": "file",
-					"label": "Header image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_congrats_2.png"
-				}
-			}
-		},
-		{
-			"name": "section_1",
-			"label": "Section Body",
-			"clone": 1,
-			"data": {
-				"background_color": {
-					"type": "color",
-					"label": "bg color",
-					"value": "#ffdcb8"
-				},
-				"title": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Title",
-					"max_length": 3000,
-					"value": "Congratulations!"
-				},
-				"description": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Description",
-					"max_length": 3000,
-					"value": "You have redeemed<br/>Reward [[Reward Title]]"
-				}
-			}
-		},
-		{
-			"name": "section_2",
-			"label": "Section Content",
-			"clone": 1,
-			"data": {
-				"background_color": {
-					"type": "color",
-					"label": "bg color",
-					"value": "#ffdcb8"
-				},
-				"subtitle_1": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Title 1",
-					"max_length": 3000,
-					"value": "Your current balance is"
-				},
-				"subtitle_2": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Title 2",
-					"max_length": 3000,
-					"value": "Your redeemed points"
-				},
-				"description": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Description",
-					"max_length": 3000,
-					"value": "Regards, [[Company Name]]"
-				}
-			}
-		}
-	],
-	"congratulations_3": [
-		{
-			"name": "header",
-			"label": "Header",
-			"clone": 1,
-			"data": {
-				"background_color": {
-					"type": "color",
-					"label": "bg color",
-					"value": "#000000"
-				},
-				"header_image": {
-					"type": "file",
-					"label": "Header image",
-					"value": "http://maverickmav.org/ui/email-template/images/header_congrats_3.png"
-				}
-			}
-		},
-		{
-			"name": "section_1",
-			"label": "Section 1",
-			"clone": 1,
-			"data": {
-				"background_color": {
-					"type": "color",
-					"label": "bg color",
-					"value": "#2c2b2b"
-				},
-				"title": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Title",
-					"max_length": 3000,
-					"value": "Congratulations!"
-				},
-				"description": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Description",
-					"max_length": 3000,
-					"value": "You have redeemed<br/>Reward [[Reward Title]]"
-				}
-			}
-		},
-		{
-			"name": "section_2",
-			"label": "Section 2",
-			"clone": 1,
-			"data": {
-				"background_color": {
-					"type": "color",
-					"label": "bg color",
-					"value": "#f5d1cf"
-				},
-				"coupon_bg": {
-					"type": "color",
-					"label": "Coupon bg color",
-					"value": "#c2397e"
-				},
-				"subtitle_1": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Title 1",
-					"max_length": 3000,
-					"value": "Your current balance is"
-				},
-				"subtitle_2": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Title 2",
-					"max_length": 3000,
-					"value": "Your redeemed points"
-				},
-				"background_color_2": {
-					"type": "color",
-					"label": "Footer bg color",
-					"value": "#ffdcb8"
-				},
-				"description": {
-					"type": "text",
-					"show_dynamic_variables": 1,
-					"label": "Description",
-					"max_length": 3000,
-					"value": "Regards, [[Company Name]]"
 				}
 			}
 		}

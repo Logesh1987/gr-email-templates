@@ -15,15 +15,15 @@
     </div>
     <div class="container">
       <div class="md-layout md-gutter">
-        <div class="md-layout-item md-size-75">
+        <div class="md-layout-item md-size-100">
           <h1>{{ title }}</h1>
         </div>
-        <div class="md-layout-item md-size-25 dispMidRight">
-          <!-- AN ENHANCEMENT TO BE WORKD ON NEXT PHASE -->
-          <!-- <md-button class="md-raised btn-custom-default">
+        <!-- AN ENHANCEMENT TO BE WORKD ON NEXT PHASE -->
+        <!-- <div class="md-layout-item md-size-25 dispMidRight">
+          <md-button class="md-raised btn-custom-default">
             <i class="fas fa-plus"></i> Create a blank email
-          </md-button> -->
-        </div>
+          </md-button>
+        </div> -->
         <section class="md-layout-item">
           <div
             :class="[
@@ -57,7 +57,7 @@
                 v-else
                 @click="e => save(template.id_theme)"
               >
-                Edit
+                Change
               </md-button>
             </div>
           </div>
@@ -111,6 +111,15 @@ export default {
     .boxFooter {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+  &.active {
+    .boxFooter {
+      background-color: rgb(11, 169, 0, 0.8);
+      .md-button {
+        background-color: #ffffff !important;
+        color: green !important;
+      }
     }
   }
   .boxView {
