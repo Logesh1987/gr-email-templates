@@ -11,6 +11,6 @@ export default {
 </script>
 <style lang="less">
 :root {
-  --md-theme-default-primary: #24c16f !important;
+  --md-theme-default-primary: #448aff !important;
 }
 </style>
