@@ -2,19 +2,16 @@
 
 <template>
   <div class="faqContainer">
-    <div class="faqBanner">
-			<h2>FAQs</h2>
-			<p>Check out tips, best practices, and frequently asked questions</p>
-		</div>
+    <HeroBanner :heroBanner="hero"></HeroBanner>
 
     <div class="faq">
       <md-list :md-expand-single="true">
-        <md-list-item md-expand v-for="index in list" :key="index">
-          <span class="count">{{ index.no }}</span>
-          <span class="question"> {{ index.title }}</span>
+        <md-list-item md-expand v-for="(list, index) in lists" :key="index">
+          <span class="count">{{ list.no }}</span>
+          <span class="question"> {{ list.title }}</span>
 
           <div slot="md-expand">
-              <span>{{ index.item }}</span>
+              <span>{{ list.item }}</span>
           </div>
         </md-list-item>
       </md-list>
@@ -40,19 +37,27 @@
 import Loader from "@/components/Loader.vue";
 import Footer from "../../components/Footer.vue";
 import ButtonPrimary from "../../components/ButtonPrimary.vue";
+import HeroBanner from "@/components/HeroBanner.vue";
 
 export default {
   name: "Faq",
   components: {
     Loader,
     Footer,
-    ButtonPrimary
+    ButtonPrimary,
+    HeroBanner
   },
   data: function() {
     return {
       loader: false,
       contentVisible: false,
-      list: [
+      hero: [
+         {
+          heroHeading: "FAQs",
+          heroDesc: "Check out tips, best practices, and frequently asked questions."
+        }
+      ],
+      lists: [
           {
           no: "1.",
           title: "How to enable or disable campaign widgets ?",
