@@ -2,10 +2,8 @@
 
 <template>
   <div class="faqContainer">
-    <div class="faqBanner">
-      <h2>FAQs</h2>
-      <p>Check out tips, best practices, and frequently asked questions</p>
-    </div>
+    <HeroBanner :heroBanner="hero"
+    ></HeroBanner>
 
     <div class="faq">
       <md-list :md-expand-single="true">
@@ -46,18 +44,26 @@
 import Loader from "@/components/Loader.vue";
 import Footer from "../../components/Footer.vue";
 import ButtonPrimary from "../../components/ButtonPrimary.vue";
+import HeroBanner from "@/components/HeroBanner.vue";
 
 export default {
   name: "Faq",
   components: {
     Loader,
     Footer,
-    ButtonPrimary
+    ButtonPrimary,
+    HeroBanner
   },
   data: function() {
     return {
       loader: false,
       contentVisible: false,
+      hero: [
+         {
+          heroHeading: "FAQs",
+          heroDesc: "Check out tips, best practices, and frequently asked questions."
+        }
+      ],
       list: [
         {
           no: "1.",
@@ -192,30 +198,6 @@ export default {
 .faqContainer {
   margin: 20px;
   font-size: 14px;
-  .faqBanner {
-    background: #010f49 url(../../assets/img/bg-heading-faq.jpg) no-repeat left
-      center;
-    background-size: cover;
-    color: #fff;
-    overflow: hidden;
-    height: 115px;
-    display: flex;
-    align-items: center;
-    padding: 15px 15%;
-    margin-bottom: 20px;
-    h2 {
-      font-size: 18px;
-      margin: 0;
-      padding-right: 50px;
-      margin-right: 50px;
-      border-right: 1px solid #ddd;
-      color: #ffffff;
-    }
-    p {
-      color: #e6991c;
-      margin: 0;
-    }
-  }
   .faq {
     background: #fff;
     border: solid 1px #ddd;

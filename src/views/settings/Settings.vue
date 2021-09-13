@@ -307,9 +307,6 @@ export default {
       margin-bottom: 20px;
     }
   }
-  .rightAlign {
-    text-align: right;
-  }
   .small {
     color: #428bca;
     text-decoration: none;
@@ -320,121 +317,10 @@ export default {
       margin-left: 5px;
     }
   }
-  .md-switch.custom {
-    width: 100%;
-    margin: 4px 0 24px;
-  }
-  .alert-info {
-    color: #31708f;
-    background-color: #d9edf7;
-    border-color: #bce8f1;
-    padding: 20px;
-    label {
-      font-weight: 600;
-    }
-  }
-  .alert.small {
-    color: #e30303;
-    font-size: 85%;
-    .material-icons {
-      margin-left: 0;
-      padding-right: 10px;
-    }
-  }
 }
 </style>
 
 <style lang="less">
-.settingContainer {
-  .md-tabs.md-theme-default .md-tabs-navigation .md-button.md-active {
-    color: #fb5903;
-  }
-  .md-tabs.md-theme-default .md-tabs-indicator {
-    background: #fb5903;
-  }
-  .md-field {
-    border-radius: 4px;
-    border: solid 1px #e5e5e5;
-    background: #ffffff;
-    padding: 0 10px;
-    min-height: auto;
-
-    &:hover {
-      border-color: #ccc;
-      outline: 0;
-      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
-        0 0 8px rgba(204, 204, 204, 0.6);
-    }
-
-    &:focus {
-      border-color: #66afe9;
-      outline: 0;
-      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
-        0 0 8px rgba(102, 175, 233, 0.6);
-    }
-
-    &:after,
-    &:before {
-      height: 0;
-    }
-
-    label {
-      left: 15px;
-    }
-
-    .material-icons {
-      margin-top: 5px;
-    }
-  }
-  .asterisk {
-    color: #e85855;
-    font-size: 7px;
-    vertical-align: super;
-    display: inline;
-  }
-  .material-icons {
-    font-size: 21px;
-  }
-  .flexBlock-Space-between {
-    display: flex;
-    justify-content: space-between;
-  }
-  .flexBlock-Space-between-center {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  label.flexBlock {
-    display: flex;
-  }
-  .md-field .md-prefix,
-  .md-field .md-suffix {
-    display: block;
-    line-height: 20px;
-    padding: 6px 12px;
-    font-size: 14px;
-    font-weight: 400;
-    text-align: center;
-    background-color: #eee;
-  }
-  .md-field .md-prefix {
-    margin-left: -10px;
-    margin-right: 10px;
-  }
-  .md-field .md-suffix {
-    margin-left: 10px;
-    margin-right: -10px;
-  }
-  .md-switch.md-theme-default.md-checked.md-primary {
-    color: #24c16f;
-    .md-switch-container {
-      background: rgba(36, 193, 111, 0.3);
-    }
-    .md-switch-thumb {
-      background: #24c16f;
-    }
-  }
-}
 .md-select-menu {
   .md-list {
     .selectSearch {
