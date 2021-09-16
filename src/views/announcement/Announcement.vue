@@ -12,7 +12,7 @@
             >Announcement/Offer Text <span class="fa fa-asterisk asterisk"></span
           ></label>
           <md-field md-inline>
-            <md-textarea v-model="textarea" id="site_offfer" placeholder="Announcement/Offer Text"></md-textarea>
+            <md-textarea v-model="textarea" id="site_offfer"></md-textarea>
           </md-field>
 
           <label for="expiryTimeOption">
