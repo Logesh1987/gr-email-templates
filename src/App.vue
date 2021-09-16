@@ -381,7 +381,17 @@ export default {
 
 
 .settingContainer,
-.announcementContainer {
+.announcementContainer,
+.plansContainer {
+  .headingBlock {
+    background: #e3e3e3;
+    padding: 5px 20px;
+    border: 1px solid #d1d1d1;
+    border-bottom: 0;
+  }
+  form .row {
+    margin-bottom: 20px;
+  }
   .md-tabs.md-theme-default .md-tabs-navigation .md-button.md-active {
     color: #fb5903;
   }
@@ -394,6 +404,7 @@ export default {
     background: #ffffff;
     padding: 0 10px;
     min-height: auto;
+    margin: 4px 0 4px;
 
     &:hover {
       border-color: #ccc;
