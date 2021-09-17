@@ -120,7 +120,7 @@ import HeroBanner from "@/components/HeroBanner.vue";
 import Heading2 from "@/components/Heading2.vue";
 
 export default {
-  name: "Announcement",
+  name: "Plans",
   components: {
     Loader,
     Footer,

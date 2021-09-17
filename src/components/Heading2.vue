@@ -1,11 +1,11 @@
 <template>
-  <h2>{{ heroHeading }}</h2>
+  <h2>{{ heroHeading }} {{ dynamicValue }}</h2>
 </template>
 
 <script>
 export default {
   name: "Heading2",
-  props: ["heroHeading"],
+  props: ['heroHeading', 'dynamicValue'],
 };
 </script>
 <style lang="less">
