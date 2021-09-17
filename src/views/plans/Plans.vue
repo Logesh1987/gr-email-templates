@@ -15,6 +15,18 @@
           <form>
             <div class="row">
               <label for="idPackage">
+                Billing cycle <span class="fa fa-asterisk asterisk"></span>
+              </label>
+              <div class="radiobox">
+                <md-radio v-model="radio" value="Monthly">Monthly</md-radio>
+                <md-radio v-model="radio" value="Annually">Annually</md-radio>
+                <mark><a href="https://apps.shopify.com/scratch-win" target="_blank">SAVE 30% + GET FREE 'SCRATCH AND WIN' APP*</a></mark>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <label for="idPackage">
                 Plan <span class="fa fa-asterisk asterisk"></span>
               </label>
               <md-field>
@@ -22,17 +34,17 @@
                   v-model="idPackage"
                   name="idPackage"
                   id="idPackage"
-                  placeholder="10 users"
+                  placeholder="Please select the plan"
                 >
                   <md-option
                     v-for="plan in plans"
                     v-bind:value="plan.value"
                     :key="plan.id"
-                    >{{ plan.value }}</md-option
+                    >{{ plan.txt }}</md-option
                   >
                 </md-select>
               </md-field>
-              <small>$0.20 USD / Monthly</small>
+              <small>{{ idPackage }}</small>
             </div>
 
             
@@ -42,20 +54,20 @@
               </label>
               <md-field>
                 <md-select
-                  v-model="isWl"
+                  v-model="footerCredit"
                   name="isWl"
                   id="isWl"
-                  placeholder="No Thanks"
+                  placeholder="Please select footer credit"
                 >
                   <md-option
                     v-for="isWl in isWls"
                     v-bind:value="isWl.value"
                     :key="isWl.id"
-                    >{{ isWl.value }}</md-option
+                    >{{ isWl.txt }}</md-option
                   >
                 </md-select>
               </md-field>
-              <small>$0.20 USD / Monthly</small>
+              <small>{{ footerCredit }}</small>
             </div>
 
             
@@ -81,7 +93,7 @@
           <div class="totalBlock">
             <label for="total"> Total</label>
             <div class="btnBlock">
-              <small>$0.20 USD / Monthly</small>
+              <small>Result</small>
               <ButtonPrimary btnName="Upgrade"></ButtonPrimary>
             </div>
           </div>
@@ -90,6 +102,8 @@
       <p class="alert small rightAlign">Note : Current subscription will be canceled and new subscription will be active</p>
 
     </div>
+    <p class="small centerAlign">*Get a free upgrade to the unlimited users’ plan of Scratch and Win app (worth $299.40 per annum), when you create a paid subscription for any annual plan of Gratisfaction.</p>
+
 
     <Loader :status="loader" />
 
@@ -119,6 +133,11 @@ export default {
       loader: false,
       contentVisible: false,
       boolean: true,
+      radio: false,
+      idPackage: null,
+      footerCredit: null,
+      number1: 0,
+      number2: 0,
       hero: [
          {
           heroHeading: "Plans",
@@ -128,14 +147,14 @@ export default {
       heroHeading: "Your plan",
       desc: "Gratisfaction 10 Users for $0.06 USD / Monthly",
       plans: [
-        { value: "10 Users" },
-        { value: "15 Users" },
-        { value: "25 Users" },
-        { value: "Unlimited Users" }
+        { txt: "10 Users", value: "Free" },
+        { txt: "15 Users", value: "$1.68 USD / Yearly" },
+        { txt: "25 Users", value: "$2.52 USD / Yearly" },
+        { txt: "Unlimited Users", value: "$3.36 USD / Yearly" }
       ],
       isWls: [
-        { value: "No Thanks" },
-        { value: "Yes" }
+        { txt: "No Thanks", value: "No Thanks" },
+        { txt: "Yes", value: "$0.50 USD / Yearly" }
       ],
     }
   },
@@ -170,6 +189,23 @@ export default {
           color: green;
           font-size: 120%;
         }
+      }
+    }
+    .radiobox mark {
+      background: #a80ec3;
+      color: #fff;
+      padding: 2px 8px;
+      vertical-align: middle;
+      letter-spacing: 1px;
+      font-weight: normal;
+      font-size: 80%;
+      border-radius: 20px;
+      position: relative;
+      top: -2px;
+      display: inline-block;
+      a {
+        color: #fff;
+        text-decoration: none;
       }
     }
   }

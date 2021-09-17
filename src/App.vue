@@ -494,6 +494,9 @@ export default {
       font-weight: 600;
     }
   }
+  .small {
+    font-size: 12px;
+  }
   .alert.small {
     color: #e30303 !important;
     font-size: 85% !important;
@@ -504,6 +507,9 @@ export default {
   }
   .rightAlign {
     text-align: right;
+  }
+  .centerAlign {
+    text-align: center;
   }
 }
 </style>
