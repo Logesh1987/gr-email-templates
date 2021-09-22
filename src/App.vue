@@ -383,7 +383,8 @@ export default {
 .settingContainer,
 .announcementContainer,
 .plansContainer,
-.redeemedptsContainer {
+.redeemedptsContainer,
+.prosettingsContainer {
   .headingBlock {
     background: #e3e3e3;
     padding: 5px 20px;

@@ -5,6 +5,7 @@ import Faq from "../views/faq/Faq.vue";
 import Announcement from "../views/announcement/Announcement.vue";
 import Plans from "../views/plans/Plans.vue";
 import Redeemedpts from "../views/redeemedpts/Redeemedpts.vue";
+import Prosettings from "../views/prosettings/Prosettings.vue";
 import EmailListing from "../views/EmailListing.vue";
 import EmailEdit from "../views/EmailEdit.vue";
 import EmbedLanding from "../views/embed/EmbedLanding.vue";
@@ -78,6 +79,11 @@ const routes = [
     path: "/view/redeemedpts/",
     name: "Redeemedpts",
     component: Redeemedpts
+  },
+  {
+    path: "/view/prosettings/",
+    name: "Prosettings",
+    component: Prosettings
   }
 ];
 
