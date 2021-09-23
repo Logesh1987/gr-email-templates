@@ -384,7 +384,8 @@ export default {
 .announcementContainer,
 .plansContainer,
 .redeemedptsContainer,
-.prosettingsContainer {
+.prosettingsContainer,
+.modelWindow {
   .headingBlock {
     background: #e3e3e3;
     padding: 5px 20px;
@@ -408,14 +409,15 @@ export default {
     min-height: auto;
     margin: 4px 0 4px;
 
-    &:hover {
+    /*&:hover {
       border-color: #ccc;
       outline: 0;
       box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
         0 0 8px rgba(204, 204, 204, 0.6);
-    }
+    }*/
 
-    &:focus {
+    &:focus,
+    &:hover {
       border-color: #66afe9;
       outline: 0;
       box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
@@ -512,6 +514,24 @@ export default {
   }
   .centerAlign {
     text-align: center;
+  }
+}
+
+.modelWindow {
+  .md-dialog-title {
+    background: #448aff;
+    padding: 16px;
+    color:#fff;
+  }
+  .md-dialog-actions {
+    border-top: 1px solid #e5e5e5;
+    background: #f4f4f4;
+  }
+  form.customForm {
+    margin: 0 16px;
+    .mar-top-2 {
+      margin-top: 2px;
+    }
   }
 }
 </style>
