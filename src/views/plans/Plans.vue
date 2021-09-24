@@ -11,7 +11,7 @@
 
     <div class="plans">
       <div class="md-layout md-gutter">
-        <div class="md-layout-item md-size-33">
+        <div class="md-layout-item md-size-33 md-xsmall-size-100 md-small-size-50">
           <form>
             <div class="row">
               <label for="idPackage">
