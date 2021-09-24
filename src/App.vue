@@ -515,6 +515,9 @@ export default {
   .centerAlign {
     text-align: center;
   }
+  .mar-right-10 {
+    margin-right: 10px;
+  }
 }
 
 .modelWindow {

@@ -13,15 +13,15 @@
       <p>{{ desc }}</p>
       <div class="allocatePts">
         <div class="allocatePtsTitle">
-        <md-checkbox v-model="allocatePtsChecked">
-          Do you want to allocate points to members who complete this action?
-          <span class="material-icons">
-            help
-            <md-tooltip
-              >Rewarding points is a good incentivization for your members to complete their profile.</md-tooltip
-            >
-          </span>
-        </md-checkbox>
+          <md-checkbox v-model="allocatePtsChecked">
+            Do you want to allocate points to members who complete this action?
+            <span class="material-icons">
+              help
+              <md-tooltip
+                >Rewarding points is a good incentivization for your members to complete their profile.</md-tooltip
+              >
+            </span>
+          </md-checkbox>
         </div>
         <div class="allocatePtsContent" v-if="allocatePtsChecked">
           
@@ -59,12 +59,13 @@
       
       <form>
         <div class="md-layout md-gutter">
-          <div class="md-layout-item md-size-33"
-            v-for="defaultField in defaultFields"
+          <div class="md-layout-item md-size-33 md-xsmall-size-100 md-small-size-50"
+            v-for="(defaultField, id) in defaultFields"
              v-bind:key="defaultField.id">
               <div class="row">
                 <label :for="defaultField.name">
                   {{ defaultField.labelHead }} <span class="fa fa-asterisk asterisk"></span>
+                  <span class="btnRemove" @click="$delete(defaultFields, id)">Remove</span>
                 </label>
                 <div class="radiobox">
                   <div v-for="radio in defaultField.radios" v-bind:key="radio.id">
@@ -169,11 +170,18 @@
             <md-button class="md-raised" @click="createCustomFields = false">Cancel</md-button>
             <md-button class="md-raised md-primary" @click="createCustomFields = false">Save</md-button>
           </md-dialog-actions>
-        </md-dialog>
+        </md-dialog>        
+      </div>
 
-        <md-button class="md-primary md-raised" @click="createCustomFields = true">Create custom fields</md-button>
+      <div class="md-layout">
+        <div class="md-layout-item rightAlign">
+          <ButtonPrimary btnName="Save" :margin="'mar-right-10'"></ButtonPrimary>
+          <md-button class="md-primary md-raised" @click="createCustomFields = true">Create custom fields</md-button>
+        </div>
       </div>
     </div>
+    
+        
 
     <Loader :status="loader" />
 
@@ -399,6 +407,19 @@ export default {
       display: flex;
       flex-direction: row;
     }
+    .btnRemove {
+      color: #fff;
+      background-color: #ef625e;
+      border: 1px solid #e65652;
+      font-size: 12px;
+      padding: 3px 6px;
+      cursor: pointer;
+      margin-left: 10px;
+      &:hover {
+        background-color: #c9302c;
+        border-color: #ac2925;
+      }
+    }
   }
 }
 .addedOpt {
@@ -435,6 +456,16 @@ export default {
           display: flex;
           align-items: center;
         }
+      }
+    }
+    .radiobox {
+      @media screen and (min-width: 601px) {
+        .md-radio {
+          margin: 16px 10px 16px 0;
+          .md-radio-label {
+            padding-left: 4px;
+          }
+        }          
       }
     }
   }

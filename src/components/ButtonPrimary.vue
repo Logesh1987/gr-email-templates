@@ -1,12 +1,12 @@
 <template>
-  <md-button class="md-raised md-primary" :md-ripple="false">{{
+  <md-button class="md-raised md-primary" :class="margin" :md-ripple="false">{{
     btnName
   }}</md-button>
 </template>
 <script>
 export default {
   name: "ButtonPrimary",
-  props: ["btnName"]
+  props: ['btnName', 'margin']
 };
 </script>
 <style lang="less">
