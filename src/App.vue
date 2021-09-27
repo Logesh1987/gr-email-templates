@@ -512,4 +512,13 @@ export default {
     text-align: center;
   }
 }
+
+.customTooltip {
+  max-width: 200px;
+  white-space: pre-line;
+  height: auto;
+  &:before {
+    display: none;
+  }
+}
 </style>

@@ -8,7 +8,7 @@
       end? Upgrade to add on.
       <span class="material-icons">
         help
-        <md-tooltip
+        <md-tooltip class="customTooltip"
           >Upgrading will remove our branding & allow you to display your
           branding in the front end.</md-tooltip
         >

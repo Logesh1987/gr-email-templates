@@ -40,7 +40,7 @@
                   Site URL <span class="fa fa-asterisk asterisk"></span>
                   <span class="material-icons">
                     help
-                    <md-tooltip
+                    <md-tooltip class="customTooltip"
                       >Enter the website URL on which Gratisfaction is
                       installed.</md-tooltip
                     >
@@ -118,7 +118,7 @@
                 Support Email Address <span class="fa fa-asterisk asterisk"></span>
                 <span class="material-icons">
                   help
-                  <md-tooltip
+                  <md-tooltip class="customTooltip"
                     >Enter the email address that members can contact you on for any
                     support.</md-tooltip
                   >
@@ -140,7 +140,7 @@
                   Email From Address <span class="fa fa-asterisk asterisk"></span>
                   <span class="material-icons">
                     help
-                    <md-tooltip
+                    <md-tooltip class="customTooltip"
                       >All system generated emails to entrants will have this as the
                       'Sender's email address. Ensure it starts with
                       NoReply@</md-tooltip
@@ -172,7 +172,7 @@
                   <span class="fa fa-asterisk asterisk"></span>
                   <span class="material-icons">
                     help
-                    <md-tooltip
+                    <md-tooltip class="customTooltip"
                       >Points earned will not be redeemable within this exclusion
                       period. This is useful to avoid points being redeemed before
                       your customer activates a refund.</md-tooltip
