@@ -59,7 +59,7 @@
   padding-top: 20px;
 }
 li.info {
-  color: red;
+  color: rgb(252, 76, 76);
 }
 </style>
 <script>

@@ -595,7 +595,7 @@ export default {
       this.form.couponamount = response.settings.realtime_coupon_value;
       this.form.minspend = response.settings.realtime_min_order;
       this.form.coupon_type = response.settings.coupon_type;
-      this.form.expiry = new Date(response.settings.expire_in);
+      this.form.expiry = new Date(response.settings.date_expiry);
     },
     validateData() {
       this.$v.$touch();
