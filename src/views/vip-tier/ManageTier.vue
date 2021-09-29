@@ -32,13 +32,15 @@
           v-for="(tierObj, index) in tierData"
           :key="index"
           :isDeleteEnabled="tierObj.default !== 'Y'"
-          v-on:editTierIconClicked="showIconPopup"
+          v-on:editTierIconClicked="showIconPopup(tierObj)"
           v-on:editClicked="gotoEditTier"
           v-on:deleteClicked="confirmDelete"
+          v-on:editRewardIconClicked="gotoEditReward"
         ></VipTierCard>
       </section>
     </div>
     <IconPopup
+      ref="iconPopupEle"
       :showPopup="enableIcon"
       v-on:close-btn-click="hideIconPopup"
     ></IconPopup>
@@ -150,7 +152,14 @@ export default {
     },
     gotoEditReward(obj) {
       const currentRewardId = obj.data.id_tier_rewards;
-      this.$router.push("/view/tiers/manage-reward/" + currentRewardId);
+      this.currentRewardId = currentRewardId;
+      this.$router.replace({
+        name: "EditReward",
+        params: {
+          id_tier: this.currentTierId,
+          currentRewardId: currentRewardId,
+        },
+      });
     },
     gotoEditTier(obj) {
       this.currentTierId = obj.data.id;
@@ -223,7 +232,8 @@ export default {
     gotoAddTier() {
       this.$router.push("/view/tiers/add-tier");
     },
-    showIconPopup() {
+    showIconPopup(tierObj) {
+      this.$refs.iconPopupEle.iconConfig = tierObj;
       this.enableIcon = true;
     },
     hideIconPopup() {

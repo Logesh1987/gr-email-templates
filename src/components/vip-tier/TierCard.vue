@@ -40,8 +40,16 @@
         </ul>
         <h4>Benefits</h4>
         <ul class="amvip--bulletList">
-          <li v-for="benefit of tierData.rewards" :key="benefit.index">
+          <li
+            v-for="benefit of tierData.rewards"
+            :key="benefit.index"
+            class="rewardItem"
+          >
             {{ benefit.name }}
+            <span
+              class="icon-amedit"
+              @click="editRewardIcon($event, benefit)"
+            ></span>
           </li>
           <li v-if="tierData.rewards.length == 0" class="info">
             Rewards yet to be added!!!
@@ -74,7 +82,8 @@ export default {
   name: "VipTierCard",
   props: ["tierData", "isDeleteEnabled"],
   model: {
-    event: "editClicked, deleteClicked, editTierIconClicked",
+    event:
+      "editClicked, deleteClicked, editTierIconClicked, editRewardIconClicked",
   },
   data: () => ({}),
   methods: {
@@ -86,6 +95,13 @@ export default {
     },
     editTierIcon(eve, data) {
       this.$emit("editTierIconClicked", {
+        context: this,
+        data: data,
+        event: eve,
+      });
+    },
+    editRewardIcon(eve, data) {
+      this.$emit("editRewardIconClicked", {
         context: this,
         data: data,
         event: eve,
