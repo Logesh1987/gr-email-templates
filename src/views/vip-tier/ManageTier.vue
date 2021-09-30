@@ -156,8 +156,9 @@ export default {
       this.$router.replace({
         name: "EditReward",
         params: {
-          id_tier: this.currentTierId,
+          id_tier: obj.tierId,
           currentRewardId: currentRewardId,
+          origin: "manageTier",
         },
       });
     },

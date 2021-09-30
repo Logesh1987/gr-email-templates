@@ -406,6 +406,7 @@ export default {
         params: {
           id_tier: this.currentTierId,
           currentRewardId: currentRewardId,
+          origin: "editTier",
         },
       });
     },

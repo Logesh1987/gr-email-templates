@@ -35,7 +35,7 @@
         <h4>Eligibility</h4>
         <ul class="amvip--bulletList">
           <li>
-            {{ tierData.goal == 0 ? tierData.name : tierData.goaltxt }}
+            {{ tierData.goal == 0 ? tierData.description : tierData.goaltxt }}
           </li>
         </ul>
         <h4>Benefits</h4>
@@ -47,8 +47,8 @@
           >
             {{ benefit.name }}
             <span
-              class="icon-amedit"
-              @click="editRewardIcon($event, benefit)"
+              class="icon-amedit rewardEdit"
+              @click="editRewardIcon($event, benefit, tierData.id)"
             ></span>
           </li>
           <li v-if="tierData.rewards.length == 0" class="info">
@@ -68,6 +68,18 @@
 }
 li.info {
   color: rgb(252, 76, 76);
+}
+li.rewardItem {
+  .rewardEdit {
+    display: none;
+    cursor: pointer;
+    padding: 0 10px;
+  }
+  &:hover {
+    .rewardEdit {
+      display: inline-block;
+    }
+  }
 }
 </style>
 <script>
@@ -100,11 +112,12 @@ export default {
         event: eve,
       });
     },
-    editRewardIcon(eve, data) {
+    editRewardIcon(eve, data, tierId) {
       this.$emit("editRewardIconClicked", {
         context: this,
         data: data,
         event: eve,
+        tierId: tierId,
       });
     },
     deleteTier(eve, data) {

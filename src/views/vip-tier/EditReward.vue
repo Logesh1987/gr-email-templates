@@ -2,7 +2,7 @@
   <div class="amvip--wrapper">
     <div class="amvip--container amvip--manageReward">
       <hgroup class="amvip--pageHeader">
-        <span class="icon-next-arrow" @click="gotoEditTier"></span>
+        <span class="icon-next-arrow" @click="goBack"></span>
         <h2>Edit reward</h2>
       </hgroup>
       <div class="amvip--tabs">
@@ -515,8 +515,19 @@ export default {
     rewardTypeChange() {
       this.form.coupon_type = null;
     },
-    gotoEditTier() {
-      this.$router.push("/view/tiers/edit-tier/" + this.$route.params.id_tier);
+    goBack() {
+      switch (this.$route.params.origin) {
+        case "manageTier":
+          this.$router.push("/view/tiers/manage-tier");
+          break;
+        case "editTier":
+          this.$router.push(
+            "/view/tiers/edit-tier/" + this.$route.params.id_tier
+          );
+          break;
+        default:
+          break;
+      }
     },
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
@@ -538,7 +549,7 @@ export default {
       this.form.expiry = null;
       this.form.id_tier = null;
       this.form.id_tier_list = null;
-      this.gotoEditTier();
+      this.goBack();
     },
     saveRewardData() {
       if (!this.validateData()) {
@@ -563,7 +574,7 @@ export default {
             this.responseData = res.data.data.message;
             this.showSnackbar =
               this.responseData && this.responseData.length > 0;
-            this.gotoEditTier();
+            this.goBack();
           }
         })
         .catch(err => {
