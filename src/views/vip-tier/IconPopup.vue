@@ -42,11 +42,17 @@
     justify-content: center;
     align-items: center;
   }
+  .amvip--dialogBody {
+    h2 {
+      margin: 0;
+    }
+  }
   .uploadFile {
     width: 300px;
   }
   .amvip-actionFooter {
     padding-top: 0;
+    margin-top: 0;
   }
 }
 </style>
