@@ -13,159 +13,159 @@
       </div>
     </aside>
     <section class="amvip-twoColContent" id="setupProgram">
-      <form novalidate class="md-layout">
-        <section>
-          <h2>Setup VIP tier program</h2>
-          <div class="amvip--formRow">
-            <md-field :class="getValidationClass('name')">
-              <label for="name">
-                Name
-                <span class="amvip--mandatory">*</span>
-              </label>
-              <md-input
-                name="name"
-                id="name"
-                v-model="form.name"
-                :disabled="sending"
-                ref="name"
-              />
-              <span class="md-error" v-if="!$v.form.name.required">
-                Name is required
-              </span>
-              <span class="md-error" v-else-if="!$v.form.name.minLenght">
-                Minimum of 3 letters required
-              </span>
-            </md-field>
+      <!-- <form novalidate class="md-layout"> -->
+      <section>
+        <h2>Setup VIP tier program</h2>
+        <div class="amvip--formRow">
+          <md-field :class="getValidationClass('name')">
+            <label for="name">
+              Name
+              <span class="amvip--mandatory">*</span>
+            </label>
+            <md-input
+              name="name"
+              id="name"
+              v-model="form.name"
+              :disabled="sending"
+              ref="name"
+            />
+            <span class="md-error" v-if="!$v.form.name.required">
+              Name is required
+            </span>
+            <span class="md-error" v-else-if="!$v.form.name.minLenght">
+              Minimum of 3 letters required
+            </span>
+          </md-field>
+        </div>
+        <div class="amvip--formRow">
+          <md-field>
+            <label for="description">Description</label>
+            <md-textarea
+              name="description"
+              id="description"
+              v-model="form.description"
+              :disabled="sending"
+            ></md-textarea>
+          </md-field>
+        </div>
+        <div class="amvip--formRow">
+          <div class="amvip--dateRow">
+            <md-datepicker
+              md-immediately
+              :class="getValidationClass('date_start')"
+              name="date_start"
+              id="date_start"
+              v-model="form.date_start"
+              :disabled="sending"
+              ref="date_start"
+            >
+              <label>Select date to begin the program</label>
+            </md-datepicker>
+            <span
+              class="md-custom-error padLeft-35"
+              v-if="!$v.form.date_start.required && $v.form.date_start.$dirty"
+            >
+              Date to beign the program is required.
+            </span>
+            <span
+              class="md-custom-error padLeft-35 top-minus-20"
+              v-else-if="
+                !$v.form.date_start.installed_data_validator &&
+                  $v.form.date_start.$dirty
+              "
+            >
+              Date cannot be older than program installed date ({{
+                installedDate | formatDate
+              }})
+            </span>
           </div>
-          <div class="amvip--formRow">
-            <md-field>
-              <label for="description">Description</label>
-              <md-textarea
-                name="description"
-                id="description"
-                v-model="form.description"
-                :disabled="sending"
-              ></md-textarea>
-            </md-field>
-          </div>
-          <div class="amvip--formRow">
-            <div class="amvip--dateRow">
-              <md-datepicker
-                md-immediately
-                :class="getValidationClass('date_start')"
-                name="date_start"
-                id="date_start"
-                v-model="form.date_start"
-                :disabled="sending"
-                ref="date_start"
+        </div>
+        <div class="amvip--radioRow">
+          <div class="formLabel">What should define your tiers</div>
+          <div>
+            <div class="amvip--customRadio">
+              <md-radio
+                v-model="form.selection_type"
+                value="no_of_points"
+                id="points"
+                ref="selection_type"
+                name="selection_type"
               >
-                <label>Select date to begin the program</label>
-              </md-datepicker>
-              <span
-                class="md-custom-error padLeft-35"
-                v-if="!$v.form.date_start.required && $v.form.date_start.$dirty"
-              >
-                Date to beign the program is required.
-              </span>
-              <span
-                class="md-custom-error padLeft-35 top-minus-20"
-                v-else-if="
-                  !$v.form.date_start.installed_data_validator &&
-                    $v.form.date_start.$dirty
-                "
-              >
-                Date cannot be older than program installed date ({{
-                  installedDate | formatDate
-                }})
-              </span>
-            </div>
-          </div>
-          <div class="amvip--radioRow">
-            <div class="formLabel">What should define your tiers</div>
-            <div>
-              <div class="amvip--customRadio">
-                <md-radio
-                  v-model="form.selection_type"
-                  value="no_of_points"
-                  id="points"
-                  ref="selection_type"
-                  name="selection_type"
-                >
-                  Points
-                </md-radio>
-                <!-- </div>
+                Points
+              </md-radio>
+              <!-- </div>
               <div class="amvip--customRadio"> -->
-                <md-radio
-                  v-model="form.selection_type"
-                  value="purchase_value"
-                  id="purchase"
-                  name="selection_type"
-                  ref="selection_type"
-                >
-                  Purchase
-                </md-radio>
-              </div>
-              <span
-                class="md-custom-error top-minus-20"
-                v-if="
-                  !$v.form.selection_type.required &&
-                    $v.form.selection_type.$dirty
-                "
+              <md-radio
+                v-model="form.selection_type"
+                value="purchase_value"
+                id="purchase"
+                name="selection_type"
+                ref="selection_type"
               >
-                Tier type is required
-              </span>
+                Purchase
+              </md-radio>
             </div>
+            <span
+              class="md-custom-error top-minus-20"
+              v-if="
+                !$v.form.selection_type.required &&
+                  $v.form.selection_type.$dirty
+              "
+            >
+              Tier type is required
+            </span>
           </div>
-          <div class="amvip--radioRow btmBorder">
-            <div class="formLabel">Time to achieve a VIP tier</div>
-            <div>
-              <div class="amvip--customRadio">
-                <md-radio
-                  v-model="form.time_slot"
-                  value="lifetime"
-                  id="lifetime"
-                  name="time_slot"
-                  ref="time_slot"
-                >
-                  Lifetime
-                </md-radio>
-                <small>
-                  Once a member achieves a tier, they will keep their status
-                  forever.
-                </small>
-                <!-- </div>
+        </div>
+        <div class="amvip--radioRow btmBorder">
+          <div class="formLabel">Time to achieve a VIP tier</div>
+          <div>
+            <div class="amvip--customRadio">
+              <md-radio
+                v-model="form.time_slot"
+                value="lifetime"
+                id="lifetime"
+                name="time_slot"
+                ref="time_slot"
+              >
+                Lifetime
+              </md-radio>
+              <small>
+                Once a member achieves a tier, they will keep their status
+                forever.
+              </small>
+              <!-- </div>
               <div class="amvip--customRadio"> -->
-                <md-radio
-                  v-model="form.time_slot"
-                  value="year"
-                  id="calendarYear"
-                  name="time_slot"
-                  ref="time_slot"
-                >
-                  Annual
-                </md-radio>
-                <small>
-                  A member qualifies for the calendar year (1st Jan - 31st Dec)
-                </small>
-              </div>
-              <span
-                class="md-custom-error top-minus-20"
-                v-if="!$v.form.time_slot.required && $v.form.time_slot.$dirty"
+              <md-radio
+                v-model="form.time_slot"
+                value="year"
+                id="calendarYear"
+                name="time_slot"
+                ref="time_slot"
               >
-                Time to achieve a VIP tier is required
-              </span>
+                Annual
+              </md-radio>
+              <small>
+                A member qualifies for the calendar year (1st Jan - 31st Dec)
+              </small>
             </div>
+            <span
+              class="md-custom-error top-minus-20"
+              v-if="!$v.form.time_slot.required && $v.form.time_slot.$dirty"
+            >
+              Time to achieve a VIP tier is required
+            </span>
           </div>
-          <br />
-          <br />
-          <footer class="amvip-actionFooter">
-            <button class="amvip--btnSec" @click="confirmCancelSetup">
-              Cancel
-            </button>
-            <button class="amvip--btnPri" @click="gotoManageTier">Save</button>
-          </footer>
-        </section>
-      </form>
+        </div>
+        <br />
+        <br />
+        <footer class="amvip-actionFooter">
+          <button class="amvip--btnSec" @click="confirmCancelSetup">
+            Cancel
+          </button>
+          <button class="amvip--btnPri" @click="gotoManageTier">Save</button>
+        </footer>
+      </section>
+      <!-- </form> -->
     </section>
     <Loader :status="loader"></Loader>
     <ConfirmPopup
@@ -471,21 +471,6 @@ export default {
       this.$v.$touch();
       if (this.$v.$invalid) {
         this.focusFirstStatus(this.$v.form, this.$refs);
-        // for (let key in Object.keys(this.$v.form)) {
-        //   // 2. Extract the input
-        //   const input = Object.keys(this.$v.form)[key];
-        //   // 3. Remove special properties
-        //   if (input.includes("$")) return false;
-
-        //   // 4. Check for errors
-        //   if (this.$v.form[input].$error) {
-        //     // 5. Focus the input with the error
-        //     this.$refs[input].$el.focus();
-
-        //     // 6. Break out of the loop
-        //     break;
-        //   }
-        // }
         this.responseData = "Validation Errors!!!";
         this.showSnackbar = true;
       } else {

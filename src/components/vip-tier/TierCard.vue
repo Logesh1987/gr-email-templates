@@ -32,12 +32,13 @@
         </div>
       </header>
       <div class="amvip--tierDetails">
-        <h4>Eligibility</h4>
-        <ul class="amvip--bulletList">
+        <h4 v-if="tierData.goal !== 0">Eligibility</h4>
+        <ul class="amvip--bulletList" v-if="tierData.goal !== 0">
           <li>
-            {{ tierData.goal == 0 ? tierData.description : tierData.goaltxt }}
+            {{ tierData.goaltxt }}
           </li>
         </ul>
+        <div v-else class="eligibilityDesc">{{ tierData.description }}</div>
         <h4>Benefits</h4>
         <ul class="amvip--bulletList">
           <li
@@ -56,9 +57,6 @@
           </li>
         </ul>
       </div>
-      <!-- <div class="amvip--tierDetails pt-20" v-else>
-        <p>{{ tierData.name }}</p>
-      </div> -->
     </div>
   </div>
 </template>
@@ -80,6 +78,9 @@ li.rewardItem {
       display: inline-block;
     }
   }
+}
+.eligibilityDesc {
+  margin: 15px 0;
 }
 </style>
 <script>
