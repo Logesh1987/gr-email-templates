@@ -5,24 +5,42 @@
         <span class="dialogClose" @click="hidePopup">&times;</span>
         <h2>Choose Tier Icon</h2>
         <section>
-          <div class="amvip--icon ">
-            <span
-              v-if="iconConfig.icon"
-              class="amvip--iconPreview"
-              v-bind:style="{
-                backgroundImage: 'url(' + iconConfig.icon + ')',
-              }"
-            >
-            </span>
-            <md-field class="uploadFile">
-              <label for="icon">Upload</label>
-              <md-file
-                accept="image/*"
-                name="icon"
-                id="icon"
-                @md-change="selectedFile"
-              />
-            </md-field>
+          <div class="amvip--icon">
+            <div id="predefined_icon" v-if="iconArray.length > 0">
+              <span
+                v-for="(icon, key) in iconArray"
+                :key="key"
+                class="amvip--iconPreview"
+                v-bind:style="{
+                  backgroundImage: 'url(' + icon + ')',
+                }"
+                @click="selectIcon(key, icon)"
+              >
+                <span
+                  class="icon-check1 checkIcon"
+                  v-if="selectedCustomIconIndex === key"
+                ></span>
+              </span>
+            </div>
+            <div id="customIcon">
+              <span
+                v-if="iconConfig.icon"
+                class="amvip--iconPreview"
+                v-bind:style="{
+                  backgroundImage: 'url(' + iconConfig.icon + ')',
+                }"
+              >
+              </span>
+              <md-field class="uploadFile">
+                <label for="icon">Upload</label>
+                <md-file
+                  accept="image/*"
+                  name="icon"
+                  id="icon"
+                  @md-change="selectedFile"
+                />
+              </md-field>
+            </div>
           </div>
         </section>
         <footer class="amvip-actionFooter">
@@ -41,6 +59,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
   }
   .amvip--dialogBody {
     h2 {
@@ -53,6 +72,34 @@
   .amvip-actionFooter {
     padding-top: 0;
     margin-top: 0;
+  }
+  div#customIcon {
+    display: flex;
+    margin: 20px 0;
+  }
+
+  div#predefined_icon {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    border-bottom: 2px solid #ccc;
+    margin: 0 25px;
+    span.amvip--iconPreview {
+      margin: 0 20px 20px;
+      cursor: pointer;
+      position: relative;
+      > .checkIcon {
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        font-size: 60px;
+        color: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        text-align: center;
+        line-height: 50px;
+        transform: translate(-50%, -50%);
+      }
+    }
   }
 }
 </style>
@@ -72,6 +119,16 @@ export default {
       iconConfig: null,
       loader: false,
       responseData: null,
+      defaultIcon: "",
+      iconArray: [
+        `${window.Config.callback_url}/public/assets/img/library/tiers/crown_1.svg`,
+        `${window.Config.callback_url}/public/assets/img/library/tiers/crown_2.svg`,
+        `${window.Config.callback_url}/public/assets/img/library/tiers/crown_3.svg`,
+        `${window.Config.callback_url}/public/assets/img/library/tiers/star_1.svg`,
+        `${window.Config.callback_url}/public/assets/img/library/tiers/star_2.svg`,
+        `${window.Config.callback_url}/public/assets/img/library/tiers/star_3.svg`,
+      ],
+      selectedCustomIconIndex: -1,
     };
   },
   components: { Loader },
@@ -83,6 +140,7 @@ export default {
   },
   mounted() {
     console.log(this.iconConfig);
+    this.defaultIcon = this.iconConfig.icon;
   },
   methods: {
     hidePopup(event) {
@@ -148,6 +206,14 @@ export default {
         .finally(() => {
           this.loader = false;
         });
+    },
+    selectIcon(key, icon) {
+      if (this.defaultIcon === "") {
+        this.defaultIcon = this.iconConfig.icon;
+      }
+      this.selectedCustomIconIndex = key;
+      this.iconConfig.icon = icon;
+      console.log(this.defaultIcon);
     },
   },
 };
