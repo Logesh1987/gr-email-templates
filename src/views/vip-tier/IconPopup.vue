@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div class="amvip--dialog amvip--iconPopup" v-if="showPopup">
+    <div class="amvip--dialog amvip--iconPopup" v-if="validateIcons()">
       <div class="amvip--dialogBody">
         <span class="dialogClose" @click="hidePopup">&times;</span>
         <h2>Choose Tier Icon</h2>
@@ -18,28 +18,38 @@
               >
                 <span
                   class="icon-check1 checkIcon"
-                  v-if="selectedCustomIconIndex === key"
+                  v-if="selectedCustomIconIndex === key && isPredefinedicon"
                 ></span>
               </span>
-            </div>
-            <div id="customIcon">
+              <input
+                id="fileUpload"
+                type="file"
+                accept="image/*"
+                hidden
+                @change="selectedFile"
+              />
               <span
-                v-if="iconConfig.icon"
-                class="amvip--iconPreview"
-                v-bind:style="{
-                  backgroundImage: 'url(' + iconConfig.icon + ')',
-                }"
+                id="fileUpload"
+                class="amvip--iconPreview custom-icon"
+                v-bind:class="
+                  selectedIcon.length > 0 && !isPredefinedicon
+                    ? 'icon-amedit'
+                    : 'icon-plus'
+                "
+                v-bind:style="
+                  selectedIcon.length > 0 && !isPredefinedicon
+                    ? {
+                        backgroundImage: 'url(' + selectedIcon + ')',
+                      }
+                    : ''
+                "
+                @click="chooseFiles()"
               >
+                <span
+                  class="icon-check1 checkIcon"
+                  v-if="selectedIcon.length > 0 && !isPredefinedicon"
+                ></span>
               </span>
-              <md-field class="uploadFile">
-                <label for="icon">Upload</label>
-                <md-file
-                  accept="image/*"
-                  name="icon"
-                  id="icon"
-                  @md-change="selectedFile"
-                />
-              </md-field>
             </div>
           </div>
         </section>
@@ -73,9 +83,17 @@
     padding-top: 0;
     margin-top: 0;
   }
-  div#customIcon {
+  div#selectedIcon {
     display: flex;
     margin: 20px 0;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    flex-direction: column;
+    .preview-header {
+      font-size: 18px;
+      margin: 10px 0;
+    }
   }
 
   div#predefined_icon {
@@ -89,15 +107,13 @@
       cursor: pointer;
       position: relative;
       > .checkIcon {
-        top: 50%;
-        left: 50%;
+        top: -5px;
+        right: -5px;
         position: absolute;
-        font-size: 60px;
-        color: rgba(0, 0, 0, 0.5);
+        font-size: 20px;
+        color: #28d328;
         border-radius: 50%;
         text-align: center;
-        line-height: 50px;
-        transform: translate(-50%, -50%);
       }
     }
   }
@@ -120,15 +136,18 @@ export default {
       loader: false,
       responseData: null,
       defaultIcon: "",
+      isPredefinedicon: false,
+      selectedIcon: "",
       iconArray: [
-        `${window.Config.callback_url}/public/assets/img/library/tiers/crown_1.svg`,
-        `${window.Config.callback_url}/public/assets/img/library/tiers/crown_2.svg`,
-        `${window.Config.callback_url}/public/assets/img/library/tiers/crown_3.svg`,
-        `${window.Config.callback_url}/public/assets/img/library/tiers/star_1.svg`,
-        `${window.Config.callback_url}/public/assets/img/library/tiers/star_2.svg`,
-        `${window.Config.callback_url}/public/assets/img/library/tiers/star_3.svg`,
+        `${this.getImagePath()}crown_1.svg`,
+        `${this.getImagePath()}crown_2.svg`,
+        `${this.getImagePath()}crown_3.svg`,
+        `${this.getImagePath()}star_1.svg`,
+        `${this.getImagePath()}star_2.svg`,
+        `${this.getImagePath()}star_3.svg`,
       ],
       selectedCustomIconIndex: -1,
+      initialShow: true,
     };
   },
   components: { Loader },
@@ -138,15 +157,37 @@ export default {
   onCancel() {
     this.value = "Disagreed";
   },
-  mounted() {
-    console.log(this.iconConfig);
-    this.defaultIcon = this.iconConfig.icon;
-  },
   methods: {
+    validateIcons() {
+      if (this.iconConfig && this.showPopup && this.initialShow) {
+        if (this.defaultIcon === "") {
+          this.defaultIcon = this.iconConfig.icon;
+          this.initialShow = false;
+        }
+        for (let index = 0; index < this.iconArray.length; index++) {
+          const icon = this.iconArray[index];
+          if (icon === this.iconConfig.icon) {
+            this.selectedCustomIconIndex = index;
+            this.isPredefinedicon = true;
+            break;
+          } else {
+            this.selectedCustomIconIndex = -1;
+          }
+        }
+      }
+      return this.showPopup;
+    },
     hidePopup(event) {
       this.$emit("close-btn-click", event);
+      this.selectedCustomIconIndex = -1;
+      this.initialShow = true;
+      this.iconConfig.icon = this.defaultIcon;
+      this.defaultIcon = "";
+      this.isPredefinedicon = false;
+      this.selectedIcon = "";
     },
-    selectedFile(file) {
+    selectedFile(event) {
+      const file = event.target.files;
       if (file.length === 0) {
         return false;
       }
@@ -172,8 +213,10 @@ export default {
               this.showSnackbar =
                 this.responseData && this.responseData.length > 0;
             }
+            this.isPredefinedicon = false;
             const imageUrl = this.getImgUrl(res.data.img_name);
             this.iconConfig.icon = imageUrl;
+            this.selectedIcon = imageUrl;
           }
         })
         .finally(() => {
@@ -182,6 +225,7 @@ export default {
     },
     updateAndClose() {
       this.loader = true;
+      this.iconConfig.icon = this.selectedIcon;
       const url = this.getApiUrl("Tiers/Managetiers/" + this.iconConfig.id);
       Axios.put(url, this.iconConfig)
         .catch(err => {
@@ -200,6 +244,7 @@ export default {
               this.showSnackbar =
                 this.responseData && this.responseData.length > 0;
             }
+            this.defaultIcon = this.iconConfig.icon;
             this.hidePopup();
           }
         })
@@ -208,12 +253,15 @@ export default {
         });
     },
     selectIcon(key, icon) {
-      if (this.defaultIcon === "") {
-        this.defaultIcon = this.iconConfig.icon;
-      }
       this.selectedCustomIconIndex = key;
-      this.iconConfig.icon = icon;
-      console.log(this.defaultIcon);
+      this.selectedIcon = icon;
+      this.isPredefinedicon = true;
+    },
+    getImagePath() {
+      return `${this.$callback_url}/public/assets/img/library/tiers/`;
+    },
+    chooseFiles() {
+      document.getElementById("fileUpload").click();
     },
   },
 };
