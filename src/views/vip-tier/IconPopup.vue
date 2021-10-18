@@ -22,15 +22,16 @@
                 ></span>
               </span>
               <input
-                id="fileUpload"
+                id="fileUploadHidden"
                 type="file"
                 accept="image/*"
+                style="display:none;"
                 hidden
                 @change="selectedFile"
               />
               <span
                 id="fileUpload"
-                class="amvip--iconPreview custom-icon"
+                class="amvip--iconPreview custom-icon popup-icon"
                 v-bind:class="
                   selectedIcon.length > 0 && !isPredefinedicon
                     ? 'icon-amedit'
@@ -106,6 +107,7 @@
       margin: 0 20px 20px;
       cursor: pointer;
       position: relative;
+      z-index: 2;
       font-size: 24px;
       > .checkIcon {
         top: -5px;
@@ -280,7 +282,7 @@ export default {
       return `${this.$callback_url}/public/assets/img/library/tiers/`;
     },
     chooseFiles() {
-      document.getElementById("fileUpload").click();
+      document.getElementById("fileUploadHidden").click();
     },
   },
 };

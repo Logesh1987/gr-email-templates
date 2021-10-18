@@ -174,10 +174,11 @@
     }
   }
   #fileUpload {
-    &.custom-icon {
+    &.custom-icon:not(.popup-icon) {
       font-size: 24px;
       cursor: pointer;
       position: relative;
+      z-index: 2;
       &:hover {
         &::before {
           transition: all;
@@ -188,6 +189,7 @@
       }
       &::before {
         position: absolute;
+        z-index: 1;
         opacity: 0;
         top: 30px;
       }
