@@ -106,6 +106,7 @@
       margin: 0 20px 20px;
       cursor: pointer;
       position: relative;
+      font-size: 24px;
       > .checkIcon {
         top: -5px;
         right: -5px;
@@ -158,6 +159,9 @@ export default {
     this.value = "Disagreed";
   },
   methods: {
+    isEditTier() {
+      return window.location.href.includes("/edit-tier/");
+    },
     validateIcons() {
       if (this.iconConfig && this.showPopup && this.initialShow) {
         if (this.defaultIcon === "") {
@@ -178,7 +182,15 @@ export default {
       return this.showPopup;
     },
     hidePopup(event) {
-      this.$emit("close-btn-click", event);
+      this.$emit("close-btn-click", {
+        event: event,
+        iconData: this.iconConfig,
+      });
+      if (!this.isEditTier()) {
+        this.resetPopupData();
+      }
+    },
+    resetPopupData() {
       this.selectedCustomIconIndex = -1;
       this.initialShow = true;
       this.iconConfig.icon = this.defaultIcon;
@@ -224,33 +236,40 @@ export default {
         });
     },
     updateAndClose() {
-      this.loader = true;
       this.iconConfig.icon = this.selectedIcon;
-      const url = this.getApiUrl("Tiers/Managetiers/" + this.iconConfig.id);
-      Axios.put(url, this.iconConfig)
-        .catch(err => {
-          this.responseData = err;
-          this.showSnackbar = true;
-        })
-        .then(res => {
-          if (res.data.error) {
-            this.responseData = res.data.error.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
-            return false;
-          } else {
-            if (res.data.data.message != undefined) {
-              this.responseData = res.data.data.message;
+      if (this.isEditTier()) {
+        this.iconConfig.icon = this.selectedIcon;
+        this.hidePopup();
+        return false;
+      } else {
+        this.loader = true;
+        const url = this.getApiUrl("Tiers/Managetiers/" + this.iconConfig.id);
+        Axios.put(url, this.iconConfig)
+          .catch(err => {
+            this.responseData = err;
+            this.showSnackbar = true;
+          })
+          .then(res => {
+            if (res.data.error) {
+              this.responseData = res.data.error.message;
               this.showSnackbar =
                 this.responseData && this.responseData.length > 0;
+              return false;
+            } else {
+              if (res.data.data.message != undefined) {
+                this.responseData = res.data.data.message;
+                this.showSnackbar =
+                  this.responseData && this.responseData.length > 0;
+              }
+              this.defaultIcon = this.iconConfig.icon;
+              this.hidePopup();
+              // this.resetPopupData();
             }
-            this.defaultIcon = this.iconConfig.icon;
-            this.hidePopup();
-          }
-        })
-        .finally(() => {
-          this.loader = false;
-        });
+          })
+          .finally(() => {
+            this.loader = false;
+          });
+      }
     },
     selectIcon(key, icon) {
       this.selectedCustomIconIndex = key;

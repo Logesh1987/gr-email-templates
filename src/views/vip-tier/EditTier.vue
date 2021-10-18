@@ -77,15 +77,15 @@
           <div class="amvip--formRow multiCol">
             <label>Tier icon <span class="amvip--mandatory">*</span></label>
             <div class="amvip--icon">
-              <span
+              <!-- <span
                 v-if="form.icon"
                 class="amvip--iconPreview"
                 v-bind:style="{
                   backgroundImage: 'url(' + form.icon + ')',
                 }"
               >
-              </span>
-              <md-field :class="getValidationClass('icon')">
+              </span> -->
+              <!-- <md-field :class="getValidationClass('icon')">
                 <label for="icon">Upload</label>
                 <md-file
                   ref="icon"
@@ -98,7 +98,19 @@
                 <span class="md-error" v-if="!$v.form.icon.required">
                   Tier icon is required
                 </span>
-              </md-field>
+              </md-field> -->
+              <span
+                id="fileUpload"
+                class="amvip--iconPreview custom-icon icon-amedit"
+                v-bind:style="{
+                  backgroundImage: 'url(' + form.icon + ')',
+                }"
+                @click="showIconPopup()"
+              >
+              </span>
+              <span class="md-error" v-if="!$v.form.icon.required">
+                Tier icon is required
+              </span>
             </div>
           </div>
           <div class="amvip--formRow multiCol">
@@ -119,6 +131,11 @@
             @deleteClicked="confirmDeleteReward($event)"
           ></VipRewardCard>
         </div>
+        <IconPopup
+          ref="iconPopupEle"
+          :showPopup="enableIcon"
+          v-on:close-btn-click="hideIconPopup"
+        ></IconPopup>
       </section>
     </div>
     <footer class="amvip-actionFooter">
@@ -156,6 +173,26 @@
       max-width: 60px;
     }
   }
+  #fileUpload {
+    &.custom-icon {
+      font-size: 24px;
+      cursor: pointer;
+      position: relative;
+      &:hover {
+        &::before {
+          transition: all;
+          transition-duration: 250ms;
+          opacity: 1;
+          top: 15px;
+        }
+      }
+      &::before {
+        position: absolute;
+        opacity: 0;
+        top: 30px;
+      }
+    }
+  }
 }
 .vc-chrome {
   position: absolute;
@@ -170,9 +207,10 @@ import VipRewardCard from "./../../components/vip-tier/RewardCard";
 import Loader from "./../../components/Loader";
 import ConfirmPopup from "./ConfirmPopup";
 import Axios from "axios";
+import IconPopup from "./IconPopup";
 export default {
   name: "EditTier",
-  components: { ColorPicker, VipRewardCard, Loader, ConfirmPopup },
+  components: { ColorPicker, VipRewardCard, Loader, ConfirmPopup, IconPopup },
   mixins: [validationMixin],
   props: ["currentRewardId"],
   data: () => ({
@@ -194,6 +232,7 @@ export default {
     existingFile: null,
     responseData: "",
     showSnackbar: false,
+    enableIcon: false,
   }),
   mounted() {
     this.renderData();
@@ -216,6 +255,10 @@ export default {
     },
   },
   methods: {
+    showIconPopup() {
+      this.$refs.iconPopupEle.iconConfig = this.form;
+      this.enableIcon = true;
+    },
     renderData() {
       this.loader = true;
       this.currentTierId = this.$route.params.currentTierId;
@@ -271,6 +314,10 @@ export default {
     blobUrl(val) {
       if (!val || !val.constructor || val.constructor !== File) return val;
       return URL.createObjectURL(val);
+    },
+    hideIconPopup() {
+      // this.form.icon = event.iconData.icon;
+      this.enableIcon = false;
     },
     selectedFile(file) {
       if (file.length > 0) {
@@ -472,6 +519,9 @@ export default {
           break;
       }
     },
+  },
+  chooseFiles() {
+    document.getElementById("fileUpload").click();
   },
 };
 </script>
