@@ -5,10 +5,15 @@
         <div
           class="amvip--cardImg"
           v-if="tierData.icon.length > 0"
-          v-bind:style="{
-            backgroundImage: 'url(' + getCDNImage(tierData.icon) + ')',
-            backgroundSize: '100% 100%',
-          }"
+          :class="validURL(tierData.icon) ? '' : tierData.icon"
+          v-bind:style="
+            validURL(tierData.icon)
+              ? {
+                  backgroundImage: 'url(' + getCDNImage(tierData.icon) + ')',
+                  backgroundSize: '100% 100%',
+                }
+              : { color: tierData.color }
+          "
         >
           <span
             class="icon-amedit"

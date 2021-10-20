@@ -11,9 +11,7 @@
                 v-for="(icon, key) in iconArray"
                 :key="key"
                 class="amvip--iconPreview"
-                v-bind:style="{
-                  backgroundImage: 'url(' + icon + ')',
-                }"
+                :class="icon"
                 @click="selectIcon(key, icon)"
               >
                 <span
@@ -109,6 +107,9 @@
       position: relative;
       z-index: 2;
       font-size: 24px;
+      &::before {
+        font-size: 40px;
+      }
       > .checkIcon {
         top: -5px;
         right: -5px;
@@ -117,6 +118,11 @@
         color: #28d328;
         border-radius: 50%;
         text-align: center;
+      }
+    }
+    span#fileUpload {
+      &.amvip--iconPreview::before {
+        font-size: 20px;
       }
     }
   }
@@ -142,12 +148,11 @@ export default {
       isPredefinedicon: false,
       selectedIcon: "",
       iconArray: [
-        `${this.getImagePath()}crown_1.svg`,
-        `${this.getImagePath()}crown_2.svg`,
-        `${this.getImagePath()}crown_3.svg`,
-        `${this.getImagePath()}star_1.svg`,
-        `${this.getImagePath()}star_2.svg`,
-        `${this.getImagePath()}star_3.svg`,
+        `icon-crown_1`,
+        `icon-crown_3`,
+        `icon-star_1`,
+        `icon-star_2`,
+        `icon-star_3`,
       ],
       selectedCustomIconIndex: -1,
       initialShow: true,
@@ -161,13 +166,16 @@ export default {
     this.value = "Disagreed";
   },
   methods: {
-    isEditTier() {
-      return window.location.href.includes("/edit-tier/");
+    isAddOrEditTier() {
+      return (
+        window.location.href.includes("/edit-tier/") ||
+        window.location.href.includes("/add-tier")
+      );
     },
     validateIcons() {
       if (this.iconConfig && this.showPopup && this.initialShow) {
         if (this.defaultIcon === "") {
-          this.defaultIcon = this.iconConfig.icon;
+          this.defaultIcon = this.iconConfig?.icon;
           this.initialShow = false;
         }
         for (let index = 0; index < this.iconArray.length; index++) {
@@ -178,6 +186,11 @@ export default {
             break;
           } else {
             this.selectedCustomIconIndex = -1;
+            this.isPredefinedicon = false;
+            if (this.iconConfig.icon) {
+              this.selectedIcon = this.iconConfig.icon;
+              this.defaultIcon = this.iconConfig.icon;
+            }
           }
         }
       }
@@ -188,7 +201,7 @@ export default {
         event: event,
         iconData: this.iconConfig,
       });
-      if (!this.isEditTier()) {
+      if (!this.isAddOrEditTier()) {
         this.resetPopupData();
       }
     },
@@ -239,7 +252,7 @@ export default {
     },
     updateAndClose() {
       this.iconConfig.icon = this.selectedIcon;
-      if (this.isEditTier()) {
+      if (this.isAddOrEditTier()) {
         this.iconConfig.icon = this.selectedIcon;
         this.hidePopup();
         return false;

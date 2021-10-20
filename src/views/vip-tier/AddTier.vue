@@ -78,7 +78,7 @@
             <span class="amvip--mandatory">*</span>
           </label>
           <div class="amvip--icon">
-            <span
+            <!-- <span
               v-if="file"
               class="amvip--iconPreview"
               v-bind:style="{ backgroundImage: 'url(' + blobUrl(file) + ')' }"
@@ -98,9 +98,39 @@
               <span class="md-error" v-if="!$v.form.icon.required">
                 Tier icon is required
               </span>
-            </md-field>
+            </md-field> -->
+            <span
+              id="fileUpload"
+              class="amvip--iconPreview"
+              v-bind:class="validURL(form.icon) ? '' : form.icon"
+              v-bind:style="
+                validURL(form.icon)
+                  ? {
+                      backgroundImage: 'url(' + form.icon + ')',
+                    }
+                  : { color: form.color }
+              "
+              @click="showIconPopup()"
+            >
+              <span
+                class="custom-icon"
+                v-bind:class="
+                  form.icon && form.icon.length > 0
+                    ? 'icon-amedit'
+                    : 'icon-plus'
+                "
+              ></span>
+            </span>
+            <span class="md-error" v-if="!$v.form.icon.required">
+              Tier icon is required
+            </span>
           </div>
         </div>
+        <IconPopup
+          ref="iconPopupEle"
+          :showPopup="enableIcon"
+          v-on:close-btn-click="hideIconPopup"
+        ></IconPopup>
       </div>
     </form>
     <footer class="amvip-actionFooter">
@@ -124,13 +154,50 @@
 .amvip--container.amvip--addTier {
   width: 85%;
   .amvip--colorInfo {
-    z-index: 2;
+    z-index: 3;
   }
   .amvip--icon {
     display: flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     .amvip--iconPreview {
       min-width: 60px;
       max-width: 60px;
+    }
+  }
+  #fileUpload {
+    position: relative;
+    font-size: 40px;
+    .custom-icon:not(.popup-icon) {
+      font-size: 24px;
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 60px;
+      height: 60px;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: grey;
+      &:not(.icon-plus) {
+        &:hover {
+          &::before {
+            transition: all;
+            transition-duration: 250ms;
+            opacity: 1;
+            top: 15px;
+          }
+        }
+        &::before {
+          position: absolute;
+          z-index: 1;
+          opacity: 0;
+          top: 30px;
+        }
+      }
     }
   }
 }
@@ -141,9 +208,10 @@ import { required, minLength, minValue } from "vuelidate/lib/validators";
 import ColorPicker from "./../../components/ColorPicker";
 import Loader from "./../../components/Loader";
 import Axios from "axios";
+import IconPopup from "./IconPopup";
 export default {
   name: "AddTier",
-  components: { ColorPicker, Loader },
+  components: { ColorPicker, Loader, IconPopup },
   mixins: [validationMixin],
   data: () => ({
     form: {
@@ -160,6 +228,7 @@ export default {
     responseData: "",
     existingFile: null,
     existingFileName: "",
+    enableIcon: false,
   }),
   validations: {
     form: {
@@ -174,6 +243,13 @@ export default {
     },
   },
   methods: {
+    showIconPopup() {
+      this.$refs.iconPopupEle.iconConfig = this.form;
+      this.enableIcon = true;
+    },
+    hideIconPopup() {
+      this.enableIcon = false;
+    },
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
       if (field) {

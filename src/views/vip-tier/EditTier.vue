@@ -101,12 +101,18 @@
               </md-field> -->
               <span
                 id="fileUpload"
-                class="amvip--iconPreview custom-icon icon-amedit"
-                v-bind:style="{
-                  backgroundImage: 'url(' + form.icon + ')',
-                }"
+                class="amvip--iconPreview"
+                v-bind:class="validURL(form.icon) ? '' : form.icon"
+                v-bind:style="
+                  validURL(form.icon)
+                    ? {
+                        backgroundImage: 'url(' + form.icon + ')',
+                      }
+                    : { color: form.color }
+                "
                 @click="showIconPopup()"
               >
+                <span class="custom-icon icon-amedit"></span>
               </span>
               <span class="md-error" v-if="!$v.form.icon.required">
                 Tier icon is required
@@ -164,7 +170,7 @@
 @import url("./../../assets/vip-tier/less/_edit-tier");
 .amvip-editTier {
   .amvip--colorInfo {
-    z-index: 2;
+    z-index: 3;
   }
   .amvip--icon {
     display: flex;
@@ -174,11 +180,19 @@
     }
   }
   #fileUpload {
-    &.custom-icon:not(.popup-icon) {
+    position: relative;
+    font-size: 40px;
+    .custom-icon:not(.popup-icon) {
       font-size: 24px;
       cursor: pointer;
-      position: relative;
+      position: absolute;
+      width: 60px;
+      height: 60px;
       z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: grey;
       &:hover {
         &::before {
           transition: all;
