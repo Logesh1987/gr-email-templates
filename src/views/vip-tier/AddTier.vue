@@ -3,7 +3,7 @@
     <form novalidate class="md-layout">
       <div class="amvip--container amvip--addTier">
         <hgroup class="amvip--pageHeader">
-          <span class="icon-next-arrow" @click="goBack"></span>
+          <span class="far fa-arrow-left" @click="goBack"></span>
           <h2>Add tier</h2>
         </hgroup>
         <div class="amvip--formRow">
@@ -116,8 +116,8 @@
                 class="custom-icon"
                 v-bind:class="
                   form.icon && form.icon.length > 0
-                    ? 'icon-amedit'
-                    : 'icon-plus'
+                    ? 'far fa-edit'
+                    : 'far fa-plus'
                 "
               ></span>
             </span>
@@ -182,7 +182,7 @@
       justify-content: center;
       align-items: center;
       color: grey;
-      &:not(.icon-plus) {
+      &:not(.fa-plus) {
         &:hover {
           &::before {
             transition: all;

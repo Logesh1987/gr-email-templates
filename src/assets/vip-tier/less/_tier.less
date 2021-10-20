@@ -36,6 +36,15 @@
         display: flex;
         align-items: center;
         background: #fff;
+        &:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255, 255, 255, .15)), to(rgba(0, 0, 0, .25))), -webkit-gradient(linear, left top, right bottom, color-stop(0, rgba(255, 255, 255, 0)), color-stop(0.5, rgba(255, 255, 255, .1)), color-stop(0.501, rgba(255, 255, 255, 0)), color-stop(1, rgba(255, 255, 255, 0)));
+        }
     }
     &.amvip--platinum header { background: #e6e6e6; }
     &.amvip--gold header { background: #c3ab36; }
@@ -64,7 +73,7 @@
     &::before {
         font-size: 40px;
     }
-    .icon-amedit {
+    .fa-edit {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -83,7 +92,7 @@
         img {
             opacity: .3;
         }
-        .icon-amedit {
+        .fa-edit {
             opacity: 1;
             transform: translate(-50%, -50%);
         }

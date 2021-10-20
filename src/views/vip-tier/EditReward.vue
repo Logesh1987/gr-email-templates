@@ -2,7 +2,7 @@
   <div class="amvip--wrapper">
     <div class="amvip--container amvip--manageReward">
       <hgroup class="amvip--pageHeader">
-        <span class="icon-next-arrow" @click="goBack"></span>
+        <span class="far fa-arrow-left" @click="goBack"></span>
         <h2>Edit reward</h2>
       </hgroup>
       <div class="amvip--tabs">

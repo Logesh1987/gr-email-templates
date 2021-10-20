@@ -16,22 +16,22 @@
           "
         >
           <span
-            class="icon-amedit"
+            class="far fa-edit"
             @click="editTierIcon($event, tierData)"
           ></span>
         </div>
         <div class="amvip--cardImg" v-else>
           <span
-            class="icon-amedit"
+            class="far fa-edit"
             @click="editTierIcon($event, tierData)"
           ></span>
         </div>
         <h3>{{ tierData.name }}</h3>
         <div class="amvip--cardAction">
-          <span class="icon-amedit" @click="editTier($event, tierData)"></span>
+          <span class="far fa-edit" @click="editTier($event, tierData)"></span>
           <span
             v-if="isDeleteEnabled"
-            class="icon-amdelete"
+            class="far fa-trash-alt"
             @click="deleteTier($event, tierData)"
           ></span>
         </div>
@@ -53,7 +53,7 @@
           >
             {{ benefit.name }}
             <span
-              class="icon-amedit rewardEdit"
+              class="far fa-edit rewardEdit"
               @click="editRewardIcon($event, benefit, tierData.id)"
             ></span>
           </li>

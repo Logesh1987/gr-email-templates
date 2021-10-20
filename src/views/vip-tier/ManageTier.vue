@@ -2,14 +2,14 @@
   <div class="amvip--wrapper">
     <div class="amvip--container">
       <hgroup class="amvip--pageHeader">
-        <!-- <span class="icon-next-arrow" @click="goHome"></span> -->
+        <!-- <span class="far fa-arrow-left" @click="goHome"></span> -->
         <h2>Manage Tiers</h2>
         <div class="amvip--inlineFlex">
           <router-link to="/view/tiers/editProgram" class="homeLink"
             >Edit program</router-link
           >
           <button class="amvip--btnCommon" @click="gotoAddTier">
-            <span class="icon-plus"></span> <span>Add Tier</span>
+            <span class="far fa-plus"></span> <span>Add Tier</span>
           </button>
           <div class="amvip--statusToggle">
             <span>Your Promotion is currently {{ getTierStatus() }}</span>

@@ -14,7 +14,7 @@
     </aside>
     <section class="amvip-accordContent">
       <section>
-        <span class="icon-next-arrow goBack" @click="goBack"> </span>
+        <span class="far fa-arrow-left goBack" @click="goBack"> </span>
         <h2>Benefits of <br />VIP tiers</h2>
 
         <md-list :md-expand-single="true" id="introExpansionList">

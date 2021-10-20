@@ -6,9 +6,9 @@
       alt="rewardData.reward_icon"
     /><span>{{ rewardData.name }}</span>
     <div class="amvip--rewardItemActions">
-      <span class="icon-amedit" @click="editReward($event, rewardData)"></span
+      <span class="far fa-edit" @click="editReward($event, rewardData)"></span
       ><span
-        class="icon-amdelete"
+        class="far fa-trash-alt"
         @click="deleteReward($event, rewardData)"
       ></span>
     </div>

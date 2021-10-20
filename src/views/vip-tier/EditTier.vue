@@ -2,7 +2,7 @@
   <div class="amvip--wrapper amvip-editTier">
     <div class="amvip--container">
       <hgroup class="amvip--pageHeader">
-        <span class="icon-next-arrow" @click="goBack"></span>
+        <span class="far fa-arrow-left" @click="goBack"></span>
         <h2>Edit tier</h2>
       </hgroup>
       <section class="amvip--editTierRow">
@@ -112,7 +112,7 @@
                 "
                 @click="showIconPopup()"
               >
-                <span class="custom-icon icon-amedit"></span>
+                <span class="custom-icon far fa-edit"></span>
               </span>
               <span class="md-error" v-if="!$v.form.icon.required">
                 Tier icon is required
@@ -122,7 +122,7 @@
           <div class="amvip--formRow multiCol">
             <label>Rewards</label>
             <div class="amvip--btnCommon" @click="gotoAddReward">
-              <span class="icon-plus"></span>
+              <span class="far fa-plus"></span>
               <span>Add reward</span>
             </div>
           </div>

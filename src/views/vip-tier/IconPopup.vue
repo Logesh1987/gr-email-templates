@@ -15,7 +15,7 @@
                 @click="selectIcon(key, icon)"
               >
                 <span
-                  class="icon-check1 checkIcon"
+                  class="fas fa-check-circle checkIcon"
                   v-if="selectedCustomIconIndex === key && isPredefinedicon"
                 ></span>
               </span>
@@ -32,8 +32,8 @@
                 class="amvip--iconPreview custom-icon popup-icon"
                 v-bind:class="
                   selectedIcon.length > 0 && !isPredefinedicon
-                    ? 'icon-amedit'
-                    : 'icon-plus'
+                    ? 'far fa-edit'
+                    : 'far fa-plus'
                 "
                 v-bind:style="
                   selectedIcon.length > 0 && !isPredefinedicon
@@ -45,7 +45,7 @@
                 @click="chooseFiles()"
               >
                 <span
-                  class="icon-check1 checkIcon"
+                  class="fas fa-check-circle checkIcon"
                   v-if="selectedIcon.length > 0 && !isPredefinedicon"
                 ></span>
               </span>
