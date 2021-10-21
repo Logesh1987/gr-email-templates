@@ -1,138 +1,117 @@
 <template>
   <div class="amvip--wrapper">
-    <form novalidate class="md-layout">
-      <div class="amvip--container amvip--addTier">
-        <hgroup class="amvip--pageHeader">
-          <span class="far fa-arrow-left" @click="goBack"></span>
-          <h2>Add tier</h2>
-        </hgroup>
-        <div class="amvip--formRow">
-          <md-field :class="getValidationClass('name')">
-            <label for="name">
-              Name
-              <span class="amvip--mandatory">*</span>
-            </label>
-            <md-input
-              name="name"
-              id="name"
-              v-model="form.name"
-              ref="name"
-              :disabled="sending"
-            />
-            <span class="md-error" v-if="!$v.form.name.required">
-              Name is required
-            </span>
-            <span class="md-error" v-else-if="!$v.form.name.minLenght">
-              Minimum of 3 letters required
-            </span>
-          </md-field>
-        </div>
-        <div class="amvip--formRow">
-          <md-field>
-            <label for="description">Description</label>
-            <md-textarea
-              name="description"
-              id="description"
-              v-model="form.description"
-              :disabled="sending"
-            ></md-textarea>
-          </md-field>
-        </div>
-        <div class="amvip--formRow multiCol">
-          <label for="color">Background color</label>
-          <div class="amvip--colorInfo">
-            <ColorPicker
-              id="color"
-              name="color"
-              :color="form.color"
-              v-model="form.color"
-              v-on:input="e => (form.color = e)"
-            ></ColorPicker>
-          </div>
-        </div>
-        <div class="amvip--formRow multiCol">
-          <md-field :class="getValidationClass('goal')">
-            <label for="goal">
-              Points needed
-              <span class="amvip--mandatory">*</span>
-            </label>
-            <md-input
-              name="goal"
-              id="goal"
-              type="number"
-              ref="goal"
-              v-model="form.goal"
-              :disabled="sending"
-            />
-            <span class="md-error" v-if="!$v.form.goal.required">
-              Points needed field is required
-            </span>
-            <span class="md-error" v-else-if="!$v.form.goal.minLenght">
-              Minimum value of point needed would be 25
-            </span>
-          </md-field>
-        </div>
-        <div class="amvip--formRow multiCol">
-          <label
-            >Tier Icon
+    <!-- <form novalidate class="md-layout"> -->
+    <div class="amvip--container amvip--addTier">
+      <hgroup class="amvip--pageHeader">
+        <span class="far fa-arrow-left" @click="goBack"></span>
+        <h2>Add tier</h2>
+      </hgroup>
+      <div class="amvip--formRow">
+        <md-field :class="getValidationClass('name')">
+          <label for="name">
+            Name
             <span class="amvip--mandatory">*</span>
           </label>
-          <div class="amvip--icon">
-            <!-- <span
-              v-if="file"
-              class="amvip--iconPreview"
-              v-bind:style="{ backgroundImage: 'url(' + blobUrl(file) + ')' }"
-            >
-            </span>
-            <md-field :class="getValidationClass('icon')">
-              <label for="icon">Upload</label>
-              <md-file
-                accept="image/*"
-                name="icon"
-                id="icon"
-                ref="icon"
-                v-model="existingFileName"
-                :disabled="sending"
-                @md-change="selectedFile"
-              />
-              <span class="md-error" v-if="!$v.form.icon.required">
-                Tier icon is required
-              </span>
-            </md-field> -->
-            <span
-              id="fileUpload"
-              class="amvip--iconPreview"
-              v-bind:class="validURL(form.icon) ? '' : form.icon"
-              v-bind:style="
-                validURL(form.icon)
-                  ? {
-                      backgroundImage: 'url(' + form.icon + ')',
-                    }
-                  : { color: form.color }
-              "
-              @click="showIconPopup()"
-            >
-              <span
-                class="custom-icon"
-                v-bind:class="
-                  form.icon && form.icon.length > 0
-                    ? 'far fa-edit'
-                    : 'far fa-plus'
-                "
-              ></span>
-            </span>
-            <span class="md-error" v-if="!$v.form.icon.required">
-              Tier icon is required
-            </span>
-          </div>
-        </div>
-        <IconPopup
-          ref="iconPopupEle"
-          :showPopup="enableIcon"
-          v-on:close-btn-click="hideIconPopup"
-        ></IconPopup>
+          <md-input
+            name="name"
+            id="name"
+            v-model="form.name"
+            ref="name"
+            :disabled="sending"
+          />
+          <span class="md-error" v-if="!$v.form.name.required">
+            Name is required
+          </span>
+          <span class="md-error" v-else-if="!$v.form.name.minLenght">
+            Minimum of 3 letters required
+          </span>
+        </md-field>
       </div>
-    </form>
+      <div class="amvip--formRow">
+        <md-field>
+          <label for="description">Description</label>
+          <md-textarea
+            name="description"
+            id="description"
+            v-model="form.description"
+            :disabled="sending"
+          ></md-textarea>
+        </md-field>
+      </div>
+      <div class="amvip--formRow multiCol">
+        <label for="color">Background color</label>
+        <div class="amvip--colorInfo">
+          <ColorPicker
+            id="color"
+            name="color"
+            :color="form.color"
+            v-model="form.color"
+            v-on:input="e => (form.color = e)"
+          ></ColorPicker>
+        </div>
+      </div>
+      <div class="amvip--formRow multiCol">
+        <md-field :class="getValidationClass('goal')">
+          <label for="goal">
+            Points needed
+            <span class="amvip--mandatory">*</span>
+          </label>
+          <md-input
+            name="goal"
+            id="goal"
+            type="number"
+            ref="goal"
+            v-model="form.goal"
+            :disabled="sending"
+          />
+          <span class="md-error" v-if="!$v.form.goal.required">
+            Points needed field is required
+          </span>
+          <span class="md-error" v-else-if="!$v.form.goal.minLenght">
+            Minimum value of point needed would be 25
+          </span>
+        </md-field>
+      </div>
+      <div class="amvip--formRow multiCol">
+        <label
+          >Tier Icon
+          <span class="amvip--mandatory">*</span>
+        </label>
+        <div class="amvip--icon">
+          <span
+            id="fileUpload"
+            class="amvip--iconPreview"
+            v-bind:class="validURL(form.icon) ? '' : form.icon"
+            v-bind:style="
+              validURL(form.icon)
+                ? {
+                    backgroundImage: 'url(' + form.icon + ')',
+                  }
+                : { color: form.color }
+            "
+            @click="showIconPopup()"
+          >
+            <span
+              class="custom-icon"
+              v-bind:class="
+                form.icon && form.icon.length > 0
+                  ? 'far fa-edit'
+                  : 'far fa-plus'
+              "
+            ></span>
+          </span>
+          <span class="md-error" v-if="!$v.form.icon.required">
+            Tier icon is required
+          </span>
+        </div>
+      </div>
+      <IconPopup
+        ref="iconPopupEle"
+        :showPopup="enableIcon"
+        v-on:close-btn-click="hideIconPopup"
+      ></IconPopup>
+    </div>
+    <!-- </form> -->
     <footer class="amvip-actionFooter">
       <button class="amvip--btnSec" @click="clearForm">Cancel</button>
       <button class="amvip--btnPri" @click="saveTier">Save</button>
