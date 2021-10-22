@@ -107,11 +107,11 @@ export default {
           this.showSnackbar = this.responseData && this.responseData.length > 0;
           return false;
         } else {
-          if (res.data.data.message != undefined) {
-            this.responseData = res.data.data.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
-          }
+          // if (res.data.data.message != undefined) {
+          //   this.responseData = res.data.data.message;
+          //   this.showSnackbar =
+          //     this.responseData && this.responseData.length > 0;
+          // }
           this.tierStatus = res.data.data.status;
         }
       })
@@ -130,11 +130,11 @@ export default {
           this.showSnackbar = this.responseData && this.responseData.length > 0;
           return false;
         } else {
-          if (res.data.data.message != undefined) {
-            this.responseData = res.data.data.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
-          }
+          // if (res.data.data.message != undefined) {
+          //   this.responseData = res.data.data.message;
+          //   this.showSnackbar =
+          //     this.responseData && this.responseData.length > 0;
+          // }
           this.tierData = res.data.data;
         }
       })

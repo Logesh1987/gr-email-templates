@@ -535,9 +535,9 @@ export default {
           break;
       }
     },
-  },
-  chooseFiles() {
-    document.getElementById("fileUpload").click();
+    chooseFiles() {
+      document.getElementById("fileUpload").click();
+    },
   },
 };
 </script>

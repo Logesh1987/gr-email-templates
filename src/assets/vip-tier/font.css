@@ -1,17 +1,18 @@
 @font-face {
-  font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?pfb87t');
-  src:  url('fonts/icomoon.eot?pfb87t#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?pfb87t') format('truetype'),
-    url('fonts/icomoon.woff?pfb87t') format('woff');
+  font-family: 'vip_tiers';
+  src:  url('fonts/vip_tiers.eot?yp7z7q');
+  src:  url('fonts/vip_tiers.eot?yp7z7q#iefix') format('embedded-opentype'),
+    url('fonts/vip_tiers.ttf?yp7z7q') format('truetype'),
+    url('fonts/vip_tiers.woff?yp7z7q') format('woff'),
+    url('fonts/vip_tiers.svg?yp7z7q#vip_tiers') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^="icon-vip-"], [class*=" icon-vip-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon' !important;
+  font-family: 'vip_tiers' !important;
   speak: never;
   font-style: normal;
   font-weight: normal;
@@ -24,60 +25,60 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-amedit:before {
+.icon-vip-amedit:before {
   content: "\e909";
 }
-.icon-amdelete:before {
+.icon-vip-amdelete:before {
   content: "\e90a";
 }
-.icon-close:before {
+.icon-vip-close:before {
   content: "\e907";
 }
-.icon-dots:before {
+.icon-vip-dots:before {
   content: "\e908";
 }
-.icon-crown:before {
+.icon-vip-crown:before {
   content: "\e900";
 }
-.icon-upload:before {
+.icon-vip-upload:before {
   content: "\e901";
 }
-.icon-next-arrow:before {
+.icon-vip-next-arrow:before {
   content: "\e902";
 }
-.icon-plus:before {
+.icon-vip-plus:before {
   content: "\e903";
 }
-.icon-check1:before {
+.icon-vip-check1:before {
   content: "\e904";
 }
-.icon-alert:before {
+.icon-vip-alert:before {
   content: "\e905";
 }
-.icon-check2:before {
+.icon-vip-check2:before {
   content: "\e906";
 }
-.icon-calendar:before {
+.icon-vip-calendar:before {
   content: "\e953";
 }
-.icon-notification:before {
+.icon-vip-notification:before {
   content: "\ea08";
 }
-.icon-crown_1:before {
+.icon-vip-crown_1:before {
   content: "\e90b";
 }
-.icon-crown_2:before {
+.icon-vip-crown_2:before {
   content: "\e90c";
 }
-.icon-crown_3:before {
+.icon-vip-crown_3:before {
   content: "\e90d";
 }
-.icon-star_1:before {
+.icon-vip-star_1:before {
   content: "\e90e";
 }
-.icon-star_2:before {
+.icon-vip-star_2:before {
   content: "\e90f";
 }
-.icon-star_3:before {
+.icon-vip-star_3:before {
   content: "\e910";
 }

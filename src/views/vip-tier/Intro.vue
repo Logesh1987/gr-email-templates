@@ -6,7 +6,7 @@
     </div>
     <aside class="amvip--landingBrand">
       <div>
-        <span class="icon-crown"></span>
+        <span class="icon-vip-crown"></span>
         <h2>VIP</h2>
         <h3>Tiers</h3>
         <small>Beta</small>
