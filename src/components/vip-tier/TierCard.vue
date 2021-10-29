@@ -44,8 +44,8 @@
           </li>
         </ul>
         <div v-else class="eligibilityDesc">{{ tierData.description }}</div>
-        <h4>Benefits</h4>
-        <ul class="amvip--bulletList">
+        <h4 v-if="tierData.rewards.length > 0">Benefits</h4>
+        <ul class="amvip--bulletList" v-if="tierData.rewards.length > 0">
           <li
             v-for="benefit of tierData.rewards"
             :key="benefit.index"
