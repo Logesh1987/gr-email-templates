@@ -99,52 +99,68 @@ export default {
   },
   mounted() {
     this.loader = true;
-    const statusUrl = this.getApiUrl("Tiers/Viptierstatus");
-    Axios.get(statusUrl)
-      .then(res => {
-        if (res.data.error) {
-          this.responseData = res.data.error.message;
-          this.showSnackbar = this.responseData && this.responseData.length > 0;
-          return false;
-        } else {
-          // if (res.data.data.message != undefined) {
-          //   this.responseData = res.data.data.message;
-          //   this.showSnackbar =
-          //     this.responseData && this.responseData.length > 0;
-          // }
-          this.tierStatus = res.data.data.status;
-        }
-      })
-      .catch(err => {
-        this.responseData = err;
-        this.showSnackbar = true;
-      })
-      .finally(() => {
-        this.loader = false;
-      });
-    const url = this.getApiUrl("Tiers/Managetiers");
-    Axios.get(url)
-      .then(res => {
-        if (res.data.error) {
-          this.responseData = res.data.error.message;
-          this.showSnackbar = this.responseData && this.responseData.length > 0;
-          return false;
-        } else {
-          // if (res.data.data.message != undefined) {
-          //   this.responseData = res.data.data.message;
-          //   this.showSnackbar =
-          //     this.responseData && this.responseData.length > 0;
-          // }
-          this.tierData = res.data.data;
-        }
-      })
-      .catch(err => {
-        this.responseData = err;
-        this.showSnackbar = true;
-      })
-      .finally(() => {
-        this.loader = false;
-      });
+    const statusData = +window.sessionStorage.getItem("statusData");
+    if (
+      statusData.length == 0 ||
+      statusData === null ||
+      statusData === undefined
+    ) {
+      const statusUrl = this.getApiUrl("Tiers/Viptierstatus");
+      Axios.get(statusUrl)
+        .then((res) => {
+          if (res.data.error) {
+            this.responseData = res.data.error.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+            return false;
+          } else {
+            this.tierStatus = res.data.data.status;
+            window.sessionStorage.setItem("statusData", this.tierStatus);
+          }
+        })
+        .catch((err) => {
+          this.responseData = err;
+          this.showSnackbar = true;
+        })
+        .finally(() => {
+          this.loader = false;
+        });
+    } else {
+      this.tierStatus = statusData;
+      this.loader = false;
+    }
+    this.loader = true;
+    const tierData = window.sessionStorage.getItem("tierData");
+    const dataChanged = window.sessionStorage.getItem("dataChanged") == "true";
+    if (!tierData || (dataChanged && tierData)) {
+      const url = this.getApiUrl("Tiers/Managetiers");
+      Axios.get(url)
+        .then((res) => {
+          if (res.data.error) {
+            this.responseData = res.data.error.message;
+            this.showSnackbar =
+              this.responseData && this.responseData.length > 0;
+            return false;
+          } else {
+            this.tierData = res.data.data;
+            window.sessionStorage.setItem(
+              "tierData",
+              JSON.stringify(this.tierData)
+            );
+            window.sessionStorage.setItem("dataChanged", false);
+          }
+        })
+        .catch((err) => {
+          this.responseData = err;
+          this.showSnackbar = true;
+        })
+        .finally(() => {
+          this.loader = false;
+        });
+    } else {
+      this.tierData = JSON.parse(tierData);
+      this.loader = false;
+    }
   },
   methods: {
     getTierStatus() {
@@ -181,7 +197,7 @@ export default {
       this.loader = true;
       const url = this.getApiUrl(`Tiers/Managetiers/${obj.data.id}`);
       Axios.delete(url)
-        .then(res => {
+        .then((res) => {
           if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
@@ -194,9 +210,10 @@ export default {
                 this.responseData && this.responseData.length > 0;
             }
             this.loader = true;
+            window.sessionStorage.setItem("dataChanged", true);
             const manageUrl = this.getApiUrl("Tiers/Managetiers");
             Axios.get(manageUrl)
-              .then(res => {
+              .then((res) => {
                 if (res.data.error) {
                   this.responseData = res.data.error.message;
                   if (this.responseData && this.responseData.length > 0) {
@@ -213,7 +230,7 @@ export default {
                   this.tierData = res.data.data;
                 }
               })
-              .catch(err => {
+              .catch((err) => {
                 this.responseData = err;
                 this.showSnackbar = true;
               })
@@ -222,7 +239,7 @@ export default {
               });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.responseData = err;
           this.showSnackbar = true;
         })
@@ -254,7 +271,7 @@ export default {
       this.loader = true;
       const statusUrl = this.getApiUrl("Tiers/Viptierstatus");
       Axios.post(statusUrl, { status: this.tierStatus ? 1 : 0 })
-        .then(res => {
+        .then((res) => {
           if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
@@ -266,10 +283,14 @@ export default {
               this.showSnackbar =
                 this.responseData && this.responseData.length > 0;
             }
+            window.sessionStorage.setItem(
+              "statusData",
+              this.tierStatus ? 1 : 0
+            );
             this.getTierStatus();
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.responseData = err;
           this.showSnackbar = true;
         })

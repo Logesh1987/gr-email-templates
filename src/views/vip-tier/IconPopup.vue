@@ -224,11 +224,11 @@ export default {
       this.loader = true;
       const imgUploadUrl = this.getApiUrl("S3Uploader/tier");
       Axios.post(imgUploadUrl, formData)
-        .catch(err => {
+        .catch((err) => {
           this.responseData = err;
           this.showSnackbar = true;
         })
-        .then(res => {
+        .then((res) => {
           if (res.data.error && res.data.error == 1) {
             this.responseData = res.data.msg;
             this.showSnackbar =
@@ -260,11 +260,11 @@ export default {
         this.loader = true;
         const url = this.getApiUrl("Tiers/Managetiers/" + this.iconConfig.id);
         Axios.put(url, this.iconConfig)
-          .catch(err => {
+          .catch((err) => {
             this.responseData = err;
             this.showSnackbar = true;
           })
-          .then(res => {
+          .then((res) => {
             if (res.data.error) {
               this.responseData = res.data.error.message;
               this.showSnackbar =
@@ -277,6 +277,7 @@ export default {
                   this.responseData && this.responseData.length > 0;
               }
               this.defaultIcon = this.iconConfig.icon;
+              window.sessionStorage.setItem("dataChanged", true);
               this.hidePopup();
               // this.resetPopupData();
             }

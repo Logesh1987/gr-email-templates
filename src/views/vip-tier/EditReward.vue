@@ -481,8 +481,8 @@ export default {
     const tabButtons = document.querySelectorAll(
       ".amvip--manageReward .amvip--tabTitle"
     );
-    tabButtons.forEach(element => {
-      element.addEventListener("click", event => {
+    tabButtons.forEach((element) => {
+      element.addEventListener("click", (event) => {
         this.form.type = event.target.getAttribute("data-value");
       });
     });
@@ -491,7 +491,7 @@ export default {
     this.loader = true;
     this.sending = true;
     Axios.get(url)
-      .then(res => {
+      .then((res) => {
         if (res.data.error) {
           this.responseData = res.data.error.message;
           this.showSnackbar = this.responseData && this.responseData.length > 0;
@@ -502,7 +502,7 @@ export default {
           this.updateFormData(res.data.data);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         this.responseData = err;
         this.showSnackbar = true;
       })
@@ -564,7 +564,7 @@ export default {
       const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
       this.loader = true;
       Axios.put(url, returnData)
-        .then(res => {
+        .then((res) => {
           if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
@@ -572,12 +572,13 @@ export default {
             return false;
           } else {
             this.responseData = res.data.data.message;
+            window.sessionStorage.setItem("dataChanged", true);
             this.showSnackbar =
               this.responseData && this.responseData.length > 0;
             this.goBack();
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.responseData = err;
           this.showSnackbar = true;
         })
@@ -587,7 +588,7 @@ export default {
     },
     getFormData() {
       const returnObj = {};
-      Object.keys(this.form).forEach(value => {
+      Object.keys(this.form).forEach((value) => {
         returnObj[value] = this.form[value];
       });
       return returnObj;

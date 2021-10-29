@@ -491,8 +491,8 @@ export default {
     const tabButtons = document.querySelectorAll(
       ".amvip--manageReward .amvip--tabTitle"
     );
-    tabButtons.forEach(element => {
-      element.addEventListener("click", event => {
+    tabButtons.forEach((element) => {
+      element.addEventListener("click", (event) => {
         this.form.type = event.target.getAttribute("data-value");
       });
     });
@@ -532,11 +532,11 @@ export default {
       this.sending = false;
       this.loader = true;
       Axios.post(url, returnData)
-        .catch(err => {
+        .catch((err) => {
           this.responseData = err;
           this.showSnackbar = true;
         })
-        .then(res => {
+        .then((res) => {
           if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
@@ -544,6 +544,7 @@ export default {
             return false;
           } else {
             this.responseData = res.data.data.message;
+            window.sessionStorage.setItem("dataChanged", true);
             this.showSnackbar =
               this.responseData && this.responseData.length > 0;
             this.$router.push("/view/tiers/edit-tier/" + this.currentTierId);
@@ -555,13 +556,13 @@ export default {
     },
     getFormData() {
       const returnObj = {};
-      Object.keys(this.form).forEach(value => {
+      Object.keys(this.form).forEach((value) => {
         returnObj[value] = this.form[value];
       });
       return returnObj;
     },
     updateFormData(response) {
-      Object.keys(this.form).forEach(value => {
+      Object.keys(this.form).forEach((value) => {
         if (response[value]) {
           this.form[value] = response[value];
         }

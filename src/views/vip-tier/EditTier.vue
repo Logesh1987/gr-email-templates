@@ -48,7 +48,7 @@
                 name="color"
                 :color="form.color"
                 v-model="form.color"
-                v-on:input="e => (form.color = e)"
+                v-on:input="(e) => (form.color = e)"
               ></ColorPicker>
             </div>
           </div>
@@ -280,11 +280,11 @@ export default {
       this.currentTierId = this.$route.params.currentTierId;
       const url = this.getApiUrl("Tiers/Managetiers/" + this.currentTierId);
       Axios.get(url)
-        .catch(err => {
+        .catch((err) => {
           this.responseData = err;
           this.showSnackbar = true;
         })
-        .then(async res => {
+        .then(async (res) => {
           if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
@@ -301,8 +301,8 @@ export default {
             if (this.icon.length > 0) {
               try {
                 const blobData = await fetch(this.icon)
-                  .then(blobRes => blobRes.blob)
-                  .catch(blobErr => {
+                  .then((blobRes) => blobRes.blob)
+                  .catch((blobErr) => {
                     this.responseData = blobErr;
                     this.showSnackbar = true;
                   });
@@ -351,11 +351,11 @@ export default {
       this.loader = true;
       const imgUploadUrl = this.getApiUrl("S3Uploader/tier");
       Axios.post(imgUploadUrl, formData)
-        .catch(err => {
+        .catch((err) => {
           this.responseData = err;
           this.showSnackbar = true;
         })
-        .then(res => {
+        .then((res) => {
           if (res.data.error && res.data.error == 1) {
             this.file = this.existingFile ? this.existingFile : null;
             this.responseData = res.data.msg;
@@ -404,11 +404,11 @@ export default {
       this.loader = true;
       const url = this.getApiUrl("Tiers/Managetiers/" + this.currentTierId);
       Axios.put(url, this.form)
-        .catch(err => {
+        .catch((err) => {
           this.responseData = err;
           this.showSnackbar = true;
         })
-        .then(res => {
+        .then((res) => {
           if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
@@ -417,6 +417,7 @@ export default {
           } else {
             if (res.data.data.message != undefined) {
               this.responseData = res.data.data.message;
+              window.sessionStorage.setItem("dataChanged", true);
               this.showSnackbar =
                 this.responseData && this.responseData.length > 0;
             }
@@ -440,7 +441,7 @@ export default {
     },
     getFormData() {
       const returnObj = {};
-      Object.keys(this.form).forEach(value => {
+      Object.keys(this.form).forEach((value) => {
         returnObj[value] = this.form[value];
       });
       return returnObj;
@@ -489,11 +490,11 @@ export default {
       const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
       this.loader = true;
       Axios.delete(url)
-        .catch(err => {
+        .catch((err) => {
           this.responseData = err;
           this.showSnackbar = true;
         })
-        .then(res => {
+        .then((res) => {
           if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
@@ -502,6 +503,7 @@ export default {
           } else {
             if (res.data.data.message != undefined) {
               this.responseData = res.data.data.message;
+              window.sessionStorage.setItem("dataChanged", true);
               this.showSnackbar =
                 this.responseData && this.responseData.length > 0;
             }
