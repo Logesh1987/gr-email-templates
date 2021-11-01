@@ -148,7 +148,6 @@
       <button class="amvip--btnSec" @click="clearForm">Cancel</button>
       <button class="amvip--btnPri" @click="updateTier">Save</button>
     </footer>
-    <Loader :status="loader"></Loader>
     <md-snackbar
       :md-position="'center'"
       :md-duration="3000"
@@ -220,17 +219,15 @@ import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import ColorPicker from "./../../components/ColorPicker";
 import VipRewardCard from "./../../components/vip-tier/RewardCard";
-import Loader from "./../../components/Loader";
 import ConfirmPopup from "./ConfirmPopup";
 import Axios from "axios";
 import IconPopup from "./IconPopup";
 export default {
   name: "EditTier",
-  components: { ColorPicker, VipRewardCard, Loader, ConfirmPopup, IconPopup },
+  components: { ColorPicker, VipRewardCard, ConfirmPopup, IconPopup },
   mixins: [validationMixin],
   props: ["currentRewardId"],
   data: () => ({
-    loader: false,
     form: {
       name: null,
       description: null,
@@ -276,7 +273,6 @@ export default {
       this.enableIcon = true;
     },
     renderData() {
-      this.loader = true;
       this.currentTierId = this.$route.params.currentTierId;
       const url = this.getApiUrl("Tiers/Managetiers/" + this.currentTierId);
       Axios.get(url)
@@ -322,9 +318,6 @@ export default {
               this.rewardData.settings = JSON.parse(this.rewardData.settings);
             }
           }
-        })
-        .finally(() => {
-          this.loader = false;
         });
     },
     blobUrl(val) {
@@ -348,7 +341,6 @@ export default {
       if (file.length == 0) {
         return false;
       }
-      this.loader = true;
       const imgUploadUrl = this.getApiUrl("S3Uploader/tier");
       Axios.post(imgUploadUrl, formData)
         .catch((err) => {
@@ -371,9 +363,6 @@ export default {
             const imageUrl = this.getImgUrl(res.data.img_name);
             this.form.icon = imageUrl;
           }
-        })
-        .finally(() => {
-          this.loader = false;
         });
     },
     gotoManageTier() {
@@ -401,7 +390,6 @@ export default {
         return false;
       }
       this.sending = true;
-      this.loader = true;
       const url = this.getApiUrl("Tiers/Managetiers/" + this.currentTierId);
       Axios.put(url, this.form)
         .catch((err) => {
@@ -423,13 +411,9 @@ export default {
             }
             this.$router.push("/view/tiers/manage-tier");
           }
-        })
-        .finally(() => {
-          this.loader = false;
         });
       this.userSaved = true;
       this.sending = false;
-      // this.$router.push("/view/tiers/manage-tier");
     },
     updateFormData(data) {
       this.form.name = data.name;
@@ -488,7 +472,6 @@ export default {
     deleteCurrentReward(obj) {
       const currentRewardId = obj.data.id_tier_rewards;
       const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
-      this.loader = true;
       Axios.delete(url)
         .catch((err) => {
           this.responseData = err;
@@ -509,9 +492,6 @@ export default {
             }
             this.renderData();
           }
-        })
-        .finally(() => {
-          this.loader = false;
         });
     },
     confirmClicked(eve) {

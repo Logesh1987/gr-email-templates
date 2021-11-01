@@ -26,7 +26,6 @@
         ></md-button>
       </div>
     </section>
-    <Loader :status="loader"></Loader>
   </div>
 </template>
 <style lang="less">
@@ -35,18 +34,16 @@
 <script>
 import ExpansionList from "./../../components/vip-tier/ExpansionList";
 import visible from "./../../directives/vip-tier/visible";
-import Loader from "./../../components/Loader";
 import Axios from "axios";
 export default {
   name: "Home",
-  components: { ExpansionList, Loader },
+  components: { ExpansionList },
   directives: { visible: visible },
   model: {
     prop: "accordionData",
   },
   data: () => {
     return {
-      loader: false,
       newUserListData: [
         {
           listType: "expansionlist",
@@ -110,11 +107,10 @@ export default {
     };
   },
   mounted() {
-    this.loader = true;
     this.accordionData = this.newUserListData;
     const url = this.getApiUrl("Tiers/settings");
     Axios.get(url)
-      .then(res => {
+      .then((res) => {
         if (res.data.error) {
           this.responseData = res.data.error.message;
           this.showSnackbar = this.responseData && this.responseData.length > 0;
@@ -128,12 +124,9 @@ export default {
           }
         }
       })
-      .catch(err => {
+      .catch((err) => {
         this.responseData = err;
         this.showSnackbar = true;
-      })
-      .finally(() => {
-        this.loader = false;
       });
   },
   methods: {
@@ -142,7 +135,6 @@ export default {
     },
     accordionItemSelected(eve) {
       console.log("from home component", eve);
-      // eve.data.title = "Arun Kumar Subburaj...";
     },
   },
 };

@@ -1,6 +1,5 @@
 <template>
   <div class="amvip--wrapper">
-    <!-- <form novalidate class="md-layout"> -->
     <div class="amvip--container amvip--addTier">
       <hgroup class="amvip--pageHeader">
         <span class="far fa-arrow-left" @click="goBack"></span>
@@ -111,12 +110,10 @@
         v-on:close-btn-click="hideIconPopup"
       ></IconPopup>
     </div>
-    <!-- </form> -->
     <footer class="amvip-actionFooter">
       <button class="amvip--btnSec" @click="clearForm">Cancel</button>
       <button class="amvip--btnPri" @click="saveTier">Save</button>
     </footer>
-    <Loader :status="loader"></Loader>
     <md-snackbar
       :md-position="'center'"
       :md-duration="3000"
@@ -185,12 +182,11 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength, minValue } from "vuelidate/lib/validators";
 import ColorPicker from "./../../components/ColorPicker";
-import Loader from "./../../components/Loader";
 import Axios from "axios";
 import IconPopup from "./IconPopup";
 export default {
   name: "AddTier",
-  components: { ColorPicker, Loader, IconPopup },
+  components: { ColorPicker, IconPopup },
   mixins: [validationMixin],
   data: () => ({
     form: {
@@ -201,7 +197,6 @@ export default {
       goal: null,
     },
     sending: false,
-    loader: false,
     file: null,
     showSnackbar: false,
     responseData: "",
@@ -255,7 +250,6 @@ export default {
       const returnData = this.getFormData();
       this.userSaved = true;
       this.sending = false;
-      this.loader = true;
       const url = this.getApiUrl("Tiers/Managetiers");
       Axios.post(url, returnData)
         .then((res) => {
@@ -277,9 +271,6 @@ export default {
         .catch((err) => {
           this.responseData = err;
           this.showSnackbar = true;
-        })
-        .finally(() => {
-          this.loader = false;
         });
     },
     selectedFile(file) {
@@ -295,7 +286,6 @@ export default {
       if (file.length == 0) {
         return false;
       }
-      this.loader = true;
       const imgUploadUrl = this.getApiUrl("S3Uploader/tier");
       Axios.post(imgUploadUrl, formData)
         .then((res) => {
@@ -318,9 +308,6 @@ export default {
         .catch((err) => {
           this.responseData = err;
           this.showSnackbar = true;
-        })
-        .finally(() => {
-          this.loader = false;
         });
     },
     getFormData() {

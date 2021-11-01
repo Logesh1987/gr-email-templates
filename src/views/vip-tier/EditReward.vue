@@ -415,7 +415,6 @@
       <button class="amvip--btnSec" @click="clearForm">Cancel</button>
       <button class="amvip--btnPri" @click="saveRewardData">Save</button>
     </footer>
-    <Loader :status="loader"></Loader>
   </div>
 </template>
 <style lang="less">
@@ -436,12 +435,10 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
-import Loader from "./../../components/Loader";
 import Axios from "axios";
 export default {
   name: "EditReward",
   mixins: [validationMixin],
-  components: { Loader },
   data: () => ({
     form: {
       name: null,
@@ -458,7 +455,6 @@ export default {
       email: null,
     },
     sending: false,
-    loader: false,
   }),
   validations: {
     form: {
@@ -488,7 +484,6 @@ export default {
     });
     const currentRewardId = this.$route.params.currentRewardId;
     const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
-    this.loader = true;
     this.sending = true;
     Axios.get(url)
       .then((res) => {
@@ -507,7 +502,6 @@ export default {
         this.showSnackbar = true;
       })
       .finally(() => {
-        this.loader = false;
         this.sending = false;
       });
   },
@@ -562,7 +556,6 @@ export default {
       this.sending = false;
       const currentRewardId = this.$route.params.currentRewardId;
       const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
-      this.loader = true;
       Axios.put(url, returnData)
         .then((res) => {
           if (res.data.error) {
@@ -581,9 +574,6 @@ export default {
         .catch((err) => {
           this.responseData = err;
           this.showSnackbar = true;
-        })
-        .finally(() => {
-          this.loader = false;
         });
     },
     getFormData() {

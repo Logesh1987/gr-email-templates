@@ -2,7 +2,6 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import Axios from "axios";
 
 Vue.config.productionTip = false;
 
@@ -30,30 +29,8 @@ Vue.prototype.$shop_id = "1953";
 Vue.prototype.$email = "akash@appsmav.com";
 Vue.prototype.$asset_url = `${Vue.prototype.$callback_url}/public`;
 
-// Interceptors
-Axios.interceptors.request.use(
-  config => {
-    console.log("requestData=====>", config);
-    return config;
-  },
-  error => {
-    console.log("error====>", error);
-    return Promise.reject(error);
-  }
-);
-Axios.interceptors.response.use(
-  config => {
-    console.log("responseData====>", config);
-    return config;
-  },
-  error => {
-    console.log("error====>", error);
-    return Promise.reject(error);
-  }
-);
-
 new Vue({
   router,
   store,
-  render: h => h(App),
+  render: (h) => h(App),
 }).$mount("#email-app");

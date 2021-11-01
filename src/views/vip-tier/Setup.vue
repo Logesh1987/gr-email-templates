@@ -13,7 +13,6 @@
       </div>
     </aside>
     <section class="amvip-twoColContent" id="setupProgram">
-      <!-- <form novalidate class="md-layout"> -->
       <section>
         <h2>Setup VIP tier program</h2>
         <div class="amvip--formRow">
@@ -93,8 +92,6 @@
               >
                 Points
               </md-radio>
-              <!-- </div>
-              <div class="amvip--customRadio"> -->
               <md-radio
                 v-model="form.selection_type"
                 value="purchase_value"
@@ -133,8 +130,6 @@
                 Once a member achieves a tier, they will keep their status
                 forever.
               </small>
-              <!-- </div>
-              <div class="amvip--customRadio"> -->
               <md-radio
                 v-model="form.time_slot"
                 value="year"
@@ -165,9 +160,7 @@
           <button class="amvip--btnPri" @click="gotoManageTier">Save</button>
         </footer>
       </section>
-      <!-- </form> -->
     </section>
-    <Loader :status="loader"></Loader>
     <ConfirmPopup
       v-if="showConfirmPopup"
       :showPopup="showConfirmPopup"
@@ -225,8 +218,7 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import "./../../filters/vip-tier/date.js";
-import Loader from "./../../components/Loader.vue";
-import ConfirmPopup from "./ConfirmPopup.vue";
+import ConfirmPopup from "./ConfirmPopup";
 import Axios from "axios";
 const Mode = {
   Create: "create",
@@ -236,7 +228,6 @@ export default {
   name: "Setup",
   mixins: [validationMixin],
   components: {
-    Loader,
     ConfirmPopup,
   },
   data: () => ({
@@ -253,7 +244,6 @@ export default {
     sending: false,
     lastUser: null,
     mode: Mode.create,
-    loader: false,
     showConfirmPopup: false,
     showSnackbar: false,
     responseData: "",
@@ -297,9 +287,8 @@ export default {
     if (this.mode == Mode.Edit) {
       const url = this.getApiUrl(`Tiers/Setupvip`);
       const statusUrl = this.getApiUrl(`Tiers/settings`);
-      this.loader = true;
       Axios.get(statusUrl)
-        .then(res => {
+        .then((res) => {
           if (res.data.error) {
             this.responseData = res.data.error.message;
             this.showSnackbar =
@@ -314,7 +303,7 @@ export default {
             this.installedDate = new Date(res.data.data.install_date);
             this.tier_id = res.data.data.tier_id;
             Axios.get(url)
-              .then(res => {
+              .then((res) => {
                 if (res.data.error) {
                   this.responseData = res.data.error.message;
                   if (this.responseData && this.responseData.length > 0) {
@@ -331,21 +320,15 @@ export default {
                   this.updateFormData(res.data.data);
                 }
               })
-              .catch(err => {
+              .catch((err) => {
                 this.responseData = err;
                 this.showSnackbar = true;
-              })
-              .finally(() => {
-                this.loader = false;
               });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.responseData = err;
           this.showSnackbar = true;
-        })
-        .finally(() => {
-          // this.loader = false;
         });
     }
   },
@@ -394,9 +377,8 @@ export default {
       this.sending = false;
       if (this.mode === Mode.Create) {
         const url = this.getApiUrl(`Tiers/Setupvip`);
-        this.loader = true;
         Axios.post(url, returnData)
-          .then(res => {
+          .then((res) => {
             if (res.data.error) {
               this.responseData = res.data.error.message;
               if (this.responseData && this.responseData.length > 0) {
@@ -413,18 +395,14 @@ export default {
               this.$router.push("/view/tiers/manage-tier");
             }
           })
-          .catch(err => {
+          .catch((err) => {
             this.responseData = err;
             this.showSnackbar = true;
-          })
-          .finally(() => {
-            this.loader = false;
           });
       } else {
         const url = this.getApiUrl(`Tiers/Setupvip`);
-        this.loader = true;
         Axios.put(url, returnData)
-          .then(res => {
+          .then((res) => {
             if (res.data.error) {
               this.responseData = res.data.error.message;
               if (this.responseData && this.responseData.length > 0) {
@@ -441,24 +419,21 @@ export default {
               this.$router.push("/view/tiers/manage-tier");
             }
           })
-          .catch(err => {
+          .catch((err) => {
             this.responseData = err;
             this.showSnackbar = true;
-          })
-          .finally(() => {
-            this.loader = false;
           });
       }
     },
     getFormData() {
       const returnObj = {};
-      Object.keys(this.form).forEach(value => {
+      Object.keys(this.form).forEach((value) => {
         returnObj[value] = this.form[value];
       });
       return returnObj;
     },
     updateFormData(response) {
-      Object.keys(this.form).forEach(value => {
+      Object.keys(this.form).forEach((value) => {
         if (response[value]) {
           if (value == "startDate") {
             response[value] = new Date(response[value]);

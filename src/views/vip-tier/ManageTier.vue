@@ -50,7 +50,6 @@
       v-on:confirmed="confirmClicked($event)"
       v-on:canceled="cancelClicked($event)"
     ></ConfirmPopup>
-    <Loader :status="loader"></Loader>
     <md-snackbar
       :md-position="'center'"
       :md-duration="3000"
@@ -75,14 +74,12 @@ import IconPopup from "./IconPopup";
 import ConfirmPopup from "./ConfirmPopup";
 import VipTierCard from "./../../components/vip-tier/TierCard";
 import Axios from "axios";
-import Loader from "./../../components/Loader.vue";
 export default {
   name: "ManageTier",
   components: {
     IconPopup,
     ConfirmPopup,
     VipTierCard,
-    Loader,
   },
   props: ["currentTierId"],
   data: function() {
@@ -91,20 +88,16 @@ export default {
       showConfirmPopup: false,
       popupConfig: {},
       tierData: [],
-      loader: false,
       tierStatus: true,
       showSnackbar: false,
       responseData: "",
     };
   },
   mounted() {
-    this.loader = true;
-    const statusData = +window.sessionStorage.getItem("statusData");
-    if (
-      statusData.length == 0 ||
-      statusData === null ||
-      statusData === undefined
-    ) {
+    const statusData = window.sessionStorage.getItem("statusData")
+      ? +window.sessionStorage.getItem("statusData")
+      : null;
+    if (statusData === null) {
       const statusUrl = this.getApiUrl("Tiers/Viptierstatus");
       Axios.get(statusUrl)
         .then((res) => {
@@ -121,15 +114,10 @@ export default {
         .catch((err) => {
           this.responseData = err;
           this.showSnackbar = true;
-        })
-        .finally(() => {
-          this.loader = false;
         });
     } else {
       this.tierStatus = statusData;
-      this.loader = false;
     }
-    this.loader = true;
     const tierData = window.sessionStorage.getItem("tierData");
     const dataChanged = window.sessionStorage.getItem("dataChanged") == "true";
     if (!tierData || (dataChanged && tierData)) {
@@ -153,13 +141,9 @@ export default {
         .catch((err) => {
           this.responseData = err;
           this.showSnackbar = true;
-        })
-        .finally(() => {
-          this.loader = false;
         });
     } else {
       this.tierData = JSON.parse(tierData);
-      this.loader = false;
     }
   },
   methods: {
@@ -194,7 +178,6 @@ export default {
       this.showConfirmPopup = true;
     },
     deleteTier(obj) {
-      this.loader = true;
       const url = this.getApiUrl(`Tiers/Managetiers/${obj.data.id}`);
       Axios.delete(url)
         .then((res) => {
@@ -209,7 +192,6 @@ export default {
               this.showSnackbar =
                 this.responseData && this.responseData.length > 0;
             }
-            this.loader = true;
             window.sessionStorage.setItem("dataChanged", true);
             const manageUrl = this.getApiUrl("Tiers/Managetiers");
             Axios.get(manageUrl)
@@ -233,18 +215,12 @@ export default {
               .catch((err) => {
                 this.responseData = err;
                 this.showSnackbar = true;
-              })
-              .finally(() => {
-                this.loader = false;
               });
           }
         })
         .catch((err) => {
           this.responseData = err;
           this.showSnackbar = true;
-        })
-        .finally(() => {
-          this.loader = false;
         });
     },
     gotoAddTier() {
@@ -268,7 +244,6 @@ export default {
       this.showConfirmPopup = true;
     },
     updateStatus() {
-      this.loader = true;
       const statusUrl = this.getApiUrl("Tiers/Viptierstatus");
       Axios.post(statusUrl, { status: this.tierStatus ? 1 : 0 })
         .then((res) => {
@@ -293,9 +268,6 @@ export default {
         .catch((err) => {
           this.responseData = err;
           this.showSnackbar = true;
-        })
-        .finally(() => {
-          this.loader = false;
         });
     },
     confirmClicked(eve) {

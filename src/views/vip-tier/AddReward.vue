@@ -375,12 +375,6 @@
                     >
                       <label>Select bonus point expiry date</label>
                     </md-datepicker>
-                    <!-- <div
-                    class="md-custom-error padLeft-35"
-                    v-if="!$v.form.expiry.required && $v.form.expiry.$dirty"
-                  >
-                    Bonus expiry date is required.
-                  </div> -->
                   </div>
                 </div>
               </div>
@@ -415,15 +409,11 @@
       <button class="amvip--btnSec" @click="clearForm">Cancel</button>
       <button class="amvip--btnPri" @click="saveRewardData">Save</button>
     </footer>
-    <Loader :status="loader"></Loader>
   </div>
 </template>
 <style lang="less">
 @import url("./../../assets/vip-tier/less/_header");
 @import url("./../../assets/vip-tier/less/_edit-reward");
-// .amvip--container.amvip--manageReward .tabSection {
-//   width: 75%;
-// }
 .md-custom-error {
   color: var(--md-theme-default-fieldvariant, #ff1744);
   font-size: 12px;
@@ -442,12 +432,10 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, minLength, requiredIf } from "vuelidate/lib/validators";
-import Loader from "./../../components/Loader";
 import Axios from "axios";
 export default {
   name: "AddReward",
   mixins: [validationMixin],
-  components: { Loader },
   data: () => ({
     form: {
       name: null,
@@ -464,7 +452,6 @@ export default {
       email: null,
     },
     sending: false,
-    loader: false,
   }),
   validations: {
     form: {
@@ -530,7 +517,6 @@ export default {
       const returnData = this.getFormData();
       this.userSaved = true;
       this.sending = false;
-      this.loader = true;
       Axios.post(url, returnData)
         .catch((err) => {
           this.responseData = err;
@@ -549,9 +535,6 @@ export default {
               this.responseData && this.responseData.length > 0;
             this.$router.push("/view/tiers/edit-tier/" + this.currentTierId);
           }
-        })
-        .finally(() => {
-          this.loader = false;
         });
     },
     getFormData() {
