@@ -3,6 +3,14 @@
     <VipBanner :showBanner="showBanner"></VipBanner>
     <router-view></router-view>
     <Loader :status="loader"></Loader>
+    <md-snackbar
+      :md-position="'center'"
+      :md-duration="3000"
+      :md-active.sync="showSnackbar"
+      md-persistent
+    >
+      <span>{{ responseData }}</span>
+    </md-snackbar>
   </div>
 </template>
 <style lang="less">
@@ -26,6 +34,8 @@ export default {
     return {
       showBanner: false,
       loader: false,
+      showSnackbar: false,
+      responseData: "",
     };
   },
   mounted() {
@@ -40,7 +50,7 @@ export default {
         return config;
       },
       (error) => {
-        console.log("error====>", error);
+        console.log("Request error====>", error);
         this.loader = false;
         return Promise.reject(error);
       }
@@ -48,11 +58,16 @@ export default {
     Axios.interceptors.response.use(
       (config) => {
         console.log("responseData====>", config);
+        if (config.config.method.toLowerCase() != "get") {
+          this.showSnackbar = false;
+          this.responseData = config.data.data.message;
+          this.showSnackbar = true;
+        }
         this.loader = false;
         return config;
       },
       (error) => {
-        console.log("error====>", error);
+        console.log("Response error====>", error);
         this.loader = false;
         return Promise.reject(error);
       }

@@ -168,14 +168,6 @@
       v-on:confirmed="confirmClicked($event)"
       v-on:canceled="cancelClicked($event)"
     ></ConfirmPopup>
-    <md-snackbar
-      :md-position="'center'"
-      :md-duration="3000"
-      :md-active.sync="showSnackbar"
-      md-persistent
-    >
-      <span>{{ responseData }}</span>
-    </md-snackbar>
   </div>
 </template>
 <style lang="less">
@@ -245,8 +237,6 @@ export default {
     lastUser: null,
     mode: Mode.create,
     showConfirmPopup: false,
-    showSnackbar: false,
-    responseData: "",
     popupConfig: null,
   }),
   validations: {
@@ -287,49 +277,21 @@ export default {
     if (this.mode == Mode.Edit) {
       const url = this.getApiUrl(`Tiers/Setupvip`);
       const statusUrl = this.getApiUrl(`Tiers/settings`);
-      Axios.get(statusUrl)
-        .then((res) => {
-          if (res.data.error) {
-            this.responseData = res.data.error.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
-            return false;
-          } else {
-            if (res.data.data.message != undefined) {
-              this.responseData = res.data.data.message;
-              this.showSnackbar =
-                this.responseData && this.responseData.length > 0;
+      Axios.get(statusUrl).then((res) => {
+        if (res.data.error) {
+          return false;
+        } else {
+          this.installedDate = new Date(res.data.data.install_date);
+          this.tier_id = res.data.data.tier_id;
+          Axios.get(url).then((res) => {
+            if (res.data.error) {
+              return false;
+            } else {
+              this.updateFormData(res.data.data);
             }
-            this.installedDate = new Date(res.data.data.install_date);
-            this.tier_id = res.data.data.tier_id;
-            Axios.get(url)
-              .then((res) => {
-                if (res.data.error) {
-                  this.responseData = res.data.error.message;
-                  if (this.responseData && this.responseData.length > 0) {
-                    this.showSnackbar = true;
-                  }
-                  return false;
-                } else {
-                  if (res.data.data.message != undefined) {
-                    this.responseData = res.data.data.message;
-                    if (this.responseData && this.responseData.length > 0) {
-                      this.showSnackbar = true;
-                    }
-                  }
-                  this.updateFormData(res.data.data);
-                }
-              })
-              .catch((err) => {
-                this.responseData = err;
-                this.showSnackbar = true;
-              });
-          }
-        })
-        .catch((err) => {
-          this.responseData = err;
-          this.showSnackbar = true;
-        });
+          });
+        }
+      });
     }
   },
   methods: {
@@ -377,52 +339,22 @@ export default {
       this.sending = false;
       if (this.mode === Mode.Create) {
         const url = this.getApiUrl(`Tiers/Setupvip`);
-        Axios.post(url, returnData)
-          .then((res) => {
-            if (res.data.error) {
-              this.responseData = res.data.error.message;
-              if (this.responseData && this.responseData.length > 0) {
-                this.showSnackbar = true;
-              }
-              return false;
-            } else {
-              if (res.data.data.message != undefined) {
-                this.responseData = res.data.data.message;
-                if (this.responseData && this.responseData.length > 0) {
-                  this.showSnackbar = true;
-                }
-              }
-              this.$router.push("/view/tiers/manage-tier");
-            }
-          })
-          .catch((err) => {
-            this.responseData = err;
-            this.showSnackbar = true;
-          });
+        Axios.post(url, returnData).then((res) => {
+          if (res.data.error) {
+            return false;
+          } else {
+            this.$router.push("/view/tiers/manage-tier");
+          }
+        });
       } else {
         const url = this.getApiUrl(`Tiers/Setupvip`);
-        Axios.put(url, returnData)
-          .then((res) => {
-            if (res.data.error) {
-              this.responseData = res.data.error.message;
-              if (this.responseData && this.responseData.length > 0) {
-                this.showSnackbar = true;
-              }
-              return false;
-            } else {
-              if (res.data.data.message != undefined) {
-                this.responseData = res.data.data.message;
-                if (this.responseData && this.responseData.length > 0) {
-                  this.showSnackbar = true;
-                }
-              }
-              this.$router.push("/view/tiers/manage-tier");
-            }
-          })
-          .catch((err) => {
-            this.responseData = err;
-            this.showSnackbar = true;
-          });
+        Axios.put(url, returnData).then((res) => {
+          if (res.data.error) {
+            return false;
+          } else {
+            this.$router.push("/view/tiers/manage-tier");
+          }
+        });
       }
     },
     getFormData() {
@@ -446,8 +378,6 @@ export default {
       this.$v.$touch();
       if (this.$v.$invalid) {
         this.focusFirstStatus(this.$v.form, this.$refs);
-        this.responseData = "Validation Errors!!!";
-        this.showSnackbar = true;
       } else {
         this.saveUser();
       }

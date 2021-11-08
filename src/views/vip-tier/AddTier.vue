@@ -114,14 +114,6 @@
       <button class="amvip--btnSec" @click="clearForm">Cancel</button>
       <button class="amvip--btnPri" @click="saveTier">Save</button>
     </footer>
-    <md-snackbar
-      :md-position="'center'"
-      :md-duration="3000"
-      :md-active.sync="showSnackbar"
-      md-persistent
-    >
-      <span>{{ responseData }}</span>
-    </md-snackbar>
   </div>
 </template>
 <style lang="less">
@@ -198,8 +190,6 @@ export default {
     },
     sending: false,
     file: null,
-    showSnackbar: false,
-    responseData: "",
     existingFile: null,
     existingFileName: "",
     enableIcon: false,
@@ -254,16 +244,10 @@ export default {
       Axios.post(url, returnData)
         .then((res) => {
           if (res.data.error) {
-            this.responseData = res.data.error.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
             return false;
           } else {
             if (res.data.data.message != undefined) {
-              this.responseData = res.data.data.message;
               window.sessionStorage.setItem("dataChanged", true);
-              this.showSnackbar =
-                this.responseData && this.responseData.length > 0;
             }
             this.$router.push("/view/tiers/manage-tier");
           }
@@ -291,16 +275,8 @@ export default {
         .then((res) => {
           if (res.data.error && res.data.error == 1) {
             this.file = this.existingFile ? this.existingFile : null;
-            this.responseData = res.data.msg;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
             return false;
           } else {
-            if (res.data.message != undefined) {
-              this.responseData = res.data.message;
-              this.showSnackbar =
-                this.responseData && this.responseData.length > 0;
-            }
             const imageUrl = this.getImgUrl(res.data.img_name);
             this.form.icon = imageUrl;
           }

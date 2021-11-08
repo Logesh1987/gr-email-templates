@@ -148,14 +148,6 @@
       <button class="amvip--btnSec" @click="clearForm">Cancel</button>
       <button class="amvip--btnPri" @click="updateTier">Save</button>
     </footer>
-    <md-snackbar
-      :md-position="'center'"
-      :md-duration="3000"
-      :md-active.sync="showSnackbar"
-      md-persistent
-    >
-      <span>{{ responseData }}</span>
-    </md-snackbar>
     <ConfirmPopup
       :showPopup="showConfirmPopup"
       :popupConfig="popupConfig"
@@ -243,8 +235,6 @@ export default {
     tierData: [],
     file: null,
     existingFile: null,
-    responseData: "",
-    showSnackbar: false,
     enableIcon: false,
   }),
   mounted() {
@@ -275,50 +265,22 @@ export default {
     renderData() {
       this.currentTierId = this.$route.params.currentTierId;
       const url = this.getApiUrl("Tiers/Managetiers/" + this.currentTierId);
-      Axios.get(url)
-        .catch((err) => {
-          this.responseData = err;
-          this.showSnackbar = true;
-        })
-        .then(async (res) => {
-          if (res.data.error) {
-            this.responseData = res.data.error.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
-            return false;
-          } else {
-            if (res.data.data.message != undefined) {
-              this.responseData = res.data.data.message;
-              this.showSnackbar =
-                this.responseData && this.responseData.length > 0;
-            }
-            this.tierData = res.data.data[0];
-            this.icon = res.data.data[0].icon;
-            if (this.icon.length > 0) {
-              try {
-                const blobData = await fetch(this.icon)
-                  .then((blobRes) => blobRes.blob)
-                  .catch((blobErr) => {
-                    this.responseData = blobErr;
-                    this.showSnackbar = true;
-                  });
-                this.existingFile = new File([blobData], res.data.data[0].name);
-                this.$refs.icon.value = res.data.data[0].name;
-              } catch (error) {
-                this.responseData = error;
-                this.showSnackbar = true;
-              }
-            }
-            this.updateFormData(res.data.data[0]);
-            this.rewardData =
-              res.data.data[0]?.rewards?.length > 0
-                ? res.data.data[0].rewards
-                : [];
-            if (this.rewardData.length > 0 && this.rewardData.settings) {
-              this.rewardData.settings = JSON.parse(this.rewardData.settings);
-            }
+      Axios.get(url).then(async (res) => {
+        if (res.data.error) {
+          return false;
+        } else {
+          this.tierData = res.data.data[0];
+          this.icon = res.data.data[0].icon;
+          this.updateFormData(res.data.data[0]);
+          this.rewardData =
+            res.data.data[0]?.rewards?.length > 0
+              ? res.data.data[0].rewards
+              : [];
+          if (this.rewardData.length > 0 && this.rewardData.settings) {
+            this.rewardData.settings = JSON.parse(this.rewardData.settings);
           }
-        });
+        }
+      });
     },
     blobUrl(val) {
       if (!val || !val.constructor || val.constructor !== File) return val;
@@ -344,22 +306,13 @@ export default {
       const imgUploadUrl = this.getApiUrl("S3Uploader/tier");
       Axios.post(imgUploadUrl, formData)
         .catch((err) => {
-          this.responseData = err;
-          this.showSnackbar = true;
+          console.log(err);
         })
         .then((res) => {
           if (res.data.error && res.data.error == 1) {
             this.file = this.existingFile ? this.existingFile : null;
-            this.responseData = res.data.msg;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
             return false;
           } else {
-            if (res.data.message != undefined) {
-              this.responseData = res.data.message;
-              this.showSnackbar =
-                this.responseData && this.responseData.length > 0;
-            }
             const imageUrl = this.getImgUrl(res.data.img_name);
             this.form.icon = imageUrl;
           }
@@ -391,27 +344,16 @@ export default {
       }
       this.sending = true;
       const url = this.getApiUrl("Tiers/Managetiers/" + this.currentTierId);
-      Axios.put(url, this.form)
-        .catch((err) => {
-          this.responseData = err;
-          this.showSnackbar = true;
-        })
-        .then((res) => {
-          if (res.data.error) {
-            this.responseData = res.data.error.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
-            return false;
-          } else {
-            if (res.data.data.message != undefined) {
-              this.responseData = res.data.data.message;
-              window.sessionStorage.setItem("dataChanged", true);
-              this.showSnackbar =
-                this.responseData && this.responseData.length > 0;
-            }
-            this.$router.push("/view/tiers/manage-tier");
+      Axios.put(url, this.form).then((res) => {
+        if (res.data.error) {
+          return false;
+        } else {
+          if (res.data.data.message != undefined) {
+            window.sessionStorage.setItem("dataChanged", true);
           }
-        });
+          this.$router.push("/view/tiers/manage-tier");
+        }
+      });
       this.userSaved = true;
       this.sending = false;
     },
@@ -436,8 +378,6 @@ export default {
       if (this.$v.$invalid) {
         isValidated = false;
         this.focusFirstStatus(this.$v.form, this.$refs);
-        this.responseData = "Validation Errors!!!";
-        this.showSnackbar = true;
       } else {
         isValidated = true;
       }
@@ -472,27 +412,16 @@ export default {
     deleteCurrentReward(obj) {
       const currentRewardId = obj.data.id_tier_rewards;
       const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
-      Axios.delete(url)
-        .catch((err) => {
-          this.responseData = err;
-          this.showSnackbar = true;
-        })
-        .then((res) => {
-          if (res.data.error) {
-            this.responseData = res.data.error.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
-            return false;
-          } else {
-            if (res.data.data.message != undefined) {
-              this.responseData = res.data.data.message;
-              window.sessionStorage.setItem("dataChanged", true);
-              this.showSnackbar =
-                this.responseData && this.responseData.length > 0;
-            }
-            this.renderData();
+      Axios.delete(url).then((res) => {
+        if (res.data.error) {
+          return false;
+        } else {
+          if (res.data.data.message != undefined) {
+            window.sessionStorage.setItem("dataChanged", true);
           }
-        });
+          this.renderData();
+        }
+      });
     },
     confirmClicked(eve) {
       this.showConfirmPopup = false;

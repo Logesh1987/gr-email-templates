@@ -50,14 +50,6 @@
       v-on:confirmed="confirmClicked($event)"
       v-on:canceled="cancelClicked($event)"
     ></ConfirmPopup>
-    <md-snackbar
-      :md-position="'center'"
-      :md-duration="3000"
-      :md-active.sync="showSnackbar"
-      md-persistent
-    >
-      <span>{{ responseData }}</span>
-    </md-snackbar>
   </div>
 </template>
 <style lang="less">
@@ -89,8 +81,6 @@ export default {
       popupConfig: {},
       tierData: [],
       tierStatus: true,
-      showSnackbar: false,
-      responseData: "",
     };
   },
   mounted() {
@@ -99,22 +89,14 @@ export default {
       : null;
     if (statusData === null) {
       const statusUrl = this.getApiUrl("Tiers/Viptierstatus");
-      Axios.get(statusUrl)
-        .then((res) => {
-          if (res.data.error) {
-            this.responseData = res.data.error.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
-            return false;
-          } else {
-            this.tierStatus = res.data.data.status;
-            window.sessionStorage.setItem("statusData", this.tierStatus);
-          }
-        })
-        .catch((err) => {
-          this.responseData = err;
-          this.showSnackbar = true;
-        });
+      Axios.get(statusUrl).then((res) => {
+        if (res.data.error) {
+          return false;
+        } else {
+          this.tierStatus = res.data.data.status;
+          window.sessionStorage.setItem("statusData", this.tierStatus);
+        }
+      });
     } else {
       this.tierStatus = statusData;
     }
@@ -122,26 +104,18 @@ export default {
     const dataChanged = window.sessionStorage.getItem("dataChanged") == "true";
     if (!tierData || (dataChanged && tierData)) {
       const url = this.getApiUrl("Tiers/Managetiers");
-      Axios.get(url)
-        .then((res) => {
-          if (res.data.error) {
-            this.responseData = res.data.error.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
-            return false;
-          } else {
-            this.tierData = res.data.data;
-            window.sessionStorage.setItem(
-              "tierData",
-              JSON.stringify(this.tierData)
-            );
-            window.sessionStorage.setItem("dataChanged", false);
-          }
-        })
-        .catch((err) => {
-          this.responseData = err;
-          this.showSnackbar = true;
-        });
+      Axios.get(url).then((res) => {
+        if (res.data.error) {
+          return false;
+        } else {
+          this.tierData = res.data.data;
+          window.sessionStorage.setItem(
+            "tierData",
+            JSON.stringify(this.tierData)
+          );
+          window.sessionStorage.setItem("dataChanged", false);
+        }
+      });
     } else {
       this.tierData = JSON.parse(tierData);
     }
@@ -179,49 +153,21 @@ export default {
     },
     deleteTier(obj) {
       const url = this.getApiUrl(`Tiers/Managetiers/${obj.data.id}`);
-      Axios.delete(url)
-        .then((res) => {
-          if (res.data.error) {
-            this.responseData = res.data.error.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
-            return false;
-          } else {
-            if (res.data.data.message != undefined) {
-              this.responseData = res.data.data.message;
-              this.showSnackbar =
-                this.responseData && this.responseData.length > 0;
+      Axios.delete(url).then((res) => {
+        if (res.data.error) {
+          return false;
+        } else {
+          window.sessionStorage.setItem("dataChanged", true);
+          const manageUrl = this.getApiUrl("Tiers/Managetiers");
+          Axios.get(manageUrl).then((res) => {
+            if (res.data.error) {
+              return false;
+            } else {
+              this.tierData = res.data.data;
             }
-            window.sessionStorage.setItem("dataChanged", true);
-            const manageUrl = this.getApiUrl("Tiers/Managetiers");
-            Axios.get(manageUrl)
-              .then((res) => {
-                if (res.data.error) {
-                  this.responseData = res.data.error.message;
-                  if (this.responseData && this.responseData.length > 0) {
-                    this.showSnackbar = true;
-                  }
-                  return false;
-                } else {
-                  if (res.data.data.message != undefined) {
-                    this.responseData = res.data.data.message;
-                    if (this.responseData && this.responseData.length > 0) {
-                      this.showSnackbar = true;
-                    }
-                  }
-                  this.tierData = res.data.data;
-                }
-              })
-              .catch((err) => {
-                this.responseData = err;
-                this.showSnackbar = true;
-              });
-          }
-        })
-        .catch((err) => {
-          this.responseData = err;
-          this.showSnackbar = true;
-        });
+          });
+        }
+      });
     },
     gotoAddTier() {
       this.$router.push("/view/tiers/add-tier");
@@ -245,30 +191,14 @@ export default {
     },
     updateStatus() {
       const statusUrl = this.getApiUrl("Tiers/Viptierstatus");
-      Axios.post(statusUrl, { status: this.tierStatus ? 1 : 0 })
-        .then((res) => {
-          if (res.data.error) {
-            this.responseData = res.data.error.message;
-            this.showSnackbar =
-              this.responseData && this.responseData.length > 0;
-            return false;
-          } else {
-            if (res.data.data.message != undefined) {
-              this.responseData = res.data.data.message;
-              this.showSnackbar =
-                this.responseData && this.responseData.length > 0;
-            }
-            window.sessionStorage.setItem(
-              "statusData",
-              this.tierStatus ? 1 : 0
-            );
-            this.getTierStatus();
-          }
-        })
-        .catch((err) => {
-          this.responseData = err;
-          this.showSnackbar = true;
-        });
+      Axios.post(statusUrl, { status: this.tierStatus ? 1 : 0 }).then((res) => {
+        if (res.data.error) {
+          return false;
+        } else {
+          window.sessionStorage.setItem("statusData", this.tierStatus ? 1 : 0);
+          this.getTierStatus();
+        }
+      });
     },
     confirmClicked(eve) {
       this.showConfirmPopup = false;
