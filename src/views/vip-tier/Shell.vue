@@ -58,7 +58,10 @@ export default {
     Axios.interceptors.response.use(
       (config) => {
         console.log("responseData====>", config);
-        if (config.config.method.toLowerCase() != "get") {
+        if (
+          config.config.method.toLowerCase() != "get" &&
+          !config.config.url.includes("S3Uploader/tier")
+        ) {
           this.showSnackbar = false;
           this.responseData = config.data.data.message;
           this.showSnackbar = true;
