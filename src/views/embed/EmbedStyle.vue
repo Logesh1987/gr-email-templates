@@ -12,7 +12,7 @@
           <li v-on:click="myTab1" :class="{ active: isTab1 }">
             Individual Landing Pages
           </li>
-          <li v-on:click="myTab2" :class="{ active: isTab2 }">Snippets</li>
+          <!-- <li v-on:click="myTab2" :class="{ active: isTab2 }">Snippets</li> -->
         </ul>
       </div>
     </div>
@@ -34,7 +34,17 @@
               <small>Template {{ index + 1 }}</small>
             </div>
             <router-link :to="'/view/embed/style/' + template.id">
-              <md-button class="md-raised btn-custom-default">
+              <div
+                v-if="selectedTemplateId == template.id"
+                class="selectedTemplate"
+              >
+                <md-button class="md-raised btn-custom-default">Edit</md-button>
+                <md-button class="md-raised btn-custom-primary" disabled
+                  ><md-icon class="far fa-check-circle liveNowIcon"></md-icon>
+                  LiveNow</md-button
+                >
+              </div>
+              <md-button v-else class="md-raised btn-custom-default">
                 Select & Edit
               </md-button>
             </router-link>
@@ -124,6 +134,7 @@ import Newsletter from "../../components/Newsletter.vue";
 import ReferNearn from "../../components/ReferNearn.vue";
 import CelebrateEvents from "../../components/CelebrateEvents.vue";
 import Carouselslide from "../../components/Carouselslide.vue";
+import axios from "axios";
 
 export default {
   name: "EmailListing",
@@ -134,20 +145,14 @@ export default {
     Newsletter,
     ReferNearn,
     CelebrateEvents,
-    Carouselslide
+    Carouselslide,
   },
   data: function() {
     return {
       isTab1: true,
       isTab2: false,
-      templates: [
-        { id: 1, name: "Template1", img: "template1.png" },
-        { id: 2, name: "Template2", img: "template2.png" },
-        { id: 3, name: "Template3", img: "template3.png" },
-        { id: 4, name: "Template4", img: "template4.png" },
-        { id: 5, name: "Template5", img: "template5.png" },
-        { id: 6, name: "Template6", img: "template6.png" }
-      ]
+      templates: [],
+      selectedTemplateId: -1,
     };
   },
   mixins: ["createFormData"],
@@ -164,9 +169,16 @@ export default {
       if (this.EmailEdit) {
         this.close();
       } else window.history.back();
-    }
+    },
   },
-  mounted: function() {}
+  mounted: function() {
+    axios
+      .get("https://run.mocky.io/v3/be60ca16-ee8c-45a7-b9b0-f7a908dd57a3")
+      .then((res) => {
+        this.templates = res.data.templates;
+        this.selectedTemplateId = res.data.liveEmbedId;
+      });
+  },
 };
 </script>
 
@@ -317,6 +329,24 @@ export default {
         rgba(239, 239, 239, 1) 0%,
         rgba(251, 251, 251, 1) 100%
       );
+    }
+  }
+  .selectedTemplate {
+    button {
+      margin: 0 10px;
+      &.md-button.md-theme-default.md-raised {
+        &.btn-custom-primary {
+          background: #5bb74d;
+          color: #fff;
+          .liveNowIcon {
+            color: #fff;
+            font-size: 18px !important;
+            line-height: 25px;
+            margin: 0;
+            padding: 0;
+          }
+        }
+      }
     }
   }
 }

@@ -7,7 +7,7 @@
           <p>Default template enabled</p>
           <md-button
             class="md-raised md-primary"
-            @click="$router.push('../style')"
+            @click="$router.push('/embed/style')"
             >Change design</md-button
           >
         </div>
@@ -42,17 +42,18 @@
 </template>
 
 <script>
+import axios from "axios";
 import Footer from "../../components/Footer.vue";
 
 export default {
   name: "EmailListing",
   components: {
-    Footer
+    Footer,
   },
   data: function() {
     return {
       message:
-        '<iframe width="560" height="315" src="https://www.youtube.com/embed/wd-deKqm3AU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+        '<iframe width="560" height="315" src="https://www.youtube.com/embed/wd-deKqm3AU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
     };
   },
   mixins: ["createFormData"],
@@ -69,9 +70,15 @@ export default {
       } catch (err) {
         alert("Oops, unable to copy");
       }
-    }
+    },
   },
-  mounted: function() {}
+  mounted: function() {
+    axios
+      .get("https://run.mocky.io/v3/200413b9-05f1-4d42-bde2-1ebca27290d4")
+      .then((res) => {
+        this.message = res.data.embedCode;
+      });
+  },
 };
 </script>
 
