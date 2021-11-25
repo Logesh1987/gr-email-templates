@@ -22,10 +22,28 @@
     <div class="editWrap">
       <div class="md-layout md-gutter">
         <div class="md-layout-item md-size-30">
+          <md-toolbar md-elevation="0" class="md-dense">
+            <div class="toolbarWrapper">
+              <div class="leftSide">
+                <md-icon class="fa fa-palette paintIcon"></md-icon>
+                <h3 class="md-title">Basic Settings</h3>
+              </div>
+              <div class="rightSide">
+                <div class="collapseAll">CollapseAll</div>
+              </div>
+            </div>
+          </md-toolbar>
           <md-list :md-expand-single="true">
             <md-list-item md-expand md-expanded>
-              <span class="md-list-item-text">Subject</span>
-
+              <div class="listHeader">
+                <div class="leftSide">
+                  <md-icon class="fa fa-bars"></md-icon>
+                  <span class="md-list-item-text">Announcements</span>
+                </div>
+                <div class="rightSide">
+                  <md-switch class="md-primary"></md-switch>
+                </div>
+              </div>
               <div slot="md-expand">
                 <div class="subjectEditor">
                   <span>Subject for your email:</span>
@@ -112,7 +130,8 @@
                         :max="1000"
                         :processStyle="sliderCustomzie.processStyle"
                         :lineHeight="sliderCustomzie.lineHeight"
-                        :tooltipStyles="sliderCustomzie.tooltipStyles">
+                        :tooltipStyles="sliderCustomzie.tooltipStyles"
+                      >
                       </vue-slide-bar>
                       <small>Total 740 points ($14.50 Worth)</small>
                     </div>
@@ -152,7 +171,33 @@
     <Footer />
   </div>
 </template>
-
+<style lang="less">
+.toolbarWrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  .paintIcon {
+    margin: 0;
+    color: #007aff !important;
+  }
+  .collapseAll {
+    text-decoration: underline #007aff;
+    color: #007aff;
+    cursor: pointer;
+  }
+}
+.listHeader {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.leftSide {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+</style>
 <script>
 //import Axios from "axios";
 import Loader from "@/components/Loader.vue";
@@ -162,7 +207,7 @@ import Newsletter from "../../components/Newsletter.vue";
 import ReferNearn from "../../components/ReferNearn.vue";
 import CelebrateEvents from "../../components/CelebrateEvents.vue";
 import Carouselslide from "../../components/Carouselslide.vue";
-import VueSlideBar from 'vue-slide-bar';
+import VueSlideBar from "vue-slide-bar";
 
 export default {
   name: "EmailEdit",
@@ -177,7 +222,7 @@ export default {
     ReferNearn,
     CelebrateEvents,
     Carouselslide,
-    VueSlideBar
+    VueSlideBar,
   },
   mixins: ["createFormData", "renderTemplate"],
   data: function() {
@@ -189,24 +234,24 @@ export default {
       ex3: { label: "thumb-color", val: 50, color: "red" },
       menus: [
         { id: "1", texto: "laptop", class: "active" },
-        { id: "2", texto: "ad_units" }
+        { id: "2", texto: "ad_units" },
       ],
       active_el: 0,
       sliderCustomzie: {
         val: 320,
         lineHeight: 10,
         processStyle: {
-          backgroundColor: '#8f75be',
+          backgroundColor: "#8f75be",
         },
         tooltipStyles: {
-          backgroundColor: '#f94949',
-          borderColor: '#f94949',
-          borderRadius: '4px',
-          fontSize: '12px',
-          padding: '5px 10px',
-          top: '-10px',
-        }
-      }
+          backgroundColor: "#f94949",
+          borderColor: "#f94949",
+          borderRadius: "4px",
+          fontSize: "12px",
+          padding: "5px 10px",
+          top: "-10px",
+        },
+      },
     };
   },
   computed: {},
@@ -218,9 +263,9 @@ export default {
       if (this.EmailEdit) {
         this.close();
       } else window.history.back();
-    }
+    },
   },
-  mounted: function() {}
+  mounted: function() {},
 };
 </script>
 
@@ -445,7 +490,7 @@ export default {
             }
           }
           @media only screen and (max-width: 599px) {
-            flex-direction: column-reverse;            
+            flex-direction: column-reverse;
             .slider {
               margin-bottom: 20px;
             }
