@@ -1,5 +1,3 @@
-// eslint-disable-next-line /* eslint-disable */
-
 <template>
   <div class="embedEdit">
     <div class="fixedTopNav">
@@ -33,27 +31,95 @@
               </div>
             </div>
           </md-toolbar>
-          <md-list :md-expand-single="true">
-            <md-list-item md-expand md-expanded>
+          <draggable
+            tag="md-list"
+            v-bind="dragOptions"
+            v-model="settingSection"
+            @start="drag = true"
+            @end="drag = false"
+            handle=".dragHandle"
+          >
+            <md-list-item
+              md-expand
+              :md-expanded="key == 0"
+              v-for="(item, key) in settingSection"
+              :key="key"
+            >
               <div class="listHeader">
                 <div class="leftSide">
-                  <md-icon class="fa fa-bars"></md-icon>
-                  <span class="md-list-item-text">Announcements</span>
+                  <md-icon
+                    class="fa fa-bars dragHandle"
+                    v-if="item.isDragable"
+                  ></md-icon>
+                  <span class="md-list-item-text">{{ item.label }}</span>
                 </div>
                 <div class="rightSide">
-                  <md-switch class="md-primary"></md-switch>
+                  <md-switch
+                    class="md-primary"
+                    v-model="item.isActive"
+                  ></md-switch>
                 </div>
               </div>
-              <div slot="md-expand">
-                <div class="subjectEditor">
-                  <span>Subject for your email:</span>
+              <div slot="md-expand" class="listContent">
+                <div
+                  v-for="(control, keyName) in item.attributes"
+                  :key="keyName"
+                >
+                  <div
+                    class="imageUploadContainer"
+                    v-if="control.type == 'file'"
+                  >
+                    <h5>{{ control.label }}</h5>
+                    <ImgUploadPreview
+                      :id="`${key}-${item.label}`"
+                      :handleFileChange="
+                        (e) => handleImgChange(e, key, control)
+                      "
+                      :data="control"
+                    />
+                  </div>
+                  <div
+                    class="textAreaContainer"
+                    v-if="control.type == 'textarea'"
+                  >
+                    <h5>{{ control.label }}</h5>
+                    <quill-editor
+                      v-model="control.value"
+                      class="TitleEditor"
+                      :id="`${key}-${item.label}`"
+                      :value="control.value"
+                      :options="editorOption"
+                      @change="onEditorChange($event, key, control)"
+                    />
+                  </div>
+                  <div class="textBoxContainer" v-if="control.type == 'text'">
+                    <h5>{{ control.label }}</h5>
+                    <input
+                      class="form-control"
+                      type="text"
+                      maxlength="200"
+                      :ref="`${key}-${item.label}`"
+                      v-model="control.value"
+                      @blur="updatePreviewSchema"
+                    />
+                    <!-- <small v-if="hasError[item.label]" class="fieldError">
+                      This field cannot be empty
+                    </small> -->
+                  </div>
+                  <div class="colorContainer" v-if="control.type == 'color'">
+                    <h5>{{ control.label }}</h5>
+                    <ColorPicker
+                      :color="control.value"
+                      v-on:input="updateColorObject($event, control)"
+                    ></ColorPicker>
+                  </div>
                 </div>
               </div>
             </md-list-item>
-          </md-list>
+          </draggable>
         </div>
 
-        <div class="md-layout-item md-size-70">
+        <!-- <div class="md-layout-item md-size-70">
           <div class="previewBlock">
             <div class="ctaBlock">
               <div class="views">
@@ -163,6 +229,16 @@
               </div>
             </div>
           </div>
+        </div> -->
+        <div class="md-layout-item md-size-70">
+          <div class="previewBlock">
+            <json-viewer
+              :value="jsonData"
+              :expand-depth="5"
+              copyable
+              boxed
+            ></json-viewer>
+          </div>
         </div>
       </div>
     </div>
@@ -202,34 +278,49 @@
 //import Axios from "axios";
 import Loader from "@/components/Loader.vue";
 import Footer from "../../components/Footer.vue";
-import ParticipateActions from "../../components/ParticipateActions.vue";
-import Newsletter from "../../components/Newsletter.vue";
-import ReferNearn from "../../components/ReferNearn.vue";
-import CelebrateEvents from "../../components/CelebrateEvents.vue";
-import Carouselslide from "../../components/Carouselslide.vue";
-import VueSlideBar from "vue-slide-bar";
+// import ParticipateActions from "../../components/ParticipateActions.vue";
+// import Newsletter from "../../components/Newsletter.vue";
+// import ReferNearn from "../../components/ReferNearn.vue";
+// import CelebrateEvents from "../../components/CelebrateEvents.vue";
+// import Carouselslide from "../../components/Carouselslide.vue";
+// import VueSlideBar from "vue-slide-bar";
+import ColorPicker from "./../../components/ColorPicker";
+import ImgUploadPreview from "./../../components/ImgUploadPreview";
+import axios from "axios";
+import JsonViewer from "vue-json-viewer";
+import draggable from "vuedraggable";
+import "vue-json-viewer/style.css";
+// import Quill from "quill";
+// let Font = Quill.import("formats/font");
+// Font.whitelist = ["times-new-roman", "arial"];
+// Quill.register(Font, true);
 
 export default {
   name: "EmailEdit",
   components: {
-    //ColorPicker,
+    ColorPicker,
     //CustomVariables,
+    ImgUploadPreview,
     Loader,
-    //quillEditor,
     Footer,
-    ParticipateActions,
-    Newsletter,
-    ReferNearn,
-    CelebrateEvents,
-    Carouselslide,
-    VueSlideBar,
+    JsonViewer,
+    draggable,
+    // ParticipateActions,
+    // Newsletter,
+    // ReferNearn,
+    // CelebrateEvents,
+    // Carouselslide,
+    // VueSlideBar,
   },
   mixins: ["createFormData", "renderTemplate"],
+  refs: ["myTextEditor"],
+
   data: function() {
     return {
       loader: false,
       isActive: false,
       infoHidden: false,
+      hasError: false,
       order: "",
       ex3: { label: "thumb-color", val: 50, color: "red" },
       menus: [
@@ -237,6 +328,18 @@ export default {
         { id: "2", texto: "ad_units" },
       ],
       active_el: 0,
+      drag: false,
+      settingSection: [],
+      editorOption: {
+        modules: {
+          toolbar: [
+            ["bold", "italic", "underline"],
+            [{ font: [] }],
+            [({ indent: "-1" }, { indent: "+1" })],
+            [{ align: [] }],
+          ],
+        },
+      },
       sliderCustomzie: {
         val: 320,
         lineHeight: 10,
@@ -252,9 +355,19 @@ export default {
           top: "-10px",
         },
       },
+      jsonData: {},
     };
   },
-  computed: {},
+  computed: {
+    dragOptions() {
+      return {
+        animation: 200,
+        group: "description",
+        disabled: false,
+        ghostClass: "ghost",
+      };
+    },
+  },
   methods: {
     activate: function(el) {
       this.active_el = el;
@@ -264,12 +377,100 @@ export default {
         this.close();
       } else window.history.back();
     },
+    onEditorChange: function(eve, key, attributeName) {
+      console.log({ eve }, { key }, { attributeName });
+      console.log("final Obj", this.updatePreviewSchema());
+    },
+    updateColorObject(color, control) {
+      control.value = color;
+      this.updatePreviewSchema();
+    },
+    updatePreviewSchema() {
+      const returnArray = [];
+      this.settingSection.forEach((currentSection) => {
+        const returnObjKey = currentSection.label;
+        const optionObj = {};
+        for (const currentElement in currentSection.attributes) {
+          if (
+            Object.hasOwnProperty.call(
+              currentSection.attributes,
+              currentElement
+            )
+          ) {
+            const element = currentSection.attributes[currentElement];
+            optionObj[currentElement] = element.value;
+          }
+        }
+        const finalObj = {};
+        finalObj["type"] = returnObjKey;
+        finalObj["attributes"] = optionObj;
+        returnArray.push(finalObj);
+      });
+      this.jsonData.length = 0;
+      this.jsonData = returnArray;
+      return returnArray;
+    },
+    // checkforError: function(data, name) {
+    //   if (Boolean(data.required) && data.value.trim() == "") {
+    //     this.hasError = { ...this.hasError, [name]: true };
+    //   } else {
+    //     delete this.hasError[name];
+    //   }
+    // },
+    handleImgChange: function(eve, key, attributeName) {
+      console.log({ eve }, { key }, { attributeName });
+      const file = eve.target.files[0];
+      attributeName.value = eve.target.files[0].name;
+      this.updatePreviewSchema();
+      if (file) {
+        // this.loader = true;
+        // const url = this.getApiUrl(`S3Uploader/fomoTemplate`);
+        // let formData = new FormData();
+        // formData.append("Filedata", file);
+        // formData.append("id", this.id);
+        // formData.append("id_template", this.tempId);
+        // axios.post(url, formData)
+        //   .then(({ data }) => {
+        //     this.loader = false;
+        //     if (!data.error) {
+        //       this.fomoData.settings[key].attributes[name].value =
+        //         data.img_name;
+        //       this.apiResponse = `<i class="fas fa-check-circle"></i> Uploaded successfully`;
+        //     } else {
+        //       this.apiResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
+        //     }
+        //     this.apiMessage = true;
+        //   })
+        //   .catch(err => {
+        //     this.apiResponse = `<i class="fas fa-exclamation-circle"></i> ${err}`;
+        //     this.apiMessage = true;
+        //   })
+        //   .finally(() => {
+        //     this.loader = false;
+        //   });
+      }
+    },
   },
-  mounted: function() {},
+  mounted: function() {
+    axios
+      .get("https://run.mocky.io/v3/c9e47785-23fc-4fcd-82c3-4d527103009d")
+      .then((res) => {
+        console.log(res);
+        this.settingSection = res.data;
+        this.updatePreviewSchema();
+      });
+  },
 };
 </script>
 
 <style lang="less" scoped>
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+.dragHandle {
+  cursor: move;
+}
 .embedEdit {
   display: flex;
   justify-content: flex-start;
@@ -341,8 +542,9 @@ export default {
     display: inline;
     .vc-chrome {
       position: relative;
-      right: -30px;
-      top: -8px;
+      top: 10px;
+      z-index: 2;
+      right: 96px;
     }
   }
 

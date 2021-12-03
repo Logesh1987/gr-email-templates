@@ -27,15 +27,15 @@ export default {
   name: "ColorPicker",
   props: ["color"],
   components: {
-    "chrome-picker": Chrome
+    "chrome-picker": Chrome,
   },
   data: function() {
     return {
       colors: {
-        hex: "#000000"
+        hex: "#000000",
       },
       colorValue: "",
-      displayPicker: false
+      displayPicker: false,
     };
   },
   mounted: function() {
@@ -49,7 +49,7 @@ export default {
     updateColors(color) {
       if (color.slice(0, 1) == "#") {
         this.colors = {
-          hex: color
+          hex: color,
         };
       } else if (color.slice(0, 4) == "rgba") {
         var rgba = color.replace(/^rgba?\(|\s+|\)$/g, "").split(","),
@@ -65,7 +65,7 @@ export default {
               .slice(1);
         this.colors = {
           hex: hex,
-          a: rgba[3]
+          a: rgba[3],
         };
       }
     },
@@ -103,10 +103,10 @@ export default {
     documentClick(e) {
       var el = this.$refs.colorpicker,
         target = e.target;
-      if (el !== target && !el.contains(target)) {
+      if (el && el !== target && !el.contains(target)) {
         this.hidePicker();
       }
-    }
+    },
   },
   watch: {
     colorValue(val) {
@@ -115,14 +115,14 @@ export default {
         this.$emit("input", val);
         //document.body.style.background = val;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
 .color-picker {
   display: flex;
-  width: 200px;
+  min-width: 200px;
   input.form-control {
     padding: 5px;
     border: 1px solid #d2d2d2;
@@ -147,5 +147,13 @@ export default {
       cursor: pointer;
     }
   }
+}
+</style>
+<style lang="less">
+.vc-chrome {
+  position: absolute;
+  top: 35px;
+  z-index: 2;
+  left: -190px;
 }
 </style>

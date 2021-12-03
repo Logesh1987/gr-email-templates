@@ -11,14 +11,19 @@ import Vue from "vue";
 import VueMaterial from "vue-material";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
-import "@/assets/icon/fontawesome.min.css"
+import "@/assets/icon/fontawesome.min.css";
+import VueQuillEditor from "vue-quill-editor";
+
+import "quill/dist/quill.core.css"; // import styles
+import "quill/dist/quill.snow.css"; // for snow theme
+import "quill/dist/quill.bubble.css"; // for bubble theme
 
 Vue.use(VueMaterial);
-
+Vue.use(VueQuillEditor);
 // GLOBAL MIXINS - HELPER FUNCTIONS
 Vue.mixin({
   methods: {
-    renderTemplate: data =>
+    renderTemplate: (data) =>
       data.email_template.length > 5
         ? data.email_template.replace(/\[\[(.*?)\]]/g, (full, property) =>
             data.json_fields[property]
@@ -26,7 +31,7 @@ Vue.mixin({
               : property
           )
         : "<div>Invalid Template</div>",
-    createFormData: data => {
+    createFormData: (data) => {
       let formData = new FormData();
       for (let key in data) {
         if (typeof data[key] === "object") {
@@ -38,12 +43,27 @@ Vue.mixin({
         }
       }
       return formData;
-    }
-  }
+    },
+    getAssetUrl: function(url) {
+      return `${Vue.prototype.$asset_url}/assets/img/${url}`;
+    },
+    getImgUrl: function(value) {
+      return `${window.Config.s3_image_url}/${value}`;
+    },
+    getApiUrl: function(url) {
+      var hostname = window.location.hostname;
+      if (hostname == "localhost") {
+        const linker = url.includes("?") ? "&" : "?";
+        return `${Vue.prototype.$callback_url}/${url}${linker}id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`;
+      } else {
+        return `${Vue.prototype.$callback_url}/${url}`;
+      }
+    },
+  },
 });
 
 export default {
-  name: "app"
+  name: "app",
 };
 </script>
 
