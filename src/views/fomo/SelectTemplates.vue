@@ -200,6 +200,14 @@
               </div>
             </md-card-content>
           </md-card>
+          <md-card class="px-20">
+            <md-switch v-model="boolean" class="md-primary">
+              Add to automatic queue
+              <i class="ml-10 fas fa-info-circle">
+                <md-tooltip>More info about stack </md-tooltip>
+              </i>
+            </md-switch>
+          </md-card>
         </div>
         <div
           class="md-layout-item md-size-70 templateSection"

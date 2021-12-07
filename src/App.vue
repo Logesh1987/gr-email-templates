@@ -206,16 +206,6 @@ export default {
   padding: 5px 10px;
   font-size: 11px;
 }
-.md-tooltip:before {
-  content: "";
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  border-color: transparent transparent transparent
-    var(--md-theme-default-tooltip-on-background);
-  position: absolute;
-}
 .md-tooltip-left {
   transform: translateX(10px);
   &:before {

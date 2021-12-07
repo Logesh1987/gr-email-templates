@@ -552,7 +552,7 @@ export default {
       plugin.setAttribute("id", "am-fomo-script");
       plugin.setAttribute(
         "src",
-        `${Vue.prototype.$asset_url}/assets/js/fomo/am-fomo.js`
+        `${Vue.prototype.$asset_url}/assets/js/fomo/am.js`
       );
       plugin.async = true;
       document.head.appendChild(plugin);
