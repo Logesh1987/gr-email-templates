@@ -172,14 +172,10 @@
                 >Copy</md-button
               >
             </div>
-            <textarea
-              class="iframe-block"
-              id="copiedText"
-              value="dasd564"
-            ></textarea>
-            <div class="link-block">
-              <a href="#" class="">API Reference</a>
-              <a href="#" class="">Developer Sample</a>
+            <div class="iframe-block">
+              <pre>
+                {{ copyCode }}
+              </pre>
             </div>
             <p>
               By embedding our program on your site, you are agreeing to our API
@@ -377,7 +373,6 @@ export default {
       id: this.$route.params.fomoId,
       tempId: this.$route.params.templateId,
       embedCode: false,
-      message: "Some dummy text",
       allPositions: null,
       fomoData: null,
       fomoType: null,
@@ -388,7 +383,9 @@ export default {
       hasError: {},
       loader: false,
       apiMessage: false,
-      apiResponse: null
+      apiResponse: null,
+      copyCode: `<script src="https://unpkg.com/vue" /> \n<script src="./am.js" /> \n<am-fomo id="${this.$route.params.fomoId}" />`,
+      dtime: ""
     };
   },
 
@@ -422,16 +419,26 @@ export default {
       this.activeTab = e;
     },
     doCopy: function() {
-      this.$copyText(this.message).then(
-        function(e) {
-          alert("Copied");
-          console.log(e);
-        },
-        function(e) {
-          alert("Can not copy");
-          console.log(e);
+      if (window.clipboardData && window.clipboardData.setData) {
+        return window.clipboardData.setData("Text", this.copyCode);
+      } else if (
+        document.queryCommandSupported &&
+        document.queryCommandSupported("copy")
+      ) {
+        var textarea = document.createElement("textarea");
+        textarea.textContent = this.copyCode;
+        textarea.style.position = "fixed"; // Prevent scrolling to bottom of page in Microsoft Edge.
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          return document.execCommand("copy"); // Security exception may be thrown by some browsers.
+        } catch (ex) {
+          console.warn("Copy to clipboard failed.", ex);
+          return false;
+        } finally {
+          document.body.removeChild(textarea);
         }
-      );
+      }
     },
     handleBack: function() {
       // this.$router.go(-1);
@@ -780,6 +787,10 @@ export default {
       height: 130px;
       font-size: 12px;
       color: #66788a;
+      pre {
+        white-space: pre-line;
+        margin: 0;
+      }
     }
 
     .link-block {

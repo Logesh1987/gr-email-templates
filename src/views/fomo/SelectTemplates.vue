@@ -200,13 +200,24 @@
               </div>
             </md-card-content>
           </md-card>
-          <md-card class="px-20">
-            <md-switch v-model="boolean" class="md-primary">
-              Add to automatic queue
-              <i class="ml-10 fas fa-info-circle">
-                <md-tooltip>More info about stack </md-tooltip>
-              </i>
-            </md-switch>
+          <md-card class="p-20 display-flex align-items-center">
+            <label
+              class="switch small mr-10"
+              for="is_automatic"
+              @click.prevent="handleQueue"
+            >
+              <input
+                type="checkbox"
+                name="mainSwitch"
+                id="is_automatic"
+                :checked="fomoData.is_automatic === 1"
+              />
+              <i></i>
+            </label>
+            Add to automatic queue
+            <i class="ml-10 fas fa-info-circle">
+              <md-tooltip>More info about stack </md-tooltip>
+            </i>
           </md-card>
         </div>
         <div
@@ -383,8 +394,31 @@ export default {
           this.editName = null;
         })
         .catch(({ data }) => {
-          console.log(data);
           this.apiResponse = `<i class="fas fa-exclamation-circle"></i> ${data.data.message}`;
+          this.apiMessage = true;
+        })
+        .finally(() => (this.loader = false));
+    },
+    handleQueue: function() {
+      const url = this.getApiUrl("fomo/updateQueueStatus");
+      this.loader = true;
+      const params = {
+        id: this.fomoId,
+        is_automatic: this.fomoData.is_automatic === 1 ? 0 : 1
+      };
+      Axios.post(url, this.createFormData(params))
+        .then(({ data }) => {
+          if (data.error) {
+            this.apiResponse = `<i class="fas fa-exclamation-circle"></i> ${data.error.message}`;
+            this.apiMessage = true;
+          } else {
+            this.fomoData.is_automatic = params.is_automatic;
+            this.apiResponse = `<i class="fas fa-check-circle"></i> ${data.data.message}`;
+            this.apiMessage = true;
+          }
+        })
+        .catch(({ data }) => {
+          this.apiResponse = `<i class="fas fa-exclamation-circle"></i> ${data.error.message}`;
           this.apiMessage = true;
         })
         .finally(() => (this.loader = false));
