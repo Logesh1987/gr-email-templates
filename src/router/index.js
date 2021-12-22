@@ -21,38 +21,38 @@ const routes = [
   {
     path: "/view/email/templates/",
     name: "EmailListing",
-    component: EmailListing
+    component: EmailListing,
   },
   {
     path: "/view/email/templates/:emailId",
     name: "EmailEdit",
     props: true,
-    component: EmailEdit
+    component: EmailEdit,
   },
   {
     path: "/view/embed/landing/",
     name: "EmbedLanding",
-    component: EmbedLanding
+    component: EmbedLanding,
   },
   {
     path: "/view/embed/style/",
     name: "EmbedStyle",
-    component: EmbedStyle
+    component: EmbedStyle,
   },
   {
     path: "/view/embed/style/:id",
     name: "EmbedEdit",
-    component: EmbedEdit
+    component: EmbedEdit,
   },
   {
     path: "/view/embed/Fo/",
     name: "EmbedFo",
-    component: EmbedFo
-  }
+    component: EmbedFo,
+  },
 ];
 
 const router = new VueRouter({
-  routes
+  routes,
 });
 
 export default router;

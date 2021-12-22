@@ -2,9 +2,9 @@ module.exports = {
   filenameHashing: false,
   configureWebpack: {
     optimization: {
-      splitChunks: false
-    }
-  }
+      splitChunks: false,
+    },
+  },
   // css: {
   //     extract: false,
   // }

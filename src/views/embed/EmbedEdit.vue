@@ -119,9 +119,13 @@
           </draggable>
         </div>
 
-        <!-- <div class="md-layout-item md-size-70">
+        <div class="md-layout-item md-size-70">
           <div class="previewBlock">
-            <div class="ctaBlock">
+            <am-embed
+              :datasource="jsonDataString"
+              :theme-id="currentThemeId"
+            ></am-embed>
+            <!-- <div class="ctaBlock">
               <div class="views">
                 <span
                   class="material-icons"
@@ -227,10 +231,10 @@
                   <Carouselslide />
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
-        </div> -->
-        <div class="md-layout-item md-size-70">
+        </div>
+        <!-- <div class="md-layout-item md-size-70">
           <div class="previewBlock">
             <json-viewer
               :value="jsonData"
@@ -239,7 +243,7 @@
               boxed
             ></json-viewer>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <Loader :status="loader" />
@@ -287,9 +291,12 @@ import Footer from "../../components/Footer.vue";
 import ColorPicker from "./../../components/ColorPicker";
 import ImgUploadPreview from "./../../components/ImgUploadPreview";
 import axios from "axios";
-import JsonViewer from "vue-json-viewer";
+// import JsonViewer from "vue-json-viewer";
 import draggable from "vuedraggable";
 import "vue-json-viewer/style.css";
+import Vue from "vue";
+// import Vue from "vue";
+// import "./../../assets/scripts/am-embed";
 // import Quill from "quill";
 // let Font = Quill.import("formats/font");
 // Font.whitelist = ["times-new-roman", "arial"];
@@ -303,7 +310,7 @@ export default {
     ImgUploadPreview,
     Loader,
     Footer,
-    JsonViewer,
+    // JsonViewer,
     draggable,
     // ParticipateActions,
     // Newsletter,
@@ -355,7 +362,8 @@ export default {
           top: "-10px",
         },
       },
-      jsonData: {},
+      jsonData: [],
+      currentThemeId: 1,
     };
   },
   computed: {
@@ -366,6 +374,9 @@ export default {
         disabled: false,
         ghostClass: "ghost",
       };
+    },
+    jsonDataString() {
+      return JSON.stringify(this.jsonData);
     },
   },
   methods: {
@@ -408,6 +419,7 @@ export default {
       });
       this.jsonData.length = 0;
       this.jsonData = returnArray;
+      console.log(returnArray);
       return returnArray;
     },
     // checkforError: function(data, name) {
@@ -452,13 +464,28 @@ export default {
     },
   },
   mounted: function() {
-    axios
-      .get("https://run.mocky.io/v3/c9e47785-23fc-4fcd-82c3-4d527103009d")
-      .then((res) => {
-        console.log(res);
-        this.settingSection = res.data;
-        this.updatePreviewSchema();
-      });
+    let themEndPoint;
+    if (location.hash.includes("/style/1")) {
+      themEndPoint =
+        "https://run.mocky.io/v3/9510cd54-f01c-4bd7-b8dc-028efc4ab083";
+      this.currentThemeId = 1;
+    } else {
+      themEndPoint =
+        "https://run.mocky.io/v3/eecdca97-861e-4817-ada4-0ca92eece2b3";
+      this.currentThemeId = 2;
+    }
+    axios.get(themEndPoint).then((res) => {
+      console.log(res);
+      this.settingSection = res.data;
+      this.updatePreviewSchema();
+    });
+    if (!window.Vue) {
+      window.Vue = Vue;
+    }
+    var scriptEle = document.createElement("script");
+    scriptEle.src = "./am-embed.js";
+    scriptEle.async = true;
+    document.head.append(scriptEle);
   },
 };
 </script>
