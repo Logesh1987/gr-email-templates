@@ -7,9 +7,11 @@ import VueSimpleAccordion from "vue-simple-accordion";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/black-green-light.css";
 
+import FomoContainer from "../views/fomo/FomoContainer.vue";
 import FomoListing from "../views/fomo/FomoListing.vue";
-import FomoSelectTemplate from "../views/fomo/SelectTemplates.vue";
-import FomoEditTemplate from "../views/fomo/EditTemplates.vue";
+import FomoSummary from "../views/fomo/FomoSummary.vue";
+import FomoTemplates from "../views/fomo/FomoTemplates.vue";
+import EditFomo from "../views/fomo/EditFomo.vue";
 
 Vue.use(VueMaterial);
 Vue.use(VueSimpleAccordion);
@@ -30,20 +32,32 @@ const routes = [
   },
   {
     path: "/view/fomo",
-    name: "FomoListing",
-    component: FomoListing
-  },
-  {
-    path: "/view/fomo/edit/:fomoId",
-    name: "FomoSelectTemplate",
-    props: true,
-    component: FomoSelectTemplate
-  },
-  {
-    path: "/view/fomo/edit/:fomoId/:templateId",
-    name: "FomoEditTemplate",
-    props: true,
-    component: FomoEditTemplate
+    component: FomoContainer,
+    children: [
+      {
+        path: "/",
+        name: "FomoListing",
+        component: FomoListing
+      },
+      {
+        path: "summary/:fomoid",
+        name: "FomoSummary",
+        props: true,
+        component: FomoSummary
+      },
+      {
+        path: "templates/:fomoid",
+        name: "FomoTemplates",
+        props: true,
+        component: FomoTemplates
+      },
+      {
+        path: "edit/:fomoid",
+        name: "EditFomo",
+        props: true,
+        component: EditFomo
+      }
+    ]
   }
 ];
 

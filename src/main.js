@@ -5,6 +5,17 @@ import store from "./store";
 
 Vue.config.productionTip = false;
 
+Vue.config.errorHandler = err => {
+  if (process.env.NODE_ENV !== "production") {
+    // Show any error but this one
+    if (
+      err.message !== "Cannot read properties of undefined (reading 'badInput')"
+    ) {
+      console.error(err);
+    }
+  }
+};
+
 if (window.location.origin.includes("localhost")) {
   window.Config = {
     callback_url: "https://gr-v1.devam.pro",

@@ -11,49 +11,13 @@ import VueMaterial from "vue-material";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
 // import "@/assets/icon/fontawesome.min.css";
+import mixins from "./mixins";
 
 Vue.use(VueMaterial);
 
 // GLOBAL MIXINS - HELPER FUNCTIONS
 Vue.mixin({
-  methods: {
-    renderTemplate: data =>
-      data.email_template.length > 5
-        ? data.email_template.replace(/\[\[(.*?)\]]/g, (full, property) =>
-            data.json_fields[property]
-              ? data.json_fields[property].value
-              : property
-          )
-        : "<div>Invalid Template</div>",
-    createFormData: data => {
-      let formData = new FormData();
-      for (let key in data) {
-        if (typeof data[key] === "object") {
-          for (let subKey in data[key]) {
-            formData.append(`${key}[${subKey}]`, data[key][subKey]);
-          }
-        } else {
-          formData.append(key, data[key]);
-        }
-      }
-      return formData;
-    },
-    getAssetUrl: function(url) {
-      return `${Vue.prototype.$asset_url}/assets/img/${url}`;
-    },
-    getImgUrl: function(value) {
-      return `${window.Config.s3_image_url}/${value}`;
-    },
-    getApiUrl: function(url) {
-      var hostname = window.location.hostname;
-      if (hostname == "localhost") {
-        const linker = url.includes("?") ? "&" : "?";
-        return `${Vue.prototype.$callback_url}/${url}${linker}id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`;
-      } else {
-        return `${Vue.prototype.$callback_url}/${url}`;
-      }
-    }
-  }
+  methods: mixins
 });
 
 export default {
@@ -81,6 +45,18 @@ export default {
 .m-0 {
   margin: 0 !important;
 }
+.mx-0 {
+  margin: 0 !important;
+}
+.my-0 {
+  margin: 0 !important;
+}
+.mt-0 {
+  margin-top: 0 !important;
+}
+.mb-0 {
+  margin-bottom: 0 !important;
+}
 .m-20 {
   margin: 20px !important;
 }
@@ -102,9 +78,51 @@ export default {
 .ml-20 {
   margin-left: 20px !important;
 }
+.m-10 {
+  margin: 10px !important;
+}
+.mx-10 {
+  margin: 0 10px !important;
+}
+.my-10 {
+  margin: 10px 0 !important;
+}
+.mt-10 {
+  margin-top: 10px !important;
+}
+.mb-10 {
+  margin-bottom: 10px !important;
+}
+.mr-10 {
+  margin-right: 10px !important;
+}
+.ml-10 {
+  margin-left: 10px !important;
+}
 
 .p-0 {
   padding: 0 !important;
+}
+.p-10 {
+  padding: 10px !important;
+}
+.px-10 {
+  padding: 0 10px !important;
+}
+.py-10 {
+  padding: 10px 0 !important;
+}
+.pt-10 {
+  padding-top: 10px !important;
+}
+.pb-10 {
+  padding-bottom: 10px !important;
+}
+.pr-10 {
+  padding-right: 10px !important;
+}
+.pl-10 {
+  padding-left: 10px !important;
 }
 .p-20 {
   padding: 20px !important;
@@ -249,11 +267,11 @@ export default {
 }
 
 .switch {
-  font-size: 14px;
+  font-size: 11px;
   display: inline-block;
   height: 1.7em;
   position: relative;
-  width: 3.3em;
+  width: 3.5em;
   margin: 0;
 
   input {
@@ -277,11 +295,11 @@ export default {
       top: 0;
       left: 0;
       content: "";
-      height: 1.25em;
+      height: 1.2em;
       position: absolute;
       transition: 0.4s;
       margin: 0.15em;
-      width: 1.3em;
+      width: 1.2em;
       border-radius: 50%;
     }
   }
@@ -292,7 +310,7 @@ export default {
     color: #fff;
     content: "oui";
     &:before {
-      transform: translateX(1.6em);
+      transform: translateX(1.8em);
       background-color: fff;
     }
   }

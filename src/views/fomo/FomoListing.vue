@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <div class="fomoContainer">
-      <Loader :status="loader" />
       <div class="fomo_block">
         <div class="active_fomo">
           <div class="fomoHeader">
@@ -26,10 +25,10 @@
             </div>
           </div>
           <div class="fomoList" v-if="listData">
-            <md-tabs class="fomo-tabs" md-alignment="fixed">
+            <md-tabs class="fomo-tabs">
               <template slot="md-tab" slot-scope="{ tab }">
                 {{ tab.label }}
-                <i class="badge" v-if="tab.data.badge">{{ tab.data.badge }}</i>
+                <small v-if="tab.data.badge">({{ tab.data.badge }})</small>
               </template>
               <md-tab
                 id="tab-home"
@@ -83,6 +82,12 @@
                           </label>
                         </td>
                         <td class="align-center">
+                          <router-link
+                            class="mr-10"
+                            :to="`/view/fomo/summary/${data.id}`"
+                          >
+                            <i class="far fa-eye"></i>
+                          </router-link>
                           <router-link :to="`/view/fomo/edit/${data.id}`">
                             <i class="fal fa-edit"></i>
                           </router-link>
@@ -144,6 +149,12 @@
                           </label>
                         </td>
                         <td class="align-center">
+                          <router-link
+                            class="mr-10"
+                            :to="`/view/fomo/summary/${data.id}`"
+                          >
+                            <i class="far fa-eye"></i>
+                          </router-link>
                           <router-link :to="`/view/fomo/edit/${data.id}`">
                             <i class="fal fa-edit"></i>
                           </router-link>
@@ -163,13 +174,12 @@
         <div class="create_fomo desktop">
           <div class="titleBlock">
             <h2>Create New</h2>
-            <a href="#" class="btn_link btn_link-small">View all templates</a>
+            <!-- <a href="#" class="btn_link btn_link-small">View all templates</a> -->
           </div>
           <div class="newFomoList">
-            <div v-for="template in templates" :key="template.id">
+            <div v-for="template in allFomoTypes" :key="template.id">
               <div class="new_list" v-if="!template.attributes.disabled">
                 <md-icon class="fomo_icon">
-                  <span>V</span>
                   <i :class="`fomoIcon icon_${template.type}`"></i>
                 </md-icon>
                 <div class="fomo_details">
@@ -184,6 +194,127 @@
                 >
               </div>
             </div>
+            <div class="new_list comingSoon">
+              <md-icon class="fomo_icon">
+                <i class="fal fa-hourglass-half"></i>
+              </md-icon>
+              <div class="fomo_details">
+                <h3>Announcement</h3>
+              </div>
+              <md-button :md-ripple="false" class="md-dense btn"
+                >Coming soon</md-button
+              >
+            </div>
+            <div class="new_list comingSoon">
+              <md-icon class="fomo_icon">
+                <i class="fal fa-hourglass-half"></i>
+              </md-icon>
+              <div class="fomo_details">
+                <h3>Newsletter</h3>
+              </div>
+              <md-button :md-ripple="false" class="md-dense btn"
+                >Coming soon</md-button
+              >
+            </div>
+            <div class="new_list comingSoon">
+              <md-icon class="fomo_icon">
+                <i class="fal fa-hourglass-half"></i>
+              </md-icon>
+              <div class="fomo_details">
+                <h3>Timer FOMO</h3>
+              </div>
+              <md-button :md-ripple="false" class="md-dense btn"
+                >Coming soon</md-button
+              >
+            </div>
+            <div class="new_list comingSoon">
+              <md-icon class="fomo_icon">
+                <i class="fal fa-hourglass-half"></i>
+              </md-icon>
+              <div class="fomo_details">
+                <h3>Bonus Points</h3>
+              </div>
+              <md-button :md-ripple="false" class="md-dense btn"
+                >Coming soon</md-button
+              >
+            </div>
+            <div class="new_list comingSoon">
+              <md-icon class="fomo_icon">
+                <i class="fal fa-hourglass-half"></i>
+              </md-icon>
+              <div class="fomo_details">
+                <h3>Celebrate events</h3>
+              </div>
+              <md-button :md-ripple="false" class="md-dense btn"
+                >Coming soon</md-button
+              >
+            </div>
+            <div class="new_list comingSoon">
+              <md-icon class="fomo_icon">
+                <i class="fal fa-hourglass-half"></i>
+              </md-icon>
+              <div class="fomo_details">
+                <h3>Pay with points</h3>
+              </div>
+              <md-button :md-ripple="false" class="md-dense btn"
+                >Coming soon</md-button
+              >
+            </div>
+            <div class="new_list comingSoon">
+              <md-icon class="fomo_icon">
+                <i class="fal fa-hourglass-half"></i>
+              </md-icon>
+              <div class="fomo_details">
+                <h3>Referral Program</h3>
+              </div>
+              <md-button :md-ripple="false" class="md-dense btn"
+                >Coming soon</md-button
+              >
+            </div>
+            <div class="new_list comingSoon">
+              <md-icon class="fomo_icon">
+                <i class="fal fa-hourglass-half"></i>
+              </md-icon>
+              <div class="fomo_details">
+                <h3>Feedback</h3>
+              </div>
+              <md-button :md-ripple="false" class="md-dense btn"
+                >Coming soon</md-button
+              >
+            </div>
+            <div class="new_list comingSoon">
+              <md-icon class="fomo_icon">
+                <i class="fal fa-hourglass-half"></i>
+              </md-icon>
+              <div class="fomo_details">
+                <h3>Survey</h3>
+              </div>
+              <md-button :md-ripple="false" class="md-dense btn"
+                >Coming soon</md-button
+              >
+            </div>
+            <div class="new_list comingSoon">
+              <md-icon class="fomo_icon">
+                <i class="fal fa-hourglass-half"></i>
+              </md-icon>
+              <div class="fomo_details">
+                <h3>Poll</h3>
+              </div>
+              <md-button :md-ripple="false" class="md-dense btn"
+                >Coming soon</md-button
+              >
+            </div>
+            <div class="new_list comingSoon">
+              <md-icon class="fomo_icon">
+                <i class="fal fa-hourglass-half"></i>
+              </md-icon>
+              <div class="fomo_details">
+                <h3>Quiz</h3>
+              </div>
+              <md-button :md-ripple="false" class="md-dense btn"
+                >Coming soon</md-button
+              >
+            </div>
           </div>
         </div>
         <md-drawer class="md-right mobile" :md-active.sync="showSidepanel">
@@ -193,7 +324,7 @@
               <a href="#" class="btn_link btn_link-small">View all templates</a>
             </div>
             <div class="newFomoList">
-              <div v-for="template in templates" :key="template.id">
+              <div v-for="template in allFomoTypes" :key="template.id">
                 <div class="new_list" v-if="!template.attributes.disabled">
                   <md-icon class="fomo_icon">
                     <span>V</span>
@@ -212,38 +343,23 @@
         </md-drawer>
       </div>
     </div>
-    <md-snackbar
-      class="msgSnack"
-      md-position="center"
-      :md-duration="4000"
-      :md-active.sync="apiMessage"
-    >
-      <span v-html="apiResponse"></span>
-    </md-snackbar>
-    <FeedbackPopup :url="getApiUrl('fomo/sendReview')" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import Axios from "axios";
-import Loader from "@/components/Loader.vue";
-import FeedbackPopup from "@/components/FeedbackPopup.vue";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "FomoListing",
   mixins: ["createFormData", "getApiUrl"],
-  components: { Loader, FeedbackPopup },
   data: function() {
     return {
       listData: null,
-      templates: [],
-      loader: true,
       errored: false,
       showNavigation: false,
       showSidepanel: false,
-      apiMessage: false,
-      apiResponse: null,
       categories: {
         signup_bonus: "Signup Bonus",
         new_product_release: "New Product"
@@ -251,6 +367,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(["allFomoTypes"]),
     activeFomo: function() {
       return this.listData.filter(({ attributes }) => attributes.status == 1);
     },
@@ -259,6 +376,11 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+      "updateAllFomoTypes",
+      "toggleLoader",
+      "updateApiResponse"
+    ]),
     mapCategory: function(type) {
       return this.categories[type];
     },
@@ -268,32 +390,37 @@ export default {
         .then(({ data }) => {
           this.listData = data.data;
         })
-        .catch(error => {
-          console.log(error);
-          this.errored = true;
+        .catch(({ response }) => {
+          var msg = `<i class="fas fa-exclamation-circle"></i> ${response.data.errors.message}`;
+          this.updateApiResponse(msg);
         })
-        .finally(() => (this.loader = false));
+        .finally(() => this.toggleLoader(false));
     },
 
     fetchAllFomo: function() {
-      const url = this.getApiUrl("fomo/all");
-      Axios.get(url)
-        .then(({ data }) => {
-          this.templates = data.data;
-        })
-        .catch(error => {
-          console.log(error);
-          this.errored = true;
-        })
-        .finally(() => (this.loader = false));
+      if (!this.allFomoTypes) {
+        const url = this.getApiUrl("fomo/all");
+        Axios.get(url)
+          .then(({ data }) => {
+            this.updateAllFomoTypes(data.data);
+          })
+          .catch(({ response }) => {
+            var msg = `<i class="fas fa-exclamation-circle"></i> ${response.data.errors.message}`;
+            this.updateApiResponse(msg);
+          })
+          .finally(() => this.toggleLoader(false));
+      }
     },
     createFomo: function(id) {
       const url = this.getApiUrl("fomo");
       Axios.post(url, this.createFormData({ id: id })).then(({ data }) => {
+        this.updateApiResponse(
+          '<i class="fas fa-check-circle"></i> FOMO created with default values'
+        );
         this.$router.push({
-          name: "FomoSelectTemplate",
+          name: "EditFomo",
           params: {
-            fomoId: data.data.id
+            fomoid: data.data.id
           }
         });
       });
@@ -304,7 +431,8 @@ export default {
         id: id,
         status: status == 0 ? 1 : 0
       };
-      this.loader = true;
+      this.toggleLoader(true);
+      var msg = null;
       Axios.post(url, this.createFormData(params))
         .then(({ data }) => {
           if (data.data.status === "success") {
@@ -316,23 +444,22 @@ export default {
                   }
                 : item
             );
-            this.apiResponse = `<i class="fas fa-check-circle"></i> ${data.data.message}`;
-          } else {
-            this.apiResponse = `<i class="fas fa-exclamation-circle"></i> ${data.data.message}`;
+            msg = `<i class="fas fa-check-circle"></i> ${data.data.message}`;
           }
-          this.apiMessage = true;
         })
-        .catch(({ error }) => {
-          this.apiResponse = `<i class="fas fa-exclamation-circle"></i> ${error.data.message}`;
-          this.apiMessage = true;
-          console.log(error);
+        .catch(({ response }) => {
+          msg = `<i class="fas fa-exclamation-circle"></i> ${response.data.errors.message}`;
         })
-        .finally(() => (this.loader = false));
+        .finally(() => {
+          this.toggleLoader(false);
+          this.updateApiResponse(msg);
+        });
 
       // Change status using ID & !status
     }
   },
   mounted: function() {
+    this.toggleLoader(true);
     this.fetchSiteFomo();
     this.fetchAllFomo();
   }
@@ -340,21 +467,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.md-tabs-navigation i {
-  background: red;
-  color: #fff;
-  font-style: normal;
-  width: 17px;
-  height: 17px;
-  display: inline-flex;
-  font-size: 11px;
-  border-radius: 50%;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  top: -8px;
-  font-weight: bold;
-}
 /* Fomo */
 .fomoContainer {
   background: #f9f9f9;
@@ -618,6 +730,19 @@ export default {
         border: 1px solid #f0f0f0;
       }
     }
+    &.comingSoon {
+      pointer-events: none;
+      .fomo_icon {
+        background: transparent;
+        border: 1px dashed var(--warning-orange);
+        color: var(--warning-orange);
+      }
+      .btn {
+        color: var(--warning-orange);
+        background: #ffecda;
+        border: none;
+      }
+    }
   }
 
   .fomo_icon {
@@ -629,22 +754,6 @@ export default {
     height: 45px;
     padding: 10px;
     font-size: 18px !important;
-
-    span {
-      background: var(--main-blue);
-      border-radius: 50%;
-      padding: 3px 5px;
-      font-size: 9px;
-      color: #fff;
-      position: absolute;
-      top: 0;
-      right: -5px;
-      font-family: sans-serif;
-      line-height: 12px;
-      font-weight: normal;
-      width: 16px;
-      height: 16px;
-    }
   }
 
   .upcomingFomoList {
@@ -754,11 +863,12 @@ export default {
 <style lang="less">
 :root {
   --main-blue: #005dff;
+  --warning-orange: #faa14d;
   --md-theme-default-accent: var(--main-blue) !important;
   --md-theme-default-accent-on-background: var(--main-blue) !important;
 }
 .fomoList {
-  margin: -38px auto 0;
+  margin: 0 auto;
   width: 80%;
   max-width: 1000px;
   .md-content {
@@ -777,23 +887,14 @@ export default {
   }
 }
 .fomo-tabs.md-tabs {
+  .md-tabs-navigation {
+    background-color: transparent;
+  }
   .md-tab-nav-button {
-    background: var(--main-blue);
-    border-left: 1px solid #0662de;
-    flex-grow: 1;
     font-size: 13px;
-    color: #ffffff !important;
     height: 38px;
+    color: var(--main-blue) !important;
     max-width: 100% !important;
-    &:first-child {
-      border-left: none;
-    }
-    &.md-active {
-      background: #fff;
-      color: var(--main-blue) !important;
-      font-weight: 500;
-      font-size: 14px;
-    }
   }
 
   &.md-theme-default .md-tabs-indicator {
@@ -802,7 +903,6 @@ export default {
       --md-theme-default-primary-on-background,
       var(--main-blue)
     );
-    top: 0;
   }
 }
 .fomoContainer {
