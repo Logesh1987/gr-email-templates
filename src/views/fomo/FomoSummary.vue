@@ -2,11 +2,11 @@
   <div class="changeTemplateView">
     <div class="fixedHeaderBlock">
       <div class="fixedHeaderBlockInner">
-        <a class="link-back" @click.prevent="handleBack">
+        <router-link class="link-back" to="/view/fomo">
           <i class="fa fa-long-arrow-left"
             ><md-tooltip md-direction="right">Back</md-tooltip></i
           >
-        </a>
+        </router-link>
         <div class="title" v-if="fomoData">
           <div class="icon margin-right-10">
             <i :class="`fomoIcon icon_${fomoType}`"></i>
@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <div class="container fomoContainer" v-if="fomoData">
+    <div class="container" v-if="fomoData">
       <div class="md-layout md-gutter">
         <div class="md-layout-item md-size-30 configSection">
           <h2>FOMO Summary</h2>
@@ -224,10 +224,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["updateFomoId", "toggleLoader", "updateApiResponse"]),
-    handleBack: function() {
-      this.$router.push("../");
-    }
+    ...mapMutations(["updateFomoId", "toggleLoader", "updateApiResponse"])
   },
   mounted: function() {
     if (this.fomoId !== this.$route.params.fomoid) {
@@ -237,15 +234,16 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.fomoContainer {
+.changeTemplateView {
   margin: 0 auto;
   display: flex;
-  max-width: 1600px;
-  min-height: 100vh;
+  max-width: 1400px;
+  min-height: calc(100vh - 200px);
   overflow: visible;
   padding-top: 100px;
   justify-content: center;
   width: 100%;
+  .container,
   .md-gutter {
     width: 100%;
   }
@@ -310,10 +308,6 @@ export default {
     }
   }
 
-  .poppin {
-    width: 100%;
-  }
-
   .templateSection {
     .template {
       width: calc(100% - 40px);
@@ -373,29 +367,5 @@ export default {
 }
 .nameCTA {
   cursor: pointer;
-}
-.nameEditContainer {
-  display: flex;
-  align-items: center;
-  .nameCTA {
-    font-size: 1.2em;
-    padding: 0 0.3em;
-  }
-  .md-field {
-    margin: 0;
-    padding: 0;
-    min-height: 0;
-    align-items: center;
-  }
-}
-</style>
-<style lang="less">
-:root {
-  --main-blue: #005dff;
-  --stroke-grey: #d1d1d1;
-}
-.nameCTA {
-  font-size: 0.9em;
-  padding: 0 0.8em;
 }
 </style>

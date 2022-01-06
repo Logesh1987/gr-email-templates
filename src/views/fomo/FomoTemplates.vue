@@ -111,12 +111,12 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.fomoContainer {
+.changeTemplateView {
   margin: 0 auto;
-  max-width: 1600px;
-  min-height: 100vh;
+  max-width: 1400px;
+  min-height: calc(100vh - 200px);
   overflow: visible;
-  padding-top: 100px;
+  padding-top: 70px;
 
   .templateSection {
     display: flex;
@@ -196,102 +196,6 @@ export default {
     padding: 0;
     min-height: 0;
     align-items: center;
-  }
-}
-</style>
-<style lang="less">
-:root {
-  --main-blue: #005dff;
-  --stroke-grey: #d1d1d1;
-}
-.nameCTA {
-  font-size: 0.9em;
-  padding: 0 0.8em;
-}
-.fomoContainer {
-  .poppin {
-    .topControl.formSubmit {
-      position: fixed;
-      top: 12px;
-      z-index: 9999;
-      right: 12px;
-      justify-content: flex-end;
-      .md-button {
-        margin-left: 10px;
-      }
-    }
-    h2 {
-      margin-top: 0;
-    }
-
-    label.md-checkbox-label {
-      display: flex;
-      align-items: center;
-      height: auto;
-      .fas {
-        margin-left: 10px;
-        font-size: 20px;
-      }
-    }
-    .bLabel {
-      .fas {
-        margin-left: 10px;
-        font-size: 20px;
-      }
-    }
-
-    .displaySetting {
-      display: flex;
-      margin-bottom: 20px;
-      justify-content: space-between;
-
-      @media only screen and (max-width: 599px) {
-        flex-direction: column;
-      }
-
-      .setupMode {
-        border: 1px solid var(--stroke-grey);
-        border-bottom: none;
-        background: #fff;
-
-        @media only screen and (max-width: 599px) {
-          margin-bottom: 20px;
-        }
-        .head {
-          padding: 0 20px;
-          color: #fff;
-          font-weight: bold;
-          border-bottom: 1px solid var(--stroke-grey);
-          background: var(--main-blue);
-          &.disabled {
-            .md-checkbox {
-              opacity: 0.5;
-              pointer-events: none;
-            }
-            .soon {
-              float: right;
-              margin: 1.1em;
-            }
-          }
-        }
-        .body {
-          border-bottom: 1px solid var(--stroke-grey);
-        }
-        .md-field {
-          padding-top: 0;
-          min-height: 32px;
-        }
-      }
-    }
-    .text-info {
-      line-height: 1.1;
-      i {
-        font-size: 1.6em;
-        padding-right: 10px;
-        color: var(--main-blue);
-        transform: translateY(-0.2em);
-      }
-    }
   }
 }
 </style>

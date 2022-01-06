@@ -4,9 +4,11 @@
       <div class="fixedHeaderBlock">
         <div class="fixedHeaderBlockInner">
           <div class="linkBackBlock">
-            <a class="link-back" @click.prevent="handleBack">
-              <i class="fa fa-long-arrow-left"></i>
-            </a>
+            <router-link class="link-back" to="/view/fomo">
+              <i class="fa fa-long-arrow-left"
+                ><md-tooltip md-direction="right">Back</md-tooltip></i
+              >
+            </router-link>
             <div class="title">
               <md-icon class="icon">
                 <i :class="`fomoIcon icon_${fomoType}`"></i>
@@ -571,9 +573,6 @@ export default {
         }
       }
     },
-    handleBack: function() {
-      window.history.back();
-    },
     handleImgChange: function(e, key, name) {
       const file = e.target.files[0];
 
@@ -583,25 +582,25 @@ export default {
         let formData = new FormData();
         formData.append("Filedata", file);
         formData.append("id", this.fomoId);
-        formData.append("id_template", this.fomoTemplateId);
+        formData.append("id_template", this.fomoInputs.id_template);
         var msg;
         Axios.post(url, formData)
           .then(({ data }) => {
+            console.log(data);
             if (!data.error) {
-              this.fomoData.settings[key].attributes[name].value =
-                data.img_name;
+              this.fomoInputs.template_settings.settings[key].attributes[
+                name
+              ].value = data.img_name;
               msg = `<i class="fas fa-check-circle"></i> Uploaded successfully`;
-            } else {
-              msg = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
             }
-            this.updateApiResponse(msg);
           })
           .catch(err => {
+            console.log(err);
             msg = `<i class="fas fa-exclamation-circle"></i> ${err}`;
-            this.updateApiResponse(msg);
           })
           .finally(() => {
             this.toggleLoader(false);
+            this.updateApiResponse(msg);
           });
       }
     },
@@ -812,9 +811,12 @@ export default {
 }
 
 .editTemplate {
-  padding: 6em 50px 4em;
+  padding: 3em 50px 4em;
   display: flex;
   justify-content: flex-start;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
   ::v-deep {
     .vc-chrome {
       right: 40px;
