@@ -30,6 +30,7 @@
               :src="getAssetUrl(`fomo/theme/${fomoType}_${template.id}.png`)"
               alt=""
             />
+            <i v-if="template.attributes.is_activated">Active</i>
             <div>
               <router-link
                 :to="`/view/fomo/edit/${fomoId}`"
@@ -165,12 +166,11 @@ export default {
           right: 0;
           top: 0;
           background: #52c509;
-          padding: 0.4em 1.2em 0.6em 1.6em;
+          padding: 0.2em 0.8em 0.4em 0.9em;
           font-style: normal;
           font-weight: 600;
           color: #fff;
           border-radius: 0 0 0 1em;
-          box-shadow: -0.5em 0.5em 1.5em rgba(0, 0, 0, 0.5);
           text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
         }
       }

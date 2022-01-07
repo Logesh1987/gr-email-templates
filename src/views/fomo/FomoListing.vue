@@ -864,6 +864,7 @@ export default {
 :root {
   --main-blue: #005dff;
   --warning-orange: #faa14d;
+  --stroke-grey: #cccccc;
   --md-theme-default-accent: var(--main-blue) !important;
   --md-theme-default-accent-on-background: var(--main-blue) !important;
 }

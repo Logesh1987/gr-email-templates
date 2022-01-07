@@ -25,8 +25,15 @@
               <div class="innerConfigSection">
                 <div class="handBand">
                   <h3>Template :</h3>
-                  <router-link :to="`/view/fomo/edit/${fomoId}`">
-                    <i class="fas fa-edit editIcn"></i>
+                  <router-link
+                    :to="{
+                      name: 'EditFomo',
+                      params: { fomoId: `${fomoId}`, mainTab: 'tab-template' }
+                    }"
+                  >
+                    <i class="fas fa-edit editIcn"
+                      ><md-tooltip md-direction="right">Edit</md-tooltip></i
+                    >
                   </router-link>
                 </div>
                 <ul>
@@ -53,8 +60,15 @@
               <div class="innerConfigSection">
                 <div class="handBand">
                   <h3>Reward :</h3>
-                  <router-link :to="`/view/fomo/edit/${fomoId}`">
-                    <i class="fas fa-edit editIcn"></i>
+                  <router-link
+                    :to="{
+                      name: 'EditFomo',
+                      params: { fomoId: `${fomoId}`, mainTab: 'tab-reward' }
+                    }"
+                  >
+                    <i class="fas fa-edit editIcn"
+                      ><md-tooltip md-direction="right">Edit</md-tooltip></i
+                    >
                   </router-link>
                 </div>
                 <ul>
@@ -150,8 +164,15 @@
               <div class="innerConfigSection">
                 <div class="handBand">
                   <h3>Display :</h3>
-                  <router-link :to="`/view/fomo/edit/${fomoId}`">
-                    <i class="fas fa-edit editIcn"></i>
+                  <router-link
+                    :to="{
+                      name: 'EditFomo',
+                      params: { fomoId: `${fomoId}`, mainTab: 'tab-display' }
+                    }"
+                  >
+                    <i class="fas fa-edit editIcn"
+                      ><md-tooltip md-direction="right">Edit</md-tooltip></i
+                    >
                   </router-link>
                 </div>
                 <ul>
@@ -214,7 +235,6 @@ export default {
       return this.fomoData.reward_settings;
     },
     dInfo: function() {
-      console.log(this.fomoData);
       return this.fomoData.display_settings;
     },
     activeTemplate: function() {

@@ -51,7 +51,11 @@
 
       <div class="editTemplate">
         <div class="settingsBlock">
-          <md-tabs class="tabMain">
+          <md-tabs
+            class="tabMain"
+            :md-active-tab="mainActiveTab"
+            @md-changed="setMainActiveTab"
+          >
             <md-tab id="tab-template" md-label="Template Settings">
               <div>
                 <div class="subTitle">
@@ -237,17 +241,6 @@
                 </md-tab>
               </md-tabs>
             </md-tab>
-            <md-tab id="tab-display" md-label="Display Settings">
-              {{ fomoInputs["display_settings"].length }}
-              <FomoSetupDisplay
-                :formData="fomoInputs.display_settings"
-                :automatic="fomoInputs.is_automatic"
-                :updateAutomatic="updateAutomatic"
-                :updateSecondaryError="updateSecondaryError"
-                :content="fomoClanData"
-                v-if="Object.keys(fomoInputs.display_settings).length"
-              />
-            </md-tab>
             <md-tab
               id="tab-reward"
               md-label="Reward Settings"
@@ -258,6 +251,17 @@
                 :updateSecondaryError="updateSecondaryError"
                 :content="fomoClanData"
                 v-if="Object.keys(fomoInputs.reward_settings).length"
+              />
+            </md-tab>
+            <md-tab id="tab-display" md-label="Display Settings">
+              {{ fomoInputs["display_settings"].length }}
+              <FomoSetupDisplay
+                :formData="fomoInputs.display_settings"
+                :automatic="fomoInputs.is_automatic"
+                :updateAutomatic="updateAutomatic"
+                :updateSecondaryError="updateSecondaryError"
+                :content="fomoClanData"
+                v-if="Object.keys(fomoInputs.display_settings).length"
               />
             </md-tab>
           </md-tabs>
@@ -470,10 +474,12 @@ export default {
     FomoSetupReward
   },
   mixins: ["createFormData", "renderTemplate", "getImgUrl", "getApiUrl"],
+  props: ["mainTab"],
   data: function() {
     return {
       embedCode: false,
       activeTab: null,
+      mainActiveTab: "tab-template",
       quillEditor: {},
       eOptions: options,
       fomoInputs: null,
@@ -542,6 +548,9 @@ export default {
       "updateFomoData",
       "updateApiResponse"
     ]),
+    setMainActiveTab: function(e) {
+      this.mainActiveTab = e;
+    },
     setActiveTab: function(e) {
       this.activeTab = e;
     },
@@ -586,7 +595,6 @@ export default {
         var msg;
         Axios.post(url, formData)
           .then(({ data }) => {
-            console.log(data);
             if (!data.error) {
               this.fomoInputs.template_settings.settings[key].attributes[
                 name
@@ -699,6 +707,9 @@ export default {
     if (!window.Vue) {
       window.Vue = Vue;
     }
+    if (this.mainTab) {
+      this.mainActiveTab = this.mainTab;
+    }
     this.fomoInputs = JSON.parse(JSON.stringify(this.fomoData));
     if (this.fomoId !== this.$route.params.fomoid) {
       this.updateFomoId(this.$route.params.fomoid);
@@ -768,6 +779,7 @@ export default {
     }
     .md-button[disabled] {
       opacity: 0;
+      display: none;
     }
     .md-tab {
       padding: 0 5px;
