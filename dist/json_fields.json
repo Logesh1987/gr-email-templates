@@ -1,0 +1,725 @@
+{
+	"default_template": [
+		{
+			"name": "header",
+			"label": "Header",
+			"clone": 1,
+			"data": {
+				"header_image": {
+					"type": "file",
+					"label": "header image",
+					"value": "http://maverickmav.org/ui/email-template/images/header_password_1.png"
+				}
+			}
+		},
+		{
+			"name": "section",
+			"label": "Section",
+			"clone": 1,
+			"data": {
+				"content_bg": {
+					"type": "color",
+					"label": "content bg color",
+					"value": "#ffffff"
+				},
+				"content": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Sub block text 1",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>Hi [[Name]],</p><p>We are pleased to welcome you to our [[Campaign Name]]</p><p>Have you completed all the actions to earn the maximum rewards? Keep participating in our [[Campaign Name]] promotion for chances at more rewards!</p><p>More promotions may be on the way! Keep an eye out to win more rewards.</p><br><p>Good Luck!<br>[[Site Name]].</p>"
+				}
+			}
+		},
+		{
+			"name": "footer",
+			"label": "Footer Section",
+			"clone": 0,
+			"data": {
+				"white_label_image": {
+					"type": "checkbox",
+					"label": "Show white label image",
+					"value": 1
+				}
+			}
+		}
+	],
+	"welcome_campaign_1": [
+		{
+			"name": "header",
+			"label": "Header component",
+			"clone": 1,
+			"data": {
+				"header_image": {
+					"type": "file",
+					"label": "header image",
+					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615895238.png"
+				},
+				"header_background_color": {
+					"type": "color",
+					"label": "header bg color",
+					"value": "#f93744"
+				},
+				"header_title": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Sub block text 1",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "We are pleased to welcome<br> you to our [[Campaign Name]]"
+				}
+			}
+		},
+		{
+			"name": "section_1",
+			"label": "Section with CTA",
+			"clone": 1,
+			"data": {
+				"block_image": {
+					"type": "file",
+					"label": "Image",
+					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_block_image_1617886568.png"
+				},
+				"title": {
+					"type": "text",
+					"show_dynamic_variables": 1,
+					"label": "Title",
+					"max_length": 100,
+					"rows": 4,
+					"value": "Get more points"
+				},
+				"description": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Description",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "Have you completed all the actions to earn the maximum rewards?"
+				},
+				"cta_text": {
+					"type": "text",
+					"show_dynamic_variables": 0,
+					"label": "Button Text",
+					"max_length": 100,
+					"rows": 4,
+					"value": "Participate Now"
+				}
+			}
+		},
+		{
+			"name": "section_2",
+			"label": "Section without CTA",
+			"clone": 1,
+			"data": {
+				"block_image": {
+					"type": "file",
+					"label": "Image",
+					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_block_image_1617886578.png"
+				},
+				"title": {
+					"type": "text",
+					"show_dynamic_variables": 0,
+					"label": "Title",
+					"max_length": 100,
+					"rows": 4,
+					"value": "Chance for rewards"
+				},
+				"description": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Description",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "Keep participating in our [[Campaign Name]] promotion for chances at more rewards!"
+				}
+			}
+		},
+		{
+			"name": "section_3",
+			"label": "Base Section",
+			"clone": 0,
+			"data": {
+				"footer_text1": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Footer content 1",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>More promotions may be on the way! Keep an eye out to win more rewards.<br>[[Campaign Name]]</p>"
+				},
+				"footer_text2": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Footer content 2",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>Regards [[campaign_name]]<br><br></p>"
+				}
+			}
+		},
+		{
+			"name": "footer",
+			"label": "Footer Section",
+			"clone": 0,
+			"data": {
+				"white_label_image": {
+					"type": "checkbox",
+					"label": "Show white label image",
+					"value": 1
+				}
+			}
+		}
+	],
+	"welcome_campaign_2": [
+		{
+			"name": "header",
+			"label": "Header component",
+			"clone": 1,
+			"data": {
+				"header_image": {
+					"type": "file",
+					"label": "header image",
+					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615895940.png"
+				},
+				"header_bg": {
+					"type": "color",
+					"label": "header bg color",
+					"value": "#FFFFFF"
+				},
+				"header_title": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Sub block text 1",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>We are pleased to welcome <br>you to our [[Campaign Name]]</p>"
+				}
+			}
+		},
+		{
+			"name": "section_1",
+			"label": "Section component",
+			"clone": 1,
+			"data": {
+				"block_image_1": {
+					"type": "file",
+					"label": "Side image 1",
+					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_block_image_1_1615895985.png"
+				},
+				"block_image_2": {
+					"type": "file",
+					"label": "Side image 2",
+					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_block_image_2_1615896008.png"
+				},
+				"subbg_1": {
+					"type": "color",
+					"label": "section bg color 1",
+					"value": "#f26968"
+				},
+				"subbg_2": {
+					"type": "color",
+					"label": "section bg color 2",
+					"value": "#87165f"
+				},
+				"subtitle_1": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Sub block title 1",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>Get more points</p>"
+				},
+				"subtitle_2": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Sub block title 2",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>Chance for rewards</p>"
+				},
+				"description_1": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Sub block description 1",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>Have you completed all the actions to earn the maximum rewards?</p>"
+				},
+				"description_2": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Sub block description 2",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>Keep participating in our [[Campaign Name]] promotion for chances at more rewards!</p>"
+				}
+			}
+		},
+		{
+			"name": "section_2",
+			"label": "Base section",
+			"clone": 0,
+			"data": {
+				"footer_text1": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Footer content 1",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>More promotions may be on the way! Keep<br>an eye out to win more rewards.</p>"
+				},
+				"footer_text2": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Footer content 2",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>Regards [[campaign_name]]</p>"
+				}
+			}
+		},
+		{
+			"name": "footer",
+			"label": "Footer Section",
+			"clone": 0,
+			"data": {
+				"white_label_image": {
+					"type": "checkbox",
+					"label": "Show white label image",
+					"value": 1
+				}
+			}
+		}
+	],
+	"welcome_campaign_3": [
+		{
+			"name": "header",
+			"label": "Header component",
+			"clone": 1,
+			"data": {
+				"header_image": {
+					"type": "file",
+					"label": "header image",
+					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615900791.png"
+				},
+				"header_bg": {
+					"type": "color",
+					"label": "header bg color",
+					"value": "#9aeef6"
+				},
+				"header_title": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Sub block text 1",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>We are pleased to welcome <br>you to our [[Campaign Name]]</p>"
+				}
+			}
+		},
+		{
+			"name": "section_1",
+			"label": "Section component",
+			"clone": 1,
+			"data": {
+				"section_image": {
+					"type": "file",
+					"label": "Section image",
+					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_section_image_1615900830.png"
+				},
+				"section_bg": {
+					"type": "color",
+					"label": "section bg color",
+					"value": "#9aeef6"
+				},
+				"section_title": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Section title",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>Get more points</p>"
+				},
+				"section_description": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Section description",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>Have you completed all the actions<br>to earn the maximum rewards?</p>"
+				}
+			}
+		},
+		{
+			"name": "section_1",
+			"label": "Section component",
+			"clone": 1,
+			"data": {
+				"section_image": {
+					"type": "file",
+					"label": "Section image",
+					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_section_image_1615900873.png"
+				},
+				"section_bg": {
+					"type": "color",
+					"label": "section bg color",
+					"value": "#9aeef6"
+				},
+				"section_title": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Section title",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>Chance for rewards</p>"
+				},
+				"section_description": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Section description",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>Keep participating in our [[Campaign Name]] promotion for chances at more rewards!</p>"
+				}
+			}
+		},
+		{
+			"name": "section_2",
+			"label": "Base section",
+			"clone": 0,
+			"data": {
+				"footer_bg": {
+					"type": "color",
+					"label": "footer bg color",
+					"value": "#EAC8A3"
+				},
+				"footer_text1": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Footer content 1",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>More promotions may be on the way! Keep<br>an eye out to win more rewards.</p>"
+				},
+				"footer_text2": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Footer content 2",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>Regards [[Campaign Name]]</p>"
+				}
+			}
+		},
+		{
+			"name": "footer",
+			"label": "Footer Section",
+			"clone": 0,
+			"data": {
+				"white_label_image": {
+					"type": "checkbox",
+					"label": "Show white label image",
+					"value": 1
+				}
+			}
+		}
+	],
+	"loyalty_1": [
+		{
+			"name": "header",
+			"label": "Header component",
+			"clone": 1,
+			"data": {
+				"header_image": {
+					"type": "file",
+					"label": "header image",
+					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615900791.png"
+				},
+				"background_color": {
+					"type": "color",
+					"label": "header bg color",
+					"value": "#ffffff"
+				}
+			}
+		},
+		{
+			"name": "section_1",
+			"label": "Section component 1",
+			"clone": 1,
+			"data": {
+				"background_color": {
+					"type": "color",
+					"label": "section bg color",
+					"value": "#d4b462"
+				},
+				"block_title": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Section title",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "Loyalty & Referral Program"
+				},
+				"block_description": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Section description",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>We are pleased to welcome you to our</p>"
+				}
+			}
+		},
+		{
+			"name": "section_2",
+			"label": "Section component",
+			"clone": 1,
+			"data": {
+				"background_color": {
+					"type": "color",
+					"label": "section bg color",
+					"value": "#d4b462"
+				},
+				"block_title": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Section title",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>You can now earn points for many activities and redeem them for great rewards.</p>"
+				},
+				"block_background_color": {
+					"type": "color",
+					"label": "section bg color",
+					"value": "#ffffff"
+				},
+				"block_image": {
+					"type": "file",
+					"label": "Section image",
+					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_section_image_1615900873.png"
+				},
+				"block_description_1": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Section description 1",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>You can check your points balance and much more by visiting [[Loyalty Program Name]]</p>"
+				},
+				"block_description_2": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Section description 2",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>Regards, [[Company Name]]</p>"
+				}
+			}
+		},
+		{
+			"name": "footer",
+			"label": "Footer Section",
+			"clone": 0,
+			"data": {
+				"white_label_image": {
+					"type": "checkbox",
+					"label": "Show white label image",
+					"value": 1
+				}
+			}
+		}
+	],
+	"loyalty_2": [
+		{
+			"name": "header",
+			"label": "Header component",
+			"clone": 1,
+			"data": {
+				"header_image": {
+					"type": "file",
+					"label": "header image",
+					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615900791.png"
+				},
+				"header_background_color": {
+					"type": "color",
+					"label": "header bg color",
+					"value": "#450050"
+				}
+			}
+		},
+		{
+			"name": "section_1",
+			"label": "Section component 1",
+			"clone": 1,
+			"data": {
+				"background_color": {
+					"type": "color",
+					"label": "section bg color",
+					"value": "#450050"
+				},
+				"block_title": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Section title",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "Loyalty & Referral Program"
+				},
+				"block_subtitle": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Section description",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>We are pleased to welcome you to our</p>"
+				},
+				"block_description": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Section description",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>You can check your points balance and much more by visiting [[Loyalty Program Name]]</p>"
+				}
+			}
+		},
+		{
+			"name": "section_2",
+			"label": "Section component",
+			"clone": 1,
+			"data": {
+				"background_color": {
+					"type": "color",
+					"label": "section bg color",
+					"value": "#ffdcb8"
+				},
+				"block_description": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Section description",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>You can check your points balance and much more by visiting [[Loyalty Program Name]]</p>"
+				}
+			}
+		},
+		{
+			"name": "footer",
+			"label": "Footer Section",
+			"clone": 0,
+			"data": {
+				"white_label_image": {
+					"type": "checkbox",
+					"label": "Show white label image",
+					"value": 1
+				}
+			}
+		}
+	],
+	"loyalty_3": [
+		{
+			"name": "header",
+			"label": "Header component",
+			"clone": 1,
+			"data": {
+				"header_image": {
+					"type": "file",
+					"label": "header image",
+					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615900791.png"
+				},
+				"background_color": {
+					"type": "color",
+					"label": "header bg color",
+					"value": "#ffffff"
+				}
+			}
+		},
+		{
+			"name": "section_1",
+			"label": "Section component 1",
+			"clone": 1,
+			"data": {
+				"background_color": {
+					"type": "color",
+					"label": "section bg color",
+					"value": "#ffffff"
+				},
+				"block_title": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Section title",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "Loyalty & Referral Program"
+				},
+				"block_description": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Section description",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>We are pleased to welcome you to our</p>"
+				}
+			}
+		},
+		{
+			"name": "section_2",
+			"label": "Section component",
+			"clone": 1,
+			"data": {
+				"background_color": {
+					"type": "color",
+					"label": "section bg color",
+					"value": "##f5d1cf"
+				},
+				"block_image_1": {
+					"type": "file",
+					"label": "Block image 1",
+					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615900791.png"
+				},
+				"block_image_2": {
+					"type": "file",
+					"label": "Block image 2",
+					"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615900791.png"
+				},
+				"block_description_1": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Section description 1",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>You can now earn points for many activities and redeem them for great rewards.</p>"
+				},
+				"block_description_2": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Section description 2",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>You can now earn points for many activities and redeem them for great rewards.</p>"
+				},
+				"block_description_3": {
+					"type": "textarea",
+					"show_dynamic_variables": 1,
+					"label": "Section description 3",
+					"max_length": 3000,
+					"rows": 4,
+					"value": "<p>Regards, [[Company Name]]</p>"
+				}
+			}
+		},
+		{
+			"name": "footer",
+			"label": "Footer Section",
+			"clone": 0,
+			"data": {
+				"white_label_image": {
+					"type": "checkbox",
+					"label": "Show white label image",
+					"value": 1
+				}
+			}
+		}
+	]
+}
