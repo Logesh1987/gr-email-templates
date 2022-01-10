@@ -17,28 +17,22 @@
             </div>
           </div>
           <div>
+            <label for="c" class="can-toggle" @click.prevent="handlePublish"
+              ><input
+                type="checkbox"
+                id="c"
+                name="mainSwitch"
+                :checked="fomoInputs.status === 1"
+              />
+              <div
+                class="can-toggle__switch"
+                data-checked="Active"
+                data-unchecked="Paused"
+              ></div>
+            </label>
             <router-link :to="`/view/fomo/templates/${fomoId}`">
               <md-button class="md-raised">Change template</md-button>
             </router-link>
-            <md-button
-              v-if="fomoInputs.status == 1"
-              class="warning outline"
-              @click.prevent="handlePublish"
-              >Unpublish</md-button
-            >
-            <md-button
-              v-if="fomoInputs.status == 0 && !dirty"
-              class="md-accent outline"
-              @click.prevent="handlePublish"
-              >Publish</md-button
-            >
-            <md-button
-              class="md-accent outline"
-              v-if="fomoInputs.status == 0 && dirty"
-              :disabled="Object.keys(hasError).length > 0 || secondaryError"
-              @click.prevent="handleSave(true)"
-              >Save & Publish</md-button
-            >
             <md-button
               class="md-raised md-accent"
               :disabled="Object.keys(hasError).length > 0 || secondaryError"
@@ -1021,6 +1015,67 @@ export default {
   .md-field {
     margin: 0px 15px 20px;
     width: auto;
+  }
+}
+.can-toggle {
+  cursor: pointer;
+  margin: 0 10px;
+  display: inline-block;
+  --can-active: #4fb743;
+  --can-paused: #848484;
+
+  input[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    &:checked ~ .can-toggle__switch {
+      background-color: var(--can-active);
+      &:after {
+        content: attr(data-checked);
+        transform: translate3d(66px, 0, 0);
+        color: var(--can-active);
+      }
+      &:before {
+        content: attr(data-unchecked);
+        left: 0;
+      }
+    }
+  }
+  .can-toggle__switch {
+    font-size: 12px;
+    height: 36px;
+    width: 135px;
+    display: inline-flex;
+    position: relative;
+    border-radius: 2px;
+    transition: background-color 0.3s cubic-bezier(0, 1, 0.5, 1);
+    background: var(--can-paused);
+    &:before,
+    &:after {
+      position: absolute;
+      text-transform: uppercase;
+      text-align: center;
+      width: 65px;
+    }
+    &:before {
+      content: attr(data-checked);
+      color: rgba(255, 255, 255, 0.5);
+      top: 0;
+      left: 69px;
+      line-height: 3;
+    }
+    &:after {
+      top: 2px;
+      left: 2px;
+      border-radius: 1px;
+      line-height: 2.7;
+      content: attr(data-unchecked);
+      transition: transform 0.3s cubic-bezier(0, 1, 0.5, 1);
+      z-index: 5;
+      background: white;
+      transform: translate3d(0, 0, 0);
+    }
   }
 }
 </style>
