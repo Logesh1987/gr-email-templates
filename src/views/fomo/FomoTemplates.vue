@@ -16,6 +16,19 @@
           </div>
         </div>
       </div>
+      <div class="status" v-if="fomoData">
+        <label class="switch" for="c" @click.prevent="handlePublish">
+          <input
+            type="checkbox"
+            name="mainSwitch"
+            :checked="fomoData.status === 1"
+          />
+          <i></i>
+        </label>
+        <div>
+          {{ fomoData.status === 1 ? "Active" : "paused" }}
+        </div>
+      </div>
     </div>
 
     <div class="container fomoContainer">
@@ -71,12 +84,38 @@ export default {
     ...mapMutations([
       "updateFomoId",
       "toggleLoader",
+      "updateFomoData",
       "updateFomoTemplates",
       "updateApiResponse"
     ]),
     ...mapActions(["getFomo"]),
     handleBack: function() {
       window.history.back();
+    },
+    handlePublish: function() {
+      const url = this.getApiUrl("fomo/updateStatus");
+      const params = {
+        id: this.fomoId,
+        status: this.fomoData.status == 0 ? 1 : 0
+      };
+      this.toggleLoader(true);
+      var msg = null;
+      Axios.post(url, this.createFormData(params))
+        .then(({ data }) => {
+          if (data.data.status === "success") {
+            msg = `<i class="fas fa-check-circle"></i> ${data.data.message}`;
+            this.updateFomoData({ ...this.fomoData, status: params.status });
+          } else {
+            msg = `<i class="fas fa-exclamation-circle"></i> ${data.data.message}`;
+          }
+          this.updateApiResponse(msg);
+        })
+        .catch(({ error }) => {
+          msg = `<i class="fas fa-exclamation-circle"></i> ${error.data.message}`;
+          this.updateApiResponse(msg);
+          console.log(error);
+        })
+        .finally(() => this.toggleLoader(false));
     },
     activateTheme: function(id) {
       const url = this.getApiUrl("fomo/activateTemplate");
@@ -118,7 +157,13 @@ export default {
   min-height: calc(100vh - 200px);
   overflow: visible;
   padding-top: 70px;
-
+  .status {
+    display: inline-flex;
+    align-items: center;
+    div {
+      padding: 0 15px 0 6px;
+    }
+  }
   .templateSection {
     display: flex;
     flex-wrap: wrap;

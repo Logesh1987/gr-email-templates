@@ -17,19 +17,19 @@
             </div>
           </div>
           <div>
-            <label for="c" class="can-toggle" @click.prevent="handlePublish"
-              ><input
-                type="checkbox"
-                id="c"
-                name="mainSwitch"
-                :checked="fomoInputs.status === 1"
-              />
-              <div
-                class="can-toggle__switch"
-                data-checked="Active"
-                data-unchecked="Paused"
-              ></div>
-            </label>
+            <div class="status">
+              <label class="switch" for="c" @click.prevent="handlePublish">
+                <input
+                  type="checkbox"
+                  name="mainSwitch"
+                  :checked="fomoInputs.status === 1"
+                />
+                <i></i>
+              </label>
+              <div>
+                {{ fomoInputs.status === 1 ? "Active" : "paused" }}
+              </div>
+            </div>
             <router-link :to="`/view/fomo/templates/${fomoId}`">
               <md-button class="md-raised">Change template</md-button>
             </router-link>
@@ -294,6 +294,12 @@
         </div>
       </div>
     </div>
+    <md-dialog-alert
+      :md-active.sync="newFomo"
+      md-title="Success"
+      md-content="FOMO created with default values"
+      md-confirm-text="Ok, Got it"
+    />
   </div>
 </template>
 <script>
@@ -480,7 +486,8 @@ export default {
       copyCode: `<script src="https://unpkg.com/vue" /> \n<script src="./am.js" /> \n<am-fomo id="${this.$route.params.fomoId}" />`,
       hasError: {},
       secondaryError: false,
-      dirty: false
+      dirty: false,
+      newFomo: false
     };
   },
   watch: {
@@ -704,6 +711,9 @@ export default {
     if (this.mainTab) {
       this.mainActiveTab = this.mainTab;
     }
+    if (this.$route.params.created) {
+      this.newFomo = true;
+    }
     this.fomoInputs = JSON.parse(JSON.stringify(this.fomoData));
     if (this.fomoId !== this.$route.params.fomoid) {
       this.updateFomoId(this.$route.params.fomoid);
@@ -728,8 +738,11 @@ export default {
   width: 100%;
 
   .linkBackBlock {
-    display: flex;
-    align-items: center;
+    &,
+    & + div {
+      display: flex;
+      align-items: center;
+    }
   }
 
   .title {
@@ -756,6 +769,13 @@ export default {
       border: 0;
       font-weight: bold;
       color: #fff;
+    }
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    div {
+      padding: 0 15px 0 6px;
     }
   }
 }

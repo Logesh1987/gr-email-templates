@@ -14,6 +14,19 @@
           {{ fomoData.name }}
         </div>
       </div>
+      <div class="status" v-if="fomoData">
+        <label class="switch" for="c" @click.prevent="handlePublish">
+          <input
+            type="checkbox"
+            name="mainSwitch"
+            :checked="fomoData.status === 1"
+          />
+          <i></i>
+        </label>
+        <div>
+          {{ fomoData.status === 1 ? "Active" : "paused" }}
+        </div>
+      </div>
     </div>
 
     <div class="container" v-if="fomoData">
@@ -218,6 +231,7 @@
   </div>
 </template>
 <script>
+import Axios from "axios";
 import { mapState, mapMutations } from "vuex";
 
 export default {
@@ -244,7 +258,37 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["updateFomoId", "toggleLoader", "updateApiResponse"])
+    ...mapMutations([
+      "updateFomoId",
+      "toggleLoader",
+      "updateApiResponse",
+      "updateFomoData"
+    ]),
+    handlePublish: function() {
+      const url = this.getApiUrl("fomo/updateStatus");
+      const params = {
+        id: this.fomoId,
+        status: this.fomoData.status == 0 ? 1 : 0
+      };
+      this.toggleLoader(true);
+      var msg = null;
+      Axios.post(url, this.createFormData(params))
+        .then(({ data }) => {
+          if (data.data.status === "success") {
+            msg = `<i class="fas fa-check-circle"></i> ${data.data.message}`;
+            this.updateFomoData({ ...this.fomoData, status: params.status });
+          } else {
+            msg = `<i class="fas fa-exclamation-circle"></i> ${data.data.message}`;
+          }
+          this.updateApiResponse(msg);
+        })
+        .catch(({ error }) => {
+          msg = `<i class="fas fa-exclamation-circle"></i> ${error.data.message}`;
+          this.updateApiResponse(msg);
+          console.log(error);
+        })
+        .finally(() => this.toggleLoader(false));
+    }
   },
   mounted: function() {
     if (this.fomoId !== this.$route.params.fomoid) {
@@ -263,18 +307,25 @@ export default {
   padding-top: 100px;
   justify-content: center;
   width: 100%;
+  .status {
+    display: inline-flex;
+    align-items: center;
+    div {
+      padding: 0 15px 0 6px;
+    }
+  }
   .container,
   .md-gutter {
     width: 100%;
   }
   .md-card {
     box-shadow: none;
-    border: 1px solid var(--stroke-grey);
+    background: transparent;
 
     .md-card-content {
       padding: 0;
       &:last-of-type {
-        padding-bottom: 24px;
+        padding-bottom: 10px;
       }
     }
   }
@@ -285,22 +336,23 @@ export default {
       margin-top: 0;
       color: #333;
     }
+    h2 {
+      margin-bottom: 25px;
+    }
     .innerConfigSection {
       .handBand {
         display: flex;
         align-items: baseline;
-        background: var(--main-blue);
-        padding: 16px;
-        margin-bottom: 16px;
-        border-bottom: 1px solid var(--stroke-grey);
-        color: #fff;
+        margin-bottom: 15px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.5);
         h3 {
-          color: #fff;
+          color: rgba(0, 0, 0, 0.5);
           flex: 100%;
           margin: 0;
         }
         a {
-          color: #fff;
+          color: rgba(0, 0, 0, 1);
         }
         .editIcn {
           text-align: right;
@@ -308,7 +360,7 @@ export default {
         }
       }
       ul {
-        margin: 0 15px;
+        margin: 0 10px;
         padding: 0;
         list-style: none;
       }

@@ -5,7 +5,10 @@
         <div class="active_fomo">
           <div class="fomoHeader">
             <div>
-              <h2>Fomo Prompts <small class="beta">Beta</small></h2>
+              <h2>
+                <i class="fal fa-fire"></i>Fomo Prompts
+                <small class="beta">Beta</small>
+              </h2>
               <p>Some text explains about this FOMO prompts can be here.</p>
               <!--<div class="statusBlock">
                 <div v-for="status in statuses" :key="status.count">
@@ -420,7 +423,8 @@ export default {
         this.$router.push({
           name: "EditFomo",
           params: {
-            fomoid: data.data.id
+            fomoid: data.data.id,
+            created: true
           }
         });
       });
@@ -490,6 +494,12 @@ export default {
       transform: translate(-0.6em, -1.7em);
       display: inline-block;
       line-height: 1;
+    }
+    i {
+      font-size: 0.9em;
+      display: inline-block;
+      margin-right: 5px;
+      transform: translateY(-3px);
     }
   }
 

@@ -10,7 +10,7 @@ import Vue from "vue";
 import VueMaterial from "vue-material";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
-import "@/assets/icon/fontawesome.min.css";
+// import "@/assets/icon/fontawesome.min.css";
 import mixins from "./mixins";
 
 Vue.use(VueMaterial);
@@ -351,7 +351,7 @@ export default {
   position: fixed;
   top: 0;
   display: flex;
-  z-index: 9999;
+  z-index: 1039;
   right: 0;
   left: 64px;
   justify-content: space-between;
