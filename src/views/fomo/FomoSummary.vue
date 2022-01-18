@@ -92,82 +92,6 @@
                         : "Has disabled Points Mode"
                     }}
                   </li>
-                  <li>
-                    {{
-                      rInfo.mode_instant == 1
-                        ? `Is providing Instant reward as ${
-                            rInfo.instant_reward_opt == 1
-                              ? "Coupon"
-                              : rInfo.instant_reward_opt == 3
-                              ? "Redirection link"
-                              : "Image Or Text"
-                          }`
-                        : "Has disabled Instant Reward"
-                    }}
-                  </li>
-                  <li
-                    v-if="
-                      rInfo.mode_instant == 1 && rInfo.instant_reward_opt == 1
-                    "
-                  >
-                    Is providing Coupons as
-                    {{
-                      rInfo.reward_type == "runique"
-                        ? "Automagic Coupons"
-                        : "Common Coupons"
-                    }}
-                  </li>
-                  <li
-                    v-if="
-                      rInfo.mode_instant == 1 &&
-                        rInfo.instant_reward_opt == 1 &&
-                        rInfo.reward_type == 'runique'
-                    "
-                  >
-                    Coupon type is
-                    {{
-                      rInfo.realtime_coupon_type == 1
-                        ? "Percentage off the order total"
-                        : rInfo.realtime_coupon_type == 2
-                        ? "Fixed amount off the order total"
-                        : "Free shipping"
-                    }}
-                  </li>
-                  <li
-                    v-if="
-                      rInfo.mode_instant == 1 &&
-                        rInfo.instant_reward_opt == 1 &&
-                        rInfo.reward_type == 'runique'
-                    "
-                  >
-                    Minimum spend value is {{ rInfo.currency
-                    }}{{ rInfo.realtime_min_order }}
-                  </li>
-                  <li
-                    v-if="
-                      rInfo.mode_instant == 1 &&
-                        rInfo.instant_reward_opt == 1 &&
-                        rInfo.reward_type == 'runique' &&
-                        rInfo.realtime_coupon_type !== 3
-                    "
-                  >
-                    Coupon value is
-                    {{
-                      rInfo.realtime_coupon_type == 1
-                        ? `${rInfo.realtime_coupon_value}%`
-                        : `${rInfo.currency}${rInfo.realtime_coupon_value}`
-                    }}
-                  </li>
-                  <li
-                    v-if="
-                      rInfo.mode_instant == 1 && rInfo.instant_reward_opt == 3
-                    "
-                  >
-                    Goto
-                    <a :href="rInfo.instant_reward_lnk" target="_blank"
-                      >Redirection URL</a
-                    >
-                  </li>
                 </ul>
               </div>
             </md-card-content>
@@ -189,13 +113,26 @@
                   </router-link>
                 </div>
                 <ul>
-                  <li>Visible to {{ dInfo.visible_to }}</li>
-                  <li>Displayed in {{ dInfo.show_on_page }} pages</li>
+                  <li>
+                    positioned at
+                    {{ fomoClanData.prompt_positions[dInfo.position] }}.
+                  </li>
+                  <li>Visible to {{ dInfo.visible_to }}.</li>
+                  <li>Displayed in {{ dInfo.show_on_page }} pages.</li>
                   <li v-if="dInfo.show_on_first_visit == 1">
-                    Displayed on first visit only
+                    Displayed on first visit only.
+                  </li>
+                  <li v-if="allowedCountries.length">
+                    visible only in countries {{ allowedCountries }}.
+                  </li>
+                  <li v-if="dInfo.scroll_percentage !== 0">
+                    visible only after {{ dInfo.scroll_percentage }}% scroll.
+                  </li>
+                  <li v-if="dInfo.seconds !== 0">
+                    visible only after {{ dInfo.seconds }} seconds.
                   </li>
                   <li v-if="fomoData.is_automatic === 1">
-                    Added to automatic queue
+                    Added to automatic queue.
                   </li>
                 </ul>
               </div>
@@ -244,12 +181,29 @@ export default {
     };
   },
   computed: {
-    ...mapState(["fomoId", "fomoType", "fomoData", "fomoTemplates"]),
+    ...mapState([
+      "fomoId",
+      "fomoType",
+      "fomoData",
+      "fomoTemplates",
+      "fomoClanData"
+    ]),
     rInfo: function() {
       return this.fomoData.reward_settings;
     },
     dInfo: function() {
       return this.fomoData.display_settings;
+    },
+    allowedCountries: function() {
+      if (
+        typeof this.fomoData.display_settings.allowed_countries !== "string"
+      ) {
+        return this.fomoData.display_settings.allowed_countries
+          .map(i => i.label)
+          .join(", ");
+      } else {
+        return "";
+      }
     },
     activeTemplate: function() {
       return this.fomoTemplates

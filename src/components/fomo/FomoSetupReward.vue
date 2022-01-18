@@ -280,10 +280,12 @@ export default {
     formData: {
       deep: true,
       handler: function(val) {
-        console.log(val.length);
-        val.mode_points && val.worth_entries && val.worth_entries > 0
-          ? delete this.formErrors["worth_entries"]
-          : (this.formErrors.worth_entries = "Invalid input");
+        console.log(val);
+        val.mode_points == 1
+          ? val.worth_entries && val.worth_entries > 0
+            ? delete this.formErrors["worth_entries"]
+            : (this.formErrors.worth_entries = "Invalid input")
+          : delete this.formErrors["worth_entries"];
 
         val.reward_type === 0
           ? val.instant_reward_cpn && val.instant_reward_cpn.length > 0
