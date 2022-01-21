@@ -9,10 +9,8 @@
 					"prod_image": {
 						"type": "file",
 						"label": "Product image",
-						"value": "upload/img/fomo/5_373_1626666134.jpg",
+						"value": "upload/img/fomo/5_489_1642757151.jpg",
 						"status": 1,
-						"url": "https://www.google.com/",
-						"url_status": 0,
 						"width": 450,
 						"height": 200,
 						"required": 0
@@ -20,20 +18,17 @@
 					"bg_color": {
 						"type": "color",
 						"label": "Background color",
-						"value": "#ffffff",
-						"required": 1
+						"value": "#ffffff"
 					},
 					"btn_color": {
 						"type": "color",
 						"label": "Button Background",
 						"value": "#ED4610",
-						"required": 1
 					},
 					"btn_txt_color": {
 						"type": "color",
 						"label": "Button Text Color",
-						"value": "#ffffff",
-						"required": 1
+						"value": "#454545",
 					},
 					"btn_text": {
 						"type": "text",
@@ -59,7 +54,7 @@
 						"status": 1,
 						"max_length": 3000,
 						"rows": 4,
-						"value": "OnePlus anniversary sale! <br>Limited edition special offers.",
+						"value": "New product release title",
 						"required": 1
 					},
 					"description": {
@@ -69,7 +64,7 @@
 						"status": 1,
 						"max_length": 3000,
 						"rows": 4,
-						"value": "Hurry! Starting at $1799!<br>Upto 6 months No Cost EMI!",
+						"value": "Description for the new product comes here",
 						"required": 0
 					},
 					"price": {
@@ -79,7 +74,7 @@
 						"status": 1,
 						"max_length": 3000,
 						"rows": 4,
-						"value": "<sup>$</sup>1024<sup>99</sup>",
+						"value": "<sup>$</sup>XXX<sup>xx</sup>",
 						"required": 0
 					}
 				}
@@ -96,10 +91,8 @@
 					"prod_image": {
 						"type": "file",
 						"label": "Product image",
-						"value": "upload/img/fomo/6_373_1626666797.png",
+						"value": "upload/img/fomo/5_489_1642757151.png",
 						"status": 1,
-						"url": "https://www.google.com/",
-						"url_status": 0,
 						"width": 450,
 						"height": 450,
 						"required": 0
@@ -113,7 +106,7 @@
 					"btn_color": {
 						"type": "color",
 						"label": "Button Background",
-						"value": "#10BDED",
+						"value": "#454545",
 						"required": 1
 					},
 					"btn_txt_color": {
@@ -146,7 +139,7 @@
 						"status": 1,
 						"max_length": 3000,
 						"rows": 4,
-						"value": "OnePlus anniversary sale! <br>Limited edition special offers.",
+						"value": "New product release title",
 						"required": 1
 					},
 					"description": {
@@ -156,7 +149,7 @@
 						"status": 1,
 						"max_length": 3000,
 						"rows": 4,
-						"value": "Hurry! Starting at $1799!<br>Upto 6 months No Cost EMI!",
+						"value": "Description for the new product comes here",
 						"required": 0
 					},
 					"price": {
@@ -166,7 +159,7 @@
 						"status": 1,
 						"max_length": 3000,
 						"rows": 4,
-						"value": "<sup>$</sup>1024<sup>99</sup>",
+						"value": "<sup>$</sup>XXX<sup>xx</sup>",
 						"required": 0
 					}
 				}
@@ -183,7 +176,7 @@
 					"prod_image": {
 						"type": "file",
 						"label": "Product image",
-						"value": "upload/img/fomo/5_373_1626666134.jpg",
+						"value": "upload/img/fomo/5_489_1642757151.jpg",
 						"status": 1,
 						"url": "https://www.google.com/",
 						"url_status": 0,
@@ -200,7 +193,7 @@
 					"btn_color": {
 						"type": "color",
 						"label": "Button Background",
-						"value": "#21C6FF",
+						"value": "#454545",
 						"required": 1
 					},
 					"btn_txt_color": {
@@ -233,7 +226,7 @@
 						"status": 1,
 						"max_length": 3000,
 						"rows": 4,
-						"value": "OnePlus anniversary sale! <br>Limited edition special offers.",
+						"value": "New product release title",
 						"required": 1
 					},
 					"description": {
@@ -243,7 +236,7 @@
 						"status": 1,
 						"max_length": 3000,
 						"rows": 4,
-						"value": "Hurry! Starting at $1799!<br>Upto 6 months No Cost EMI!",
+						"value": "Description for the new product comes here",
 						"required": 0
 					},
 					"price": {
@@ -253,7 +246,7 @@
 						"status": 1,
 						"max_length": 3000,
 						"rows": 4,
-						"value": "<sup>$</sup>1024<sup>99</sup>",
+						"value": "<sup>$</sup>XXX<sup>xx</sup>",
 						"required": 0
 					}
 				}
@@ -270,7 +263,7 @@
 					"prod_image": {
 						"type": "file",
 						"label": "Product image",
-						"value": "upload/img/fomo/8_373_1626666995.jpg",
+						"value": "upload/img/fomo/8_489_1642757442.jpg",
 						"status": 1,
 						"url": "https://www.google.com/",
 						"url_status": 0,
@@ -287,7 +280,7 @@
 					"btn_color": {
 						"type": "color",
 						"label": "Button Background",
-						"value": "#030303",
+						"value": "#454545",
 						"required": 1
 					},
 					"btn_txt_color": {
@@ -320,7 +313,7 @@
 						"status": 1,
 						"max_length": 3000,
 						"rows": 4,
-						"value": "<div><strong>Best Online Photography Classes</strong></div>",
+						"value": "<strong>New product release title</strong>",
 						"required": 1
 					},
 					"description": {
@@ -330,7 +323,7 @@
 						"status": 1,
 						"max_length": 3000,
 						"rows": 4,
-						"value": "<ul><li>New Live Sessions<br>Starting Soon !!!<br><br></li><li>Schedule of 6 Days<br>4 Theories + 2 Practicals</li></ul>",
+						"value": "Description for the new product comes here",
 						"required": 0
 					},
 					"price": {
@@ -340,7 +333,7 @@
 						"status": 1,
 						"max_length": 3000,
 						"rows": 4,
-						"value": "<div><sup style=\"font-size: 0.3em;\">starts from</sup><sup> </sup>1050<sup>$</sup></div>",
+						"value": "<div><sup style=\"font-size: 0.3em;\">starts from</sup><sup> </sup>XXXX<sup>$</sup></div>",
 						"required": 0
 					}
 				}
