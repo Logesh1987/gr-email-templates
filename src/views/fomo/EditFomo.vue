@@ -483,7 +483,7 @@ export default {
       quillEditor: {},
       eOptions: options,
       fomoInputs: null,
-      copyCode: `<script src="https://unpkg.com/vue" /> \n<script src="./am.js" /> \n<am-fomo id="${this.$route.params.fomoId}" />`,
+      copyCode: `<script src="https://unpkg.com/vue" /> \n<script src="./am.js" /> \n<am-fomo id="${this.$route.params.fomoid}" />`,
       hasError: {},
       secondaryError: false,
       dirty: false,
