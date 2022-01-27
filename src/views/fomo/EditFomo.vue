@@ -483,7 +483,7 @@ export default {
       quillEditor: {},
       eOptions: options,
       fomoInputs: null,
-      copyCode: `<script src="https://unpkg.com/vue" /> \n<script src="./am.js" /> \n<am-fomo id="${this.$route.params.fomoid}" />`,
+      copyCode: `<script src="https://unpkg.com/vue@2.6.14/dist/vue.js"><\/script><script src="${Vue.prototype.$asset_url}/assets/js/fomo/am.js"><\/script><am-fomo id="${this.$route.params.fomoid}" />`,// eslint-disable-line
       hasError: {},
       secondaryError: false,
       dirty: false,
@@ -999,6 +999,7 @@ export default {
       color: #66788a;
       pre {
         white-space: pre-line;
+        word-break: break-all;
         margin: 0;
       }
     }
