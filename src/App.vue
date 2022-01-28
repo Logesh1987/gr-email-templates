@@ -9,11 +9,11 @@
 // import Home from "@/views/Home.vue";
 import Vue from "vue";
 import VueMaterial from "vue-material";
+import VueQuillEditor from "vue-quill-editor";
+
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
 import "@/assets/icon/fontawesome.min.css";
-import VueQuillEditor from "vue-quill-editor";
-
 import "quill/dist/quill.core.css"; // import styles
 import "quill/dist/quill.snow.css"; // for snow theme
 import "quill/dist/quill.bubble.css"; // for bubble theme
@@ -68,6 +68,12 @@ export default {
 </script>
 
 <style lang="less">
+@import url("./assets/styles/reset.css");
+@import url("./assets/fonts/poppins.css");
+@import url("./assets/icon/fontawesome.min.css");
+* {
+  font-family: "Poppins", sans-serif !important;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
