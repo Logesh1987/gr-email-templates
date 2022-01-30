@@ -1,6 +1,6 @@
 <template>
   <div class="embedLanding">
-    <div class="noCampaignWrapper">
+    <div class="noCampaignWrapper" style="display:none;">
       <h3 class="heading">No Embed Campaign Page created</h3>
       <h5 class="SubHeading">Create your own custom campaign page design</h5>
       <figure class="campaign-img"></figure>
@@ -8,7 +8,7 @@
         >Create Campaign Page</md-button
       >
     </div>
-    <div class="campaignWrapper" style="display:none;">
+    <div class="campaignWrapper">
       <header class="pageHeader">
         <i class="fal fa-laptop-code"></i>
         Embed Campaign
@@ -36,7 +36,6 @@
 <script>
 import axios from "axios";
 import Footer from "../../components/Footer.vue";
-
 export default {
   name: "EmailListing",
   components: {
@@ -114,11 +113,16 @@ export default {
       .leftArea {
         width: 70%;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
+        > * {
+          margin: 0 20px;
+        }
         .searchBox {
           width: 350px;
           margin: 0;
+          position: relative;
+          top: -10px;
         }
       }
       .rightArea {
