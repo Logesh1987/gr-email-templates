@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- <link rel="stylesheet" href="https://gr-v1.devam.pro/public/assets/css/lib/fontawesome.min.css?v=1613393918"> -->
     <router-view />
   </div>
 </template>
@@ -10,10 +9,10 @@
 import Vue from "vue";
 import VueMaterial from "vue-material";
 import VueQuillEditor from "vue-quill-editor";
+import moment from "moment";
 
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
-import "@/assets/icon/fontawesome.min.css";
 import "quill/dist/quill.core.css"; // import styles
 import "quill/dist/quill.snow.css"; // for snow theme
 import "quill/dist/quill.bubble.css"; // for bubble theme
@@ -59,6 +58,9 @@ Vue.mixin({
         return `${Vue.prototype.$callback_url}/${url}`;
       }
     },
+    moment: function(date) {
+      return moment(date);
+    },
   },
 });
 
@@ -70,7 +72,6 @@ export default {
 <style lang="less">
 @import url("./assets/styles/reset.css");
 @import url("./assets/fonts/poppins.css");
-@import url("./assets/icon/fontawesome.min.css");
 * {
   font-family: "Poppins", sans-serif !important;
 }

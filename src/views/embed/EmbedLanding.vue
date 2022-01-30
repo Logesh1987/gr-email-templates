@@ -10,7 +10,7 @@
     </div>
     <div class="campaignWrapper">
       <header class="pageHeader">
-        <i class="fal fa-laptop-code"></i>
+        <i class="fa fa-laptop-code"></i>
         Embed Campaign
       </header>
       <header class="subPageHeadder">
@@ -27,6 +27,41 @@
           >
         </div>
       </header>
+      <md-table v-model="users" md-card>
+        <md-table-row slot="md-table-row" slot-scope="{ item }">
+          <md-table-cell
+            md-label="Version Description"
+            md-sort-by="vDescription"
+            >{{ item.vDescription }}
+            <i class="fas fa-pen editIcon"></i>
+          </md-table-cell>
+          <md-table-cell md-label="Created On" md-sort-by="createdOn">{{
+            moment(item.createdOn).format("DD MMM YYYY h:mm A")
+          }}</md-table-cell>
+          <md-table-cell md-label="Updated By" md-sort-by="updatedBy">{{
+            item.updatedBy
+          }}</md-table-cell>
+          <md-table-cell md-label="Updated On" md-sort-by="updatedOn">{{
+            moment(item.updatedOn).format("DD MMM YYYY h:mm A")
+          }}</md-table-cell>
+          <md-table-cell md-label="Status" md-sort-by="status">
+            <md-button class="md-raised primaryBtn statusBtn">{{
+              item.status
+            }}</md-button></md-table-cell
+          >
+          <md-table-cell md-label="Action" md-sort-by="title">
+            <md-button class="md-icon-button md-raised actionButton">
+              <i class="far fa-edit"></i> </md-button
+            ><md-button class="md-icon-button md-raised actionButton">
+              <i class="far fa-copy"></i> </md-button
+            ><md-button class="md-icon-button md-raised actionButton">
+              <i class="far fa-eye"></i> </md-button
+            ><md-button class="md-icon-button md-raised actionButton">
+              <i class="far fa-trash-alt"></i>
+            </md-button>
+          </md-table-cell>
+        </md-table-row>
+      </md-table>
     </div>
 
     <Footer />
@@ -45,6 +80,43 @@ export default {
     return {
       message: "",
       searchText: "",
+      users: [
+        {
+          vDescription: "new year template",
+          createdOn: "12/28/2019",
+          updatedBy: "sdubbin0@geocities.com",
+          updatedOn: "04/15/2021",
+          status: "active",
+        },
+        {
+          vDescription: "Version description 2",
+          createdOn: "7/19/2020",
+          updatedBy: "sdubbin0@geocities.com",
+          updatedOn: "1/21/2022",
+          status: "restore",
+        },
+        {
+          vDescription: "Version description 3",
+          createdOn: "2/18/2020",
+          updatedBy: "sdubbin0@geocities.com",
+          updatedOn: "7/25/2021",
+          status: "unpublished",
+        },
+        {
+          vDescription: "Version description 4",
+          createdOn: "11/14/2019",
+          updatedBy: "sdubbin0@geocities.com",
+          updatedOn: "09/23/2021",
+          status: "unpublished",
+        },
+        {
+          vDescription: "Version description 5",
+          createdOn: "07/20/2021",
+          updatedBy: "sdubbin0@geocities.com",
+          updatedOn: "01/15/2022",
+          status: "restore",
+        },
+      ],
     };
   },
   mixins: ["createFormData"],
@@ -131,6 +203,15 @@ export default {
         justify-content: flex-end;
       }
     }
+  }
+  .editIcon {
+    margin: 0 20px;
+  }
+  .actionButton {
+    margin-right: 10px;
+  }
+  .statusBtn {
+    min-width: 130px;
   }
 }
 </style>
