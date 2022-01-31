@@ -27,7 +27,7 @@
           >
         </div>
       </header>
-      <md-table v-model="users" md-card>
+      <md-table v-model="users" class="versionTable">
         <md-table-row slot="md-table-row" slot-scope="{ item }">
           <md-table-cell
             md-label="Version Description"
@@ -45,7 +45,7 @@
             moment(item.updatedOn).format("DD MMM YYYY h:mm A")
           }}</md-table-cell>
           <md-table-cell md-label="Status" md-sort-by="status">
-            <md-button class="md-raised primaryBtn statusBtn">{{
+            <md-button class="md-raised statusBtn" v-bind:class="item.status">{{
               item.status
             }}</md-button></md-table-cell
           >
@@ -204,14 +204,30 @@ export default {
       }
     }
   }
-  .editIcon {
-    margin: 0 20px;
-  }
-  .actionButton {
-    margin-right: 10px;
-  }
-  .statusBtn {
-    min-width: 130px;
+  .versionTable {
+    .md-table-head {
+      background-color: #f0f0f0;
+    }
+    .md-table-row:nth-child(2n) {
+      background-color: #f0f0f0;
+    }
+    .editIcon {
+      margin: 0 20px;
+    }
+    .actionButton {
+      margin-right: 10px;
+    }
+    .statusBtn {
+      min-width: 130px;
+      &.active {
+        background-color: @primaryColor !important;
+        color: #fff !important;
+      }
+      &.unpublished {
+        background-color: @secondaryColor !important;
+        color: #fff !important;
+      }
+    }
   }
 }
 </style>
