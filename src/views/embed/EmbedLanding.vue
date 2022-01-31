@@ -1,6 +1,6 @@
 <template>
   <div class="embedLanding">
-    <div class="noCampaignWrapper" style="display:none;">
+    <div class="noCampaignWrapper">
       <h3 class="heading">No Embed Campaign Page created</h3>
       <h5 class="SubHeading">Create your own custom campaign page design</h5>
       <figure class="campaign-img"></figure>
@@ -50,13 +50,25 @@
             }}</md-button></md-table-cell
           >
           <md-table-cell md-label="Action" md-sort-by="title">
-            <md-button class="md-icon-button md-raised actionButton">
+            <md-button
+              class="md-icon-button md-raised actionButton"
+              :md-ripple="false"
+            >
               <i class="far fa-edit"></i> </md-button
-            ><md-button class="md-icon-button md-raised actionButton">
+            ><md-button
+              class="md-icon-button md-raised actionButton"
+              :md-ripple="false"
+            >
               <i class="far fa-copy"></i> </md-button
-            ><md-button class="md-icon-button md-raised actionButton">
+            ><md-button
+              class="md-icon-button md-raised actionButton"
+              :md-ripple="false"
+            >
               <i class="far fa-eye"></i> </md-button
-            ><md-button class="md-icon-button md-raised actionButton">
+            ><md-button
+              class="md-icon-button md-raised actionButton"
+              :md-ripple="false"
+            >
               <i class="far fa-trash-alt"></i>
             </md-button>
           </md-table-cell>
@@ -213,6 +225,7 @@ export default {
     }
     .editIcon {
       margin: 0 20px;
+      cursor: pointer;
     }
     .actionButton {
       margin-right: 10px;
