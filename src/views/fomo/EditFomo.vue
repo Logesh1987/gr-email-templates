@@ -18,7 +18,7 @@
           </div>
           <div>
             <div class="status">
-              <label class="switch" for="c" @click.prevent="handlePublish">
+              <label class="switch" for="c" @click.prevent="handleFomoStatus">
                 <input
                   type="checkbox"
                   name="mainSwitch"
@@ -30,9 +30,6 @@
                 {{ fomoInputs.status === 1 ? "Active" : "paused" }}
               </div>
             </div>
-            <router-link :to="`/view/fomo/templates/${fomoId}`">
-              <md-button class="md-raised">Change template</md-button>
-            </router-link>
             <md-button
               class="md-raised md-accent"
               :disabled="Object.keys(hasError).length > 0 || secondaryError"
@@ -101,13 +98,33 @@
                           <h3>
                             {{ control.label }}
                           </h3>
-                          <CustomVariables
-                            v-if="control.show_dynamic_variables"
-                            :data="dVars"
-                            :name="name"
-                            :index="key"
-                            :click="appendVarToKey"
-                          />
+                          <div>
+                            <label
+                              :for="`view-${key}-${name}`"
+                              :class="
+                                `showHide fas fa-eye${
+                                  control.status == 0 ? '-slash' : ''
+                                }`
+                              "
+                              @click="control.status == 0 ? 1 : 0"
+                            >
+                              <input
+                                type="checkbox"
+                                :true-value="1"
+                                :false-value="0"
+                                v-model="control.status"
+                                :id="`view-${key}-${name}`"
+                              />
+                              <md-tooltip md-direction="right">Hide</md-tooltip>
+                            </label>
+                            <CustomVariables
+                              v-if="control.show_dynamic_variables"
+                              :data="dVars"
+                              :name="name"
+                              :index="key"
+                              :click="appendVarToKey"
+                            />
+                          </div>
                         </div>
                         <div class="relative">
                           <input
@@ -118,23 +135,6 @@
                             v-model="control.value"
                             @keyup="checkforError(control, name)"
                           />
-                          <label
-                            :for="`view-${key}-${name}`"
-                            :class="
-                              `showHide fas fa-eye${
-                                control.status == 0 ? '-slash' : ''
-                              }`
-                            "
-                            @click="control.status == 0 ? 1 : 0"
-                          >
-                            <input
-                              type="checkbox"
-                              :true-value="1"
-                              :false-value="0"
-                              v-model="control.status"
-                              :id="`view-${key}-${name}`"
-                            />
-                          </label>
                         </div>
                         <small v-if="hasError[name]" class="fieldError">
                           This field cannot be empty
@@ -145,13 +145,33 @@
                           <h3>
                             {{ control.label }}
                           </h3>
-                          <CustomVariables
-                            v-if="control.show_dynamic_variables"
-                            :data="dVars"
-                            :name="name"
-                            :index="key"
-                            :click="appendVarToKey"
-                          />
+                          <div>
+                            <label
+                              :for="`view-${key}-${name}`"
+                              :class="
+                                `showHide fas fa-eye${
+                                  control.status == 0 ? '-slash' : ''
+                                }`
+                              "
+                              @click="control.status == 0 ? 1 : 0"
+                            >
+                              <input
+                                type="checkbox"
+                                :true-value="1"
+                                :false-value="0"
+                                v-model="control.status"
+                                :id="`view-${key}-${name}`"
+                              />
+                              <md-tooltip md-direction="right">Hide</md-tooltip>
+                            </label>
+                            <CustomVariables
+                              v-if="control.show_dynamic_variables"
+                              :data="dVars"
+                              :name="name"
+                              :index="key"
+                              :click="appendVarToKey"
+                            />
+                          </div>
                         </div>
                         <div class="relative">
                           <quillEditor
@@ -161,23 +181,6 @@
                             @change="onEditorChange($event, control, name)"
                             :ref="`${key}-${name}`"
                           ></quillEditor>
-                          <label
-                            :for="`view-${key}-${name}`"
-                            :class="
-                              `showHide fas fa-eye${
-                                control.status == 0 ? '-slash' : ''
-                              }`
-                            "
-                            @click="control.status == 0 ? 1 : 0"
-                          >
-                            <input
-                              type="checkbox"
-                              :true-value="1"
-                              :false-value="0"
-                              v-model="control.status"
-                              :id="`view-${key}-${name}`"
-                            />
-                          </label>
                         </div>
                         <small v-if="hasError[name]" class="fieldError">
                           This field cannot be empty
@@ -193,6 +196,26 @@
                               ></i
                             >
                           </h3>
+                          <div>
+                            <label
+                              :for="`view-${key}-${name}`"
+                              :class="
+                                `showHide fas fa-eye${
+                                  control.status == 0 ? '-slash' : ''
+                                }`
+                              "
+                              @click="control.status == 0 ? 1 : 0"
+                            >
+                              <input
+                                type="checkbox"
+                                :true-value="1"
+                                :false-value="0"
+                                v-model="control.status"
+                                :id="`view-${key}-${name}`"
+                              />
+                              <md-tooltip md-direction="right">Hide</md-tooltip>
+                            </label>
+                          </div>
                         </div>
                         <div class="relative">
                           <ImgUploadPreview
@@ -202,23 +225,6 @@
                             "
                             :data="control"
                           />
-                          <label
-                            :for="`view-${key}-${name}`"
-                            :class="
-                              `showHide fas fa-eye${
-                                control.status == 0 ? '-slash' : ''
-                              }`
-                            "
-                            @click="control.status == 0 ? 1 : 0"
-                          >
-                            <input
-                              type="checkbox"
-                              :true-value="1"
-                              :false-value="0"
-                              v-model="control.status"
-                              :id="`view-${key}-${name}`"
-                            />
-                          </label>
                         </div>
                       </div>
                       <div v-if="control.type == 'color'" class="colorPick">
@@ -264,8 +270,11 @@
           <div class="preview_block-title">
             <h2>Fomo Preview</h2>
             <div class="previewBlockBtn">
+              <router-link :to="`/view/fomo/templates/${fomoId}`">
+                <md-button class="md-raised">Change template</md-button>
+              </router-link>
               <md-button
-                class="md-raised btn-default"
+                class="md-raised btn-default ml-10"
                 v-on:click="embedCode = !embedCode"
                 >Embed</md-button
               >
@@ -299,6 +308,15 @@
       md-title="Success"
       md-content="FOMO created with default values"
       md-confirm-text="Ok, Got it"
+    />
+    <md-dialog-confirm
+      :md-active.sync="pauseFomoPrompt"
+      md-title="Are you sure ?"
+      md-content="Are you sure to pause this FOMO"
+      md-cancel-text="Cancel"
+      md-confirm-text="Proceed"
+      @md-cancel="pauseFomoPrompt = false"
+      @md-confirm="handlePublish"
     />
   </div>
 </template>
@@ -483,11 +501,12 @@ export default {
       quillEditor: {},
       eOptions: options,
       fomoInputs: null,
-      copyCode: `<script src="https://unpkg.com/vue@2.6.14/dist/vue.js"><\/script><script src="${Vue.prototype.$asset_url}/assets/js/fomo/am.js"><\/script><am-fomo id="${this.$route.params.fomoid}" />`,// eslint-disable-line
+      copyCode: `<script src="https://unpkg.com/vue"><\/script><script src="${Vue.prototype.$asset_url}/assets/js/fomo/am.js"><\/script><am-fomo id="${this.$route.params.fomoid}" />`, // eslint-disable-line
       hasError: {},
       secondaryError: false,
       dirty: false,
-      newFomo: false
+      newFomo: false,
+      pauseFomoPrompt: false
     };
   },
   watch: {
@@ -645,6 +664,10 @@ export default {
         const position = this.quillEditor[name] || 0;
         comp.quill.insertText(position, item);
       }
+    },
+    handleFomoStatus: function() {
+      if (this.fomoInputs.status == 0) this.handlePublish();
+      else this.pauseFomoPrompt = true;
     },
     handlePublish: function() {
       const url = this.getApiUrl("fomo/updateStatus");
@@ -804,10 +827,15 @@ export default {
   ::v-deep {
     .md-tabs-indicator {
       height: 100%;
+      --md-theme-default-primary-on-background: #333;
     }
     .md-tabs-navigation {
-      border: 1px solid var(--main-blue);
+      border: 1px solid var(--stroke-grey);
       margin-top: 20px;
+    }
+    .md-tab-nav-button {
+      height: 35px;
+      color: #333 !important;
     }
     .md-active {
       color: #fff !important;
@@ -826,10 +854,9 @@ export default {
 }
 .showHide {
   cursor: pointer;
-  position: absolute;
-  margin: 7px;
-  right: 0;
-  top: 0;
+  margin: 0 3px;
+  display: inline-block;
+  vertical-align: middle;
   input {
     opacity: 0;
     position: absolute;
@@ -892,6 +919,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: 15px;
     .md-checkbox::v-deep {
       margin: 0 5px 0 0;
       .md-checkbox-container {
@@ -906,15 +934,20 @@ export default {
       }
     }
     h3 {
-      color: #007aff;
+      color: rgba(0, 0, 0, 0.6);
       font-size: 14px;
-      line-height: 1;
+      line-height: 0.9;
       display: flex;
       align-items: center;
+      font-weight: 400;
+      margin: 0 0 8px;
     }
     .md-menu {
       line-height: 0.9;
-      margin: 10px 0;
+      margin: 0 0 8px;
+    }
+    > div {
+      color: rgba(0, 0, 0, 0.6);
     }
   }
 
@@ -1001,6 +1034,9 @@ export default {
         white-space: pre-line;
         word-break: break-all;
         margin: 0;
+        padding: 0;
+        background: transparent;
+        border: none;
       }
     }
 

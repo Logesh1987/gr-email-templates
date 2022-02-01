@@ -306,7 +306,8 @@ export default {
           margin: 0;
         }
         a {
-          color: rgba(0, 0, 0, 1);
+          color: rgba(0, 0, 0, 0.5);
+          font-size: 1.2em;
         }
         .editIcn {
           text-align: right;
@@ -321,8 +322,9 @@ export default {
       li {
         position: relative;
         padding-left: 20px;
+        margin-bottom: 5px;
         &:before {
-          color: #52c509;
+          color: rgba(0, 0, 0, 0.5);
           content: "\f00c";
           font-family: "Font Awesome 5 Pro";
           font-weight: 600;
@@ -372,14 +374,11 @@ export default {
           position: absolute;
           right: 0;
           top: 0;
-          background: #52c509;
+          background: #0ec25e;
           padding: 0.4em 1.2em 0.6em 1.6em;
           font-style: normal;
-          font-weight: 600;
           color: #fff;
-          border-radius: 0 0 0 1em;
           box-shadow: -0.5em 0.5em 1.5em rgba(0, 0, 0, 0.5);
-          text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
         }
       }
       &-info {

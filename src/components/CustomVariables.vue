@@ -1,10 +1,9 @@
 <template>
   <md-menu md-direction="bottom-end" :mdCloseOnClick="true">
     <a class="dLink" md-menu-trigger>
-      <span>Insert Dynamic Variable</span>
-      <i class="fas fa-question-circle">
+      <i class="fas fa-code">
         <md-tooltip md-direction="right">
-          Dynamic variables tooltip text
+          Insert Dynamic variables
         </md-tooltip>
       </i>
     </a>
@@ -42,6 +41,7 @@ export default {
   font-size: 0.8em;
   font-weight: 400;
   cursor: pointer;
+  color: inherit !important;
   display: flex;
   align-items: center;
   text-decoration: none !important;

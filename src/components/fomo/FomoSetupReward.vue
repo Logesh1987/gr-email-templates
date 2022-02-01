@@ -442,12 +442,12 @@ span.status-btn {
   }
   .head {
     padding: 0 20px;
-    color: #fff;
+    color: #333;
     font-weight: bold;
     border-bottom: 1px solid var(--stroke-grey);
-    background: var(--main-blue);
+    background: #ddd;
     ::v-deep {
-      --md-theme-default-background: var(--main-blue);
+      --md-theme-default-background: #333;
       .md-checkbox-container {
         border-color: transparent;
         background: #fff;
@@ -460,7 +460,7 @@ span.status-btn {
       }
       .soon {
         float: right;
-        margin: 1.1em;
+        margin: 1.2em 0;
       }
     }
   }

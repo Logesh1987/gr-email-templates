@@ -892,7 +892,12 @@ export default {
         margin-bottom: 0;
         td {
           background-color: #fff;
+          height: 50px;
         }
+      }
+      a {
+        color: #333;
+        font-size: 1.1em;
       }
     }
   }
@@ -903,7 +908,7 @@ export default {
   }
   .md-tab-nav-button {
     font-size: 13px;
-    height: 38px;
+    height: 55px;
     color: var(--main-blue) !important;
     max-width: 100% !important;
   }

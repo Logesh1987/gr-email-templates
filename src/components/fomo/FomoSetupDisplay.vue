@@ -1,37 +1,51 @@
 <template>
   <div>
     <h2 class="mt-20">Display Setup</h2>
-    <div class="displaySetting fullDiv visibleTo" style="margin-top: 20px">
-      <label class="switch small mr-10" for="is_automatic">
-        <input
-          type="checkbox"
-          name="mainSwitch"
-          id="is_automatic"
-          :checked="automatic == 1"
-          @change="updateAutomatic"
-        />
-        <i></i>
-      </label>
-      Add to automatic queue
-      <i class="ml-10 fas fa-info-circle">
-        <md-tooltip>More info about stack </md-tooltip>
-      </i>
-    </div>
-    <div class="displaySetting fullDiv visibleTo" style="margin-top: 20px">
-      <h6 class="bLabel noBG">position:</h6>
-      <div>
-        <md-field class="noMinHeight m-0 p-0">
-          <md-select v-model="formData.position" name="position">
-            <md-option
-              :value="key"
-              v-for="(name, key) in content.prompt_positions"
-              :key="key"
-              >{{ name }}</md-option
-            >
-          </md-select>
-        </md-field>
+    <div class="fullDiv">
+      <h6 class="bLabel">Setup Positioning</h6>
+      <md-field class="noMinHeight mb-0 mt-20">
+        <label for="position">Position</label>
+        <md-select v-model="formData.position" id="position" name="position">
+          <md-option
+            :value="key"
+            v-for="(name, key) in content.prompt_positions"
+            :key="key"
+            >{{ name }}</md-option
+          >
+        </md-select>
+      </md-field>
+      <div class="display-flex hv-position justify-content-space-between">
+        <div class="form-group display-flex">
+          <md-field
+            :class="{ 'md-invalid': formErrors.horizontal, 'mt-20': true }"
+          >
+            <label>Horizontal Position (px)</label>
+            <md-input
+              v-model="formData.horizontal"
+              type="number"
+              required
+            ></md-input>
+            <span class="md-suffix">pixels</span>
+            <span class="md-error" v-if="formErrors.horizontal">{{
+              formErrors.horizontal
+            }}</span>
+          </md-field>
+        </div>
+        <div class="form-group display-flex">
+          <md-field
+            :class="{ 'md-invalid': formErrors.vertical, 'mt-20': true }"
+          >
+            <label>Vertical Position (px)</label>
+            <md-input v-model="formData.vertical" type="number"></md-input>
+            <span class="md-suffix">pixels</span>
+            <span class="md-error" v-if="formErrors.vertical">{{
+              formErrors.vertical
+            }}</span>
+          </md-field>
+        </div>
       </div>
     </div>
+    <h2 data-v-20638218="" class="mt-20 pt-10">Display Rules</h2>
     <div class="displaySetting fullDiv visibleTo">
       <h6 class="bLabel noBG">Visible to:</h6>
       <div>
@@ -69,39 +83,6 @@
               show the widget on the page(s) or page name
             </span>
           </small>
-        </div>
-      </div>
-      <div class="fullDiv">
-        <h6 class="bLabel">Setup Positioning</h6>
-        <div class="display-flex hv-position justify-content-space-between">
-          <div class="form-group display-flex">
-            <md-field
-              :class="{ 'md-invalid': formErrors.horizontal, 'mt-20': true }"
-            >
-              <label>Horizontal Position (px)</label>
-              <md-input
-                v-model="formData.horizontal"
-                type="number"
-                required
-              ></md-input>
-              <span class="md-suffix">pixels</span>
-              <span class="md-error" v-if="formErrors.horizontal">{{
-                formErrors.horizontal
-              }}</span>
-            </md-field>
-          </div>
-          <div class="form-group display-flex">
-            <md-field
-              :class="{ 'md-invalid': formErrors.vertical, 'mt-20': true }"
-            >
-              <label>Vertical Position (px)</label>
-              <md-input v-model="formData.vertical" type="number"></md-input>
-              <span class="md-suffix">pixels</span>
-              <span class="md-error" v-if="formErrors.vertical">{{
-                formErrors.vertical
-              }}</span>
-            </md-field>
-          </div>
         </div>
       </div>
     </div>
@@ -176,6 +157,22 @@
           </span>
         </small>
       </div>
+    </div>
+    <div class="displaySetting fullDiv visibleTo" style="margin-top: 20px">
+      <label class="switch small mr-10" for="is_automatic">
+        <input
+          type="checkbox"
+          name="mainSwitch"
+          id="is_automatic"
+          :checked="automatic == 1"
+          @change="updateAutomatic"
+        />
+        <i></i>
+      </label>
+      Add to automatic queue
+      <i class="ml-10 fas fa-info-circle">
+        <md-tooltip>More info about stack </md-tooltip>
+      </i>
     </div>
   </div>
 </template>
@@ -267,15 +264,14 @@ export default {
 .bLabel {
   font-size: 1.1em;
   font-weight: 600;
-  color: #fff;
+  color: #333;
   margin: 0;
-  background: var(--main-blue);
+  background: #ddd;
   padding: 10px;
   margin: -10px -10px 0;
   border-bottom: 1px solid var(--stroke-grey);
   &.noBG {
     background: none;
-    color: var(--main-blue);
     padding: 0;
     margin: 0;
     border-bottom: 0;
@@ -316,9 +312,8 @@ export default {
 .text-info {
   line-height: 1.1;
   i {
-    font-size: 1.6em;
-    padding-right: 10px;
-    color: var(--main-blue);
+    font-size: 1.4em;
+    padding-right: 5px;
     transform: translateY(-0.2em);
   }
 }
