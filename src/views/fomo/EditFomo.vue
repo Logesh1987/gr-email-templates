@@ -318,6 +318,15 @@
       @md-cancel="pauseFomoPrompt = false"
       @md-confirm="handlePublish"
     />
+    <md-dialog-confirm
+      :md-active.sync="publishFomoPrompt"
+      md-title="Your FOMO is inactive"
+      md-content="Do you want to publish ?"
+      md-cancel-text="NO"
+      md-confirm-text="Publish"
+      @md-cancel="publishFomoPrompt = false"
+      @md-confirm="handlePublish"
+    />
   </div>
 </template>
 <script>
@@ -506,7 +515,8 @@ export default {
       secondaryError: false,
       dirty: false,
       newFomo: false,
-      pauseFomoPrompt: false
+      pauseFomoPrompt: false,
+      publishFomoPrompt: false
     };
   },
   watch: {
@@ -656,7 +666,7 @@ export default {
         const text =
           comp.value.slice(0, index) + item + comp.value.slice(index);
         comp.value = text;
-        const dataRef = this.fomoData.settings.find(
+        const dataRef = this.fomoData.template_settings.settings.find(
           item => item.type == this.activeTab
         );
         if (dataRef) dataRef.attributes[name].value = text;
@@ -695,7 +705,7 @@ export default {
         })
         .finally(() => this.toggleLoader(false));
     },
-    handleSave: function(status) {
+    handleSave: function() {
       const url = this.getApiUrl(`fomo/updateFOMODetails`);
       this.toggleLoader(true);
       const params = {
@@ -703,7 +713,7 @@ export default {
         id_template: this.fomoInputs.id_template,
         is_automatic: this.fomoInputs.is_automatic,
         name: this.fomoInputs.name,
-        status: status ? 1 : this.fomoInputs.status,
+        status: this.fomoInputs.status,
         display_settings: JSON.stringify(this.fomoInputs.display_settings),
         template_settings: JSON.stringify(this.fomoInputs.template_settings)
       };
@@ -719,6 +729,7 @@ export default {
           msg = `<i class="fas fa-check-circle"></i> ${data.data.message}`;
           this.updateApiResponse(msg);
           this.updateFomoData(this.fomoInputs);
+          if (this.fomoInputs.status == 0) this.publishFomoPrompt = true;
           setTimeout(() => {
             this.dirty = false;
           }, 500);

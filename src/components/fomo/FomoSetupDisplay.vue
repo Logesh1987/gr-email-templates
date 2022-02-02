@@ -100,7 +100,7 @@
       ></multiselect>
       <small class="text-info display-flex align-items-start">
         <i class="fas fa-info-circle"></i>
-        <span> Display in selected c ountries only </span>
+        <span> Display in selected countries only </span>
       </small>
     </div>
     <div class="displaySetting fullDiv flex-direction-column">
@@ -122,40 +122,44 @@
           your website</md-checkbox
         >
       </div>
-      <div>
-        <md-field :class="{ 'md-invalid': formErrors.scroll, 'mt-20': true }">
-          <label>Scroll Percentage</label>
-          <md-input
-            v-model="formData.scroll_percentage"
-            type="number"
-          ></md-input>
-          <span class="md-error" v-if="formErrors.scroll">{{
-            formErrors.scroll
-          }}</span>
-        </md-field>
-        <small class="text-info display-flex align-items-start">
-          <i class="fas fa-info-circle"></i>
-          <span>
-            Set the percentage a visitor needs to scroll down the page for the
-            pop up to appear.
-          </span>
-        </small>
-      </div>
-      <div>
-        <md-field :class="{ 'md-invalid': formErrors.delay, 'mt-20': true }">
-          <label>Delay Seconds</label>
-          <md-input v-model="formData.seconds" type="number"></md-input>
-          <span class="md-error" v-if="formErrors.delay">{{
-            formErrors.delay
-          }}</span>
-        </md-field>
-        <small class="text-info display-flex align-items-start">
-          <i class="fas fa-info-circle"></i>
-          <span>
-            Set the number of seconds a visitor needs to be on your webpage
-            before the pop up appears
-          </span>
-        </small>
+      <div class="display-flex hv-position justify-content-space-between">
+        <div class="display-flex">
+          <md-field :class="{ 'md-invalid': formErrors.scroll, 'mt-20': true }">
+            <label>
+              Scroll Percentage
+              <i class="ml-10 fas fa-info-circle" style="color:black">
+                <md-tooltip
+                  >Set the percentage a visitor needs to scroll down the page
+                  for the pop up to appear.</md-tooltip
+                >
+              </i>
+            </label>
+            <md-input
+              v-model="formData.scroll_percentage"
+              type="number"
+            ></md-input>
+            <span class="md-error" v-if="formErrors.scroll">{{
+              formErrors.scroll
+            }}</span>
+          </md-field>
+        </div>
+        <div class="display-flex">
+          <md-field :class="{ 'md-invalid': formErrors.delay, 'mt-20': true }">
+            <label>
+              Delay Seconds
+              <i class="ml-10 fas fa-info-circle" style="color:black">
+                <md-tooltip
+                  >Set the number of seconds a visitor needs to be on your
+                  webpage before the pop up appears</md-tooltip
+                >
+              </i>
+            </label>
+            <md-input v-model="formData.seconds" type="number"></md-input>
+            <span class="md-error" v-if="formErrors.delay">{{
+              formErrors.delay
+            }}</span>
+          </md-field>
+        </div>
       </div>
     </div>
     <div class="displaySetting fullDiv visibleTo" style="margin-top: 20px">

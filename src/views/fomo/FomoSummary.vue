@@ -113,6 +113,22 @@
                   </router-link>
                 </div>
                 <ul>
+                  <li
+                    v-if="fomoClanData.user_role.is_user_role_restricted == 1"
+                  >
+                    {{
+                      fomoClanData.user_role.restriction_type == "restrict"
+                        ? "Restricted to"
+                        : "Allowed only to"
+                    }}
+                    user roles
+                    <em
+                      v-for="(item, index) in fomoClanData.user_role.user_roles"
+                      :key="index"
+                    >
+                      {{ item }}</em
+                    >.
+                  </li>
                   <li>
                     positioned at
                     {{ fomoClanData.prompt_positions[dInfo.position] }}.
@@ -332,6 +348,15 @@ export default {
           left: 0;
           top: 0;
         }
+      }
+      em {
+        background: rgba(0, 0, 0, 0.1);
+        padding: 1px 4px;
+        border-radius: 3px;
+        margin-right: 4px;
+        display: inline-block;
+        font-style: normal;
+        font-size: 0.9em;
       }
     }
   }

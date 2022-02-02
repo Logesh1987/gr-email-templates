@@ -14,6 +14,7 @@ export default new Vuex.Store({
     fomoType: null,
     fomoData: null,
     fomoTemplates: null,
+    fomoVariables: null,
     fomoClanData: null,
     fomoReady: false
   },
@@ -39,6 +40,9 @@ export default new Vuex.Store({
     updateFomoTemplates: (state, payload) => {
       state.fomoTemplates = payload;
     },
+    updateFomoVariables: (state, payload) => {
+      state.fomoVariables = payload;
+    },
     updateFomoData: (state, payload) => {
       state.fomoData = payload;
     },
@@ -58,6 +62,7 @@ export default new Vuex.Store({
           commit("updateFomoData", attributes);
           commit("updateFomoClanData", relationship);
           commit("updateFomoTemplates", includes.templates);
+          commit("updateFomoVariables", includes.dynamic_variables);
           commit("toggleFomoReady", true);
           return true;
         })
