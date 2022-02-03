@@ -10,8 +10,11 @@ import Vue from "vue";
 import VueMaterial from "vue-material";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
-// import "@/assets/icon/fontawesome.min.css";
 import mixins from "./mixins";
+
+if (process.env.NODE_ENV == "development") {
+  require("@/assets/icon/fontawesome.min.css");
+}
 
 Vue.use(VueMaterial);
 
@@ -431,6 +434,35 @@ export default {
     }
   }
 }
+
+.ql-html-popupContainer {
+  max-height: 700px;
+  max-width: 700px;
+  margin: auto;
+  .ql-html-textContainer {
+    height: calc(100% - 40px);
+  }
+  .ql-html-buttonGroup {
+    transform: none;
+    bottom: -25px;
+    left: 15px;
+    right: 15px;
+    text-align: right;
+    button {
+      cursor: pointer;
+      padding: 10px 25px;
+      &.ql-html-buttonOk {
+        background: var(--md-theme-default-accent);
+        border: none;
+        color: #fff;
+      }
+      &.ql-html-buttonCancel {
+        background: #fff;
+        border: 1px solid #bdbdbd;
+      }
+    }
+  }
+}
 // Quill editor font sizes
 .ql-size-small {
   font-size: 0.8em;
@@ -451,7 +483,8 @@ export default {
       color: white;
       padding: 0.5em;
       border-radius: 0.5em;
-      left: -50%;
+      left: 50%;
+      transform: translateX(-50%);
       top: 100%;
       width: max-content;
       z-index: 1;

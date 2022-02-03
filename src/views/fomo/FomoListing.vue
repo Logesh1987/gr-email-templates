@@ -100,8 +100,28 @@
                   </table>
                 </div>
                 <div v-else class="noData">
-                  <i class="fas fa-info-circle"></i>
-                  No active FOMOs available
+                  <figure>
+                    <img :src="getAssetUrl(`admin/no-contest.jpg`)" />
+                  </figure>
+                  <figcaption>
+                    <h3>No Fomos Found</h3>
+                    <p>Create one from the list beside</p>
+                    <br />
+                    <p>
+                      You can run multiple FOMOs to populate your following and
+                      drive more sales on ordinary days or specific occasions.
+                    </p>
+                    <div>
+                      <h4 class="mt-0 mb-10">What is FOMO Marketing?</h4>
+                      <p>
+                        FOMO is a form of marketing where you leverage the
+                        consumers’ desire to grab every opportunity that they
+                        get. The messaging in it is framed such that you push
+                        the customers to make an impulse purchase rather than
+                        regretting the lack of action later.
+                      </p>
+                    </div>
+                  </figcaption>
                 </div>
               </md-tab>
               <md-tab
@@ -167,8 +187,28 @@
                   </table>
                 </div>
                 <div v-else class="noData">
-                  <i class="fas fa-info-circle"></i>
-                  No paused FOMOs available
+                  <figure>
+                    <img :src="getAssetUrl(`admin/no-contest.jpg`)" />
+                  </figure>
+                  <figcaption>
+                    <h3>No Fomos Found</h3>
+                    <p>Create one from the list beside</p>
+                    <br />
+                    <p>
+                      You can run multiple FOMOs to populate your following and
+                      drive more sales on ordinary days or specific occasions.
+                    </p>
+                    <div>
+                      <h4 class="mt-0 mb-10">What is FOMO Marketing?</h4>
+                      <p>
+                        FOMO is a form of marketing where you leverage the
+                        consumers’ desire to grab every opportunity that they
+                        get. The messaging in it is framed such that you push
+                        the customers to make an impulse purchase rather than
+                        regretting the lack of action later.
+                      </p>
+                    </div>
+                  </figcaption>
                 </div></md-tab
               >
             </md-tabs>
@@ -181,7 +221,7 @@
           </div>
           <div class="newFomoList">
             <div v-for="template in allFomoTypes" :key="template.id">
-              <div class="new_list" v-if="!template.attributes.disabled">
+              <div class="new_list">
                 <md-icon class="fomo_icon">
                   <i :class="`fomoIcon icon_${template.type}`"></i>
                 </md-icon>
@@ -194,6 +234,13 @@
                   class="md-dense btn"
                   @click="createFomo(template.id)"
                   >Add</md-button
+                >
+                <md-button
+                  v-else
+                  :md-ripple="false"
+                  class="md-raised md-dense btn"
+                  disabled
+                  >Active</md-button
                 >
               </div>
             </div>
@@ -587,9 +634,9 @@ export default {
   flex: 2;
 }
 .fomoHeader {
-  background: url("https://i.imgur.com/Dd9h0Qr.png") no-repeat scroll 0 center;
-  background-size: cover;
-  padding: 50px 0 72px;
+  // background: url("https://i.imgur.com/Dd9h0Qr.png") no-repeat scroll 0 center;
+  // background-size: cover;
+  padding: 40px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -734,6 +781,9 @@ export default {
       color: #202020;
       font-size: 12px;
       font-weight: 600;
+      &[disabled] {
+        opacity: 0.5;
+      }
 
       &.btn-setup {
         background: #f0f0f0;
@@ -778,14 +828,41 @@ export default {
   }
 }
 
-.noData {
-  padding: 20px;
+.noData::v-deep {
+  padding: 40px 20px;
   color: #2196f3;
   display: flex;
   align-items: center;
-  .fas {
-    font-size: 24px;
-    margin-right: 10px;
+  figure {
+    width: 50%;
+    margin: 0;
+  }
+  figcaption {
+    width: 50%;
+    div {
+      background: #eee;
+      padding: 10px;
+      margin-top: 30px;
+      font-size: 0.9em;
+      position: relative;
+      &:before {
+        content: "\f10e";
+        font-family: "Font Awesome 5 Pro";
+        font-weight: bold;
+        font-size: 32px;
+        position: absolute;
+        right: 0.4em;
+        top: -0.3em;
+        opacity: 0.5;
+      }
+    }
+  }
+  h4 {
+    color: rgba(0, 0, 0, 0.5);
+    & + p {
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 12px;
+    }
   }
 }
 

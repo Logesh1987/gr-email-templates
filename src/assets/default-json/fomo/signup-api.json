@@ -3,17 +3,17 @@
 		"position": "bottom-left",
 		"settings": [
 			{
-				"label": "Before Signup Screen",
+				"label": "Before Signup",
 				"type": "before_login",
 				"attributes": {
 					"title": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
 						"status": 1,
-						"label": "Title",
-						"max_length": 3000,
+						"label": "Signup Title",
+						"max_length": 200,
 						"rows": 4,
-						"value": "Sign up bonus title and description comes here",
+						"value": "<strong>Sign up bonus title and description comes here</strong>",
 						"required": 0
 					},
 					"points_info": {
@@ -21,15 +21,15 @@
 						"show_dynamic_variables": 1,
 						"status": 1,
 						"label": "Points Text",
-						"max_length": 3000,
+						"max_length": 150,
 						"rows": 4,
-						"value": "<div><strong style='font-size: 1.75em;'>[[Points]]</strong></div><div>Points</div>",
+						"value": "<div><strong style='font-size: 1.75em;'>[[Points]]</strong></div><div>[[Points Label]]</div>",
 						"required": 0
 					},
 					"btn_text": {
 						"type": "text",
-						"show_dynamic_variables": 1,
-						"label": "Button Text",
+						"show_dynamic_variables": 0,
+						"label": "Signup Button Text",
 						"status": 1,
 						"max_length": 50,
 						"value": "Sign up now",
@@ -37,34 +37,34 @@
 					},
 					"btn_url": {
 						"type": "text",
-						"show_dynamic_variables": 1,
+						"show_dynamic_variables": 0,
 						"label": "Signup URL",
-						"max_length": 50,
+						"max_length": 300,
 						"value": "http://www.google.com",
 						"required": 1
 					}
 				}
 			},
 			{
-				"label": "After Signup Screen",
+				"label": "After Signup",
 				"type": "after_login",
 				"attributes": {
 					"congrats_title": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
-						"label": "Congrats Text",
-						"max_length": 3000,
+						"label": "Congrats Title",
+						"max_length": 150,
 						"status": 1,
 						"rows": 4,
-						"value": "Congrats Text",
+						"value": "<strong>Congrats Text</strong>",
 						"required": 0
 					},
 					"congrats_txt": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
-						"label": "Title",
+						"label": "Congrats Description",
 						"status": 1,
-						"max_length": 3000,
+						"max_length": 150,
 						"rows": 4,
 						"value": "Congrats description comes here",
 						"required": 0
@@ -72,7 +72,7 @@
 				}
 			},
 			{
-				"label": "Styles",
+				"label": "Appearance",
 				"type": "common",
 				"attributes": {
 					"bg_image": {
@@ -86,16 +86,40 @@
 						"url": "https://www.google.com/",
 						"url_status": 0
 					},
-					"bg_color": {
+					"bg_color_primary": {
 						"type": "color",
-						"label": "Background color",
+						"label": "Primary Background color",
 						"value": "#04F2D4",
+						"required": 1
+					},
+					"bg_color_secondary": {
+						"type": "color",
+						"label": "Secondary Background color",
+						"value": "#fff",
+						"required": 1
+					},
+					"txt_color_primary": {
+						"type": "color",
+						"label": "Primary text color",
+						"value": "#000",
+						"required": 1
+					},
+					"txt_color_secondary": {
+						"type": "color",
+						"label": "Secondary text color",
+						"value": "#000",
 						"required": 1
 					},
 					"btn_color": {
 						"type": "color",
-						"label": "Button color",
+						"label": "Button Background color",
 						"value": "#a41111",
+						"required": 1
+					},
+					"btn_txt_color": {
+						"type": "color",
+						"label": "Button Text color",
+						"value": "#fff",
 						"required": 1
 					}
 				}
@@ -112,51 +136,51 @@
 					"title": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
-						"label": "Title",
+						"label": "Signup Title",
 						"status": 1,
-						"max_length": 3000,
+						"max_length": 230,
 						"rows": 4,
-						"value": "Sign up bonus title and description comes here",
+						"value": "<div><span style='font-size: 1.5em;'>Sign up bonus title and description comes here</span></div>",
 						"required": 0
-					},
-					"btn_text": {
-						"type": "text",
-						"show_dynamic_variables": 1,
-						"label": "Button Text",
-						"status": 1,
-						"max_length": 50,
-						"value": "Sign up now",
-						"required": 1
-					},
-					"btn_url": {
-						"type": "text",
-						"show_dynamic_variables": 1,
-						"label": "Signup URL",
-						"max_length": 50,
-						"value": "http://www.google.com",
-						"required": 1
 					},
 					"points_info": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
 						"status": 1,
 						"label": "Points Text",
-						"max_length": 3000,
+						"max_length": 150,
 						"rows": 4,
-						"value": "<div><strong style='font-size: 1.75em;'>[[Points]]</strong></div><div>Points</div>",
+						"value": "<div><strong style='font-size: 1.75em;'>[[Points]]</strong></div><div>[[Points Label]]</div>",
 						"required": 0
+					},
+					"btn_text": {
+						"type": "text",
+						"show_dynamic_variables": 0,
+						"label": "Signup Button Text",
+						"status": 1,
+						"max_length": 30,
+						"value": "Sign up now",
+						"required": 1
+					},
+					"btn_url": {
+						"type": "text",
+						"show_dynamic_variables": 0,
+						"label": "Signup URL",
+						"max_length": 300,
+						"value": "http://www.google.com",
+						"required": 1
 					}
 				}
 			},
 			{
-				"label": "After Signup Screen",
+				"label": "After Signup",
 				"type": "after_login",
 				"attributes": {
 					"congrats_title": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
-						"label": "Congrats Text",
-						"max_length": 3000,
+						"label": "Congrats Title",
+						"max_length": 250,
 						"status": 1,
 						"rows": 4,
 						"value": "Congrats Text",
@@ -165,8 +189,8 @@
 					"congrats_txt": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
-						"label": "Title",
-						"max_length": 3000,
+						"label": "Congrats Description",
+						"max_length": 250,
 						"status": 1,
 						"rows": 4,
 						"value": "Congrats description comes here",
@@ -175,7 +199,7 @@
 				}
 			},
 			{
-				"label": "Styles",
+				"label": "Appearance",
 				"type": "common",
 				"attributes": {
 					"bg_image": {
@@ -189,13 +213,31 @@
 						"url": "https://www.google.com/",
 						"url_status": 0
 					},
-					"bg_color": {
+					"bg_color_primary": {
 						"type": "color",
-						"label": "Background color",
+						"label": "Primary Background color",
 						"value": "#15c39a",
 						"required": 1
 					},
-					"btn_color": {
+					"bg_color_secondary": {
+						"type": "color",
+						"label": "Secondary Background color",
+						"value": "#15c39a",
+						"required": 1
+					},
+					"txt_color_primary": {
+						"type": "color",
+						"label": "Primary text color",
+						"value": "#000",
+						"required": 1
+					},
+					"txt_color_secondary": {
+						"type": "color",
+						"label": "Secondary text color",
+						"value": "#000",
+						"required": 1
+					},
+					"btn_color_secondary": {
 						"type": "color",
 						"label": "Button Background color",
 						"value": "#ffffff",
@@ -215,68 +257,68 @@
 		"position": "top-left",
 		"settings": [
 			{
-				"label": "Before Signup Screen",
+				"label": "Before Signup",
 				"type": "before_login",
 				"attributes": {
 					"title": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
-						"label": "Title",
+						"label": "Signup Title",
 						"status": 1,
-						"max_length": 3000,
+						"max_length": 250,
 						"rows": 4,
-						"value": "Sign up bonus title and description comes here",
+						"value": "<span style='font-size: 1.5em;'>Sign up bonus title and description comes here</span>",
 						"required": 0
-					},
-					"btn_text": {
-						"type": "text",
-						"show_dynamic_variables": 1,
-						"label": "Button Text",
-						"max_length": 50,
-						"status": 1,
-						"value": "Sign up now",
-						"required": 1
-					},
-					"btn_url": {
-						"type": "text",
-						"show_dynamic_variables": 1,
-						"label": "Signup URL",
-						"max_length": 50,
-						"value": "http://www.google.com",
-						"required": 1
 					},
 					"points_info": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
 						"status": 1,
 						"label": "Points Text",
-						"max_length": 3000,
+						"max_length": 150,
 						"rows": 4,
-						"value": "<div><strong style='font-size: 1.75em;'>[[Points]]</strong></div><div>Points</div>",
+						"value": "<div><strong style='font-size: 1.75em;'>[[Points]]</strong></div><div>[[Points Label]]</div>",
 						"required": 0
+					},
+					"btn_text": {
+						"type": "text",
+						"show_dynamic_variables": 0,
+						"label": "Signup Button Text",
+						"status": 1,
+						"max_length": 30,
+						"value": "Sign up now",
+						"required": 1
+					},
+					"btn_url": {
+						"type": "text",
+						"show_dynamic_variables": 0,
+						"label": "Signup URL",
+						"max_length": 300,
+						"value": "http://www.google.com",
+						"required": 1
 					}
 				}
 			},
 			{
-				"label": "After Signup Screen",
+				"label": "After Signup",
 				"type": "after_login",
 				"attributes": {
 					"congrats_title": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
-						"label": "Congrats Text",
-						"max_length": 3000,
+						"label": "Congrats Title",
+						"max_length": 250,
+						"status": 1,
 						"rows": 4,
 						"value": "Congrats Text",
-						"status": 1,
 						"required": 0
 					},
 					"congrats_txt": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
-						"label": "Title",
+						"label": "Congrats Description",
+						"max_length": 250,
 						"status": 1,
-						"max_length": 3000,
 						"rows": 4,
 						"value": "Congrats description comes here",
 						"required": 0
@@ -284,7 +326,7 @@
 				}
 			},
 			{
-				"label": "Styles",
+				"label": "Appearance",
 				"type": "common",
 				"attributes": {
 					"border_color": {
@@ -299,16 +341,28 @@
 						"value": "#ff4b74",
 						"required": 1
 					},
-					"bg_grad_1": {
+					"bg_color_primary": {
 						"type": "color",
-						"label": "Background start color",
+						"label": "Primary Background color",
 						"value": "#845ad4",
 						"required": 1
 					},
-					"bg_grad_2": {
+					"bg_color_secondary": {
 						"type": "color",
-						"label": "Background end color",
+						"label": "Secondary Background color",
 						"value": "#8c1e79",
+						"required": 1
+					},
+					"txt_color_primary": {
+						"type": "color",
+						"label": "Primary text color",
+						"value": "#fff",
+						"required": 1
+					},
+					"txt_color_secondary": {
+						"type": "color",
+						"label": "Secondary text color",
+						"value": "#fff",
 						"required": 1
 					},
 					"btn_color": {
@@ -331,57 +385,57 @@
 		"position": "bottom-left",
 		"settings": [
 			{
-				"label": "Before Signup Screen",
+				"label": "Before Signup",
 				"type": "before_login",
 				"attributes": {
 					"title": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
-						"label": "Title",
 						"status": 1,
-						"max_length": 3000,
+						"label": "Signup Title",
+						"max_length": 200,
 						"rows": 4,
-						"value": "Sign up bonus title and description comes here",
+						"value": "<strong>Sign up bonus title and description comes here</strong>",
 						"required": 0
-					},
-					"btn_text": {
-						"type": "text",
-						"show_dynamic_variables": 1,
-						"label": "Button Text",
-						"max_length": 50,
-						"status": 1,
-						"value": "Sign up now",
-						"required": 1
-					},
-					"btn_url": {
-						"type": "text",
-						"show_dynamic_variables": 1,
-						"label": "Signup URL",
-						"max_length": 50,
-						"value": "http://www.google.com",
-						"required": 1
 					},
 					"points_info": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
 						"status": 1,
 						"label": "Points Text",
-						"max_length": 3000,
+						"max_length": 150,
 						"rows": 4,
-						"value": "<div><strong style='font-size: 1.75em;'>[[Points]]</strong></div><div>Points</div>",
+						"value": "<div><strong style='font-size: 1.75em;'>[[Points]]</strong></div><div>[[Points Label]]</div>",
 						"required": 0
+					},
+					"btn_text": {
+						"type": "text",
+						"show_dynamic_variables": 0,
+						"label": "Signup Button Text",
+						"status": 1,
+						"max_length": 50,
+						"value": "Sign up now",
+						"required": 1
+					},
+					"btn_url": {
+						"type": "text",
+						"show_dynamic_variables": 0,
+						"label": "Signup URL",
+						"max_length": 300,
+						"value": "http://www.google.com",
+						"required": 1
 					}
 				}
 			},
 			{
-				"label": "After Signup Screen",
+				"label": "After Signup",
 				"type": "after_login",
 				"attributes": {
 					"congrats_title": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
-						"label": "Congrats Text",
-						"max_length": 3000,
+						"label": "Congrats Title",
+						"max_length": 250,
 						"status": 1,
 						"rows": 4,
 						"value": "Congrats Text",
@@ -390,9 +444,9 @@
 					"congrats_txt": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
-						"label": "Title",
+						"label": "Congrats Description",
+						"max_length": 250,
 						"status": 1,
-						"max_length": 3000,
 						"rows": 4,
 						"value": "Congrats description comes here",
 						"required": 0
@@ -400,7 +454,7 @@
 				}
 			},
 			{
-				"label": "Styles",
+				"label": "Appearance",
 				"type": "common",
 				"attributes": {
 					"bg_image": {
@@ -414,10 +468,28 @@
 						"url": "https://www.google.com/",
 						"url_status": 0
 					},
-					"background_color": {
+					"bg_color_primary": {
 						"type": "color",
-						"label": "Background color",
+						"label": "Primary Background color",
 						"value": "#ab0012",
+						"required": 1
+					},
+					"bg_color_secondary": {
+						"type": "color",
+						"label": "Secondary Background color",
+						"value": "#8E0011",
+						"required": 1
+					},
+					"txt_color_primary": {
+						"type": "color",
+						"label": "Primary Text color",
+						"value": "#fff",
+						"required": 1
+					},
+					"txt_color_secondary": {
+						"type": "color",
+						"label": "Secondary Text color",
+						"value": "#f3e374",
 						"required": 1
 					},
 					"btn_color": {

@@ -47,10 +47,15 @@
             :md-active-tab="mainActiveTab"
             @md-changed="setMainActiveTab"
           >
-            <md-tab id="tab-template" md-label="Template Settings">
+            <md-tab id="tab-template" md-label="Template">
               <div>
                 <div class="subTitle">
-                  <h3>FOMO Name</h3>
+                  <h3>Title</h3>
+                  <div>
+                    <span class="charCount"
+                      >{{ fomoInputs.name.length }} / 200</span
+                    >
+                  </div>
                 </div>
                 <div class="relative">
                   <input
@@ -100,6 +105,7 @@
                           </h3>
                           <div>
                             <label
+                              v-if="typeof control.status == 'number'"
                               :for="`view-${key}-${name}`"
                               :class="
                                 `showHide fas fa-eye${
@@ -124,13 +130,17 @@
                               :index="key"
                               :click="appendVarToKey"
                             />
+                            <span class="charCount"
+                              >{{ control.value.length }} /
+                              {{ control.max_length }}</span
+                            >
                           </div>
                         </div>
                         <div class="relative">
                           <input
                             class="form-control"
                             type="text"
-                            maxlength="200"
+                            :maxlength="control.max_length"
                             :ref="`${key}-${name}`"
                             v-model="control.value"
                             @keyup="checkforError(control, name)"
@@ -148,6 +158,7 @@
                           <div>
                             <label
                               :for="`view-${key}-${name}`"
+                              v-if="typeof control.status == 'number'"
                               :class="
                                 `showHide fas fa-eye${
                                   control.status == 0 ? '-slash' : ''
@@ -171,6 +182,10 @@
                               :index="key"
                               :click="appendVarToKey"
                             />
+                            <span class="charCount"
+                              >{{ control.value.length }} /
+                              {{ control.max_length }}</span
+                            >
                           </div>
                         </div>
                         <div class="relative">
@@ -199,6 +214,7 @@
                           <div>
                             <label
                               :for="`view-${key}-${name}`"
+                              v-if="typeof control.status == 'number'"
                               :class="
                                 `showHide fas fa-eye${
                                   control.status == 0 ? '-slash' : ''
@@ -243,7 +259,7 @@
             </md-tab>
             <md-tab
               id="tab-reward"
-              md-label="Reward Settings"
+              md-label="Reward"
               :md-disabled="fomoInputs['reward_settings'].length == 0"
             >
               <FomoSetupReward
@@ -253,7 +269,7 @@
                 v-if="Object.keys(fomoInputs.reward_settings).length"
               />
             </md-tab>
-            <md-tab id="tab-display" md-label="Display Settings">
+            <md-tab id="tab-display" md-label="Display">
               {{ fomoInputs["display_settings"].length }}
               <FomoSetupDisplay
                 :formData="fomoInputs.display_settings"
@@ -343,6 +359,7 @@ import { quillEditor } from "vue-quill-editor"; // require styles
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
+import htmlEditButton from "quill-html-edit-button";
 import { mapMutations, mapState } from "vuex";
 
 var Parchment = Quill.import("parchment");
@@ -351,6 +368,9 @@ let Break = Quill.import("blots/break");
 let Embed = Quill.import("blots/embed");
 var Block = Quill.import("blots/block");
 Block.tagName = "DIV";
+Quill.register({
+  "modules/htmlEditButton": htmlEditButton
+});
 Quill.register(Block, true);
 var Size = Quill.import("attributors/style/size");
 Size.whitelist = [
@@ -438,14 +458,15 @@ var options = {
         }
       }
     },
+    htmlEditButton: {},
     toolbar: [
       [
-        { indent: "-1" },
-        { indent: "+1" },
-        { list: "ordered" },
-        { list: "bullet" },
-        { align: [] },
-        { direction: "rtl" },
+        // { indent: "-1" },
+        // { indent: "+1" },
+        // { list: "ordered" },
+        // { list: "bullet" },
+        // { align: [] },
+        // { direction: "rtl" },
         {
           size: [
             "normal",
@@ -462,12 +483,12 @@ var options = {
             "2.75em",
             "3em"
           ]
-        },
-        { header: [1, 2, 3, 4, 5, 6, false] }
+        }
+        // { header: [1, 2, 3, 4, 5, 6, false] }
       ],
       [
         { color: [] },
-        { background: [] },
+        // { background: [] },
         { script: "sub" },
         { script: "super" },
         "bold",
@@ -815,6 +836,14 @@ export default {
 }
 .tabMain {
   ::v-deep {
+    .charCount {
+      font-size: 12px;
+      display: inline-block;
+      background: rgba(0, 0, 0, 0.1);
+      line-height: 1;
+      padding: 4px 5px;
+      margin-left: 5px;
+    }
     > .md-tabs-content {
       height: auto !important;
     }
@@ -891,7 +920,8 @@ export default {
   }
 
   input.form-control {
-    padding: 5px;
+    padding: 8px 5px;
+    border-radius: 5px 0 5px 5px;
     border: 1px solid #d2d2d2;
     font-size: 14px;
     width: 100%;
@@ -902,20 +932,72 @@ export default {
     margin-right: 20px;
     max-width: 33%;
     overflow: hidden;
+    .ql-container.ql-snow {
+      border-radius: 0 0 5px 5px;
+    }
     .ql-toolbar.ql-snow {
+      border-radius: 5px 0 0 0;
+      .ql-picker-label[data-value="normal"]:before,
+      .ql-picker-item[data-value="normal"]:before {
+        content: "Font size" !important;
+      }
+      .ql-picker-label[data-value="0.3em"]:before,
+      .ql-picker-item[data-value="0.3em"]:before {
+        content: "-0.3x" !important;
+      }
+      .ql-picker-label[data-value="0.5em"]:before,
+      .ql-picker-item[data-value="0.5em"]:before {
+        content: "-0.5x" !important;
+      }
+      .ql-picker-label[data-value="0.75em"]:before,
+      .ql-picker-item[data-value="0.75em"]:before {
+        content: "-0.75x" !important;
+      }
+      .ql-picker-label[data-value="1em"]:before,
+      .ql-picker-item[data-value="1em"]:before {
+        content: "1x" !important;
+      }
+      .ql-picker-label[data-value="1.25em"]:before,
+      .ql-picker-item[data-value="1.25em"]:before {
+        content: "1.25x" !important;
+      }
+      .ql-picker-label[data-value="1.5em"]:before,
+      .ql-picker-item[data-value="1.5em"]:before {
+        content: "1.5x" !important;
+      }
+      .ql-picker-label[data-value="1.75em"]:before,
+      .ql-picker-item[data-value="1.75em"]:before {
+        content: "1.75x" !important;
+      }
+      .ql-picker-label[data-value="2em"]:before,
+      .ql-picker-item[data-value="2em"]:before {
+        content: "2x" !important;
+      }
+      .ql-picker-label[data-value="2.25em"]:before,
+      .ql-picker-item[data-value="2.25em"]:before {
+        content: "2.25x" !important;
+      }
+      .ql-picker-label[data-value="2.5em"]:before,
+      .ql-picker-item[data-value="2.5em"]:before {
+        content: "2.5x" !important;
+      }
+      .ql-picker-label[data-value="2.75em"]:before,
+      .ql-picker-item[data-value="2.75em"]:before {
+        content: "2.75x" !important;
+      }
+      .ql-picker-label[data-value="3em"]:before,
+      .ql-picker-item[data-value="3em"]:before {
+        content: "3x" !important;
+      }
       .ql-picker-options {
         height: 9em;
         overflow: auto;
       }
       .ql-picker.ql-size {
-        .ql-picker-item:before {
-          content: attr(data-value) !important;
-        }
         .ql-picker-label {
           text-indent: -999em;
           position: relative;
           &:before {
-            content: attr(data-value) !important;
             position: absolute;
             left: 0;
             top: 0;
@@ -955,7 +1037,7 @@ export default {
     }
     .md-menu {
       line-height: 0.9;
-      margin: 0 0 8px;
+      margin-left: 3px;
     }
     > div {
       color: rgba(0, 0, 0, 0.6);

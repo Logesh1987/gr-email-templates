@@ -3,32 +3,47 @@
 		"position": "bottom-left",
 		"settings": [
 			{
-				"label": "FOMO Template setup",
-				"type": "common",
+				"label": "Product Setup",
+				"type": "product",
 				"attributes": {
 					"prod_image": {
 						"type": "file",
 						"label": "Product image",
-						"value": "upload/img/fomo/5_489_1642757151.jpg",
+						"value": "",
 						"status": 1,
 						"width": 450,
 						"height": 200,
 						"required": 0
 					},
-					"bg_color": {
-						"type": "color",
-						"label": "Background color",
-						"value": "#ffffff"
+					"title": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Product Title",
+						"status": 1,
+						"max_length": 200,
+						"rows": 4,
+						"value": "New product release title",
+						"required": 1
 					},
-					"btn_color": {
-						"type": "color",
-						"label": "Button Background",
-						"value": "#ED4610",
+					"description": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Product Description",
+						"status": 1,
+						"max_length": 300,
+						"rows": 4,
+						"value": "Description for the new product comes here",
+						"required": 0
 					},
-					"btn_txt_color": {
-						"type": "color",
-						"label": "Button Text Color",
-						"value": "#454545",
+					"price": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Product Price Info",
+						"status": 1,
+						"max_length": 3000,
+						"rows": 4,
+						"value": "<sup>$</sup>XXX<sup>xx</sup>",
+						"required": 0
 					},
 					"btn_text": {
 						"type": "text",
@@ -37,45 +52,51 @@
 						"status": 1,
 						"max_length": 50,
 						"value": "Buy now",
-						"required": 1
+						"required": 0
 					},
 					"btn_url": {
 						"type": "text",
 						"show_dynamic_variables": 1,
 						"label": "Product URL",
-						"max_length": 50,
+						"max_length": 300,
 						"value": "http://www.google.com",
+						"required": 0
+					}
+				}
+			},
+			{
+				"label": "FOMO Template setup",
+				"type": "common",
+				"attributes": {
+					"bg_color": {
+						"type": "color",
+						"label": "Background color",
+						"value": "#ffffff",
 						"required": 1
 					},
-					"title": {
-						"type": "textarea",
-						"show_dynamic_variables": 1,
-						"label": "Title",
-						"status": 1,
-						"max_length": 3000,
-						"rows": 4,
-						"value": "New product release title",
+					"txt_color_primary": {
+						"type": "color",
+						"label": "Primary Text color",
+						"value": "#454545",
 						"required": 1
 					},
-					"description": {
-						"type": "textarea",
-						"show_dynamic_variables": 1,
-						"label": "Description",
-						"status": 1,
-						"max_length": 3000,
-						"rows": 4,
-						"value": "Description for the new product comes here",
-						"required": 0
+					"txt_color_secondary": {
+						"type": "color",
+						"label": "Secondary Text color",
+						"value": "#454545",
+						"required": 1
 					},
-					"price": {
-						"type": "textarea",
-						"show_dynamic_variables": 1,
-						"label": "Description",
-						"status": 1,
-						"max_length": 3000,
-						"rows": 4,
-						"value": "<sup>$</sup>XXX<sup>xx</sup>",
-						"required": 0
+					"btn_color": {
+						"type": "color",
+						"label": "Button Background Color",
+						"value": "#ED4610",
+						"required": 1
+					},
+					"btn_txt_color": {
+						"type": "Button Text Color",
+						"label": "Button Text Color",
+						"value": "#ffffff",
+						"required": 1
 					}
 				}
 			}
@@ -85,35 +106,47 @@
 		"position": "bottom-left",
 		"settings": [
 			{
-				"label": "FOMO Template setup",
-				"type": "common",
+				"label": "Product Setup",
+				"type": "product",
 				"attributes": {
 					"prod_image": {
 						"type": "file",
 						"label": "Product image",
-						"value": "upload/img/fomo/5_489_1642757151.jpg",
+						"value": "",
 						"status": 1,
 						"width": 450,
 						"height": 450,
 						"required": 0
 					},
-					"bg_color": {
-						"type": "color",
-						"label": "Background color",
-						"value": "#ffffff",
+					"title": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Product Title",
+						"status": 1,
+						"max_length": 200,
+						"rows": 4,
+						"value": "New product release title",
 						"required": 1
 					},
-					"btn_color": {
-						"type": "color",
-						"label": "Button Background",
-						"value": "#454545",
-						"required": 1
+					"description": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Product Description",
+						"status": 1,
+						"max_length": 300,
+						"rows": 4,
+						"value": "Description for the new product comes here",
+						"required": 0
 					},
-					"btn_txt_color": {
-						"type": "Button Text Color",
-						"label": "Button Text Color",
-						"value": "#ffffff",
-						"required": 1
+					"price": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Product Price Info",
+						"status": 1,
+						"max_length": 3000,
+						"rows": 4,
+						"value": "<sup>$</sup>XXX<sup>xx</sup>",
+						"required": 0
 					},
 					"btn_text": {
 						"type": "text",
@@ -122,45 +155,51 @@
 						"status": 1,
 						"max_length": 50,
 						"value": "Buy now",
-						"required": 1
+						"required": 0
 					},
 					"btn_url": {
 						"type": "text",
 						"show_dynamic_variables": 1,
 						"label": "Product URL",
-						"max_length": 50,
+						"max_length": 300,
 						"value": "http://www.google.com",
+						"required": 0
+					}
+				}
+			},
+			{
+				"label": "Appearance",
+				"type": "common",
+				"attributes": {
+					"bg_color": {
+						"type": "color",
+						"label": "Background color",
+						"value": "#ffffff",
 						"required": 1
 					},
-					"title": {
-						"type": "textarea",
-						"show_dynamic_variables": 1,
-						"label": "Title",
-						"status": 1,
-						"max_length": 3000,
-						"rows": 4,
-						"value": "New product release title",
+					"txt_color_primary": {
+						"type": "color",
+						"label": "Primary Text color",
+						"value": "#000",
 						"required": 1
 					},
-					"description": {
-						"type": "textarea",
-						"show_dynamic_variables": 1,
-						"label": "Description",
-						"status": 1,
-						"max_length": 3000,
-						"rows": 4,
-						"value": "Description for the new product comes here",
-						"required": 0
+					"txt_color_secondary": {
+						"type": "color",
+						"label": "Secondary Text color",
+						"value": "#000",
+						"required": 1
 					},
-					"price": {
-						"type": "textarea",
-						"show_dynamic_variables": 1,
-						"label": "Description",
-						"status": 1,
-						"max_length": 3000,
-						"rows": 4,
-						"value": "<sup>$</sup>XXX<sup>xx</sup>",
-						"required": 0
+					"btn_color": {
+						"type": "color",
+						"label": "Button Background Color",
+						"value": "#454545",
+						"required": 1
+					},
+					"btn_txt_color": {
+						"type": "Button Text Color",
+						"label": "Button Text Color",
+						"value": "#ffffff",
+						"required": 1
 					}
 				}
 			}
@@ -170,13 +209,13 @@
 		"position": "bottom-left",
 		"settings": [
 			{
-				"label": "FOMO Template setup",
-				"type": "common",
+				"label": "Product Setup",
+				"type": "product",
 				"attributes": {
 					"prod_image": {
 						"type": "file",
 						"label": "Product image",
-						"value": "upload/img/fomo/5_489_1642757151.jpg",
+						"value": "",
 						"status": 1,
 						"url": "https://www.google.com/",
 						"url_status": 0,
@@ -184,23 +223,35 @@
 						"height": 450,
 						"required": 0
 					},
-					"bg_color": {
-						"type": "color",
-						"label": "Background color",
-						"value": "#ffffff",
+					"title": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Product Title",
+						"status": 1,
+						"max_length": 200,
+						"rows": 4,
+						"value": "New product release title",
 						"required": 1
 					},
-					"btn_color": {
-						"type": "color",
-						"label": "Button Background",
-						"value": "#454545",
-						"required": 1
+					"description": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Product Description",
+						"status": 1,
+						"max_length": 300,
+						"rows": 4,
+						"value": "Description for the new product comes here",
+						"required": 0
 					},
-					"btn_txt_color": {
-						"type": "color",
-						"label": "Button Text Color",
-						"value": "#ffffff",
-						"required": 1
+					"price": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Product Price Info",
+						"status": 1,
+						"max_length": 3000,
+						"rows": 4,
+						"value": "<sup>$</sup>XXX<sup>xx</sup>",
+						"required": 0
 					},
 					"btn_text": {
 						"type": "text",
@@ -209,45 +260,51 @@
 						"status": 1,
 						"max_length": 50,
 						"value": "Buy now",
-						"required": 1
+						"required": 0
 					},
 					"btn_url": {
 						"type": "text",
 						"show_dynamic_variables": 1,
 						"label": "Product URL",
-						"max_length": 50,
+						"max_length": 300,
 						"value": "http://www.google.com",
+						"required": 0
+					}
+				}
+			},
+			{
+				"label": "FOMO Template setup",
+				"type": "common",
+				"attributes": {
+					"bg_color": {
+						"type": "color",
+						"label": "Background color",
+						"value": "#ffffff",
 						"required": 1
 					},
-					"title": {
-						"type": "textarea",
-						"show_dynamic_variables": 1,
-						"label": "Title",
-						"status": 1,
-						"max_length": 3000,
-						"rows": 4,
-						"value": "New product release title",
+					"txt_color_primary": {
+						"type": "color",
+						"label": "Primary Text color",
+						"value": "#000",
 						"required": 1
 					},
-					"description": {
-						"type": "textarea",
-						"show_dynamic_variables": 1,
-						"label": "Description",
-						"status": 1,
-						"max_length": 3000,
-						"rows": 4,
-						"value": "Description for the new product comes here",
-						"required": 0
+					"txt_color_secondary": {
+						"type": "color",
+						"label": "Secondary Text color",
+						"value": "#000",
+						"required": 1
 					},
-					"price": {
-						"type": "textarea",
-						"show_dynamic_variables": 1,
-						"label": "Description",
-						"status": 1,
-						"max_length": 3000,
-						"rows": 4,
-						"value": "<sup>$</sup>XXX<sup>xx</sup>",
-						"required": 0
+					"btn_color": {
+						"type": "color",
+						"label": "Button Background Color",
+						"value": "#454545",
+						"required": 1
+					},
+					"btn_txt_color": {
+						"type": "Button Text Color",
+						"label": "Button Text Color",
+						"value": "#ffffff",
+						"required": 1
 					}
 				}
 			}
@@ -257,71 +314,36 @@
 		"position": "bottom-left",
 		"settings": [
 			{
-				"label": "FOMO Template setup",
-				"type": "common",
+				"label": "Product Setup",
+				"type": "product",
 				"attributes": {
 					"prod_image": {
 						"type": "file",
 						"label": "Product image",
-						"value": "upload/img/fomo/8_489_1642757442.jpg",
+						"value": "",
 						"status": 1,
 						"url": "https://www.google.com/",
 						"url_status": 0,
 						"width": 450,
-						"height": 600,
+						"height": 450,
 						"required": 0
-					},
-					"bg_color": {
-						"type": "color",
-						"label": "Background color",
-						"value": "#ffffff",
-						"required": 1
-					},
-					"btn_color": {
-						"type": "color",
-						"label": "Button Background",
-						"value": "#454545",
-						"required": 1
-					},
-					"btn_txt_color": {
-						"type": "color",
-						"label": "Button Text Color",
-						"value": "#ffffff",
-						"required": 1
-					},
-					"btn_text": {
-						"type": "text",
-						"show_dynamic_variables": 1,
-						"label": "Button Text",
-						"status": 1,
-						"max_length": 50,
-						"value": "Join now",
-						"required": 1
-					},
-					"btn_url": {
-						"type": "text",
-						"show_dynamic_variables": 1,
-						"label": "Product URL",
-						"max_length": 50,
-						"value": "http://www.google.com",
-						"required": 1
 					},
 					"title": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
-						"label": "Title",
+						"label": "Product Title",
 						"status": 1,
-						"max_length": 3000,
+						"max_length": 150,
 						"rows": 4,
-						"value": "<strong>New product release title</strong>",
+						"value": "New product release title",
 						"required": 1
 					},
 					"description": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
-						"label": "Description",
+						"label": "Product Description",
 						"status": 1,
-						"max_length": 3000,
+						"max_length": 200,
 						"rows": 4,
 						"value": "Description for the new product comes here",
 						"required": 0
@@ -329,12 +351,65 @@
 					"price": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
-						"label": "Description",
+						"label": "Product Price Info",
 						"status": 1,
-						"max_length": 3000,
+						"max_length": 150,
 						"rows": 4,
-						"value": "<div><sup style=\"font-size: 0.3em;\">starts from</sup><sup> </sup>XXXX<sup>$</sup></div>",
+						"value": "<sup>$</sup>XXX<sup>xx</sup>",
 						"required": 0
+					},
+					"btn_text": {
+						"type": "text",
+						"show_dynamic_variables": 1,
+						"label": "Button Text",
+						"status": 1,
+						"max_length": 50,
+						"value": "Buy now",
+						"required": 0
+					},
+					"btn_url": {
+						"type": "text",
+						"show_dynamic_variables": 1,
+						"label": "Product URL",
+						"max_length": 300,
+						"value": "http://www.google.com",
+						"required": 0
+					}
+				}
+			},
+			{
+				"label": "FOMO Template setup",
+				"type": "common",
+				"attributes": {
+					"bg_color": {
+						"type": "color",
+						"label": "Background color",
+						"value": "#ffffff",
+						"required": 1
+					},
+					"txt_color_primary": {
+						"type": "color",
+						"label": "Primary Text color",
+						"value": "#000",
+						"required": 1
+					},
+					"txt_color_secondary": {
+						"type": "color",
+						"label": "Secondary Text color",
+						"value": "#000",
+						"required": 1
+					},
+					"btn_color": {
+						"type": "color",
+						"label": "Button Background Color",
+						"value": "#454545",
+						"required": 1
+					},
+					"btn_txt_color": {
+						"type": "Button Text Color",
+						"label": "Button Text Color",
+						"value": "#ffffff",
+						"required": 1
 					}
 				}
 			}

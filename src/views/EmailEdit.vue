@@ -1147,7 +1147,7 @@ export default {
   flex-wrap: wrap;
   justify-content: space-between;
   .ql-formats {
-    margin-right: 10px !important;
+    margin-right: 5px !important;
   }
 }
 .ql-snow .ql-tooltip {
