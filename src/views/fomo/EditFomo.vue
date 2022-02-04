@@ -853,9 +853,15 @@ export default {
         Axios.post(url, formData)
           .then(({ data }) => {
             if (!data.error) {
-              this.fomoInputs.template_settings.settings[key].attributes[
-                name
-              ].value = data.img_name;
+              if (
+                this.fomoInputs.template_settings.settings[key].type == "common"
+              ) {
+                this.appearanceSettings[0].attributes[name].value =
+                  data.img_name;
+              } else {
+                this.templateSettings[key].attributes[name].value =
+                  data.img_name;
+              }
               msg = `<i class="fas fa-check-circle"></i> Uploaded successfully`;
             }
           })
@@ -1116,7 +1122,7 @@ export default {
 }
 
 .editTemplate {
-  padding: 6em 50px 4em;
+  padding: 3em 50px 4em;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -1129,6 +1135,9 @@ export default {
       top: 50%;
       transform: translateY(-50%);
       z-index: 50;
+    }
+    .item-types:first-of-type .vc-chrome {
+      transform: none;
     }
   }
 
