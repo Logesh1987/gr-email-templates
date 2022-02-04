@@ -78,16 +78,13 @@
               <md-tabs
                 :class="
                   `fomo-tabs ${
-                    fomoInputs &&
-                    fomoInputs.template_settings['settings'].length < 2
-                      ? 'no-label'
-                      : ''
+                    fomoInputs && templateSettings.length < 2 ? 'no-label' : ''
                   }`
                 "
                 @md-changed="setActiveTab"
               >
                 <md-tab
-                  v-for="(item, key) in fomoInputs.template_settings.settings"
+                  v-for="(item, key) in templateSettings"
                   :key="key"
                   :id="item.type"
                   :md-label="item.label"
@@ -279,6 +276,173 @@
                 :content="fomoClanData"
                 v-if="Object.keys(fomoInputs.display_settings).length"
               />
+            </md-tab>
+            <md-tab
+              v-if="appearanceSettings.length > 0"
+              id="tab-common"
+              :md-label="appearanceSettings[0].label"
+            >
+              <div v-if="appearanceSettings[0].attributes">
+                <div
+                  class="item-types"
+                  v-for="(control, name, index) in appearanceSettings[0]
+                    .attributes"
+                  :key="index"
+                >
+                  <div v-if="control.type == 'text'">
+                    <div class="subTitle">
+                      <h3>
+                        {{ control.label }}
+                      </h3>
+                      <div>
+                        <label
+                          v-if="typeof control.status == 'number'"
+                          :for="`view-${key}-${name}`"
+                          :class="
+                            `showHide fas fa-eye${
+                              control.status == 0 ? '-slash' : ''
+                            }`
+                          "
+                          @click="control.status == 0 ? 1 : 0"
+                        >
+                          <input
+                            type="checkbox"
+                            :true-value="1"
+                            :false-value="0"
+                            v-model="control.status"
+                            :id="`view-${key}-${name}`"
+                          />
+                          <md-tooltip md-direction="right">Hide</md-tooltip>
+                        </label>
+                        <CustomVariables
+                          v-if="control.show_dynamic_variables"
+                          :data="dVars"
+                          :name="name"
+                          :index="key"
+                          :click="appendVarToKey"
+                        />
+                        <span class="charCount"
+                          >{{ control.value.length }} /
+                          {{ control.max_length }}</span
+                        >
+                      </div>
+                    </div>
+                    <div class="relative">
+                      <input
+                        class="form-control"
+                        type="text"
+                        :maxlength="control.max_length"
+                        :ref="`${key}-${name}`"
+                        v-model="control.value"
+                        @keyup="checkforError(control, name)"
+                      />
+                    </div>
+                    <small v-if="hasError[name]" class="fieldError">
+                      This field cannot be empty
+                    </small>
+                  </div>
+                  <div v-if="control.type == 'textarea'">
+                    <div class="subTitle">
+                      <h3>
+                        {{ control.label }}
+                      </h3>
+                      <div>
+                        <label
+                          :for="`view-${key}-${name}`"
+                          v-if="typeof control.status == 'number'"
+                          :class="
+                            `showHide fas fa-eye${
+                              control.status == 0 ? '-slash' : ''
+                            }`
+                          "
+                          @click="control.status == 0 ? 1 : 0"
+                        >
+                          <input
+                            type="checkbox"
+                            :true-value="1"
+                            :false-value="0"
+                            v-model="control.status"
+                            :id="`view-${key}-${name}`"
+                          />
+                          <md-tooltip md-direction="right">Hide</md-tooltip>
+                        </label>
+                        <CustomVariables
+                          v-if="control.show_dynamic_variables"
+                          :data="dVars"
+                          :name="name"
+                          :index="key"
+                          :click="appendVarToKey"
+                        />
+                        <span class="charCount"
+                          >{{ control.value.length }} /
+                          {{ control.max_length }}</span
+                        >
+                      </div>
+                    </div>
+                    <div class="relative">
+                      <quillEditor
+                        v-model="control.value"
+                        :options="eOptions"
+                        @focus="onEditorFocus($event, name)"
+                        @change="onEditorChange($event, control, name)"
+                        :ref="`${key}-${name}`"
+                      ></quillEditor>
+                    </div>
+                    <small v-if="hasError[name]" class="fieldError">
+                      This field cannot be empty
+                    </small>
+                  </div>
+                  <div v-if="control.type == 'file'">
+                    <div class="subTitle">
+                      <h3>
+                        {{ control.label }}
+                        <i class="fas fa-question-circle"
+                          ><md-tooltip md-direction="right"
+                            >Supported file formats: JPEG, PNG</md-tooltip
+                          ></i
+                        >
+                      </h3>
+                      <div>
+                        <label
+                          :for="`view-${key}-${name}`"
+                          v-if="typeof control.status == 'number'"
+                          :class="
+                            `showHide fas fa-eye${
+                              control.status == 0 ? '-slash' : ''
+                            }`
+                          "
+                          @click="control.status == 0 ? 1 : 0"
+                        >
+                          <input
+                            type="checkbox"
+                            :true-value="1"
+                            :false-value="0"
+                            v-model="control.status"
+                            :id="`view-${key}-${name}`"
+                          />
+                          <md-tooltip md-direction="right">Hide</md-tooltip>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="relative">
+                      <ImgUploadPreview
+                        :id="`${key}-${name}`"
+                        :handleFileChange="e => handleImgChange(e, key, name)"
+                        :data="control"
+                      />
+                    </div>
+                  </div>
+                  <div v-if="control.type == 'color'" class="colorPick">
+                    <div class="subTitle">
+                      <h3>{{ control.label }}</h3>
+                    </div>
+                    <ColorPicker
+                      :color="control.value"
+                      v-on:input="e => (control.value = e)"
+                    ></ColorPicker>
+                  </div>
+                </div>
+              </div>
             </md-tab>
           </md-tabs>
         </div>
@@ -553,6 +717,22 @@ export default {
           this.dirty = true;
         }
       }
+    },
+    templateSettings: {
+      deep: true,
+      handler: function(val, oldVal) {
+        if (oldVal !== null) {
+          this.dirty = true;
+        }
+      }
+    },
+    appearanceSettings: {
+      deep: true,
+      handler: function(val, oldVal) {
+        if (oldVal !== null) {
+          this.dirty = true;
+        }
+      }
     }
   },
   computed: {
@@ -574,7 +754,18 @@ export default {
           settings: {}
         }
       };
-      this.fomoInputs.template_settings.settings.forEach(data =>
+      this.templateSettings.forEach(data =>
+        Object.keys(data.attributes).forEach(key => {
+          if ("status" in data.attributes[key]) {
+            if (data.attributes[key].status == 1)
+              dd.template.settings[key] = data.attributes[key].value;
+            else dd.template.settings[key] = null;
+          } else {
+            dd.template.settings[key] = data.attributes[key].value;
+          }
+        })
+      );
+      this.appearanceSettings.forEach(data =>
         Object.keys(data.attributes).forEach(key => {
           if ("status" in data.attributes[key]) {
             if (data.attributes[key].status == 1)
@@ -590,6 +781,20 @@ export default {
     dVars() {
       return this.fomoData
         ? this.fomoData.template_settings.dynamic_variables.split(",")
+        : null;
+    },
+    templateSettings() {
+      return this.fomoData
+        ? this.fomoData.template_settings.settings.filter(
+            i => i.type !== "common"
+          )
+        : null;
+    },
+    appearanceSettings() {
+      return this.fomoData
+        ? this.fomoData.template_settings.settings.filter(
+            i => i.type == "common"
+          )
         : null;
     }
   },
@@ -730,6 +935,10 @@ export default {
     handleSave: function() {
       const url = this.getApiUrl(`fomo/updateFOMODetails`);
       this.toggleLoader(true);
+      this.fomoInputs.template_settings.settings = [
+        ...this.templateSettings,
+        ...this.appearanceSettings
+      ];
       const params = {
         id_fomo: this.fomoId,
         id_template: this.fomoInputs.id_template,

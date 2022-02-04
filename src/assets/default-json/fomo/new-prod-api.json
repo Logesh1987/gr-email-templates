@@ -93,7 +93,7 @@
 						"required": 1
 					},
 					"btn_txt_color": {
-						"type": "Button Text Color",
+						"type": "color",
 						"label": "Button Text Color",
 						"value": "#ffffff",
 						"required": 1
@@ -196,7 +196,7 @@
 						"required": 1
 					},
 					"btn_txt_color": {
-						"type": "Button Text Color",
+						"type": "color",
 						"label": "Button Text Color",
 						"value": "#ffffff",
 						"required": 1
@@ -301,7 +301,7 @@
 						"required": 1
 					},
 					"btn_txt_color": {
-						"type": "Button Text Color",
+						"type": "color",
 						"label": "Button Text Color",
 						"value": "#ffffff",
 						"required": 1
@@ -406,7 +406,7 @@
 						"required": 1
 					},
 					"btn_txt_color": {
-						"type": "Button Text Color",
+						"type": "color",
 						"label": "Button Text Color",
 						"value": "#ffffff",
 						"required": 1
