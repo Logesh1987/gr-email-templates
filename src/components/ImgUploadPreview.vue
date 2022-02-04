@@ -6,8 +6,11 @@
       <input :id="id" type="file" accept="image/*" @change="handleFileChange" />
     </label>
     <img
-      v-if="data.value && data.value.length > 0"
-      :src="getImgUrl(data.value)"
+      :src="
+        data.value.length > 0
+          ? getImgUrl(data.value)
+          : getAssetUrl('placeholder-img.jpg')
+      "
       alt=""
     />
     <div class="fileDimension" v-if="data.width && data.height">
@@ -19,7 +22,7 @@
 export default {
   name: "ImgUploadPreview",
   props: ["id", "handleFileChange", "data"],
-  mixins: ["getImgUrl"]
+  mixins: ["getImgUrl", "getAssetUrl"]
 };
 </script>
 <style lang="less" scoped>

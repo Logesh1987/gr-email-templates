@@ -40,14 +40,14 @@
 						"show_dynamic_variables": 1,
 						"label": "Product Price Info",
 						"status": 1,
-						"max_length": 3000,
+						"max_length": 150,
 						"rows": 4,
 						"value": "<sup>$</sup>XXX<sup>xx</sup>",
 						"required": 0
 					},
 					"btn_text": {
 						"type": "text",
-						"show_dynamic_variables": 1,
+						"show_dynamic_variables": 0,
 						"label": "Button Text",
 						"status": 1,
 						"max_length": 50,
@@ -56,7 +56,7 @@
 					},
 					"btn_url": {
 						"type": "text",
-						"show_dynamic_variables": 1,
+						"show_dynamic_variables": 0,
 						"label": "Product URL",
 						"max_length": 300,
 						"value": "http://www.google.com",
@@ -65,7 +65,7 @@
 				}
 			},
 			{
-				"label": "FOMO Template setup",
+				"label": "Appearance",
 				"type": "common",
 				"attributes": {
 					"bg_color": {
@@ -143,14 +143,14 @@
 						"show_dynamic_variables": 1,
 						"label": "Product Price Info",
 						"status": 1,
-						"max_length": 3000,
+						"max_length": 150,
 						"rows": 4,
 						"value": "<sup>$</sup>XXX<sup>xx</sup>",
 						"required": 0
 					},
 					"btn_text": {
 						"type": "text",
-						"show_dynamic_variables": 1,
+						"show_dynamic_variables": 0,
 						"label": "Button Text",
 						"status": 1,
 						"max_length": 50,
@@ -159,7 +159,7 @@
 					},
 					"btn_url": {
 						"type": "text",
-						"show_dynamic_variables": 1,
+						"show_dynamic_variables": 0,
 						"label": "Product URL",
 						"max_length": 300,
 						"value": "http://www.google.com",
@@ -248,14 +248,14 @@
 						"show_dynamic_variables": 1,
 						"label": "Product Price Info",
 						"status": 1,
-						"max_length": 3000,
+						"max_length": 150,
 						"rows": 4,
 						"value": "<sup>$</sup>XXX<sup>xx</sup>",
 						"required": 0
 					},
 					"btn_text": {
 						"type": "text",
-						"show_dynamic_variables": 1,
+						"show_dynamic_variables": 0,
 						"label": "Button Text",
 						"status": 1,
 						"max_length": 50,
@@ -264,7 +264,7 @@
 					},
 					"btn_url": {
 						"type": "text",
-						"show_dynamic_variables": 1,
+						"show_dynamic_variables": 0,
 						"label": "Product URL",
 						"max_length": 300,
 						"value": "http://www.google.com",
@@ -273,7 +273,7 @@
 				}
 			},
 			{
-				"label": "FOMO Template setup",
+				"label": "Appearance",
 				"type": "common",
 				"attributes": {
 					"bg_color": {
@@ -360,7 +360,7 @@
 					},
 					"btn_text": {
 						"type": "text",
-						"show_dynamic_variables": 1,
+						"show_dynamic_variables": 0,
 						"label": "Button Text",
 						"status": 1,
 						"max_length": 50,
@@ -369,7 +369,7 @@
 					},
 					"btn_url": {
 						"type": "text",
-						"show_dynamic_variables": 1,
+						"show_dynamic_variables": 0,
 						"label": "Product URL",
 						"max_length": 300,
 						"value": "http://www.google.com",
@@ -378,7 +378,7 @@
 				}
 			},
 			{
-				"label": "FOMO Template setup",
+				"label": "Appearance",
 				"type": "common",
 				"attributes": {
 					"bg_color": {

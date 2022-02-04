@@ -283,7 +283,8 @@
           </md-tabs>
         </div>
         <div class="preview_block">
-          <div class="preview_block-title">
+          <div class="preview_block-title relative">
+            <i class="tabUi"><em></em></i>
             <h2>Fomo Preview</h2>
             <div class="previewBlockBtn">
               <router-link :to="`/view/fomo/templates/${fomoId}`">
@@ -870,12 +871,14 @@ export default {
       --md-theme-default-primary-on-background: #333;
     }
     .md-tabs-navigation {
+      display: flex;
       border: 1px solid var(--stroke-grey);
       margin-top: 20px;
     }
     .md-tab-nav-button {
       height: 35px;
       color: #333 !important;
+      flex-grow: 1;
     }
     .md-active {
       color: #fff !important;
@@ -904,9 +907,10 @@ export default {
 }
 
 .editTemplate {
-  padding: 3em 50px 4em;
+  padding: 6em 50px 4em;
   display: flex;
   justify-content: flex-start;
+  align-items: flex-start;
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
@@ -1045,6 +1049,10 @@ export default {
   }
 
   .preview_block {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     flex: 2;
     position: relative;
 
@@ -1062,31 +1070,60 @@ export default {
     }
 
     .preview_block-title {
-      border: 1px solid #e8e8e8;
-      border-radius: 4px;
-      padding: 10px 20px;
+      padding: 10px;
       display: flex;
       background: #fff;
       justify-content: space-between;
       align-items: center;
       box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.1);
-
+      border-bottom: 1px solid #d5d5d5;
+      i.tabUi {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        height: 100%;
+        width: 4em;
+        border-right: 1px solid #d5d5d5;
+        left: 0;
+        top: 0;
+        em,
+        &:before,
+        &:after {
+          content: "";
+          border-radius: 50%;
+          display: inline-block;
+          width: 5px;
+          height: 5px;
+          margin: 0 2px;
+        }
+        &:before {
+          background-color: #febc14;
+        }
+        &:after {
+          background-color: #2dbca7;
+        }
+        em {
+          background: #d74d4a;
+        }
+      }
       h2 {
-        font-size: 18px;
-        margin: 0;
+        font-size: 16px;
+        font-weight: 400;
+        margin: 0 0 0 4em;
       }
     }
   }
   .preview_block-template {
-    background: #ababab;
+    background: #f5f5f5;
     min-height: 620px;
     position: sticky;
     top: 70px;
     overflow: hidden;
-    margin-top: 15px;
-    border-radius: 4px;
-    box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 10px 10px;
     transform: translateZ(0);
+    border: 4px solid #fff;
+    border-top: 0;
   }
   .embed_visible {
     position: absolute;
