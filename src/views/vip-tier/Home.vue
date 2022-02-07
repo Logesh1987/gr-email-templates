@@ -22,7 +22,7 @@
         <md-button
           class="md-raised amvip--btn amvip--btnHome"
           @click="gotoSetup"
-          >Start Program <span class="far fa-arrow-left"></span
+          >Start Program <span class="far fa-arrow-right"></span
         ></md-button>
       </div>
     </section>

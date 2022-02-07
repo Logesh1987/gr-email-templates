@@ -47,7 +47,7 @@
               <md-button
                 class="md-raised md-accent btn-custom-active"
                 v-if="template.id_theme == activeThemeId"
-                @click="e => save(template.id_theme)"
+                @click="(e) => save(template.id_theme)"
               >
                 <i class="far fa-check-circle"></i>
                 Customize
@@ -55,7 +55,7 @@
               <md-button
                 class="md-raised btn-custom-primary"
                 v-else
-                @click="e => save(template.id_theme)"
+                @click="(e) => save(template.id_theme)"
               >
                 Change
               </md-button>

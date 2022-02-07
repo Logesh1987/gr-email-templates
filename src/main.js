@@ -18,7 +18,7 @@ var hostname = window.location.hostname;
 var pathname = window.location.pathname;
 
 if (hostname == "localhost") {
-  Vue.prototype.$callback_url = "https://arun.devam.pro/gr";
+  Vue.prototype.$callback_url = "https://gr-embed.devam.pro/gr";
 } else if (pathname.includes("/gr/")) {
   Vue.prototype.$callback_url = "https://" + hostname + "/gr";
 } else {

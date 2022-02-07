@@ -22,7 +22,7 @@
             >
             <md-button
               @click.prevent="
-                e =>
+                (e) =>
                   editted > 2 ? (showUnsavedpop = 'change') : togglePageview()
               "
               class="md-raised md-accent"
@@ -98,7 +98,7 @@
                         v-if="item.data && item.name !== 'footer'"
                         class="eAccordion-title"
                         @click.prevent="
-                          e => item.data.length !== 0 && toggleAccordion(key)
+                          (e) => item.data.length !== 0 && toggleAccordion(key)
                         "
                       >
                         <i
@@ -221,7 +221,7 @@
                                     type="file"
                                     accept="image/*"
                                     @change="
-                                      e =>
+                                      (e) =>
                                         handleFileChange(
                                           e,
                                           key,
@@ -252,7 +252,7 @@
                               </div>
                               <ColorPicker
                                 :color="control.value"
-                                v-on:input="e => (control.value = e)"
+                                v-on:input="(e) => (control.value = e)"
                               ></ColorPicker>
                             </div>
                           </div>
@@ -275,7 +275,7 @@
                   <div
                     class="eAccordion-title"
                     @click.prevent="
-                      e =>
+                      (e) =>
                         footerSection.data.length !== 0 && isWl == 1 && wlImage
                           ? toggleAccordion('footer')
                           : (upgradePopup = true)
@@ -304,7 +304,7 @@
                                 title="Update status"
                                 for="footer"
                                 @click.prevent="
-                                  e => {
+                                  (e) => {
                                     if (control.value === 1) {
                                       control.value = 0;
                                       handleWlImg(true);
@@ -374,7 +374,7 @@
                           <PreviewRenderer
                             v-for="(block, index) in eData.json_fields"
                             :handleClick="
-                              e =>
+                              (e) =>
                                 (activeAccordion =
                                   block.name == 'footer' ? 'footer' : index)
                             "
@@ -408,7 +408,7 @@
               "
               md-confirm-text="Confirm"
               md-cancel-text="Cancel"
-              @md-cancel="e => (resetAction = false)"
+              @md-cancel="(e) => (resetAction = false)"
               @md-confirm="confirmReset"
             />
             <md-dialog-confirm
@@ -424,9 +424,9 @@
               "
               md-confirm-text="Confirm"
               md-cancel-text="Cancel"
-              @md-cancel="e => (showUnsavedpop = false)"
+              @md-cancel="(e) => (showUnsavedpop = false)"
               @md-confirm="
-                e =>
+                (e) =>
                   showUnsavedpop == 'change'
                     ? togglePageview()
                     : pushtoLanguageTab()
@@ -440,7 +440,7 @@
               "
               md-confirm-text="Confirm"
               md-cancel-text="Cancel"
-              @md-cancel="e => (promptAction = null)"
+              @md-cancel="(e) => (promptAction = null)"
               @md-confirm="confirmAction"
             />
             <md-dialog-confirm
@@ -543,7 +543,7 @@ var options = {
               this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
             }
             this.quill.selection.scrollIntoView();
-            Object.keys(context.format).forEach(name => {
+            Object.keys(context.format).forEach((name) => {
               if (lineFormats[name] != null) return;
               if (Array.isArray(context.format[name])) return;
               if (name === "link") return;
@@ -679,7 +679,7 @@ export default {
   },
   computed: {
     footerSection() {
-      return this.eData.json_fields.find(item => item.name === "footer");
+      return this.eData.json_fields.find((item) => item.name === "footer");
     },
     dragOptions() {
       return {
@@ -829,7 +829,7 @@ export default {
           id_email: this.id,
           id_theme: this.eData.id_theme,
         })
-      ).then(res => {
+      ).then((res) => {
         if (res.status == 200) {
           this.fetchTemplateData();
           this.emailResponse = `<i class="fas fa-check-circle"></i> Template reset successfully`;

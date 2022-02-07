@@ -1,6 +1,6 @@
 module.exports = {
   filenameHashing: false,
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     // Not naming bundle 'app'
     config.entryPoints.delete("app");
   },

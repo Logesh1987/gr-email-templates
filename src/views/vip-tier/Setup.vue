@@ -94,6 +94,15 @@
               </md-radio>
               <md-radio
                 v-model="form.selection_type"
+                value="non_purchase_value"
+                id="nonPurchase"
+                name="selection_type"
+                ref="selection_type"
+              >
+                Non-Purchase
+              </md-radio>
+              <md-radio
+                v-model="form.selection_type"
                 value="purchase_value"
                 id="purchase"
                 name="selection_type"
@@ -119,6 +128,18 @@
             <div class="amvip--customRadio">
               <md-radio
                 v-model="form.time_slot"
+                value="year"
+                id="calendarYear"
+                name="time_slot"
+                ref="time_slot"
+              >
+                Annual
+              </md-radio>
+              <small>
+                A member qualifies for the calendar year (1st Jan - 31st Dec)
+              </small>
+              <md-radio
+                v-model="form.time_slot"
                 value="lifetime"
                 id="lifetime"
                 name="time_slot"
@@ -129,18 +150,6 @@
               <small>
                 Once a member achieves a tier, they will keep their status
                 forever.
-              </small>
-              <md-radio
-                v-model="form.time_slot"
-                value="year"
-                id="calendarYear"
-                name="time_slot"
-                ref="time_slot"
-              >
-                Annual
-              </md-radio>
-              <small>
-                A member qualifies for the calendar year (1st Jan - 31st Dec)
               </small>
             </div>
             <span
@@ -168,6 +177,11 @@
       v-on:confirmed="confirmClicked($event)"
       v-on:canceled="cancelClicked($event)"
     ></ConfirmPopup>
+    <md-dialog-alert
+      :md-active.sync="showSuccessPopup"
+      md-title="Review & Launch"
+      md-content="Your program is ready"
+    />
   </div>
 </template>
 <style lang="less">
@@ -238,6 +252,7 @@ export default {
     mode: Mode.create,
     showConfirmPopup: false,
     popupConfig: null,
+    showSuccessPopup: false,
   }),
   validations: {
     form: {
@@ -343,6 +358,7 @@ export default {
           if (res.data.error) {
             return false;
           } else {
+            this.showSuccessPopup = true;
             this.$router.push("/view/tiers/manage-tier");
           }
         });

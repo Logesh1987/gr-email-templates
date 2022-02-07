@@ -3,7 +3,7 @@
     <div class="amvip--container">
       <hgroup class="amvip--pageHeader">
         <span class="far fa-arrow-left" @click="goBack"></span>
-        <h2>Edit tier</h2>
+        <h2>Edit {{ form.name }} tier</h2>
       </hgroup>
       <section class="amvip--editTierRow">
         <div class="amvip--editTierContent">

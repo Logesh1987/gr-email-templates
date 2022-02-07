@@ -69,7 +69,7 @@
                   ><md-tooltip md-direction="left">Edit</md-tooltip></i
                 >
               </router-link>
-              <a href="#" @click.prevent="e => sendTestEmail(mail.id_email)">
+              <a href="#" @click.prevent="(e) => sendTestEmail(mail.id_email)">
                 <i class="far fa-paper-plane"
                   ><md-tooltip md-direction="left"
                     >Send Test Email</md-tooltip
@@ -122,7 +122,10 @@
                     ><md-tooltip md-direction="left">Edit</md-tooltip></i
                   >
                 </router-link>
-                <a href="#" @click.prevent="e => sendTestEmail(mail.id_email)">
+                <a
+                  href="#"
+                  @click.prevent="(e) => sendTestEmail(mail.id_email)"
+                >
                   <i class="far fa-paper-plane"
                     ><md-tooltip md-direction="left"
                       >Send Test Email</md-tooltip
@@ -243,7 +246,7 @@ export default {
         this.loader = false;
         if (status == 200) {
           this.emailResponse = `<i class="fas fa-check-circle"></i> ${data.msg}`;
-          this.listData = this.listData.map(item =>
+          this.listData = this.listData.map((item) =>
             item.id_email == id
               ? { ...item, is_enabled: params.is_enabled }
               : item

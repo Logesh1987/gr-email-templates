@@ -6,7 +6,7 @@
         v-for="item in data"
         :key="item"
         class="dLinkMenuItem"
-        @click="_ => click(index, name, item)"
+        @click="(_) => click(index, name, item)"
         ><i class="fal fa-plus-square"></i> {{ item }}</md-menu-item
       >
     </md-menu-content>
