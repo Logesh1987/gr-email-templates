@@ -1020,4 +1020,144 @@ export default {
     }
   }
 }
+
+.fomo_preview_block {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  flex: 2;
+  position: relative;
+
+  .btn-default {
+    border: 1px solid #ccc;
+    color: #000;
+    padding: 5px 15px;
+  }
+
+  .btn-preview {
+    border: 1px solid #007aff;
+    padding: 5px 15px;
+    color: #007aff;
+    margin-left: 10px;
+  }
+
+  .fomo_preview_block-title {
+    padding: 10px;
+    display: flex;
+    background: #fff;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #d5d5d5;
+    i.tabUi {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      height: 100%;
+      width: 4em;
+      border-right: 1px solid #d5d5d5;
+      left: 0;
+      top: 0;
+      em,
+      &:before,
+      &:after {
+        content: "";
+        border-radius: 50%;
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        margin: 0 2px;
+      }
+      &:before {
+        background-color: #febc14;
+      }
+      &:after {
+        background-color: #2dbca7;
+      }
+      em {
+        background: #d74d4a;
+      }
+    }
+    h2 {
+      font-size: 16px;
+      font-weight: 400;
+      margin: 0 0 0 4em;
+    }
+  }
+}
+.fomo_preview_block-template {
+  background: #f5f5f5;
+  min-height: 620px;
+  position: sticky;
+  top: 70px;
+  overflow: hidden;
+  border-radius: 0 0 10px 10px;
+  transform: translateZ(0);
+  border: 4px solid #fff;
+  border-top: 0;
+}
+.fomo_embed_visible {
+  position: absolute;
+  top: 55px;
+  background: #fff;
+  width: 400px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px 20px;
+  right: 0px;
+
+  p {
+    font-size: 11px;
+  }
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+    h3 {
+      margin: 0;
+      font-size: 14px;
+      color: #007aff;
+    }
+  }
+
+  .iframe-block {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 4px;
+    width: 100%;
+    height: 130px;
+    font-size: 12px;
+    color: #66788a;
+    pre {
+      white-space: pre-line;
+      word-break: break-all;
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      border: none;
+    }
+  }
+
+  .link-block {
+    margin: 10px 0;
+
+    a {
+      font-size: 11px;
+      color: #428bca;
+      text-decoration: underline;
+      margin-right: 10px;
+      display: inline-block;
+
+      &:hover {
+        color: #2a6496;
+        text-decoration: underline;
+      }
+    }
+  }
+}
 </style>

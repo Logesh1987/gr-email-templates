@@ -159,24 +159,44 @@
           class="md-layout-item md-size-70 templateSection"
           v-if="fomoTemplates"
         >
-          <div class="template activeTemplate">
-            <figure class="template-inner">
-              <i>Active Template</i>
-              <img
-                :src="
-                  getAssetUrl(`fomo/theme/${fomoType}_${activeTemplate.id}.png`)
-                "
-                alt=""
-              />
-            </figure>
-            <figcaption class="template-info">
-              <p>{{ activeTemplate.attributes.name }}</p>
-              <router-link :to="`/view/fomo/templates/${fomoId}`">
-                <md-button class="md-raised md-accent">
-                  <span>Change Template</span>
-                </md-button>
-              </router-link>
-            </figcaption>
+          <div class="fomo_preview_block">
+            <div class="fomo_preview_block-title relative">
+              <i class="tabUi"><em></em></i>
+              <h2>Fomo Preview</h2>
+              <div class="previewBlockBtn">
+                <router-link :to="`/view/fomo/templates/${fomoId}`">
+                  <md-button class="md-raised">Change template</md-button>
+                </router-link>
+                <md-button
+                  class="md-raised btn-default ml-10"
+                  v-on:click="embedCode = !embedCode"
+                  >Embed</md-button
+                >
+              </div>
+            </div>
+            <div class="fomo_preview_block-template">
+              <am-fomo v-if="fomoReady" :preview="dataForPreview"></am-fomo>
+            </div>
+            <div class="fomo_embed_visible" v-if="embedCode">
+              <div class="title">
+                <h3>Embed FOMO</h3>
+                <md-button
+                  class="md-raised btn-default"
+                  @click="doCopy(copyCode)"
+                  >Copy</md-button
+                >
+              </div>
+              <div class="iframe-block">
+                <pre>
+                {{ copyCode }}
+              </pre
+                >
+              </div>
+              <p>
+                By embedding our program on your site, you are agreeing to our
+                API Terms of Service.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -184,16 +204,19 @@
   </div>
 </template>
 <script>
+import Vue from "vue";
 import Axios from "axios";
 import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "FomoSummary",
-  mixins: ["renderTemplate", "getAssetUrl", "getApiUrl"],
+  mixins: ["renderTemplate", "getAssetUrl", "getApiUrl", "doCopy"],
   data: function() {
     return {
       apiMessage: false,
-      apiResponse: null
+      apiResponse: null,
+      embedCode: false,
+      copyCode: `<script src="https://unpkg.com/vue"><\/script><script src="${Vue.prototype.$asset_url}/assets/js/fomo/am.js"><\/script><am-fomo id="${this.$route.params.fomoid}" />`, // eslint-disable-line
     };
   },
   computed: {
@@ -202,8 +225,33 @@ export default {
       "fomoType",
       "fomoData",
       "fomoTemplates",
-      "fomoClanData"
+      "fomoClanData",
+      "fomoReady"
     ]),
+    dataForPreview() {
+      if (!this.fomoData) return null;
+      let dd = {
+        type: this.fomoType,
+        id_template: this.fomoData.id_template,
+        show_screen: null,
+        template: {
+          position: this.fomoData.display_settings.position,
+          settings: {}
+        }
+      };
+      this.fomoData.template_settings.settings.forEach(data =>
+        Object.keys(data.attributes).forEach(key => {
+          if ("status" in data.attributes[key]) {
+            if (data.attributes[key].status == 1)
+              dd.template.settings[key] = data.attributes[key].value;
+            else dd.template.settings[key] = null;
+          } else {
+            dd.template.settings[key] = data.attributes[key].value;
+          }
+        })
+      );
+      return JSON.stringify(dd);
+    },
     rInfo: function() {
       return this.fomoData.reward_settings;
     },
@@ -263,6 +311,16 @@ export default {
   mounted: function() {
     if (this.fomoId !== this.$route.params.fomoid) {
       this.updateFomoId(this.$route.params.fomoid);
+    }
+    if (!document.querySelector(".am-fomo-script")) {
+      const plugin = document.createElement("script");
+      plugin.setAttribute("class", "am-fomo-script");
+      plugin.setAttribute(
+        "src",
+        `${Vue.prototype.$asset_url}/assets/js/fomo/am.js`
+      );
+      plugin.async = true;
+      document.head.appendChild(plugin);
     }
   }
 };
@@ -360,62 +418,5 @@ export default {
       }
     }
   }
-
-  .templateSection {
-    .template {
-      width: calc(100% - 40px);
-      max-width: 100%;
-      margin-bottom: 1em;
-      margin: 0px 15px;
-      position: relative;
-      figure {
-        &:before {
-          content: "";
-          display: block;
-          padding-bottom: 50%;
-        }
-      }
-
-      &-inner {
-        margin: 0;
-        background: #ababab;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        &:before {
-          content: "";
-          display: block;
-          padding-bottom: 80%;
-        }
-        img {
-          width: 90%;
-          height: 90%;
-          position: absolute;
-          object-fit: contain;
-        }
-        i {
-          position: absolute;
-          right: 0;
-          top: 0;
-          background: #0ec25e;
-          padding: 0.4em 1.2em 0.6em 1.6em;
-          font-style: normal;
-          color: #fff;
-          box-shadow: -0.5em 0.5em 1.5em rgba(0, 0, 0, 0.5);
-        }
-      }
-      &-info {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin: 0.5em 0;
-      }
-    }
-  }
-}
-.nameCTA {
-  cursor: pointer;
 }
 </style>

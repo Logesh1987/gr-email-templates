@@ -160,6 +160,9 @@ export default {
 .align-items-center {
   align-items: center;
 }
+.relative {
+  position: relative;
+}
 .flex-direction-column {
   flex-direction: column;
 }
@@ -439,8 +442,14 @@ export default {
   max-height: 700px;
   max-width: 700px;
   margin: auto;
-  .ql-html-textContainer {
-    height: calc(100% - 40px);
+  .ql-html-textArea {
+    position: absolute !important;
+    left: 20px;
+    width: calc(100% - 40px);
+  }
+  .ql-syntax {
+    background: none;
+    border: none;
   }
   .ql-html-buttonGroup {
     transform: none;
@@ -450,7 +459,7 @@ export default {
     text-align: right;
     button {
       cursor: pointer;
-      padding: 10px 25px;
+      padding: 5px 20px;
       &.ql-html-buttonOk {
         background: var(--md-theme-default-accent);
         border: none;
@@ -459,6 +468,7 @@ export default {
       &.ql-html-buttonCancel {
         background: #fff;
         border: 1px solid #bdbdbd;
+        margin-right: 10px;
       }
     }
   }
