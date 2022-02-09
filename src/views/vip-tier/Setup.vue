@@ -236,7 +236,7 @@ export default {
       name: null,
       description: null,
       date_start: null,
-      selection_type: "no_of_points",
+      selection_type: "points",
       time_slot: null,
     },
     userSaved: false,
