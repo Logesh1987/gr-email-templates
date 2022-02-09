@@ -85,7 +85,7 @@
             <div class="amvip--customRadio">
               <md-radio
                 v-model="form.selection_type"
-                value="no_of_points"
+                value="points"
                 id="points"
                 ref="selection_type"
                 name="selection_type"
@@ -94,7 +94,7 @@
               </md-radio>
               <md-radio
                 v-model="form.selection_type"
-                value="non_purchase_value"
+                value="no_of_non_purchase"
                 id="nonPurchase"
                 name="selection_type"
                 ref="selection_type"
@@ -103,7 +103,7 @@
               </md-radio>
               <md-radio
                 v-model="form.selection_type"
-                value="purchase_value"
+                value="no_of_purchase"
                 id="purchase"
                 name="selection_type"
                 ref="selection_type"
@@ -128,7 +128,7 @@
             <div class="amvip--customRadio">
               <md-radio
                 v-model="form.time_slot"
-                value="year"
+                value="calendar_year"
                 id="calendarYear"
                 name="time_slot"
                 ref="time_slot"
@@ -140,7 +140,7 @@
               </small>
               <md-radio
                 v-model="form.time_slot"
-                value="lifetime"
+                value="life_time"
                 id="lifetime"
                 name="time_slot"
                 ref="time_slot"
