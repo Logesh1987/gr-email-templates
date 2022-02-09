@@ -63,7 +63,11 @@ export default {
           !config.config.url.includes("S3Uploader/tier")
         ) {
           this.showSnackbar = false;
-          this.responseData = config.data.data.message;
+          if (config.data.error) {
+            this.responseData = config.data.error.message;
+          } else {
+            this.responseData = config.data.data.message;
+          }
           this.showSnackbar = true;
         }
         this.loader = false;

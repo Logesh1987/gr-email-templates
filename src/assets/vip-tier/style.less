@@ -16,7 +16,7 @@ button {
   font-size: 10px;
   @media (min-width: 960px) {
     font-size: 11px;
-    .amvip--wrapper{
+    .amvip--wrapper {
       padding-top: 100px;
     }
   }
@@ -32,6 +32,10 @@ body {
   font-family: "Arial", sans-serif;
   color: #333;
   background: #f5f5f5;
+}
+
+span.md-error {
+  color: red;
 }
 
 // Buttons
@@ -499,9 +503,10 @@ select,
   align-items: flex-start;
   flex-direction: row;
   padding: 20px;
-  
-  >.vertical{
-    &.left,&.right{
+
+  > .vertical {
+    &.left,
+    &.right {
       width: 50% !important;
       max-width: 50% !important;
       flex: 0 0 50% !important;
@@ -513,7 +518,7 @@ select,
       max-width: 100%;
       flex: 0 0 100%;
       box-sizing: border-box;
-  }
+    }
   }
   .amvip--formRow.vertical,
   .amvip--twolColumnRow.vertical {
@@ -523,7 +528,7 @@ select,
     max-width: 100%;
     flex: 0 0 100%;
     width: 100%;
-    >*{
+    > * {
       width: 100%;
       max-width: 100%;
       flex: 0 0 100%;

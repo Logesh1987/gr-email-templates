@@ -18,14 +18,14 @@ var hostname = window.location.hostname;
 var pathname = window.location.pathname;
 
 if (hostname == "localhost") {
-  Vue.prototype.$callback_url = "https://gr-embed.devam.pro/gr";
+  Vue.prototype.$callback_url = "https://arun.devam.pro/gr";
 } else if (pathname.includes("/gr/")) {
   Vue.prototype.$callback_url = "https://" + hostname + "/gr";
 } else {
   Vue.prototype.$callback_url = "https://" + hostname;
 }
 
-Vue.prototype.$shop_id = "1953";
+Vue.prototype.$shop_id = "2100";
 Vue.prototype.$email = "akash@appsmav.com";
 Vue.prototype.$asset_url = `${Vue.prototype.$callback_url}/public`;
 

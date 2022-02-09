@@ -136,7 +136,7 @@
                 Annual
               </md-radio>
               <small>
-                A member qualifies for the calendar year (1st Jan - 31st Dec)
+                A member qualifies for the enrolling period
               </small>
               <md-radio
                 v-model="form.time_slot"
@@ -177,11 +177,6 @@
       v-on:confirmed="confirmClicked($event)"
       v-on:canceled="cancelClicked($event)"
     ></ConfirmPopup>
-    <md-dialog-alert
-      :md-active.sync="showSuccessPopup"
-      md-title="Review & Launch"
-      md-content="Your program is ready"
-    />
   </div>
 </template>
 <style lang="less">
@@ -252,7 +247,6 @@ export default {
     mode: Mode.create,
     showConfirmPopup: false,
     popupConfig: null,
-    showSuccessPopup: false,
   }),
   validations: {
     form: {
@@ -331,12 +325,17 @@ export default {
       };
       this.showConfirmPopup = true;
     },
-    confirmClicked() {
+    confirmClicked(event) {
       this.showConfirmPopup = false;
-      this.clearForm();
-      this.$router.push("/view/tiers/home");
+      if (event.id == "finalConfirmSetup") {
+        this.saveUser();
+      } else {
+        this.clearForm();
+        this.$router.push("/view/tiers/home");
+      }
     },
-    cancelClicked() {
+    cancelClicked(event) {
+      console.log(event);
       this.showConfirmPopup = false;
     },
     clearForm() {
@@ -358,7 +357,6 @@ export default {
           if (res.data.error) {
             return false;
           } else {
-            this.showSuccessPopup = true;
             this.$router.push("/view/tiers/manage-tier");
           }
         });
@@ -395,7 +393,15 @@ export default {
       if (this.$v.$invalid) {
         this.focusFirstStatus(this.$v.form, this.$refs);
       } else {
-        this.saveUser();
+        this.popupConfig = {
+          title: "Review/Launch",
+          content: "Your program is ready",
+          confirmText: "Launch",
+          cancelText: "Review",
+          id: "finalConfirmSetup",
+        };
+        this.showConfirmPopup = true;
+        // this.saveUser();
       }
     },
     goBack() {

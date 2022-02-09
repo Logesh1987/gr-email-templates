@@ -220,6 +220,7 @@
                 <label for="coupon_type">Bonus points Type:</label>
                 <div class="couponType">
                   <md-radio
+                    v-if="form.type == 'ongoing'"
                     v-model="form.coupon_type"
                     value="multiple"
                     id="multiple"
@@ -434,7 +435,7 @@
 </style>
 <script>
 import { validationMixin } from "vuelidate";
-import { required, minLength } from "vuelidate/lib/validators";
+import { required, minLength, requiredIf } from "vuelidate/lib/validators";
 import Axios from "axios";
 export default {
   name: "EditReward",
@@ -466,10 +467,14 @@ export default {
         required,
       },
       couponamount: {
-        required,
+        required: requiredIf(function() {
+          return this.form.rewardtype !== "perk_expeience";
+        }),
       },
       coupon_type: {
-        required,
+        required: requiredIf(function() {
+          return this.form.rewardtype !== "perk_expeience";
+        }),
       },
     },
   },
@@ -520,6 +525,7 @@ export default {
           );
           break;
         default:
+          this.$router.push("/view/tiers/manage-tier");
           break;
       }
     },
@@ -598,6 +604,7 @@ export default {
       this.form.minspend = response.settings.realtime_min_order;
       this.form.coupon_type = response.settings.coupon_type;
       this.form.expiry = new Date(response.settings.date_expiry);
+      this.form.email = response.settings.email;
     },
     validateData() {
       this.$v.$touch();

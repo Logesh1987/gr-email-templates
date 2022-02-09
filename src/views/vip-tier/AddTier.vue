@@ -126,7 +126,6 @@
   }
   .amvip--icon {
     display: flex;
-    display: flex;
     justify-content: center;
     align-items: center;
     .amvip--iconPreview {

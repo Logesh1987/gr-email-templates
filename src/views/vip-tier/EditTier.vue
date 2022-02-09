@@ -165,6 +165,8 @@
   }
   .amvip--icon {
     display: flex;
+    justify-content: center;
+    align-items: center;
     .amvip--iconPreview {
       min-width: 60px;
       max-width: 60px;

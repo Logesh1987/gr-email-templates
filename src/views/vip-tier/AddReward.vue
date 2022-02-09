@@ -220,6 +220,7 @@
                 <label for="coupon_type">Bonus points Type:</label>
                 <div class="couponType">
                   <md-radio
+                    v-if="form.type == 'ongoing'"
                     v-model="form.coupon_type"
                     value="multiple"
                     id="multiple"
