@@ -39,9 +39,7 @@
       <div class="amvip--tierDetails">
         <h4 v-if="tierData.goal !== 0">Eligibility</h4>
         <ul class="amvip--bulletList" v-if="tierData.goal !== 0">
-          <li>
-            {{ tierData.goaltxt }}
-          </li>
+          <li>{{ tierData.goaltxt }} annually</li>
         </ul>
         <div v-else class="eligibilityDesc">{{ tierData.description }}</div>
         <h4 v-if="tierData.rewards.length > 0">Benefits</h4>

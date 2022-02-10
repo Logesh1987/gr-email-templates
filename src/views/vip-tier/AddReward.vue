@@ -12,14 +12,14 @@
             v-bind:class="form.type == 'onetime' ? 'active' : ''"
             data-value="onetime"
           >
-            One time reward
+            Welcome reward
           </div>
           <div
             class="amvip--tabTitle"
             v-bind:class="form.type == 'ongoing' ? 'active' : ''"
             data-value="ongoing"
           >
-            On going reward
+            In-Tier Benefits
           </div>
         </div>
         <div class="amvip--tabContent">

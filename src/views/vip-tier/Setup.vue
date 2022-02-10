@@ -94,15 +94,6 @@
               </md-radio>
               <md-radio
                 v-model="form.selection_type"
-                value="no_of_non_purchase"
-                id="nonPurchase"
-                name="selection_type"
-                ref="selection_type"
-              >
-                Non-Purchase
-              </md-radio>
-              <md-radio
-                v-model="form.selection_type"
                 value="no_of_purchase"
                 id="purchase"
                 name="selection_type"
