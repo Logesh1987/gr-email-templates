@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import EmailListing from "../views/EmailListing.vue";
 import EmailEdit from "../views/EmailEdit.vue";
 import EmbedLanding from "../views/embed/EmbedLanding.vue";
+import EmbedCreate from "../views/embed/EmbedCreate.vue";
 import EmbedStyle from "../views/embed/EmbedStyle.vue";
 import EmbedEditBase from "../views/embed/EmbedEditBase.vue";
 import EmbedFo from "../views/embed/EmbedFo.vue";
@@ -33,6 +34,11 @@ const routes = [
     path: "/view/embed/landing/",
     name: "EmbedLanding",
     component: EmbedLanding,
+  },
+  {
+    path: "/view/embed/create/",
+    name: "EmbedCreate",
+    component: EmbedCreate,
   },
   {
     path: "/view/embed/style/",
