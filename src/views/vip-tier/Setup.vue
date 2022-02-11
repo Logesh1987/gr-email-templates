@@ -92,6 +92,9 @@
               >
                 Points
               </md-radio>
+              <small>
+                All points (Purchase and Non Purchase ) will be considered
+              </small>
               <md-radio
                 v-model="form.selection_type"
                 value="no_of_purchase"
@@ -99,8 +102,11 @@
                 name="selection_type"
                 ref="selection_type"
               >
-                Purchase
+                Purchase value
               </md-radio>
+              <small>
+                Only purchase entries will be considered
+              </small>
             </div>
             <span
               class="md-custom-error top-minus-20"
@@ -319,6 +325,7 @@ export default {
     confirmClicked(event) {
       this.showConfirmPopup = false;
       if (event.id == "finalConfirmSetup") {
+        window.sessionStorage.setItem("statusData", 1);
         this.saveUser();
       } else {
         this.clearForm();
@@ -327,6 +334,10 @@ export default {
     },
     cancelClicked(event) {
       console.log(event);
+      if (event.id == "finalConfirmSetup") {
+        window.sessionStorage.setItem("statusData", 0);
+        this.saveUser();
+      }
       this.showConfirmPopup = false;
     },
     clearForm() {
@@ -348,7 +359,9 @@ export default {
           if (res.data.error) {
             return false;
           } else {
-            this.$router.push("/view/tiers/manage-tier");
+            this.$router.push({
+              name: "ManageTier",
+            });
           }
         });
       } else {
@@ -384,15 +397,19 @@ export default {
       if (this.$v.$invalid) {
         this.focusFirstStatus(this.$v.form, this.$refs);
       } else {
-        this.popupConfig = {
-          title: "Review/Launch",
-          content: "Your program is ready",
-          confirmText: "Launch",
-          cancelText: "Review",
-          id: "finalConfirmSetup",
-        };
-        this.showConfirmPopup = true;
-        // this.saveUser();
+        if (this.mode == Mode.Edit) {
+          this.saveUser();
+        } else {
+          this.popupConfig = {
+            title: "Review or Launch",
+            content:
+              "We have setup 4 tiers with default settings. You can review or launch.",
+            confirmText: "Yes, Launch",
+            cancelText: "No, Review",
+            id: "finalConfirmSetup",
+          };
+          this.showConfirmPopup = true;
+        }
       }
     },
     goBack() {

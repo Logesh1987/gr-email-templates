@@ -217,7 +217,7 @@
               v-if="form.rewardtype === 'points'"
             >
               <div class="amvip--formRow vertical">
-                <label for="coupon_type">Bonus points Type:</label>
+                <label for="coupon_type">Points Type:</label>
                 <div class="couponType">
                   <md-radio
                     v-if="form.type == 'ongoing'"
@@ -236,7 +236,7 @@
                     ref="coupon_type"
                     name="coupon_type"
                   >
-                    Fixed bonus points
+                    Fixed points
                   </md-radio>
                   <md-radio
                     v-model="form.coupon_type"
@@ -245,7 +245,7 @@
                     id="percetageBonus"
                     name="coupon_type"
                   >
-                    Percentage bonus points
+                    Percentage points
                   </md-radio>
                 </div>
               </div>
