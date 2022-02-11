@@ -60,6 +60,10 @@
             >
               <label>Select date to begin the program</label>
             </md-datepicker>
+            <small style="opacity:0.8;">
+              As per our record, you installed the Gratisfaction on
+              {{ installedDate | formatDate }}
+            </small>
             <span
               class="md-custom-error padLeft-35"
               v-if="!$v.form.date_start.required && $v.form.date_start.$dirty"

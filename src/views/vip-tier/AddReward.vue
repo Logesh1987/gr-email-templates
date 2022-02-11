@@ -31,7 +31,7 @@
                 id="rewardCoupons"
                 name="rewardCoupons"
                 ref="rewardtype"
-                v-if="form.type != 'ongoing'"
+                v-if="form.type == 'onetime'"
                 @change="rewardTypeChange"
               >
                 Coupons
@@ -115,15 +115,15 @@
                     v-model="form.coupon_type"
                     value="percent"
                     ref="coupon_type"
-                    id="percent"
+                    id="percentage"
                     name="coupon_type"
                   >
                     Percentage
                   </md-radio>
                   <md-radio
                     v-model="form.coupon_type"
-                    ref="coupon_type"
                     value="fixed"
+                    ref="coupon_type"
                     id="fixed"
                     name="coupon_type"
                   >
@@ -160,9 +160,9 @@
                     </label>
                     <md-input
                       name="couponamount"
+                      ref="couponamount"
                       id="couponamount"
                       v-model="form.couponamount"
-                      ref="couponamount"
                       :disabled="sending"
                       type="number"
                     />
@@ -197,16 +197,16 @@
               </div>
               <div class="amvip--twolColumnRow vertical">
                 <div class="amvip--formRow">
-                  <md-field :class="getValidationClass('maxspend')">
-                    <label for="maxspend">
-                      Maximum Spend
+                  <md-field>
+                    <label for="couponPrefix">
+                      Coupon Prefix
                     </label>
                     <md-input
-                      name="maxspend"
-                      id="maxspend"
-                      v-model="form.maxspend"
+                      name="couponPrefix"
+                      id="couponPrefix"
+                      v-model="form.couponPrefix"
                       :disabled="sending"
-                      type="number"
+                      type="text"
                     />
                   </md-field>
                 </div>
@@ -233,21 +233,23 @@
                   <md-radio
                     v-model="form.coupon_type"
                     value="fixed"
-                    id="fixedPoints"
+                    id="fixed"
                     ref="coupon_type"
                     name="coupon_type"
+                    v-if="form.type != 'ongoing'"
                   >
                     Fixed points
                   </md-radio>
-                  <md-radio
+                  <!-- <md-radio
                     v-model="form.coupon_type"
-                    value="percent"
-                    id="percetageBonus"
+                    value="percetageBonus"
                     ref="coupon_type"
+                    id="percetageBonus"
                     name="coupon_type"
+                    v-if="form.type != 'ongoing'"
                   >
                     Percentage points
-                  </md-radio>
+                  </md-radio> -->
                 </div>
               </div>
               <div
@@ -272,8 +274,8 @@
                       name="couponamount"
                       id="couponamount"
                       v-model="form.couponamount"
-                      :disabled="sending"
                       ref="couponamount"
+                      :disabled="sending"
                       type="number"
                     />
                     <span class="md-suffix">X</span>
@@ -292,7 +294,7 @@
                 </div>
                 <div
                   class="amvip--formRow"
-                  v-if="form.coupon_type == 'percent'"
+                  v-if="form.coupon_type == 'percetageBonus'"
                 >
                   <md-field :class="getValidationClass('couponamount')">
                     <label for="couponamount">
@@ -324,7 +326,7 @@
                 <div class="amvip--formRow" v-if="form.coupon_type == 'fixed'">
                   <md-field :class="getValidationClass('couponamount')">
                     <label for="couponamount">
-                      Fixed bonus points
+                      Fixed points
                       <span class="amvip--mandatory">*</span>
                     </label>
                     <md-input
@@ -450,7 +452,7 @@ export default {
       expiry: null,
       id_tier: null,
       id_tier_list: null,
-      maxspend: null,
+      couponPrefix: null,
       email: null,
     },
     sending: false,

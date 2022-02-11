@@ -31,6 +31,7 @@
                 id="rewardCoupons"
                 name="rewardCoupons"
                 ref="rewardtype"
+                v-if="form.type == 'onetime'"
                 @change="rewardTypeChange"
               >
                 Coupons
@@ -40,8 +41,8 @@
               <md-radio
                 v-model="form.rewardtype"
                 value="points"
-                id="rewardPoints"
                 ref="rewardtype"
+                id="rewardPoints"
                 name="rewardPoints"
                 @change="rewardTypeChange"
               >
@@ -51,8 +52,8 @@
             <div class="amvip--customRadio">
               <md-radio
                 v-model="form.rewardtype"
-                value="perk_expeience"
                 ref="rewardtype"
+                value="perk_expeience"
                 id="rewardExperience"
                 name="rewardExperience"
                 @change="rewardTypeChange"
@@ -130,8 +131,8 @@
                   </md-radio>
                   <md-radio
                     v-model="form.coupon_type"
-                    value="freeShipping"
                     ref="coupon_type"
+                    value="freeShipping"
                     id="freeShipping"
                     name="coupon_type"
                   >
@@ -196,16 +197,16 @@
               </div>
               <div class="amvip--twolColumnRow vertical">
                 <div class="amvip--formRow">
-                  <md-field :class="getValidationClass('maxspend')">
-                    <label for="maxspend">
-                      Maximum Spend
+                  <md-field>
+                    <label for="couponPrefix">
+                      Coupon Prefix
                     </label>
                     <md-input
-                      name="maxspend"
-                      id="maxspend"
-                      v-model="form.maxspend"
+                      name="couponPrefix"
+                      id="couponPrefix"
+                      v-model="form.couponPrefix"
                       :disabled="sending"
-                      type="number"
+                      type="text"
                     />
                   </md-field>
                 </div>
@@ -235,18 +236,20 @@
                     id="fixed"
                     ref="coupon_type"
                     name="coupon_type"
+                    v-if="form.type != 'ongoing'"
                   >
                     Fixed points
                   </md-radio>
-                  <md-radio
+                  <!-- <md-radio
                     v-model="form.coupon_type"
                     value="percetageBonus"
                     ref="coupon_type"
                     id="percetageBonus"
                     name="coupon_type"
+                    v-if="form.type != 'ongoing'"
                   >
                     Percentage points
-                  </md-radio>
+                  </md-radio> -->
                 </div>
               </div>
               <div
@@ -300,10 +303,10 @@
                     </label>
                     <md-input
                       name="couponamount"
+                      ref="couponamount"
                       id="couponamount"
                       v-model="form.couponamount"
                       :disabled="sending"
-                      ref="couponamount"
                       type="number"
                     />
                     <span class="md-suffix">%</span>
@@ -323,14 +326,14 @@
                 <div class="amvip--formRow" v-if="form.coupon_type == 'fixed'">
                   <md-field :class="getValidationClass('couponamount')">
                     <label for="couponamount">
-                      Fixed bonus points
+                      Fixed points
                       <span class="amvip--mandatory">*</span>
                     </label>
                     <md-input
                       name="couponamount"
+                      ref="couponamount"
                       id="couponamount"
                       v-model="form.couponamount"
-                      ref="couponamount"
                       :disabled="sending"
                       type="number"
                     />
@@ -452,7 +455,7 @@ export default {
       expiry: null,
       id_tier: null,
       id_tier_list: null,
-      maxspend: null,
+      couponPrefix: null,
       email: null,
     },
     sending: false,
