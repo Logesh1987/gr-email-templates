@@ -3,7 +3,7 @@
     <h2 class="mt-20">Display Setup</h2>
     <div class="fullDiv">
       <h6 class="bLabel">Setup Positioning</h6>
-      <md-field class="noMinHeight mb-0 mt-20">
+      <md-field class="noMinHeight mb-0 mt-20" v-if="formData.position">
         <label for="position">Position</label>
         <md-select v-model="formData.position" id="position" name="position">
           <md-option
@@ -46,7 +46,7 @@
       </div>
     </div>
     <h2 data-v-20638218="" class="mt-20 pt-10">Display Rules</h2>
-    <div class="displaySetting fullDiv visibleTo">
+    <div class="displaySetting fullDiv visibleTo" v-if="formData.visible_to">
       <h6 class="bLabel noBG">Visible to:</h6>
       <div>
         <md-field class="noMinHeight m-0 p-0">
@@ -59,7 +59,7 @@
       </div>
     </div>
     <div class="displaySetting">
-      <div class="fullDiv">
+      <div class="fullDiv" v-if="formData.show_on_page">
         <h6 class="bLabel">Setup Page Display</h6>
         <div class="display-flex pageDisplay align-items-center">
           <label>Display FOMO in</label>

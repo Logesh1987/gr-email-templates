@@ -309,6 +309,9 @@ export default {
     }
   },
   mounted: function() {
+    if (!window.Vue) {
+      window.Vue = Vue;
+    }
     if (this.fomoId !== this.$route.params.fomoid) {
       this.updateFomoId(this.$route.params.fomoid);
     }
