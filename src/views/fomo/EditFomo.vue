@@ -1185,6 +1185,13 @@ export default {
     overflow: hidden;
     .ql-container.ql-snow {
       border-radius: 0 0 5px 5px;
+      sup {
+        background: transparent;
+        color: initial;
+        border-radius: 0;
+        margin: 0;
+        padding: 0 3px;
+      }
     }
     .ql-toolbar.ql-snow {
       border-radius: 5px 0 0 0;
