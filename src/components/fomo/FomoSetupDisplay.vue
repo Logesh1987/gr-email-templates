@@ -58,34 +58,6 @@
         </md-field>
       </div>
     </div>
-    <div class="displaySetting">
-      <div class="fullDiv" v-if="formData.show_on_page">
-        <h6 class="bLabel">Setup Page Display</h6>
-        <div class="display-flex pageDisplay align-items-center">
-          <label>Display FOMO in</label>
-          <md-field class="mb-10">
-            <md-select name="show_on_page" v-model="formData.show_on_page">
-              <md-option value="all">All pages</md-option>
-              <md-option value="home">Home page only</md-option>
-              <md-option value="specific">Specific pages</md-option>
-            </md-select>
-          </md-field>
-        </div>
-        <div v-if="formData.show_on_page == 'specific'">
-          <md-field>
-            <label>Show on specific page(s)</label>
-            <md-input v-model="formData.specific_pages"></md-input>
-          </md-field>
-          <small class="text-info display-flex align-items-start">
-            <i class="fas fa-info-circle"></i>
-            <span>
-              Enter Slug, Part URL (E.g. products, myaccount, cart ..etc) to
-              show the widget on the page(s) or page name
-            </span>
-          </small>
-        </div>
-      </div>
-    </div>
     <div class="displaySetting fullDiv flex-direction-column">
       <h6 class="bLabel">Setup Geolocation</h6>
       <multiselect
@@ -103,62 +75,96 @@
         <span> Display in selected countries only </span>
       </small>
     </div>
-    <div class="displaySetting fullDiv flex-direction-column">
-      <h6 class="bLabel">Setup Behaviour</h6>
-      <div>
-        <md-checkbox
-          v-model="formData.show_on_first_visit"
-          :true-value="1"
-          :false-value="0"
-          >Pop should appear only on first visit</md-checkbox
-        >
-      </div>
-      <div>
-        <md-checkbox
-          v-model="formData.show_on_exit"
-          :true-value="1"
-          :false-value="0"
-          >Popup will appear if a visitor’s mouse movement shows intent to leave
-          your website</md-checkbox
-        >
-      </div>
-      <div class="display-flex hv-position justify-content-space-between">
-        <div class="display-flex">
-          <md-field :class="{ 'md-invalid': formErrors.scroll, 'mt-20': true }">
-            <label>
-              Scroll Percentage
-              <i class="ml-10 fas fa-info-circle" style="color:black">
-                <md-tooltip
-                  >Set the percentage a visitor needs to scroll down the page
-                  for the pop up to appear.</md-tooltip
-                >
-              </i>
-            </label>
-            <md-input
-              v-model="formData.scroll_percentage"
-              type="number"
-            ></md-input>
-            <span class="md-error" v-if="formErrors.scroll">{{
-              formErrors.scroll
-            }}</span>
-          </md-field>
+    <div v-if="automatic == 1">
+      <div class="displaySetting">
+        <div class="fullDiv" v-if="formData.show_on_page">
+          <h6 class="bLabel">Setup Page Display</h6>
+          <div class="display-flex pageDisplay align-items-center">
+            <label>Display FOMO in</label>
+            <md-field class="mb-10">
+              <md-select name="show_on_page" v-model="formData.show_on_page">
+                <md-option value="all">All pages</md-option>
+                <md-option value="home">Home page only</md-option>
+                <md-option value="specific">Specific pages</md-option>
+              </md-select>
+            </md-field>
+          </div>
+          <div v-if="formData.show_on_page == 'specific'">
+            <md-field>
+              <label>Show on specific page(s)</label>
+              <md-input v-model="formData.specific_pages"></md-input>
+            </md-field>
+            <small class="text-info display-flex align-items-start">
+              <i class="fas fa-info-circle"></i>
+              <span>
+                Enter Slug, Part URL (E.g. products, myaccount, cart ..etc) to
+                show the widget on the page(s) or page name
+              </span>
+            </small>
+          </div>
         </div>
-        <div class="display-flex">
-          <md-field :class="{ 'md-invalid': formErrors.delay, 'mt-20': true }">
-            <label>
-              Delay Seconds
-              <i class="ml-10 fas fa-info-circle" style="color:black">
-                <md-tooltip
-                  >Set the number of seconds a visitor needs to be on your
-                  webpage before the pop up appears</md-tooltip
-                >
-              </i>
-            </label>
-            <md-input v-model="formData.seconds" type="number"></md-input>
-            <span class="md-error" v-if="formErrors.delay">{{
-              formErrors.delay
-            }}</span>
-          </md-field>
+      </div>
+      <div class="displaySetting fullDiv flex-direction-column">
+        <h6 class="bLabel">Setup Behaviour</h6>
+        <div>
+          <md-checkbox
+            v-model="formData.show_on_first_visit"
+            :true-value="1"
+            :false-value="0"
+            >Pop should appear only on first visit</md-checkbox
+          >
+        </div>
+        <div>
+          <md-checkbox
+            v-model="formData.show_on_exit"
+            :true-value="1"
+            :false-value="0"
+            >Popup will appear if a visitor’s mouse movement shows intent to
+            leave your website</md-checkbox
+          >
+        </div>
+        <div class="display-flex hv-position justify-content-space-between">
+          <div class="display-flex">
+            <md-field
+              :class="{ 'md-invalid': formErrors.scroll, 'mt-20': true }"
+            >
+              <label>
+                Scroll Percentage
+                <i class="ml-10 fas fa-info-circle" style="color:black">
+                  <md-tooltip
+                    >Set the percentage a visitor needs to scroll down the page
+                    for the pop up to appear.</md-tooltip
+                  >
+                </i>
+              </label>
+              <md-input
+                v-model="formData.scroll_percentage"
+                type="number"
+              ></md-input>
+              <span class="md-error" v-if="formErrors.scroll">{{
+                formErrors.scroll
+              }}</span>
+            </md-field>
+          </div>
+          <div class="display-flex">
+            <md-field
+              :class="{ 'md-invalid': formErrors.delay, 'mt-20': true }"
+            >
+              <label>
+                Delay Seconds
+                <i class="ml-10 fas fa-info-circle" style="color:black">
+                  <md-tooltip
+                    >Set the number of seconds a visitor needs to be on your
+                    webpage before the pop up appears</md-tooltip
+                  >
+                </i>
+              </label>
+              <md-input v-model="formData.seconds" type="number"></md-input>
+              <span class="md-error" v-if="formErrors.delay">{{
+                formErrors.delay
+              }}</span>
+            </md-field>
+          </div>
         </div>
       </div>
     </div>
@@ -182,7 +188,7 @@
           <md-tooltip>More info about stack </md-tooltip>
         </i>
       </span>
-      <md-button href="/4598/view/widgets" class="md-primary"
+      <md-button href="/gr/admin/#/4598/view/widgets" class="md-primary"
         >Edit Widget</md-button
       >
     </div>

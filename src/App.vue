@@ -374,7 +374,7 @@ export default {
     a.link-back {
       color: #333;
       padding: 0 25px;
-      font-size: 16px;
+      font-size: 23px;
       margin: 0;
       cursor: pointer;
       border-right: 1px solid #eaeaea;
@@ -386,7 +386,8 @@ export default {
       align-items: center;
       color: #333;
       padding: 12px 20px;
-      font-size: 16px;
+      font-size: 20px;
+      font-weight: 600;
 
       .icon {
         padding: 10px;
