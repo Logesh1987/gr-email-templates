@@ -266,17 +266,6 @@
                 v-if="Object.keys(fomoInputs.reward_settings).length"
               />
             </md-tab>
-            <md-tab id="tab-display" md-label="Display">
-              {{ fomoInputs["display_settings"].length }}
-              <FomoSetupDisplay
-                :formData="fomoInputs.display_settings"
-                :automatic="fomoInputs.is_automatic"
-                :updateAutomatic="updateAutomatic"
-                :updateSecondaryError="updateSecondaryError"
-                :content="fomoClanData"
-                v-if="Object.keys(fomoInputs.display_settings).length"
-              />
-            </md-tab>
             <md-tab
               v-if="appearanceSettings.length > 0"
               id="tab-common"
@@ -297,7 +286,7 @@
                       <div>
                         <label
                           v-if="typeof control.status == 'number'"
-                          :for="`view-${key}-${name}`"
+                          :for="`view-${appearanceIndex}-${name}`"
                           :class="
                             `showHide fas fa-eye${
                               control.status == 0 ? '-slash' : ''
@@ -310,7 +299,7 @@
                             :true-value="1"
                             :false-value="0"
                             v-model="control.status"
-                            :id="`view-${key}-${name}`"
+                            :id="`view-${appearanceIndex}-${name}`"
                           />
                           <md-tooltip md-direction="right">Hide</md-tooltip>
                         </label>
@@ -318,7 +307,7 @@
                           v-if="control.show_dynamic_variables"
                           :data="dVars"
                           :name="name"
-                          :index="key"
+                          :index="appearanceIndex"
                           :click="appendVarToKey"
                         />
                         <span class="charCount"
@@ -332,7 +321,7 @@
                         class="form-control"
                         type="text"
                         :maxlength="control.max_length"
-                        :ref="`${key}-${name}`"
+                        :ref="`${appearanceIndex}-${name}`"
                         v-model="control.value"
                         @keyup="checkforError(control, name)"
                       />
@@ -348,7 +337,7 @@
                       </h3>
                       <div>
                         <label
-                          :for="`view-${key}-${name}`"
+                          :for="`view-${appearanceIndex}-${name}`"
                           v-if="typeof control.status == 'number'"
                           :class="
                             `showHide fas fa-eye${
@@ -362,7 +351,7 @@
                             :true-value="1"
                             :false-value="0"
                             v-model="control.status"
-                            :id="`view-${key}-${name}`"
+                            :id="`view-${appearanceIndex}-${name}`"
                           />
                           <md-tooltip md-direction="right">Hide</md-tooltip>
                         </label>
@@ -370,7 +359,7 @@
                           v-if="control.show_dynamic_variables"
                           :data="dVars"
                           :name="name"
-                          :index="key"
+                          :index="appearanceIndex"
                           :click="appendVarToKey"
                         />
                         <span class="charCount"
@@ -385,7 +374,7 @@
                         :options="eOptions"
                         @focus="onEditorFocus($event, name)"
                         @change="onEditorChange($event, control, name)"
-                        :ref="`${key}-${name}`"
+                        :ref="`${appearanceIndex}-${name}`"
                       ></quillEditor>
                     </div>
                     <small v-if="hasError[name]" class="fieldError">
@@ -404,7 +393,7 @@
                       </h3>
                       <div>
                         <label
-                          :for="`view-${key}-${name}`"
+                          :for="`view-${appearanceIndex}-${name}`"
                           v-if="typeof control.status == 'number'"
                           :class="
                             `showHide fas fa-eye${
@@ -418,7 +407,7 @@
                             :true-value="1"
                             :false-value="0"
                             v-model="control.status"
-                            :id="`view-${key}-${name}`"
+                            :id="`view-${appearanceIndex}-${name}`"
                           />
                           <md-tooltip md-direction="right">Hide</md-tooltip>
                         </label>
@@ -426,8 +415,10 @@
                     </div>
                     <div class="relative">
                       <ImgUploadPreview
-                        :id="`${key}-${name}`"
-                        :handleFileChange="e => handleImgChange(e, key, name)"
+                        :id="`${appearanceIndex}-${name}`"
+                        :handleFileChange="
+                          e => handleImgChange(e, appearanceIndex, name)
+                        "
                         :data="control"
                       />
                     </div>
@@ -443,6 +434,17 @@
                   </div>
                 </div>
               </div>
+            </md-tab>
+            <md-tab id="tab-display" md-label="Display">
+              {{ fomoInputs["display_settings"].length }}
+              <FomoSetupDisplay
+                :formData="fomoInputs.display_settings"
+                :automatic="fomoInputs.is_automatic"
+                :updateAutomatic="updateAutomatic"
+                :updateSecondaryError="updateSecondaryError"
+                :content="fomoClanData"
+                v-if="Object.keys(fomoInputs.display_settings).length"
+              />
             </md-tab>
           </md-tabs>
         </div>
@@ -470,6 +472,23 @@
               <md-button class="md-raised btn-default" @click="doCopy(copyCode)"
                 >Copy</md-button
               >
+            </div>
+            <div class="embedMode">
+              <h5>Embed as</h5>
+              <ul>
+                <li
+                  @click="embedMode = false"
+                  :class="`${!embedMode ? 'active' : ''}`"
+                >
+                  Inline window
+                </li>
+                <li
+                  @click="embedMode = true"
+                  :class="`${embedMode ? 'active' : ''}`"
+                >
+                  Floating window
+                </li>
+              </ul>
             </div>
             <div class="iframe-block">
               <pre>
@@ -702,13 +721,13 @@ export default {
       quillEditor: {},
       eOptions: options,
       fomoInputs: null,
-      copyCode: `<script src="https://unpkg.com/vue"><\/script><script src="${Vue.prototype.$asset_url}/assets/js/fomo/am.js"><\/script><am-fomo id="${this.$route.params.fomoid}" />`, // eslint-disable-line
       hasError: {},
       secondaryError: false,
       dirty: false,
       newFomo: false,
       pauseFomoPrompt: false,
-      publishFomoPrompt: false
+      publishFomoPrompt: false,
+      embedMode: false
     };
   },
   watch: {
@@ -755,12 +774,25 @@ export default {
       "fomoClanData",
       "fomoReady"
     ]),
+    copyCode() {
+      return `<script src="https://unpkg.com/vue"><\/script><script src="${Vue.prototype.$asset_url}/assets/js/fomo/am.js"><\/script><am-fomo id="${this.$route.params.fomoid}" embed="${this.embedMode ? 'floating' : 'inline'}" />`; // eslint-disable-line
+    },
     dataForPreview() {
       if (!this.fomoInputs) return null;
       let dd = {
         type: this.fomoType,
         id_template: this.fomoData.id_template,
         show_screen: this.activeTab,
+        display: {
+          horizontal:
+            this.fomoInputs.display_settings.horizontal < 300
+              ? this.fomoInputs.display_settings.horizontal
+              : 300,
+          vertical:
+            this.fomoInputs.display_settings.vertical < 300
+              ? this.fomoInputs.display_settings.vertical
+              : 300
+        },
         template: {
           position: this.fomoInputs.display_settings.position,
           settings: {}
@@ -805,6 +837,13 @@ export default {
     appearanceSettings() {
       return this.fomoData
         ? this.fomoData.template_settings.settings.filter(
+            i => i.type == "common"
+          )
+        : null;
+    },
+    appearanceIndex() {
+      return this.fomoData
+        ? this.fomoData.template_settings.settings.findIndex(
             i => i.type == "common"
           )
         : null;
@@ -1059,6 +1098,9 @@ export default {
     }
     .md-tabs-navigation {
       border-bottom: 1px solid var(--main-blue);
+      .md-button {
+        font-size: 15px;
+      }
     }
     .md-button[disabled] {
       opacity: 0;
@@ -1146,6 +1188,13 @@ export default {
     }
     .ql-toolbar.ql-snow {
       border-radius: 5px 0 0 0;
+      sup {
+        background: transparent;
+        color: initial;
+        border-radius: 0;
+        margin: 0;
+        padding: 0 3px;
+      }
       .ql-picker-label[data-value="normal"]:before,
       .ql-picker-item[data-value="normal"]:before {
         content: "Font size" !important;
@@ -1221,7 +1270,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 15px;
+    margin-top: 25px;
     .md-checkbox::v-deep {
       margin: 0 5px 0 0;
       .md-checkbox-container {
@@ -1327,6 +1376,33 @@ export default {
       z-index: 5;
       background: white;
       transform: translate3d(0, 0, 0);
+    }
+  }
+}
+.embedMode {
+  border: 1px solid #ccc;
+  border-bottom: 0;
+  h5 {
+    margin: 0;
+    background: #f0f7ff;
+    padding: 3px 10px;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    list-style: none;
+  }
+  li {
+    background-color: #beddff;
+    cursor: pointer;
+    text-align: center;
+    padding: 5px;
+    width: 50%;
+    &.active {
+      background-color: #007aff;
+      color: #fff;
     }
   }
 }

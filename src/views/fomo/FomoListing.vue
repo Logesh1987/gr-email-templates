@@ -28,7 +28,7 @@
             </div>
           </div>
           <div class="fomoList" v-if="listData">
-            <md-tabs class="fomo-tabs">
+            <md-tabs class="fomo-tabs" v-if="listData.length > 0">
               <template slot="md-tab" slot-scope="{ tab }">
                 {{ tab.label }}
                 <small v-if="tab.data.badge">({{ tab.data.badge }})</small>
@@ -99,30 +99,7 @@
                     </transition-group>
                   </table>
                 </div>
-                <div v-else class="noData">
-                  <figure>
-                    <img :src="getAssetUrl(`admin/no-contest.jpg`)" />
-                  </figure>
-                  <figcaption>
-                    <h3>No Fomos Found</h3>
-                    <p>Create one from the list beside</p>
-                    <br />
-                    <p>
-                      You can run multiple FOMOs to populate your following and
-                      drive more sales on ordinary days or specific occasions.
-                    </p>
-                    <div>
-                      <h4 class="mt-0 mb-10">What is FOMO Marketing?</h4>
-                      <p>
-                        FOMO is a form of marketing where you leverage the
-                        consumers’ desire to grab every opportunity that they
-                        get. The messaging in it is framed such that you push
-                        the customers to make an impulse purchase rather than
-                        regretting the lack of action later.
-                      </p>
-                    </div>
-                  </figcaption>
-                </div>
+                <NoFomoView v-else />
               </md-tab>
               <md-tab
                 id="tab-pages"
@@ -186,32 +163,10 @@
                     </transition-group>
                   </table>
                 </div>
-                <div v-else class="noData">
-                  <figure>
-                    <img :src="getAssetUrl(`admin/no-contest.jpg`)" />
-                  </figure>
-                  <figcaption>
-                    <h3>No Fomos Found</h3>
-                    <p>Create one from the list beside</p>
-                    <br />
-                    <p>
-                      You can run multiple FOMOs to populate your following and
-                      drive more sales on ordinary days or specific occasions.
-                    </p>
-                    <div>
-                      <h4 class="mt-0 mb-10">What is FOMO Marketing?</h4>
-                      <p>
-                        FOMO is a form of marketing where you leverage the
-                        consumers’ desire to grab every opportunity that they
-                        get. The messaging in it is framed such that you push
-                        the customers to make an impulse purchase rather than
-                        regretting the lack of action later.
-                      </p>
-                    </div>
-                  </figcaption>
-                </div></md-tab
-              >
+                <NoFomoView v-else />
+              </md-tab>
             </md-tabs>
+            <NoFomoView v-else />
           </div>
         </div>
         <div class="create_fomo desktop">
@@ -400,10 +355,12 @@
 // @ is an alias to /src
 import Axios from "axios";
 import { mapMutations, mapState } from "vuex";
+import NoFomoView from "@/components/fomo/NoFomoView.vue";
 
 export default {
   name: "FomoListing",
   mixins: ["createFormData", "getApiUrl"],
+  components: { NoFomoView },
   data: function() {
     return {
       listData: null,
@@ -828,44 +785,6 @@ export default {
   }
 }
 
-.noData::v-deep {
-  padding: 40px 20px;
-  color: #2196f3;
-  display: flex;
-  align-items: center;
-  figure {
-    width: 50%;
-    margin: 0;
-  }
-  figcaption {
-    width: 50%;
-    div {
-      background: #eee;
-      padding: 10px;
-      margin-top: 30px;
-      font-size: 0.9em;
-      position: relative;
-      &:before {
-        content: "\f10e";
-        font-family: "Font Awesome 5 Pro";
-        font-weight: bold;
-        font-size: 32px;
-        position: absolute;
-        right: 0.4em;
-        top: -0.3em;
-        opacity: 0.5;
-      }
-    }
-  }
-  h4 {
-    color: rgba(0, 0, 0, 0.5);
-    & + p {
-      color: rgba(0, 0, 0, 0.6);
-      font-size: 12px;
-    }
-  }
-}
-
 .desktop {
   display: block;
 }
@@ -1128,7 +1047,6 @@ export default {
   .iframe-block {
     border: 1px solid #ccc;
     padding: 20px;
-    border-radius: 4px;
     width: 100%;
     height: 130px;
     font-size: 12px;

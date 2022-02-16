@@ -162,21 +162,29 @@
         </div>
       </div>
     </div>
-    <div class="displaySetting fullDiv visibleTo" style="margin-top: 20px">
-      <label class="switch small mr-10" for="is_automatic">
-        <input
-          type="checkbox"
-          name="mainSwitch"
-          id="is_automatic"
-          :checked="automatic == 1"
-          @change="updateAutomatic"
-        />
-        <i></i>
-      </label>
-      Add to automatic queue
-      <i class="ml-10 fas fa-info-circle">
-        <md-tooltip>More info about stack </md-tooltip>
-      </i>
+    <div
+      class="displaySetting fullDiv visibleTo justify-content-space-between"
+      style="margin-top: 20px"
+    >
+      <span class="display-flex align-items-center">
+        <label class="switch small mr-10" for="is_automatic">
+          <input
+            type="checkbox"
+            name="mainSwitch"
+            id="is_automatic"
+            :checked="automatic == 1"
+            @change="updateAutomatic"
+          />
+          <i></i>
+        </label>
+        Add to automatic queue
+        <i class="ml-10 fas fa-info-circle">
+          <md-tooltip>More info about stack </md-tooltip>
+        </i>
+      </span>
+      <md-button href="/4598/view/widgets" class="md-primary"
+        >Edit Widget</md-button
+      >
     </div>
   </div>
 </template>
