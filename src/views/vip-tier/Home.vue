@@ -72,15 +72,15 @@ export default {
           moreBtnText: "Show More...",
           key: 3,
         },
-        {
-          listType: "expansionlist",
-          title: "Stats",
-          content: `Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident, sed?`,
-          showMoreBtn: true,
-          moreBtnLink: "intro",
-          moreBtnText: "Show More...",
-          key: 4,
-        },
+        // {
+        //   listType: "expansionlist",
+        //   title: "Stats",
+        //   content: `Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident, sed?`,
+        //   showMoreBtn: true,
+        //   moreBtnLink: "intro",
+        //   moreBtnText: "Show More...",
+        //   key: 4,
+        // },
       ],
       existingUserListData: [
         {
