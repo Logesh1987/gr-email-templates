@@ -49,17 +49,20 @@
         </div>
         <div class="amvip--formRow">
           <div class="amvip--dateRow">
-            <md-datepicker
-              md-immediately
-              :class="getValidationClass('date_start')"
-              name="date_start"
-              id="date_start"
-              v-model="form.date_start"
-              :disabled="sending"
-              ref="date_start"
-            >
-              <label>Select date to begin the program</label>
-            </md-datepicker>
+            <div class="dateWrapper">
+              <md-datepicker
+                md-immediately
+                :class="getValidationClass('date_start')"
+                name="date_start"
+                id="date_start"
+                v-model="form.date_start"
+                :disabled="sending"
+                ref="date_start"
+              >
+                <label>Select date to begin the program</label>
+              </md-datepicker>
+              <span class="far fa-info-circle"></span>
+            </div>
             <small style="opacity:0.8;">
               As per our record, you installed the Gratisfaction on
               {{ installedDate | formatDate }}
@@ -101,7 +104,7 @@
               </small>
               <md-radio
                 v-model="form.selection_type"
-                value="no_of_purchase"
+                value="value_of_purchase"
                 id="purchase"
                 name="selection_type"
                 ref="selection_type"
@@ -215,6 +218,15 @@
     position: relative;
   }
 }
+.dateWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  > div {
+    margin-right: 15px;
+  }
+}
 </style>
 <script>
 import { validationMixin } from "vuelidate";
@@ -238,7 +250,7 @@ export default {
       description: null,
       date_start: null,
       selection_type: "points",
-      time_slot: null,
+      time_slot: "calendar_year",
     },
     userSaved: false,
     installedDate: new Date("06/18/2021"),
