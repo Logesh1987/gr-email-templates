@@ -234,6 +234,16 @@ export default {
         type: this.fomoType,
         id_template: this.fomoData.id_template,
         show_screen: null,
+        display: {
+          horizontal:
+            this.fomoData.display_settings.horizontal < 300
+              ? this.fomoData.display_settings.horizontal
+              : 300,
+          vertical:
+            this.fomoData.display_settings.vertical < 300
+              ? this.fomoData.display_settings.vertical
+              : 300
+        },
         template: {
           position: this.fomoData.display_settings.position,
           settings: {}

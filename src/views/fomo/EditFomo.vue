@@ -775,7 +775,7 @@ export default {
       "fomoReady"
     ]),
     copyCode() {
-      return `<script src="https://unpkg.com/vue"><\/script><script src="${Vue.prototype.$asset_url}/assets/js/fomo/am.js"><\/script><am-fomo id="${this.$route.params.fomoid}" embed="${this.embedMode ? 'floating' : 'inline'}" />`; // eslint-disable-line
+      return `<script src="https://unpkg.com/vue@2.6"><\/script><script src="${Vue.prototype.$asset_url}/assets/js/fomo/am.js"><\/script><am-fomo id="${this.$route.params.fomoid}" embed="${this.embedMode ? 'floating' : 'inline'}" />`; // eslint-disable-line
     },
     dataForPreview() {
       if (!this.fomoInputs) return null;

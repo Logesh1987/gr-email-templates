@@ -89,7 +89,7 @@
                             class="mr-10"
                             :to="`/view/fomo/summary/${data.id}`"
                           >
-                            <i class="far fa-eye"></i>
+                            <i class="fal fa-list-alt"></i>
                           </router-link>
                           <router-link :to="`/view/fomo/edit/${data.id}`">
                             <i class="fal fa-edit"></i>
@@ -153,7 +153,7 @@
                             class="mr-10"
                             :to="`/view/fomo/summary/${data.id}`"
                           >
-                            <i class="far fa-eye"></i>
+                            <i class="fal fa-list-alt"></i>
                           </router-link>
                           <router-link :to="`/view/fomo/edit/${data.id}`">
                             <i class="fal fa-edit"></i>
@@ -664,21 +664,13 @@ export default {
       border-right: 1px solid #eee;
     }
   }
-
-  .icon_block {
-    display: flex;
-    align-items: center;
-
-    .fomo_icon {
-      width: 25px;
-      height: 25px;
-      padding: 6px;
-      box-sizing: border-box;
-      margin: 1px;
-      border-radius: 50%;
-    }
+  .fa-edit,
+  .fa-list-alt {
+    font-size: 1.2em;
   }
-
+  .fa-edit {
+    transform: translateY(-1px);
+  }
   .font-size-mid {
     font-size: 12px;
     color: #202020;
