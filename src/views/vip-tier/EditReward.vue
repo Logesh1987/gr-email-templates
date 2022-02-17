@@ -11,6 +11,7 @@
             class="amvip--tabTitle"
             v-bind:class="form.type == 'onetime' ? 'active' : ''"
             data-value="onetime"
+            @click="changeType('oneTime')"
           >
             Welcome reward
           </div>
@@ -18,6 +19,7 @@
             class="amvip--tabTitle"
             v-bind:class="form.type == 'ongoing' ? 'active' : ''"
             data-value="ongoing"
+            @click="changeType('ongoing')"
           >
             In-Tier Benefits
           </div>
@@ -32,7 +34,7 @@
                 name="rewardCoupons"
                 ref="rewardtype"
                 v-if="form.type == 'onetime'"
-                @change="rewardTypeChange"
+                @change="rewardTypeChange('coupon')"
               >
                 Coupons
               </md-radio>
@@ -44,7 +46,7 @@
                 ref="rewardtype"
                 id="rewardPoints"
                 name="rewardPoints"
-                @change="rewardTypeChange"
+                @change="rewardTypeChange('points')"
               >
                 Points
               </md-radio>
@@ -56,7 +58,7 @@
                 value="perk_expeience"
                 id="rewardExperience"
                 name="rewardExperience"
-                @change="rewardTypeChange"
+                @change="rewardTypeChange('perk_expeience')"
               >
                 Perks & Experience
               </md-radio>
@@ -238,10 +240,11 @@
               v-if="form.rewardtype === 'points'"
             >
               <div class="amvip--formRow vertical">
-                <label for="coupon_type">Points Type:</label>
-                <div class="couponType">
+                <label for="coupon_type" v-if="form.rewardtype != 'points'"
+                  >Points Type:</label
+                >
+                <div class="couponType" v-if="form.rewardtype != 'points'">
                   <md-radio
-                    v-if="form.type == 'ongoing'"
                     v-model="form.coupon_type"
                     value="multiple"
                     id="multiple"
@@ -397,7 +400,7 @@
                       v-model="form.expiry"
                       :disabled="sending"
                     >
-                      <label>Select bonus point expiry date</label>
+                      <label>Select point expiry date</label>
                     </md-datepicker>
                     <!-- <div
                     class="md-custom-error padLeft-35"
@@ -537,8 +540,27 @@ export default {
       });
   },
   methods: {
-    rewardTypeChange() {
-      this.form.coupon_type = null;
+    rewardTypeChange(rewardType) {
+      if (rewardType == "coupon") {
+        this.form.coupon_type = "percent";
+      } else if (rewardType == "points") {
+        if (this.form.type == "ongoing") {
+          this.form.coupon_type = "multiple";
+        } else {
+          this.form.coupon_type = "fixed";
+        }
+      } else {
+        this.form.coupon_type = null;
+      }
+    },
+    changeType(mainType) {
+      if (mainType == "oneTime") {
+        this.form.rewardtype = "coupon";
+        this.form.coupon_type = "percent";
+      } else {
+        this.form.rewardtype = "points";
+        this.form.coupon_type = "multiple";
+      }
     },
     goBack() {
       switch (this.$route.params.origin) {

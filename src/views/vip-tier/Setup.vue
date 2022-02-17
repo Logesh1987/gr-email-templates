@@ -61,7 +61,10 @@
               >
                 <label>Select date to begin the program</label>
               </md-datepicker>
-              <span class="far fa-info-circle"></span>
+              <span class="far fa-info-circle" v-popover:foo.top.left></span>
+              <popover name="foo">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              </popover>
             </div>
             <small style="opacity:0.8;">
               As per our record, you installed the Gratisfaction on
@@ -226,6 +229,13 @@
   > div {
     margin-right: 15px;
   }
+}
+[data-popover="foo"] {
+  background: #f9f9f9;
+  color: #444;
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 5px;
 }
 </style>
 <script>
