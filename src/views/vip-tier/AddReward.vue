@@ -198,17 +198,37 @@
               <div class="amvip--twolColumnRow vertical">
                 <div class="amvip--formRow">
                   <md-field>
-                    <label for="couponPrefix">
+                    <label for="prefix">
                       Coupon Prefix
                     </label>
                     <md-input
-                      name="couponPrefix"
-                      id="couponPrefix"
-                      v-model="form.couponPrefix"
+                      name="prefix"
+                      id="prefix"
+                      v-model="form.prefix"
                       :disabled="sending"
                       type="text"
                     />
                   </md-field>
+                </div>
+                <div class="amvip--formRow">
+                  <div class="expiryDate">
+                    <md-datepicker
+                      md-immediately
+                      :class="getValidationClass('expiry')"
+                      name="expiry"
+                      id="expiry"
+                      v-model="form.expiry"
+                      :disabled="sending"
+                    >
+                      <label>Select coupon expiry date</label>
+                    </md-datepicker>
+                    <!-- <div
+                    class="md-custom-error padLeft-35"
+                    v-if="!$v.form.expiry.required && $v.form.expiry.$dirty"
+                  >
+                    Bonus expiry date is required.
+                  </div> -->
+                  </div>
                 </div>
               </div>
             </section>
@@ -379,12 +399,18 @@
                     >
                       <label>Select bonus point expiry date</label>
                     </md-datepicker>
+                    <!-- <div
+                    class="md-custom-error padLeft-35"
+                    v-if="!$v.form.expiry.required && $v.form.expiry.$dirty"
+                  >
+                    Bonus expiry date is required.
+                  </div> -->
                   </div>
                 </div>
               </div>
             </section>
             <section
-              id="points"
+              id="perks"
               class="tabSection vertical right"
               v-if="form.rewardtype === 'perk_expeience'"
             >
@@ -452,7 +478,7 @@ export default {
       expiry: null,
       id_tier: null,
       id_tier_list: null,
-      couponPrefix: null,
+      prefix: null,
       email: null,
     },
     sending: false,
