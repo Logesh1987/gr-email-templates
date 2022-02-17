@@ -62,7 +62,7 @@
                 <label>Select date to begin the program</label>
               </md-datepicker>
               <span class="far fa-info-circle" v-popover:foo.top.left></span>
-              <popover name="foo">
+              <popover name="foo" width="300" event="hover">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               </popover>
             </div>
