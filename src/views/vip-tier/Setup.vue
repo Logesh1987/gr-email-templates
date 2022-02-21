@@ -431,9 +431,11 @@ export default {
     },
     updateFormData(response) {
       Object.keys(this.form).forEach((value) => {
-        if (response[value]) {
+        if (response[value] || value == "tier_name_display") {
           if (value == "startDate") {
             response[value] = new Date(response[value]);
+          } else if (value == "tier_name_display") {
+            response[value] = response[value] == 0 ? false : true;
           }
           this.form[value] = response[value];
         }
