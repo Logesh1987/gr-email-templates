@@ -21,12 +21,15 @@
                 :disabled="sending"
               />
               <span class="md-error" v-if="!$v.form.name.required">
-                name is required
+                Name is required
               </span>
               <span class="md-error" v-else-if="!$v.form.name.minLenght">
                 Minimum of 3 letters required
               </span>
             </md-field>
+            <md-switch v-model="form.tier_name_display" class="tierNameDisplay"
+              >Display</md-switch
+            >
           </div>
           <div class="amvip--formRow">
             <md-field>
@@ -75,30 +78,8 @@
             </md-field>
           </div>
           <div class="amvip--formRow multiCol">
-            <label>Tier icon <span class="amvip--mandatory">*</span></label>
+            <label>Tier Icon <span class="amvip--mandatory">*</span></label>
             <div class="amvip--icon">
-              <!-- <span
-                v-if="form.icon"
-                class="amvip--iconPreview"
-                v-bind:style="{
-                  backgroundImage: 'url(' + form.icon + ')',
-                }"
-              >
-              </span> -->
-              <!-- <md-field :class="getValidationClass('icon')">
-                <label for="icon">Upload</label>
-                <md-file
-                  ref="icon"
-                  accept="image/*"
-                  name="icon"
-                  id="icon"
-                  :disabled="sending"
-                  @md-change="selectedFile"
-                />
-                <span class="md-error" v-if="!$v.form.icon.required">
-                  Tier icon is required
-                </span>
-              </md-field> -->
               <span
                 id="fileUpload"
                 class="amvip--iconPreview"
@@ -160,6 +141,9 @@
 @import url("./../../assets/vip-tier/less/_header");
 @import url("./../../assets/vip-tier/less/_edit-tier");
 .amvip-editTier {
+  .md-switch.tierNameDisplay {
+    margin-left: 20px;
+  }
   .amvip--colorInfo {
     z-index: 3;
   }
@@ -224,6 +208,7 @@ export default {
   data: () => ({
     form: {
       name: null,
+      tier_name_display: true,
       description: null,
       icon: null,
       color: null,

@@ -25,6 +25,9 @@
             Minimum of 3 letters required
           </span>
         </md-field>
+        <md-switch v-model="form.tier_name_display" class="tierNameDisplay"
+          >Display</md-switch
+        >
       </div>
       <div class="amvip--formRow">
         <md-field>
@@ -41,6 +44,7 @@
         <label for="color">Background color</label>
         <div class="amvip--colorInfo">
           <ColorPicker
+            ref="colorPicker"
             id="color"
             name="color"
             :color="form.color"
@@ -58,8 +62,8 @@
           <md-input
             name="goal"
             id="goal"
-            type="number"
             ref="goal"
+            type="number"
             v-model="form.goal"
             :disabled="sending"
           />
@@ -121,6 +125,9 @@
 @import url("./../../assets/vip-tier/less/_add-tier");
 .amvip--container.amvip--addTier {
   width: 85%;
+  .md-switch.tierNameDisplay {
+    margin-left: 20px;
+  }
   .amvip--colorInfo {
     z-index: 3;
   }
@@ -182,6 +189,7 @@ export default {
   data: () => ({
     form: {
       name: null,
+      tier_name_display: true,
       description: null,
       icon: null,
       color: null,

@@ -63,7 +63,8 @@
               </md-datepicker>
               <span class="far fa-info-circle" v-popover:foo.top.left></span>
               <popover name="foo" width="300" event="hover">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                As per our record, you installed the Gratisfaction on
+                {{ installedDate | formatDate }}
               </popover>
             </div>
             <small style="opacity:0.8;">
@@ -77,15 +78,24 @@
               Date to beign the program is required.
             </span>
             <span
-              class="md-custom-error padLeft-35 top-minus-20"
+              class="md-custom-error padLeft-35"
               v-else-if="
-                !$v.form.date_start.installed_data_validator &&
+                !$v.form.date_start.installed_date_validator &&
                   $v.form.date_start.$dirty
               "
             >
-              Date cannot be older than program installed date ({{
+              Program Date cannot be older than program installed date ({{
                 installedDate | formatDate
               }})
+            </span>
+            <span
+              class="md-custom-error padLeft-35"
+              v-else-if="
+                !$v.form.date_start.post_date_validator &&
+                  $v.form.date_start.$dirty
+              "
+            >
+              Program Date cannot be future Date
             </span>
           </div>
         </div>
@@ -279,8 +289,11 @@ export default {
       },
       date_start: {
         required,
-        installed_data_validator(value) {
+        installed_date_validator(value) {
           return new Date(value) >= this.$data.installedDate;
+        },
+        post_date_validator(value) {
+          return new Date(value) < new Date();
         },
       },
       selection_type: {

@@ -71,7 +71,10 @@
             Reward type is required
           </div>
           <div class="sideBySide">
-            <div class="amvip--twolColumnRow vertical left">
+            <div
+              class="amvip--twolColumnRow vertical"
+              v-bind:class="form.rewardtype === 'perk_expeience' ? '' : 'left'"
+            >
               <div class="amvip--formRow">
                 <md-field :class="getValidationClass('name')">
                   <label for="name">
@@ -391,7 +394,7 @@
               </div>
               <div class="amvip--twolColumnRow vertical">
                 <div class="amvip--formRow">
-                  <div class="expiryDate">
+                  <!-- <div class="expiryDate">
                     <md-datepicker
                       md-immediately
                       :class="getValidationClass('expiry')"
@@ -402,17 +405,17 @@
                     >
                       <label>Select point expiry date</label>
                     </md-datepicker>
-                    <!-- <div
+                   <div
                     class="md-custom-error padLeft-35"
                     v-if="!$v.form.expiry.required && $v.form.expiry.$dirty"
                   >
                     Bonus expiry date is required.
-                  </div> -->
                   </div>
+                  </div> -->
                 </div>
               </div>
             </section>
-            <section
+            <!-- <section
               id="perks"
               class="tabSection vertical right"
               v-if="form.rewardtype === 'perk_expeience'"
@@ -433,7 +436,7 @@
                   </md-field>
                 </div>
               </div>
-            </section>
+            </section> -->
           </div>
         </div>
       </div>
