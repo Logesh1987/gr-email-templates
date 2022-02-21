@@ -98,6 +98,13 @@ export default {
     document.documentElement.classList.remove("md-theme-default");
     document.querySelector("#app").classList.add("md-theme-default");
   },
+  destroyed() {
+    console.log(
+      `At this point, watchers, child components, and event listeners have been torn down.`
+    );
+    console.log("Component destroyed.");
+    window.sessionStorage.clear();
+  },
 };
 </script>
 
