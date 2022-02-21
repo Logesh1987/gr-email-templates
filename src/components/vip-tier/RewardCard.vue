@@ -15,7 +15,11 @@
     <span
       class="amvip--rewardItemType"
       :class="rewardData.is_onetime_ongoing == 2 ? 'onGoing' : 'oneTime'"
-      >{{ rewardData.is_onetime_ongoing == 2 ? "On Going" : "One Time" }}</span
+      >{{
+        rewardData.is_onetime_ongoing == 2
+          ? "In-Tier Benefits"
+          : "Welcome reward"
+      }}</span
     >
   </div>
 </template>
@@ -23,8 +27,8 @@
 <script>
 // import RewardType from "./../../model/vip-tier/constants.js";
 export const RewardType = {
-  OnGoing: "On Going",
-  OneTime: "One Time",
+  OnGoing: "In-Tier Benefits",
+  OneTime: "Welcome reward",
 };
 export default {
   name: "VipRewardCard",
