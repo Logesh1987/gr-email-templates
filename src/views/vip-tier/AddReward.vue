@@ -500,7 +500,10 @@ export default {
       },
       couponamount: {
         required: requiredIf(function() {
-          return this.form.rewardtype !== "perk_expeience";
+          return (
+            this.form.rewardtype !== "perk_expeience" &&
+            this.form.coupon_type !== "freeShipping"
+          );
         }),
       },
       coupon_type: {
