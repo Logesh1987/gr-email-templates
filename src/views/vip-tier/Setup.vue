@@ -35,6 +35,9 @@
               Minimum of 3 letters required
             </span>
           </md-field>
+          <md-switch v-model="form.tier_name_display" class="tierNameDisplay"
+            >Display</md-switch
+          >
         </div>
         <div class="amvip--formRow">
           <md-field>
@@ -199,6 +202,10 @@
 <style lang="less">
 @import url("./../../assets/vip-tier/less/_home");
 @import url("./../../assets/vip-tier/less/_setup");
+
+.md-switch.tierNameDisplay {
+  margin-left: 20px;
+}
 .noBanner {
   .amvip--landingGrey {
     padding-top: 0;
@@ -270,6 +277,7 @@ export default {
       description: null,
       date_start: null,
       selection_type: "points",
+      tier_name_display: true,
       time_slot: "calendar_year",
     },
     userSaved: false,

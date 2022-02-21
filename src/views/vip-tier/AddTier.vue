@@ -25,9 +25,6 @@
             Minimum of 3 letters required
           </span>
         </md-field>
-        <md-switch v-model="form.tier_name_display" class="tierNameDisplay"
-          >Display</md-switch
-        >
       </div>
       <div class="amvip--formRow">
         <md-field>
@@ -56,7 +53,9 @@
       <div class="amvip--formRow multiCol">
         <md-field :class="getValidationClass('goal')">
           <label for="goal">
-            Points needed
+            {{
+              tierDefine == "points" ? "Points needed" : "Purchase Value needed"
+            }}
             <span class="amvip--mandatory">*</span>
           </label>
           <md-input
@@ -125,9 +124,6 @@
 @import url("./../../assets/vip-tier/less/_add-tier");
 .amvip--container.amvip--addTier {
   width: 85%;
-  .md-switch.tierNameDisplay {
-    margin-left: 20px;
-  }
   .amvip--colorInfo {
     z-index: 3;
   }
@@ -189,7 +185,6 @@ export default {
   data: () => ({
     form: {
       name: null,
-      tier_name_display: true,
       description: null,
       icon: null,
       color: null,
@@ -200,6 +195,7 @@ export default {
     existingFile: null,
     existingFileName: "",
     enableIcon: false,
+    tierDefine: "points",
   }),
   validations: {
     form: {
@@ -212,6 +208,16 @@ export default {
         required,
       },
     },
+  },
+  mounted() {
+    const url = this.getApiUrl(`Tiers/Setupvip`);
+    Axios.get(url).then((res) => {
+      if (res.data.error) {
+        return false;
+      } else {
+        this.tierDefine = res.data.data.selection_type;
+      }
+    });
   },
   methods: {
     showIconPopup() {
