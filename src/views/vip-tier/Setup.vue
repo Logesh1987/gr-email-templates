@@ -56,6 +56,7 @@
               <md-datepicker
                 md-immediately
                 :class="getValidationClass('date_start')"
+                :md-disabled-dates="disabledDates"
                 name="date_start"
                 id="date_start"
                 v-model="form.date_start"
@@ -288,6 +289,9 @@ export default {
     mode: Mode.create,
     showConfirmPopup: false,
     popupConfig: null,
+    disabledDates: (date) => {
+      return date > new Date();
+    },
   }),
   validations: {
     form: {

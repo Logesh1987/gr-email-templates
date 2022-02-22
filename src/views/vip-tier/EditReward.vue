@@ -203,13 +203,13 @@
               <div class="amvip--twolColumnRow vertical">
                 <div class="amvip--formRow">
                   <md-field>
-                    <label for="prefix">
+                    <label for="realtime_coupon_prefix">
                       Coupon Prefix
                     </label>
                     <md-input
-                      name="prefix"
-                      id="prefix"
-                      v-model="form.prefix"
+                      name="realtime_coupon_prefix"
+                      id="realtime_coupon_prefix"
+                      v-model="form.realtime_coupon_prefix"
                       :disabled="sending"
                       type="text"
                     />
@@ -484,7 +484,7 @@ export default {
       expiry: null,
       id_tier: null,
       id_tier_list: null,
-      prefix: null,
+      realtime_coupon_prefix: null,
       email: null,
     },
     sending: false,
@@ -659,6 +659,8 @@ export default {
       this.form.coupon_type = response.settings.coupon_type;
       this.form.expiry = new Date(response.settings.date_expiry);
       this.form.email = response.settings.email;
+      this.form.realtime_coupon_prefix =
+        response.settings.realtime_coupon_prefix;
     },
     validateData() {
       this.$v.$touch();
