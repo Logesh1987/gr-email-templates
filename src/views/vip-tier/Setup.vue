@@ -376,7 +376,7 @@ export default {
     confirmClicked(event) {
       this.showConfirmPopup = false;
       if (event.id == "finalConfirmSetup") {
-        window.sessionStorage.setItem("statusData", 1);
+        this.updateStatus(1);
         this.saveUser();
       } else {
         this.clearForm();
@@ -386,10 +386,23 @@ export default {
     cancelClicked(event) {
       console.log(event);
       if (event.id == "finalConfirmSetup") {
-        window.sessionStorage.setItem("statusData", 0);
+        this.updateStatus(0);
         this.saveUser();
       }
       this.showConfirmPopup = false;
+    },
+    async updateStatus(status) {
+      const statusUrl = this.getApiUrl("Tiers/Viptierstatus");
+      try {
+        const res = await Axios.post(statusUrl, { status: status });
+        if (res.data.error) {
+          return false;
+        } else {
+          window.sessionStorage.setItem("statusData", status);
+        }
+      } catch (error) {
+        return false;
+      }
     },
     clearForm() {
       this.$v.$reset();
