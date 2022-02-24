@@ -207,23 +207,25 @@ export default {
         `Tiers/Managetiers/${this.currentDeleteObj.data.id}`
       );
       console.log(this.deleteRadio);
-      Axios.delete(url).then((res) => {
-        if (res.data.error) {
-          return false;
-        } else {
-          window.sessionStorage.setItem("dataChanged", true);
-          const manageUrl = this.getApiUrl("Tiers/Managetiers");
-          Axios.get(manageUrl).then((res) => {
-            if (res.data.error) {
-              return false;
-            } else {
-              this.tierData = res.data.data;
-            }
-          });
+      Axios.delete(url, { data: { userStatus: this.deleteRadio } }).then(
+        (res) => {
+          if (res.data.error) {
+            return false;
+          } else {
+            window.sessionStorage.setItem("dataChanged", true);
+            const manageUrl = this.getApiUrl("Tiers/Managetiers");
+            Axios.get(manageUrl).then((res) => {
+              if (res.data.error) {
+                return false;
+              } else {
+                this.tierData = res.data.data;
+              }
+            });
+          }
+          this.currentDeleteObj = null;
+          this.deleteRadio = "tier_down";
         }
-        this.currentDeleteObj = null;
-        this.deleteRadio = "tier_down";
-      });
+      );
     },
     gotoAddTier() {
       this.$router.push("/view/tiers/add-tier");
