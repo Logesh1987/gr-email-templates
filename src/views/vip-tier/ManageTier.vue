@@ -50,6 +50,28 @@
       v-on:confirmed="confirmClicked($event)"
       v-on:canceled="cancelClicked($event)"
     ></ConfirmPopup>
+    <md-dialog :md-active.sync="showDeleteDialog" id="deleteDialog">
+      <div id="moveCurrentUsers">
+        <h3>Move current users</h3>
+        <div>
+          <md-radio v-model="deleteRadio" value="tier_down">Tier down</md-radio>
+          <md-radio v-model="deleteRadio" value="tier_up">Tier up</md-radio>
+          <md-radio v-model="deleteRadio" value="same_tier">Same tier</md-radio>
+        </div>
+      </div>
+      <div class="dialogTitle">Confirm!</div>
+      <div class="dialogContent">
+        Are you sure, you want to delete the tier?
+      </div>
+      <md-dialog-actions>
+        <md-button class="md-raised" @click="onDeleteDialogClose(0)"
+          >No, Keep it</md-button
+        >
+        <md-button class="md-raised deleteBtn" @click="onDeleteDialogClose(1)"
+          >Yes, Delete it</md-button
+        >
+      </md-dialog-actions>
+    </md-dialog>
   </div>
 </template>
 <style lang="less">
@@ -59,6 +81,30 @@
 .homeLink {
   margin: 0 20px;
   font-weight: bold;
+}
+#deleteDialog {
+  .md-dialog-container {
+    background: #eee;
+    > div {
+      padding: 10px 20px;
+    }
+  }
+
+  .dialogTitle {
+    font-weight: bold;
+  }
+
+  div#moveCurrentUsers {
+    background: #12443b;
+    color: #fff;
+  }
+  .md-button.md-theme-default.md-raised:not([disabled]) {
+    color: #fff;
+    background-color: #aaa8aa;
+    &.deleteBtn {
+      background-color: #12443b;
+    }
+  }
 }
 </style>
 <script>
@@ -81,6 +127,9 @@ export default {
       popupConfig: {},
       tierData: [],
       tierStatus: true,
+      deleteRadio: "tier_down",
+      showDeleteDialog: false,
+      currentDeleteObj: null,
     };
   },
   mounted() {
@@ -141,18 +190,23 @@ export default {
       this.$router.push("/view/tiers/edit-tier/" + this.currentTierId);
     },
     confirmDelete(obj) {
-      this.popupConfig = {
-        title: "Confirm!",
-        content: "Are you sure, you want to delete the tier?",
-        confirmText: "OK",
-        cancelText: "Cancel",
-        id: "deleteTierPopup",
-        params: obj,
-      };
-      this.showConfirmPopup = true;
+      this.currentDeleteObj = obj;
+      this.showDeleteDialog = true;
     },
-    deleteTier(obj) {
-      const url = this.getApiUrl(`Tiers/Managetiers/${obj.data.id}`);
+    onDeleteDialogClose(status) {
+      if (status == 0) {
+        this.showDeleteDialog = false;
+        this.currentDeleteObj = null;
+      } else {
+        this.deleteTier();
+        this.showDeleteDialog = false;
+      }
+    },
+    deleteTier() {
+      const url = this.getApiUrl(
+        `Tiers/Managetiers/${this.currentDeleteObj.data.id}`
+      );
+      console.log(this.deleteRadio);
       Axios.delete(url).then((res) => {
         if (res.data.error) {
           return false;
@@ -167,6 +221,8 @@ export default {
             }
           });
         }
+        this.currentDeleteObj = null;
+        this.deleteRadio = "tier_down";
       });
     },
     gotoAddTier() {
