@@ -463,19 +463,20 @@ export default {
       if (this.$v.$invalid) {
         this.focusFirstStatus(this.$v.form, this.$refs);
       } else {
-        if (this.mode == Mode.Edit) {
-          this.saveUser();
-        } else {
-          this.popupConfig = {
-            title: "Review or Launch",
-            content:
-              "We have setup 4 tiers with default settings. You can review or launch.",
-            confirmText: "Yes, Launch",
-            cancelText: "No, Review",
-            id: "finalConfirmSetup",
-          };
-          this.showConfirmPopup = true;
-        }
+        // if (this.mode == Mode.Edit) {
+        //   this.saveUser();
+        // } else {
+        //   this.popupConfig = {
+        //     title: "Review or Launch",
+        //     content:
+        //       "We have setup 4 tiers with default settings. You can review or launch.",
+        //     confirmText: "Yes, Launch",
+        //     cancelText: "No, Review",
+        //     id: "finalConfirmSetup",
+        //   };
+        //   this.showConfirmPopup = true;
+        // }
+        this.saveUser();
       }
     },
     goBack() {

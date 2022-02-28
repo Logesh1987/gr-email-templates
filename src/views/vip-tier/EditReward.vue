@@ -185,7 +185,7 @@
                     </span>
                   </md-field>
                 </div>
-                <div class="amvip--formRow">
+                <div class="amvip--formRow" v-if="form.type != 'onetime'">
                   <md-field :class="getValidationClass('minspend')">
                     <label for="minspend">
                       Minimum Spend
@@ -217,22 +217,19 @@
                 </div>
                 <div class="amvip--formRow">
                   <div class="expiryDate">
-                    <md-datepicker
-                      md-immediately
-                      :class="getValidationClass('expiry')"
-                      name="expiry"
-                      id="expiry"
-                      v-model="form.expiry"
-                      :disabled="sending"
-                    >
-                      <label>Select coupon expiry date</label>
-                    </md-datepicker>
-                    <!-- <div
-                    class="md-custom-error padLeft-35"
-                    v-if="!$v.form.expiry.required && $v.form.expiry.$dirty"
-                  >
-                    Bonus expiry date is required.
-                  </div> -->
+                    <md-field>
+                      <label for="coupon_expiry_in">
+                        Coupon expires in
+                      </label>
+                      <md-input
+                        name="coupon_expiry_in"
+                        id="coupon_expiry_in"
+                        v-model="form.expire_in"
+                        :disabled="sending"
+                        type="number"
+                      />
+                      <span class="md-suffix">day(s)</span>
+                    </md-field>
                   </div>
                 </div>
               </div>
@@ -377,7 +374,7 @@
                     </span>
                   </md-field>
                 </div>
-                <div class="amvip--formRow">
+                <div class="amvip--formRow" v-if="form.type != 'onetime'">
                   <md-field :class="getValidationClass('minspend')">
                     <label for="minspend">
                       Minimum Spend
@@ -481,7 +478,8 @@ export default {
       couponamount: null,
       minspend: null,
       coupon_type: null,
-      expiry: null,
+      expire_in: null,
+      set_expiry_date: 1,
       id_tier: null,
       id_tier_list: null,
       realtime_coupon_prefix: null,

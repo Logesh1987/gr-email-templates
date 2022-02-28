@@ -52,7 +52,16 @@
     ></ConfirmPopup>
     <md-dialog :md-active.sync="showDeleteDialog" id="deleteDialog">
       <div id="moveCurrentUsers">
-        <h3>Move current users</h3>
+        <h3>
+          Move current users
+          <div id="popoverWrapper">
+            <span class="far fa-info-circle" v-popover:foo></span>
+            <popover name="foo" event="hover">
+              We will directly moved all the users in Gold to Silver
+            </popover>
+          </div>
+        </h3>
+
         <div>
           <md-radio v-model="deleteRadio" value="tier_down">Tier down</md-radio>
           <md-radio v-model="deleteRadio" value="tier_up">Tier up</md-radio>
@@ -61,14 +70,22 @@
       </div>
       <div class="dialogTitle">Confirm!</div>
       <div class="dialogContent">
-        Are you sure, you want to delete the tier?
+        {{
+          this.deleteRadio == "same_tier"
+            ? "Are you sure, you want to pause the tier?"
+            : "Are you sure, you want to delete the tier?"
+        }}
       </div>
       <md-dialog-actions>
         <md-button class="md-raised" @click="onDeleteDialogClose(0)"
           >No, Keep it</md-button
         >
-        <md-button class="md-raised deleteBtn" @click="onDeleteDialogClose(1)"
-          >Yes, Delete it</md-button
+        <md-button
+          class="md-raised deleteBtn"
+          @click="onDeleteDialogClose(1)"
+          >{{
+            this.deleteRadio == "same_tier" ? "Yes, Pause it" : "Yes, Delete it"
+          }}</md-button
         >
       </md-dialog-actions>
     </md-dialog>
@@ -97,6 +114,24 @@
   div#moveCurrentUsers {
     background: #12443b;
     color: #fff;
+    h3 {
+      display: flex;
+    }
+    #popoverWrapper {
+      margin-left: 10px;
+      position: relative;
+      [data-popover="foo"] {
+        background: #f9f9f9;
+        color: #444;
+        font-size: 12px;
+        line-height: 1.5;
+        margin: 5px;
+        z-index: 10000 !important;
+        top: 20px !important;
+        left: -85px !important;
+        position: absolute !important;
+      }
+    }
   }
   .md-button.md-theme-default.md-raised:not([disabled]) {
     color: #fff;
@@ -133,6 +168,15 @@ export default {
     };
   },
   mounted() {
+    this.popupConfig = {
+      title: "Review or Launch",
+      content:
+        "We have setup 4 tiers with default settings. You can review or launch.",
+      confirmText: "Yes, Launch",
+      cancelText: "No, Review",
+      id: "finalConfirmSetup",
+    };
+    this.showConfirmPopup = true;
     const statusData = window.sessionStorage.getItem("statusData")
       ? +window.sessionStorage.getItem("statusData")
       : null;
@@ -267,6 +311,10 @@ export default {
         case "statusUpdatePopup":
           this.updateStatus();
           break;
+        case "finalConfirmSetup":
+          this.tierStatus = 1;
+          this.updateStatus();
+          break;
         default:
           break;
       }
@@ -279,6 +327,10 @@ export default {
         case "statusUpdatePopup":
           this.tierStatus = !this.tierStatus;
           this.getTierStatus();
+          break;
+        case "finalConfirmSetup":
+          this.tierStatus = 0;
+          this.updateStatus();
           break;
         default:
           break;
