@@ -77,17 +77,24 @@
         </h3>
         <div>
           <md-radio v-model="deleteRadio" value="tier_down">Tier down</md-radio>
-          <md-radio v-model="deleteRadio" value="tier_up">Tier up</md-radio>
+          <md-radio
+            v-model="deleteRadio"
+            value="tier_up"
+            v-if="this.currentDeleteObj.data.next_tier.length > 0"
+            >Tier up</md-radio
+          >
           <md-radio v-model="deleteRadio" value="same_tier">Same tier</md-radio>
         </div>
         <p>
           There are {{ getCurrentUserDetails() }} User(s) in the current Tier.
         </p>
         <p v-if="deleteRadio == 'tier_down'">
-          We will directly moved all the users in Gold to Silver.
+          We will directly moved all the users in current tier to
+          {{ this.currentDeleteObj.data.previous_tier }}.
         </p>
         <p v-if="deleteRadio == 'tier_up'">
-          We will directly moved all the users in Silver to Gold.
+          We will directly moved all the users in current tier to
+          {{ this.currentDeleteObj.data.next_tier }}.
         </p>
         <p v-if="deleteRadio == 'same_tier'">
           We will pause the tier and the users will be in the same tier.
