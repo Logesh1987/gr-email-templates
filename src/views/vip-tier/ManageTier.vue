@@ -50,28 +50,53 @@
       v-on:confirmed="confirmClicked($event)"
       v-on:canceled="cancelClicked($event)"
     ></ConfirmPopup>
+    <md-dialog :md-active.sync="showLandingPopup" id="deleteDialog">
+      <md-dialog-title>Review and Launch</md-dialog-title>
+      <md-dialog-content
+        >We have setup 4 tiers with default settings. You can review and
+        launch.</md-dialog-content
+      >
+      <md-dialog-actions>
+        <md-button class="md-raised deleteBtn" @click="showLandingPopup = false"
+          >Okay, Review it</md-button
+        >
+      </md-dialog-actions>
+    </md-dialog>
     <md-dialog :md-active.sync="showDeleteDialog" id="deleteDialog">
-      <div id="moveCurrentUsers">
+      <div id="moveCurrentUsers" v-if="getCurrentUserDetails() != 0">
         <h3>
           Move current users
           <div id="popoverWrapper">
             <span class="far fa-info-circle" v-popover:foo></span>
             <popover name="foo" event="hover">
-              We will directly moved all the users in Gold to Silver
+              There are
+              {{ getCurrentUserDetails() }}
+              User(s) in the current Tier
             </popover>
           </div>
         </h3>
-
         <div>
           <md-radio v-model="deleteRadio" value="tier_down">Tier down</md-radio>
           <md-radio v-model="deleteRadio" value="tier_up">Tier up</md-radio>
           <md-radio v-model="deleteRadio" value="same_tier">Same tier</md-radio>
         </div>
+        <p>
+          There are {{ getCurrentUserDetails() }} User(s) in the current Tier.
+        </p>
+        <p v-if="deleteRadio == 'tier_down'">
+          We will directly moved all the users in Gold to Silver.
+        </p>
+        <p v-if="deleteRadio == 'tier_up'">
+          We will directly moved all the users in Silver to Gold.
+        </p>
+        <p v-if="deleteRadio == 'same_tier'">
+          We will pause the tier and the users will be in the same tier.
+        </p>
       </div>
       <div class="dialogTitle">Confirm!</div>
       <div class="dialogContent">
         {{
-          this.deleteRadio == "same_tier"
+          this.deleteRadio == "same_tier" && getCurrentUserDetails() != 0
             ? "Are you sure, you want to pause the tier?"
             : "Are you sure, you want to delete the tier?"
         }}
@@ -84,7 +109,9 @@
           class="md-raised deleteBtn"
           @click="onDeleteDialogClose(1)"
           >{{
-            this.deleteRadio == "same_tier" ? "Yes, Pause it" : "Yes, Delete it"
+            this.deleteRadio == "same_tier" && getCurrentUserDetails() != 0
+              ? "Yes, Pause it"
+              : "Yes, Delete it"
           }}</md-button
         >
       </md-dialog-actions>
@@ -165,18 +192,10 @@ export default {
       deleteRadio: "tier_down",
       showDeleteDialog: false,
       currentDeleteObj: null,
+      showLandingPopup: false,
     };
   },
   mounted() {
-    this.popupConfig = {
-      title: "Review or Launch",
-      content:
-        "We have setup 4 tiers with default settings. You can review or launch.",
-      confirmText: "Yes, Launch",
-      cancelText: "No, Review",
-      id: "finalConfirmSetup",
-    };
-    this.showConfirmPopup = true;
     const statusData = window.sessionStorage.getItem("statusData")
       ? +window.sessionStorage.getItem("statusData")
       : null;
@@ -202,18 +221,37 @@ export default {
           return false;
         } else {
           this.tierData = res.data.data;
+          window.sessionStorage.setItem("couponPrefix", res.data.prefix);
           window.sessionStorage.setItem(
             "tierData",
             JSON.stringify(this.tierData)
           );
           window.sessionStorage.setItem("dataChanged", false);
+          this.showLandingPopup = !this.hasUsers() && !this.tierStatus;
         }
       });
     } else {
       this.tierData = JSON.parse(tierData);
+      this.showLandingPopup = !this.hasUsers() && !this.tierStatus;
     }
   },
   methods: {
+    hasUsers() {
+      let hasUser = false;
+      for (let index = 0; index < this.tierData.length; index++) {
+        const data = this.tierData[index];
+        if (data.users > 0) {
+          hasUser = true;
+          break;
+        }
+      }
+      return hasUser;
+    },
+    getCurrentUserDetails() {
+      return this.currentDeleteObj && this.currentDeleteObj?.data?.users
+        ? this.currentDeleteObj.data.users
+        : "0";
+    },
     getTierStatus() {
       return this.tierStatus ? "Active" : "Inactive";
     },

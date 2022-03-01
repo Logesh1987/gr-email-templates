@@ -217,6 +217,16 @@
                 </div>
                 <div class="amvip--formRow">
                   <div class="expiryDate">
+                    <md-checkbox
+                      v-model="form.set_expiry_date"
+                      value="1"
+                      @change="setExpiryDate($event)"
+                      >Set expiry date</md-checkbox
+                    >
+                  </div>
+                </div>
+                <div class="amvip--formRow">
+                  <div class="expiryDate">
                     <md-field>
                       <label for="coupon_expiry_in">
                         Coupon expires in
@@ -225,7 +235,7 @@
                         name="coupon_expiry_in"
                         id="coupon_expiry_in"
                         v-model="form.expire_in"
-                        :disabled="sending"
+                        :disabled="sending || form.set_expiry_date != 1"
                         type="number"
                       />
                       <span class="md-suffix">day(s)</span>
@@ -479,7 +489,7 @@ export default {
       minspend: null,
       coupon_type: null,
       expire_in: null,
-      set_expiry_date: 1,
+      set_expiry_date: 0,
       id_tier: null,
       id_tier_list: null,
       realtime_coupon_prefix: null,
@@ -520,6 +530,9 @@ export default {
         this.form.type = event.target.getAttribute("data-value");
       });
     });
+    this.form.realtime_coupon_prefix = window.sessionStorage.getItem(
+      "couponPrefix"
+    );
     const currentRewardId = this.$route.params.currentRewardId;
     const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
     this.sending = true;
@@ -544,6 +557,11 @@ export default {
       });
   },
   methods: {
+    setExpiryDate(eve) {
+      if (eve != 1) {
+        this.form.expire_in = null;
+      }
+    },
     rewardTypeChange(rewardType) {
       if (rewardType == "coupon") {
         this.form.coupon_type = "percent";
