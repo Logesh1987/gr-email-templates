@@ -302,6 +302,9 @@
                     <label for="couponamount">
                       Multiples
                       <span class="amvip--mandatory">*</span>
+                      <span class="warnMessage" v-bind:class="warnClass"
+                        >Not recommended</span
+                      >
                     </label>
                     <md-input
                       name="couponamount"
@@ -310,6 +313,7 @@
                       ref="couponamount"
                       :disabled="sending"
                       type="number"
+                      @keyup="validateCouponAmount"
                     />
                     <span class="md-suffix">X</span>
                     <span class="md-helper-text"
@@ -471,6 +475,14 @@
 .expiryDate {
   width: 100%;
 }
+.warnMessage {
+  color: var(--md-theme-default-fieldvariant, #ff1744);
+  text-indent: 10px;
+  display: none;
+  &.show {
+    display: inline-block;
+  }
+}
 </style>
 <script>
 import { validationMixin } from "vuelidate";
@@ -495,6 +507,7 @@ export default {
       realtime_coupon_prefix: null,
       email: null,
     },
+    warnClass: "",
     sending: false,
   }),
   validations: {
@@ -535,6 +548,13 @@ export default {
     );
   },
   methods: {
+    validateCouponAmount() {
+      if (this.form.couponamount == "" || this.form.couponamount <= 2) {
+        this.warnClass = "";
+      } else {
+        this.warnClass = "show";
+      }
+    },
     setExpiryDate(eve) {
       if (eve != 1) {
         this.form.expire_in = null;
