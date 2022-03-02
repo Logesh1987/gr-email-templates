@@ -677,6 +677,16 @@ export default {
       this.form.email = response.settings.email;
       this.form.realtime_coupon_prefix =
         response.settings.realtime_coupon_prefix;
+      this.form.set_expiry_date = response.settings.set_expiry_date;
+      this.form.expire_in = response.settings.expire_in;
+      // const couponPrefix = window.sessionStorage.getItem("couponPrefix");
+      // if (response.settings.realtime_coupon_prefix.indexOf(couponPrefix) == 0) {
+      //   this.form.realtime_coupon_prefix =
+      //     response.settings.realtime_coupon_prefix;
+      // } else {
+      //   this.form.realtime_coupon_prefix =
+      //     couponPrefix + response.settings.realtime_coupon_prefix;
+      // }
     },
     validateData() {
       this.$v.$touch();

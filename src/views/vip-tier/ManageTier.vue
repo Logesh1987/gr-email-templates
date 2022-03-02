@@ -57,7 +57,7 @@
         launch.</md-dialog-content
       >
       <md-dialog-actions>
-        <md-button class="md-raised deleteBtn" @click="showLandingPopup = false"
+        <md-button class="md-raised deleteBtn" @click="closeLandingPopup"
           >Okay, Review it</md-button
         >
       </md-dialog-actions>
@@ -221,6 +221,9 @@ export default {
     }
     const tierData = window.sessionStorage.getItem("tierData");
     const dataChanged = window.sessionStorage.getItem("dataChanged") == "true";
+    const landingPopupFlg = window.sessionStorage.getItem(
+      "isLandingPopupShown"
+    );
     if (!tierData || (dataChanged && tierData)) {
       const url = this.getApiUrl("Tiers/Managetiers");
       Axios.get(url).then((res) => {
@@ -234,15 +237,21 @@ export default {
             JSON.stringify(this.tierData)
           );
           window.sessionStorage.setItem("dataChanged", false);
-          this.showLandingPopup = !this.hasUsers() && !this.tierStatus;
+          this.showLandingPopup =
+            !landingPopupFlg && !this.tierStatus && !this.hasUsers();
         }
       });
     } else {
       this.tierData = JSON.parse(tierData);
-      this.showLandingPopup = !this.hasUsers() && !this.tierStatus;
+      this.showLandingPopup =
+        !landingPopupFlg && !this.tierStatus && !this.hasUsers();
     }
   },
   methods: {
+    closeLandingPopup() {
+      this.showLandingPopup = false;
+      window.sessionStorage.setItem("isLandingPopupShown", true);
+    },
     hasUsers() {
       let hasUser = false;
       for (let index = 0; index < this.tierData.length; index++) {
