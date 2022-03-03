@@ -8,6 +8,11 @@
               <h2>
                 <i class="fal fa-fire"></i>Fomo Prompts
                 <small class="beta">Beta</small>
+                <PromptConfiguration
+                  v-if="listData"
+                  :data="widgetData"
+                  :saveWidgetData="saveWidgetData"
+                />
               </h2>
               <p>Some text explains about this FOMO prompts can be here.</p>
               <!--<div class="statusBlock">
@@ -34,136 +39,34 @@
                 <small v-if="tab.data.badge">({{ tab.data.badge }})</small>
               </template>
               <md-tab
+                id="tab-all"
+                md-label="All Prompts"
+                :md-template-data="{ badge: listData.length }"
+              >
+                <FomoListTable
+                  :listData="listData"
+                  :updateStatus="updateStatus"
+                />
+              </md-tab>
+              <md-tab
                 id="tab-home"
                 md-label="Active Prompts"
                 :md-template-data="{ badge: activeFomo.length }"
               >
-                <div
-                  class="table-responsive tableList"
-                  v-if="activeFomo.length"
-                >
-                  <table class="table table-striped snap-top">
-                    <thead>
-                      <tr>
-                        <th>FOMO Name</th>
-                        <th>Category</th>
-                        <th class="align-center">Clicks</th>
-                        <!-- <th>Visible to</th> -->
-                        <th class="align-center">Status</th>
-                        <th class="align-center">Action</th>
-                      </tr>
-                    </thead>
-                    <transition-group name="alist" tag="tbody">
-                      <tr
-                        class="listItem"
-                        v-for="data in activeFomo"
-                        :key="data.id"
-                      >
-                        <td class="font-size-mid">
-                          {{ data.attributes.name }}
-                        </td>
-                        <td class="font-size-mid">
-                          {{ mapCategory(data.type) }}
-                        </td>
-                        <td class="align-center">
-                          {{ data.attributes.clicks }}
-                        </td>
-                        <td class="align-center">
-                          <label
-                            class="switch"
-                            :for="data.id"
-                            @click="
-                              e => updateStatus(data.id, data.attributes.status)
-                            "
-                          >
-                            <input
-                              type="checkbox"
-                              name="mainSwitch"
-                              :checked="data.attributes.status == 1"
-                            />
-                            <i></i>
-                          </label>
-                        </td>
-                        <td class="align-center">
-                          <router-link
-                            class="mr-10"
-                            :to="`/view/fomo/summary/${data.id}`"
-                          >
-                            <i class="fal fa-list-alt"></i>
-                          </router-link>
-                          <router-link :to="`/view/fomo/edit/${data.id}`">
-                            <i class="fal fa-edit"></i>
-                          </router-link>
-                        </td>
-                      </tr>
-                    </transition-group>
-                  </table>
-                </div>
-                <NoFomoView v-else />
+                <FomoListTable
+                  :listData="activeFomo"
+                  :updateStatus="updateStatus"
+                />
               </md-tab>
               <md-tab
                 id="tab-pages"
                 md-label="Paused Prompts"
                 :md-template-data="{ badge: inactiveFomo.length }"
               >
-                <div
-                  class="table-responsive tableList"
-                  v-if="inactiveFomo.length"
-                >
-                  <table class="table table-striped snap-top">
-                    <thead>
-                      <tr>
-                        <th>FOMO Name</th>
-                        <th>Category</th>
-                        <th class="align-center">Clicks</th>
-                        <!--<th>Visible to</th>-->
-                        <th class="align-center">Status</th>
-                        <th class="align-center">Action</th>
-                      </tr>
-                    </thead>
-                    <transition-group name="ilist" tag="tbody">
-                      <tr v-for="data in inactiveFomo" :key="data.id">
-                        <td class="font-size-mid">
-                          {{ data.attributes.name }}
-                        </td>
-                        <td class="font-size-mid">
-                          {{ mapCategory(data.type) }}
-                        </td>
-                        <td class="align-center">
-                          {{ data.attributes.clicks }}
-                        </td>
-                        <td class="align-center">
-                          <label
-                            class="switch"
-                            :for="data.id"
-                            @click="
-                              e => updateStatus(data.id, data.attributes.status)
-                            "
-                          >
-                            <input
-                              type="checkbox"
-                              name="mainSwitch"
-                              :checked="data.attributes.status === 1"
-                            />
-                            <i></i>
-                          </label>
-                        </td>
-                        <td class="align-center">
-                          <router-link
-                            class="mr-10"
-                            :to="`/view/fomo/summary/${data.id}`"
-                          >
-                            <i class="fal fa-list-alt"></i>
-                          </router-link>
-                          <router-link :to="`/view/fomo/edit/${data.id}`">
-                            <i class="fal fa-edit"></i>
-                          </router-link>
-                        </td>
-                      </tr>
-                    </transition-group>
-                  </table>
-                </div>
-                <NoFomoView v-else />
+                <FomoListTable
+                  :listData="inactiveFomo"
+                  :updateStatus="updateStatus"
+                />
               </md-tab>
             </md-tabs>
             <NoFomoView v-else />
@@ -198,127 +101,6 @@
                   >Active</md-button
                 >
               </div>
-            </div>
-            <div class="new_list comingSoon">
-              <md-icon class="fomo_icon">
-                <i class="fal fa-hourglass-half"></i>
-              </md-icon>
-              <div class="fomo_details">
-                <h3>Announcement</h3>
-              </div>
-              <md-button :md-ripple="false" class="md-dense btn"
-                >Coming soon</md-button
-              >
-            </div>
-            <div class="new_list comingSoon">
-              <md-icon class="fomo_icon">
-                <i class="fal fa-hourglass-half"></i>
-              </md-icon>
-              <div class="fomo_details">
-                <h3>Newsletter</h3>
-              </div>
-              <md-button :md-ripple="false" class="md-dense btn"
-                >Coming soon</md-button
-              >
-            </div>
-            <div class="new_list comingSoon">
-              <md-icon class="fomo_icon">
-                <i class="fal fa-hourglass-half"></i>
-              </md-icon>
-              <div class="fomo_details">
-                <h3>Timer FOMO</h3>
-              </div>
-              <md-button :md-ripple="false" class="md-dense btn"
-                >Coming soon</md-button
-              >
-            </div>
-            <div class="new_list comingSoon">
-              <md-icon class="fomo_icon">
-                <i class="fal fa-hourglass-half"></i>
-              </md-icon>
-              <div class="fomo_details">
-                <h3>Bonus Points</h3>
-              </div>
-              <md-button :md-ripple="false" class="md-dense btn"
-                >Coming soon</md-button
-              >
-            </div>
-            <div class="new_list comingSoon">
-              <md-icon class="fomo_icon">
-                <i class="fal fa-hourglass-half"></i>
-              </md-icon>
-              <div class="fomo_details">
-                <h3>Celebrate events</h3>
-              </div>
-              <md-button :md-ripple="false" class="md-dense btn"
-                >Coming soon</md-button
-              >
-            </div>
-            <div class="new_list comingSoon">
-              <md-icon class="fomo_icon">
-                <i class="fal fa-hourglass-half"></i>
-              </md-icon>
-              <div class="fomo_details">
-                <h3>Pay with points</h3>
-              </div>
-              <md-button :md-ripple="false" class="md-dense btn"
-                >Coming soon</md-button
-              >
-            </div>
-            <div class="new_list comingSoon">
-              <md-icon class="fomo_icon">
-                <i class="fal fa-hourglass-half"></i>
-              </md-icon>
-              <div class="fomo_details">
-                <h3>Referral Program</h3>
-              </div>
-              <md-button :md-ripple="false" class="md-dense btn"
-                >Coming soon</md-button
-              >
-            </div>
-            <div class="new_list comingSoon">
-              <md-icon class="fomo_icon">
-                <i class="fal fa-hourglass-half"></i>
-              </md-icon>
-              <div class="fomo_details">
-                <h3>Feedback</h3>
-              </div>
-              <md-button :md-ripple="false" class="md-dense btn"
-                >Coming soon</md-button
-              >
-            </div>
-            <div class="new_list comingSoon">
-              <md-icon class="fomo_icon">
-                <i class="fal fa-hourglass-half"></i>
-              </md-icon>
-              <div class="fomo_details">
-                <h3>Survey</h3>
-              </div>
-              <md-button :md-ripple="false" class="md-dense btn"
-                >Coming soon</md-button
-              >
-            </div>
-            <div class="new_list comingSoon">
-              <md-icon class="fomo_icon">
-                <i class="fal fa-hourglass-half"></i>
-              </md-icon>
-              <div class="fomo_details">
-                <h3>Poll</h3>
-              </div>
-              <md-button :md-ripple="false" class="md-dense btn"
-                >Coming soon</md-button
-              >
-            </div>
-            <div class="new_list comingSoon">
-              <md-icon class="fomo_icon">
-                <i class="fal fa-hourglass-half"></i>
-              </md-icon>
-              <div class="fomo_details">
-                <h3>Quiz</h3>
-              </div>
-              <md-button :md-ripple="false" class="md-dense btn"
-                >Coming soon</md-button
-              >
             </div>
           </div>
         </div>
@@ -356,21 +138,21 @@
 import Axios from "axios";
 import { mapMutations, mapState } from "vuex";
 import NoFomoView from "@/components/fomo/NoFomoView.vue";
+import FomoListTable from "@/components/fomo/FomoListTable.vue";
+import PromptConfiguration from "@/components/fomo/PromptConfiguration.vue";
 
 export default {
   name: "FomoListing",
   mixins: ["createFormData", "getApiUrl"],
-  components: { NoFomoView },
+  components: { NoFomoView, FomoListTable, PromptConfiguration },
   data: function() {
     return {
       listData: null,
+      widgetData: null,
       errored: false,
       showNavigation: false,
-      showSidepanel: false,
-      categories: {
-        signup_bonus: "Signup Bonus",
-        new_product_release: "New Product"
-      }
+      promptConfig: false,
+      showSidepanel: false
     };
   },
   computed: {
@@ -388,14 +170,12 @@ export default {
       "toggleLoader",
       "updateApiResponse"
     ]),
-    mapCategory: function(type) {
-      return this.categories[type];
-    },
     fetchSiteFomo: function() {
       const url = this.getApiUrl("fomo");
       Axios.get(url)
         .then(({ data }) => {
-          this.listData = data.data;
+          this.listData = data.data.fomos;
+          this.widgetData = data.data.includes.widget;
         })
         .catch(({ response }) => {
           var msg = `<i class="fas fa-exclamation-circle"></i> ${response.data.errors.message}`;
@@ -403,7 +183,6 @@ export default {
         })
         .finally(() => this.toggleLoader(false));
     },
-
     fetchAllFomo: function() {
       if (!this.allFomoTypes) {
         const url = this.getApiUrl("fomo/all");
@@ -433,11 +212,13 @@ export default {
         });
       });
     },
-    updateStatus: function(id, status) {
-      const url = this.getApiUrl("fomo/updateStatus");
+    updateStatus: function(statusName, id, status) {
+      const urlTag =
+        statusName == "status" ? "updateStatus" : "updatePromptStatus";
+      const url = this.getApiUrl(`fomo/${urlTag}`);
       const params = {
         id: id,
-        status: status == 0 ? 1 : 0
+        [statusName]: status == 0 ? 1 : 0
       };
       this.toggleLoader(true);
       var msg = null;
@@ -448,7 +229,10 @@ export default {
               item.id === id
                 ? {
                     ...item,
-                    attributes: { ...item.attributes, status: params.status }
+                    attributes: {
+                      ...item.attributes,
+                      [statusName]: params[statusName]
+                    }
                   }
                 : item
             );
@@ -462,8 +246,49 @@ export default {
           this.toggleLoader(false);
           this.updateApiResponse(msg);
         });
-
-      // Change status using ID & !status
+    },
+    saveWidgetData: function(value) {
+      const postArray = [];
+      const params = {
+        id: value.id,
+        is_looping: value.attributes.is_looping,
+        time_duration: value.attributes.time_duration,
+        time_interval: value.attributes.time_interval
+      };
+      postArray.push(
+        Axios.post(
+          this.getApiUrl(`fomo/updateWidget`),
+          this.createFormData(params)
+        )
+      );
+      if (value.attributes.status !== this.widgetData.attributes.status) {
+        var params2 = {
+          id: value.id,
+          status: value.attributes.status
+        };
+        postArray.push(
+          Axios.post(
+            this.getApiUrl(`fomo/updateWidgetStatus`),
+            this.createFormData(params2)
+          )
+        );
+      }
+      this.toggleLoader(true);
+      var msg = null;
+      return Axios.all(postArray)
+        .then(data => {
+          msg = `<i class="fas fa-check-circle"></i> ${data[0].data.data.message}`;
+          this.widgetData.attributes = value.attributes;
+          return true;
+        })
+        .catch(({ response }) => {
+          msg = `<i class="fas fa-exclamation-circle"></i> ${response.data.errors.message}`;
+          return true;
+        })
+        .finally(() => {
+          this.toggleLoader(false);
+          this.updateApiResponse(msg);
+        });
     }
   },
   mounted: function() {
@@ -512,6 +337,15 @@ export default {
     color: #202020;
     line-height: 16px;
     margin: 0;
+  }
+}
+.fomoList::v-deep {
+  .configSettingsCta {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 0.8em 0.3em;
+    z-index: 2;
   }
 }
 
@@ -633,62 +467,6 @@ export default {
     }
   }
 }
-
-/* tableList table */
-.tableList {
-  thead tr th {
-    background: #eaeaea;
-    font-weight: 500;
-    border-bottom: 1px solid #b1b1b1;
-    font-size: 12px;
-    line-height: 15px;
-    color: #000;
-    font-weight: bold;
-    padding: 10px;
-    text-align: left;
-  }
-
-  tr:nth-child(odd) > td {
-    background-color: #f9f9f9;
-  }
-
-  tbody tr td {
-    border-bottom: 1px solid #eee;
-    vertical-align: middle;
-    padding: 10px;
-
-    &:first-child {
-      border-left: 1px solid #eee;
-    }
-    &:last-child {
-      border-right: 1px solid #eee;
-    }
-  }
-  .fa-edit,
-  .fa-list-alt {
-    font-size: 1.2em;
-  }
-  .fa-edit {
-    transform: translateY(-1px);
-  }
-  .font-size-mid {
-    font-size: 12px;
-    color: #202020;
-  }
-
-  .font-size-small {
-    font-size: 10px;
-    color: #999;
-  }
-  .align-center {
-    text-align: center;
-  }
-
-  .table.table-striped {
-    border-collapse: collapse;
-  }
-}
-
 .btn_link {
   color: #333;
   text-decoration: underline;
@@ -870,6 +648,7 @@ export default {
   margin: 0 auto;
   width: 80%;
   max-width: 1000px;
+  position: relative;
   .md-content {
     .md-tab {
       padding: 0;

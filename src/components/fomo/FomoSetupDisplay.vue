@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="mt-20">Display Setup</h2>
-    <div class="fullDiv">
+    <h2 class="mt-20" v-if="!hidePositioning">Display Setup</h2>
+    <div class="fullDiv" v-if="!hidePositioning">
       <h6 class="bLabel">Setup Positioning</h6>
       <md-field class="noMinHeight mb-0 mt-20" v-if="formData.position">
         <label for="position">Position</label>
@@ -114,15 +114,6 @@
             >Pop should appear only on first visit</md-checkbox
           >
         </div>
-        <div>
-          <md-checkbox
-            v-model="formData.show_on_exit"
-            :true-value="1"
-            :false-value="0"
-            >Popup will appear if a visitor’s mouse movement shows intent to
-            leave your website</md-checkbox
-          >
-        </div>
         <div class="display-flex hv-position justify-content-space-between">
           <div class="display-flex">
             <md-field
@@ -188,13 +179,17 @@
           <md-tooltip>More info about stack </md-tooltip>
         </i>
       </span>
-      <md-button href="/gr/admin/#/4598/view/widgets" class="md-primary"
+      <md-button
+        v-if="siteId"
+        :href="`/gr/admin/#/${siteId}/view/widgets`"
+        class="md-primary"
         >Edit Widget</md-button
       >
     </div>
   </div>
 </template>
 <script>
+import Vue from "vue";
 import Multiselect from "vue-multiselect";
 import "vue-multiselect/dist/vue-multiselect.min.css";
 
@@ -205,13 +200,15 @@ export default {
     "automatic",
     "updateSecondaryError",
     "updateAutomatic",
-    "content"
+    "content",
+    "hidePositioning"
   ],
   components: { Multiselect },
   mixins: ["createFormData"],
   data: function() {
     return {
-      formErrors: {}
+      formErrors: {},
+      siteId: Vue.prototype.$id_site || null
     };
   },
   watch: {

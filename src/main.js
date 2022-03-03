@@ -21,7 +21,8 @@ if (window.location.origin.includes("localhost")) {
     callback_url: "https://gr-v1.devam.pro",
     cdn_img_url: "https://gr-v1.devam.pro/public",
     cdn_raw_url: "https://gr-v1.devam.pro/public",
-    s3_image_url: "https://s3.us-east-1.amazonaws.com/devam.pro/gr/master"
+    s3_image_url: "https://s3.us-east-1.amazonaws.com/devam.pro/gr/master",
+    id_site: 4598
   };
 }
 
@@ -38,6 +39,7 @@ if (hostname == "localhost") {
 }
 
 Vue.prototype.$shop_id = "1916";
+Vue.prototype.$id_site = window.Config.id_site;
 Vue.prototype.$email = "logesh@appsmav.com";
 Vue.prototype.$asset_url = `${Vue.prototype.$callback_url}/public`;
 

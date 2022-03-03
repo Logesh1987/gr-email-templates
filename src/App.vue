@@ -151,6 +151,9 @@ export default {
 .display-flex {
   display: flex;
 }
+.display-inline-flex {
+  display: inline-flex;
+}
 .align-items-start {
   align-items: flex-start;
 }
@@ -279,6 +282,12 @@ export default {
   position: relative;
   width: 3.5em;
   margin: 0;
+
+  &.disabled {
+    pointer-events: none;
+    filter: grayscale(1);
+    opacity: 0.5;
+  }
 
   input {
     display: none;

@@ -1,0 +1,152 @@
+<template>
+  <div v-if="widgetData" class="display-inline-flex">
+    <md-dialog class="promptConfigDialog" :md-active.sync="promptConfig">
+      <md-dialog-title>Prompt configuration</md-dialog-title>
+      <md-dialog-content>
+        <div class="md-layout md-gutter">
+          <div class="md-layout-item md-size-50">
+            <md-field>
+              <label>Show Time</label>
+              <md-input
+                type="number"
+                v-model="widgetData.attributes.time_duration"
+                required
+              ></md-input>
+              <span class="md-suffix">Seconds</span>
+              <span class="md-error"></span>
+            </md-field>
+          </div>
+          <div class="md-layout-item md-size-50">
+            <md-field>
+              <label>Interval Time</label>
+              <md-input
+                type="number"
+                v-model="widgetData.attributes.time_interval"
+                required
+              ></md-input>
+              <span class="md-suffix">Seconds</span>
+              <span class="md-error"></span>
+            </md-field>
+          </div>
+          <div
+            class="md-layout-item md-size-50 display-flex align-items-center"
+          >
+            <label
+              class="switch mr-10"
+              data-control="is_looping"
+              @click.prevent="handleSwitch"
+            >
+              <input
+                type="checkbox"
+                name="mainSwitch"
+                :checked="widgetData.attributes.is_looping == 1"
+              />
+              <i></i>
+            </label>
+            Enable looping
+            <i class="ml-10 fas fa-info-circle" style="color: black">
+              <md-tooltip
+                >Enable fomos to loop after a cycle completed</md-tooltip
+              >
+            </i>
+          </div>
+          <div
+            class="md-layout-item md-size-50 display-flex align-items-center"
+          >
+            <label
+              class="switch mr-10"
+              data-control="status"
+              @click.prevent="handleSwitch"
+            >
+              <input
+                type="checkbox"
+                name="mainSwitch"
+                :checked="widgetData.attributes.status == 1"
+              />
+              <i></i>
+            </label>
+            Enable/Disable widget
+          </div>
+        </div>
+      </md-dialog-content>
+      <md-dialog-actions>
+        <md-button
+          :href="`/gr/admin/#/view/widgets/${widgetData.id}`"
+          class="md-primary"
+          >Edit Widget</md-button
+        >
+        <md-button class="md-raised" @click="promptConfig = false"
+          >Close</md-button
+        >
+        <md-button class="md-raised md-accent" @click="handleSave"
+          >Save</md-button
+        >
+      </md-dialog-actions>
+    </md-dialog>
+    <i class="configSettingsCta fal fa-cog" @click="promptConfig = true"
+      ><md-tooltip>Prompt configuration</md-tooltip></i
+    >
+  </div>
+</template>
+<script>
+export default {
+  name: "PromptConfiguration",
+  props: ["data", "saveWidgetData"],
+  data: function() {
+    return {
+      promptConfig: false,
+      widgetData: null
+    };
+  },
+  methods: {
+    handleSwitch: function(e) {
+      var name = e.currentTarget.dataset.control;
+      this.widgetData.attributes[name] = Number(
+        !this.widgetData.attributes[name]
+      );
+    },
+    handleSave: async function() {
+      var result = await this.saveWidgetData(this.widgetData);
+      if (result) this.promptConfig = false;
+    }
+  },
+  mounted: function() {
+    this.widgetData = JSON.parse(JSON.stringify(this.data));
+  }
+};
+</script>
+<style lang="less" scoped>
+.configSettingsCta {
+  cursor: pointer;
+  color: #000;
+  font-size: 1.1em;
+  opacity: 0.2;
+  line-height: 1;
+  margin-left: 1em;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+p.success {
+  width: 100%;
+  text-align: center;
+  background: lightgreen;
+  padding: 1em;
+  margin: 0;
+}
+.promptConfigDialog::v-deep {
+  .md-dialog-container {
+    width: 100%;
+    max-width: 500px;
+  }
+  .md-dialog-actions {
+    padding: 8px 24px 24px;
+  }
+  .md-input {
+    width: 100%;
+  }
+}
+.md-checkbox-label {
+  padding-left: 10px;
+}
+</style>

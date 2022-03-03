@@ -443,6 +443,7 @@
                 :updateAutomatic="updateAutomatic"
                 :updateSecondaryError="updateSecondaryError"
                 :content="fomoClanData"
+                :hidePositioning="embedCode && !embedMode"
                 v-if="Object.keys(fomoInputs.display_settings).length"
               />
             </md-tab>
@@ -477,16 +478,16 @@
               <h5>Embed as</h5>
               <ul>
                 <li
-                  @click="embedMode = false"
-                  :class="`${!embedMode ? 'active' : ''}`"
-                >
-                  Inline window
-                </li>
-                <li
                   @click="embedMode = true"
                   :class="`${embedMode ? 'active' : ''}`"
                 >
                   Floating window
+                </li>
+                <li
+                  @click="embedMode = false"
+                  :class="`${!embedMode ? 'active' : ''}`"
+                >
+                  Inline window
                 </li>
               </ul>
             </div>
@@ -526,6 +527,15 @@
       md-confirm-text="Publish"
       @md-cancel="publishFomoPrompt = false"
       @md-confirm="handlePublish"
+    />
+    <md-dialog-confirm
+      :md-active.sync="discardChanges"
+      md-title="Are you sure ?"
+      md-content="You have unsaved changes. Do you wish to discard & proceed"
+      md-confirm-text="Proceed"
+      md-cancel-text="Cancel"
+      @md-cancel="discardChanges = false"
+      @md-confirm="handleDiscard"
     />
   </div>
 </template>
@@ -716,6 +726,7 @@ export default {
   data: function() {
     return {
       embedCode: false,
+      embedMode: true,
       activeTab: null,
       mainActiveTab: "tab-template",
       quillEditor: {},
@@ -727,7 +738,8 @@ export default {
       newFomo: false,
       pauseFomoPrompt: false,
       publishFomoPrompt: false,
-      embedMode: false
+      discardChanges: false,
+      routeUrl: null
     };
   },
   watch: {
@@ -866,7 +878,7 @@ export default {
       this.secondaryError = val;
     },
     updateAutomatic: function() {
-      this.fomoInputs.is_automatic = this.fomoInputs.is_automatic == 1 ? 0 : 1;
+      this.fomoInputs.is_automatic = Number(!this.fomoInputs.is_automatic);
     },
     handleImgChange: function(e, key, name) {
       const file = e.target.files[0];
@@ -1002,6 +1014,16 @@ export default {
         })
         .catch(err => console.log(err))
         .finally(() => this.toggleLoader(false));
+    },
+    beforeWindowUnload: function(event) {
+      if (this.dirty) {
+        event.preventDefault();
+        return (event.returnValue = "Are you sure you want to exit?");
+      }
+    },
+    handleDiscard: function() {
+      this.dirty = false;
+      this.$router.push(this.routeUrl.path);
     }
   },
   mounted: function() {
@@ -1028,6 +1050,19 @@ export default {
       plugin.async = true;
       document.head.appendChild(plugin);
     }
+    window.addEventListener("beforeunload", this.beforeWindowUnload);
+    this.$router.beforeEach((to, from, next) => {// eslint-disable-line
+      if (this.dirty) {
+        this.routeUrl = to;
+        this.discardChanges = true;
+        next(false);
+      } else {
+        next();
+      }
+    });
+  },
+  beforeDestroy: function() {
+    window.removeEventListener("beforeunload", this.beforeWindowUnload);
   }
 };
 </script>
@@ -1393,6 +1428,7 @@ export default {
     margin: 0;
     background: #f0f7ff;
     padding: 3px 10px;
+    line-height: 2;
   }
   ul {
     margin: 0;
