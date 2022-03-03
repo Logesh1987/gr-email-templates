@@ -206,6 +206,7 @@
                     <label for="realtime_coupon_prefix">
                       Coupon Prefix
                     </label>
+                    <span class="md-prefix">{{ readOnlyPrefix }}</span>
                     <md-input
                       name="realtime_coupon_prefix"
                       id="realtime_coupon_prefix"
@@ -225,7 +226,7 @@
                     >
                   </div>
                 </div>
-                <div class="amvip--formRow">
+                <div class="amvip--formRow" v-if="form.set_expiry_date == 1">
                   <div class="expiryDate">
                     <md-field>
                       <label for="coupon_expiry_in">
@@ -235,11 +236,14 @@
                         name="coupon_expiry_in"
                         id="coupon_expiry_in"
                         v-model="form.expire_in"
-                        :disabled="sending || form.set_expiry_date != 1"
+                        :disabled="sending"
                         type="number"
                       />
                       <span class="md-suffix">day(s)</span>
                     </md-field>
+                    <span class="md-error" v-if="!$v.form.expire_in.required">
+                      Coupon expires in is required
+                    </span>
                   </div>
                 </div>
               </div>
@@ -298,13 +302,16 @@
                   class="amvip--formRow"
                   v-if="form.coupon_type == 'multiple'"
                 >
+                  <md-tooltip :md-active.sync="warnTooltip" md-direction="top"
+                    >Not recommended</md-tooltip
+                  >
                   <md-field :class="getValidationClass('couponamount')">
                     <label for="couponamount">
                       Multiples
                       <span class="amvip--mandatory">*</span>
-                      <span class="warnMessage" v-bind:class="warnClass"
+                      <!-- <span class="warnMessage" v-bind:class="warnClass"
                         >Not recommended</span
-                      >
+                      > -->
                     </label>
                     <md-input
                       name="couponamount"
@@ -507,8 +514,9 @@ export default {
       realtime_coupon_prefix: null,
       email: null,
     },
-    warnClass: "",
+    warnTooltip: false,
     sending: false,
+    readOnlyPrefix: "",
   }),
   validations: {
     form: {
@@ -532,6 +540,11 @@ export default {
           return this.form.rewardtype !== "perk_expeience";
         }),
       },
+      expire_in: {
+        required: requiredIf(function() {
+          return this.form.set_expiry_date == 1;
+        }),
+      },
     },
   },
   mounted() {
@@ -543,9 +556,7 @@ export default {
         this.form.type = event.target.getAttribute("data-value");
       });
     });
-    this.form.realtime_coupon_prefix = window.sessionStorage.getItem(
-      "couponPrefix"
-    );
+    this.readOnlyPrefix = window.sessionStorage.getItem("couponPrefix");
     const currentRewardId = this.$route.params.currentRewardId;
     const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
     this.sending = true;
@@ -571,11 +582,13 @@ export default {
   },
   methods: {
     validateCouponAmount() {
-      if (this.form.couponamount == "" || this.form.couponamount <= 2) {
-        this.warnClass = "";
-      } else {
-        this.warnClass = "show";
-      }
+      // if (this.form.couponamount == "" || this.form.couponamount <= 2) {
+      //   this.warnTooltip = "";
+      // } else {
+      //   this.warnTooltip = "show";
+      // }
+      this.warnTooltip =
+        this.form.couponamount != "" && this.form.couponamount > 2;
     },
     setExpiryDate(eve) {
       if (eve != 1) {
@@ -647,6 +660,8 @@ export default {
       }
       this.sending = true;
       this.form.id_tier_list = this.$route.params.id_tier;
+      this.form.realtime_coupon_prefix =
+        this.readOnlyPrefix + this.form.realtime_coupon_prefix;
       const returnData = this.getFormData();
       this.userSaved = true;
       this.sending = false;
@@ -695,8 +710,10 @@ export default {
       this.form.coupon_type = response.settings.coupon_type;
       this.form.expiry = new Date(response.settings.date_expiry);
       this.form.email = response.settings.email;
-      this.form.realtime_coupon_prefix =
-        response.settings.realtime_coupon_prefix;
+      this.form.realtime_coupon_prefix = response.settings.realtime_coupon_prefix.replace(
+        this.readOnlyPrefix,
+        ""
+      );
       this.form.set_expiry_date = response.settings.set_expiry_date;
       this.form.expire_in = response.settings.expire_in;
       // const couponPrefix = window.sessionStorage.getItem("couponPrefix");

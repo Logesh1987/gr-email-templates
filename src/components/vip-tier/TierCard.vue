@@ -1,5 +1,5 @@
 <template>
-  <div class="amvip--tierCol" :class="getTierClass(tierData.name)">
+  <div class="amvip--tierCol" :class="getTierClass(tierData)">
     <div>
       <header :style="{ 'background-color': tierData.color }">
         <div
@@ -127,8 +127,10 @@ export default {
     deleteTier(eve, data) {
       this.$emit("deleteClicked", { context: this, data: data, eventObj: eve });
     },
-    getTierClass(title) {
+    getTierClass(data) {
       let tierClass = "";
+      const title = data.title;
+      const isPaused = data.paused;
       switch (title) {
         case TierType.Gold:
           tierClass = "amvip--gold";
@@ -144,6 +146,9 @@ export default {
           break;
         default:
           break;
+      }
+      if (isPaused == 1) {
+        tierClass += "paused";
       }
       return tierClass;
     },
