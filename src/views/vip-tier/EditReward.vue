@@ -710,10 +710,12 @@ export default {
       this.form.coupon_type = response.settings.coupon_type;
       this.form.expiry = new Date(response.settings.date_expiry);
       this.form.email = response.settings.email;
-      this.form.realtime_coupon_prefix = response.settings.realtime_coupon_prefix.replace(
-        this.readOnlyPrefix,
-        ""
-      );
+      // this.form.realtime_coupon_prefix = response.settings.realtime_coupon_prefix.replace(
+      //   this.readOnlyPrefix,
+      //   ""
+      // );
+      this.form.realtime_coupon_prefix =
+        response.realtime_coupon_additional_prefix;
       this.form.set_expiry_date = response.settings.set_expiry_date;
       this.form.expire_in = response.settings.expire_in;
       // const couponPrefix = window.sessionStorage.getItem("couponPrefix");

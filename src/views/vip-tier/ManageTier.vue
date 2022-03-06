@@ -5,6 +5,10 @@
         <!-- <span class="far fa-arrow-left" @click="goHome"></span> -->
         <h2>Manage Tiers</h2>
         <div class="amvip--inlineFlex">
+          <button class="amvip--btnCommon" @click="gotoEmailSettings">
+            <span class="btnIcon far fa-envelope"></span>
+            <span>Email Settings</span>
+          </button>
           <router-link to="/view/tiers/editProgram" class="homeLink"
             >Edit program</router-link
           >
@@ -327,6 +331,9 @@ export default {
     },
     gotoAddTier() {
       this.$router.push("/view/tiers/add-tier");
+    },
+    gotoEmailSettings() {
+      this.$router.push("/view/tiers/email-settings");
     },
     showIconPopup(tierObj) {
       this.$refs.iconPopupEle.iconConfig = tierObj;

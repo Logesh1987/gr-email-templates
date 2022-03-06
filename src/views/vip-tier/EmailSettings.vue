@@ -1,0 +1,269 @@
+<template>
+  <div class="amvip--wrapper">
+    <div class="amvip--container amvip--EmailSettings">
+      <hgroup class="amvip--pageHeader">
+        <div class="headerGroup">
+          <span class="far fa-arrow-left" @click="goBack"></span>
+          <h2>Tier Email Settings</h2>
+        </div>
+        <button
+          class="amvip--btnCommon rightAlign"
+          @click="confirmSendMailPopup"
+        >
+          <span class="btnIcon far fa-envelope"></span>
+          <span>Send Test Email</span>
+        </button>
+      </hgroup>
+      <div class="emailSettingsWrapper">
+        <input type="hidden" name="id_email" id="id_email" v-model="id_email" />
+        <div class="amvip--row">
+          <span>Email Notification</span>
+          <md-switch
+            v-model="is_enabled"
+            @change="confirmStatusPopup($event)"
+          ></md-switch>
+        </div>
+        <div class="amvip--row">
+          <span>From</span>
+          <span class="labelContent">{{ from }}</span>
+        </div>
+        <div class="amvip--row">
+          <span>To</span>
+          <span class="labelContent">[[Customer Email Address]]</span>
+        </div>
+        <div class="amvip--row">
+          <span>Subject</span>
+          <md-field md-inline>
+            <label>Subject</label>
+            <md-input v-model="subject"></md-input>
+          </md-field>
+        </div>
+        <div class="amvip--row">
+          <span>Dynamic Variables</span>
+          <span class="labelContent">{{ dynamic_variables }}</span>
+        </div>
+        <div class="amvip--row">
+          <span>Email Body</span>
+          <md-field>
+            <md-textarea v-model="template">{{ template }}</md-textarea>
+          </md-field>
+        </div>
+        <div class="amvip--row center">
+          <span class="spacer"></span>
+          <span>{{ email_footer }}</span>
+        </div>
+      </div>
+      <footer class="amvip-actionFooter">
+        <button class="amvip--btnSec" @click="clearForm">Cancel</button>
+        <button class="amvip--btnPri" @click="saveEmailSettings">Save</button>
+      </footer>
+    </div>
+    <ConfirmPopup
+      :showPopup="showConfirmPopup"
+      :popupConfig="popupConfig"
+      v-on:confirmed="confirmClicked($event)"
+      v-on:canceled="cancelClicked($event)"
+    ></ConfirmPopup>
+  </div>
+</template>
+
+<script>
+import Axios from "axios";
+import ConfirmPopup from "./ConfirmPopup";
+export default {
+  name: "EmailSettings",
+  components: { ConfirmPopup },
+  data: function() {
+    return {
+      label: "Email Settings",
+      dynamic_variables: "",
+      email_footer: "",
+      from: "",
+      id_email: null,
+      is_enabled: false,
+      message: "",
+      subject: "",
+      template: "",
+      to: "",
+      popupConfig: {
+        title: "Confirm!",
+        content: `An email has been sent to ${this.to}`,
+        confirmText: "Yes, Proceed it",
+        cancelText: "No, Cancel it",
+        id: "sendMailPopup",
+      },
+      showConfirmPopup: false,
+    };
+  },
+  mounted() {
+    this.fetchTemplate();
+  },
+  methods: {
+    fetchTemplate() {
+      const url = this.getApiUrl("Tiers/emailTemplate");
+      Axios.get(url).then((res) => {
+        if (res.data.error) {
+          return false;
+        } else {
+          console.log(res);
+          this.setDefaults(res.data.data);
+        }
+      });
+    },
+    confirmStatusPopup(eve) {
+      if (eve == false) {
+        this.popupConfig = {
+          title: "Confirm!",
+          content: "Email will be stopped from sending to users. Are you sure?",
+          confirmText: "Yes, Stop it",
+          cancelText: "No, Cancel it",
+          id: "statusUpdatePopup",
+        };
+        this.showConfirmPopup = true;
+      } else {
+        this.changeStatus(eve);
+      }
+    },
+    confirmSendMailPopup() {
+      this.popupConfig = {
+        title: "Confirm!",
+        content: `An email has been sent to ${this.to}`,
+        confirmText: "Yes, Proceed it",
+        cancelText: "No, Cancel it",
+        id: "sendMailPopup",
+      };
+      this.showConfirmPopup = true;
+    },
+    confirmClicked(eve) {
+      this.showConfirmPopup = false;
+      switch (eve.id) {
+        case "statusUpdatePopup":
+          this.changeStatus(eve.params);
+          break;
+        case "sendMailPopup":
+          this.sendTestEmail();
+          break;
+        default:
+          break;
+      }
+    },
+    cancelClicked(eve) {
+      this.showConfirmPopup = false;
+      switch (eve.id) {
+        case "statusUpdatePopup":
+          this.is_enabled = !this.is_enabled;
+          break;
+        case "sendMailPopup":
+          break;
+        default:
+          break;
+      }
+    },
+    sendTestEmail() {
+      const url = this.getApiUrl("Tiers/sendEmailTemplate");
+      Axios.post(url, { id_email: this.id_email }).then((res) => {
+        if (res.data.error) {
+          return false;
+        } else {
+          console.log(res);
+        }
+      });
+    },
+    goBack() {
+      history.back();
+    },
+    setDefaults(data) {
+      this.dynamic_variables = data.dynamic_variables;
+      this.email_footer = data.email_footer;
+      this.from = data.from;
+      this.id_email = data.id_email;
+      this.is_enabled = data.is_enabled == 1;
+      this.message = data.message;
+      this.subject = data.subject;
+      this.template = this.convertHTMLStrings(data.template);
+      this.to = data.to;
+    },
+    convertHTMLStrings(HTMLString) {
+      var x = document.createElement("div");
+      x.innerHTML = HTMLString;
+      x.innerHTML = x.innerText;
+      return x.innerText;
+    },
+    async changeStatus(eve) {
+      console.log("Status", eve);
+      const url = this.getApiUrl("Tiers/emailTemplate");
+      const res = await Axios.put(url, this.generateStatusPayLoad());
+      if (res.data.error) {
+        return false;
+      } else {
+        // this.setDefaults(res.data.data);
+        this.fetchTemplate();
+      }
+    },
+    generateUpdatePayLoad() {
+      return {
+        // dynamic_variables: this.dynamic_variables,
+        // email_footer: this.email_footer,
+        // from: this.from,
+        id_email: this.id_email,
+        is_enabled: this.is_enabled == true ? 1 : 0,
+        // message: this.message,
+        subject: this.subject,
+        template: this.template,
+        // to: this.to,
+      };
+    },
+    generateStatusPayLoad() {
+      return {
+        // dynamic_variables: this.dynamic_variables,
+        // email_footer: this.email_footer,
+        // from: this.from,
+        id_email: this.id_email,
+        is_enabled: this.is_enabled == true ? 1 : 0,
+        // message: this.message,
+        // subject: this.subject,
+        // template: this.template,
+        // to: this.to,
+      };
+    },
+    saveEmailSettings() {},
+    clearForm() {},
+  },
+};
+</script>
+
+<style lang="less">
+.amvip--EmailSettings {
+  .amvip--pageHeader {
+    justify-content: space-between;
+    .headerGroup {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  .amvip--row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 14px;
+    > *:nth-child(2n-1) {
+      min-width: 200px;
+      text-align: right;
+      margin-right: 20px;
+    }
+    > *:nth-child(2n) {
+      max-width: 400px;
+    }
+    .md-field .md-textarea {
+      height: 275px;
+      max-height: 700px;
+      resize: none !important;
+    }
+    &.center {
+      font-size: 12px;
+    }
+  }
+}
+</style>

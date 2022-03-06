@@ -15,6 +15,7 @@ import EditReward from "./../views/vip-tier/EditReward.vue";
 import AddReward from "./../views/vip-tier/AddReward.vue";
 import AddTier from "./../views/vip-tier/AddTier.vue";
 import EditTier from "./../views/vip-tier/EditTier.vue";
+import EmailSettings from "./../views/vip-tier/EmailSettings.vue";
 
 Vue.use(VueMaterial);
 Vue.use(VueSimpleAccordion);
@@ -88,6 +89,12 @@ const routes = [
         name: "EditTier",
         component: EditTier,
         props: true,
+      },
+      {
+        path: "email-settings",
+        name: "EmailSettings",
+        component: EmailSettings,
+        // props: true,
       },
     ],
   },
