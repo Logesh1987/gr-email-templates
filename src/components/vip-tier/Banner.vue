@@ -2,11 +2,8 @@
   <header class="amvip--header" v-if="showBanner">
     <div class="amvip--headerLogo">
       <span class="icon-vip-crown"></span>
-      <div>
-        <h2>VIP</h2>
-        <h3>Tiers</h3>
-        <small>Beta</small>
-      </div>
+      VIP <span>Tiers</span>
+      <small>Beta</small>
     </div>
   </header>
 </template>

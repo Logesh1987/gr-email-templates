@@ -1,6 +1,6 @@
 <template>
   <div class="amvip--wrapper">
-    <div class="amvip--container amvip--EmailSettings">
+    <div class="amvip--EmailSettings">
       <hgroup class="amvip--pageHeader">
         <div class="headerGroup">
           <span class="far fa-arrow-left" @click="goBack"></span>
@@ -14,7 +14,7 @@
           <span>Send Test Email</span>
         </button>
       </hgroup>
-      <div class="emailSettingsWrapper">
+      <div class="amvip--container emailSettingsWrapper">
         <input type="hidden" name="id_email" id="id_email" v-model="id_email" />
         <div class="amvip--row">
           <span>Email Notification</span>
@@ -78,11 +78,16 @@
             </p>
           </div>
         </div>
+        <div class="amvip--row center">
+          <span class="spacer"></span>
+          <div class="amvip-actionFooter">
+            <button class="amvip--btnSec" @click="clearForm">Cancel</button>
+            <button class="amvip--btnPri" @click="saveEmailSettings">
+              Save
+            </button>
+          </div>
+        </div>
       </div>
-      <footer class="amvip-actionFooter">
-        <button class="amvip--btnSec" @click="clearForm">Cancel</button>
-        <button class="amvip--btnPri" @click="saveEmailSettings">Save</button>
-      </footer>
     </div>
     <ConfirmPopup
       :showPopup="showConfirmPopup"
@@ -278,16 +283,32 @@ export default {
   .amvip--row {
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: baseline;
     padding: 10px 0;
     font-size: 14px;
+
+    @media (max-width: 599px) {
+      flex-direction: column;
+    }
+
     > *:nth-child(2n-1) {
       min-width: 200px;
       text-align: right;
       margin-right: 20px;
+      font-weight: 600;
+
+      @media (max-width: 599px) {
+        text-align: left;
+        min-width: auto;
+      }
     }
     > *:nth-child(2n) {
       max-width: 400px;
+
+      @media (max-width: 599px) {
+        min-width: auto;
+        max-width: 100%;
+      }
     }
     .md-field .md-textarea {
       height: 275px;
@@ -296,6 +317,11 @@ export default {
     }
     &.center {
       font-size: 12px;
+    }
+    .md-field {
+      min-height: auto;
+      margin: 0;
+      padding-top: 0;
     }
   }
   .span_Dynamic {

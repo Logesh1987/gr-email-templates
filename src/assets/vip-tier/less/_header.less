@@ -1,60 +1,38 @@
 .amvip--header {
     display: flex;
     align-items: center;
-    background: #12443b;
-    @media (max-width: 959px) {
-        padding: 20px 0;
-        flex-direction: column;
-    }
-    @media (min-width: 960px) {
-        height: 100px;
-        justify-content: center;
-        position: absolute;
-        top: 0;
-        width: 100%;
-        z-index: 2;
-    }
+    background: rgb(1,78,98);
+    background: linear-gradient(90deg, rgba(1,78,98,1) 0%, rgba(2,93,94,1) 29%, rgba(8,152,83,1) 100%);
+    padding: 20px;
 }
 .amvip--headerLogo {
-    display: inline-flex; 
-    align-items: flex-end;  
     color: #fff;
     text-transform: uppercase;
-    .icon-vip-crown {
-        color: #d5c2b3;
-        font-size: 5vh;
+    text-align: center;
+    display: flex;
+    align-items: baseline;
+    font-size: 30px;
+    position: relative;
+    font-weight: 600;
+    span.icon-vip-crown {
         margin-right: 10px;
-        margin-top: 5px;
+        margin-left: 0;
     }
-    > div {
-        text-align: center;
-        display: inline-flex;
-        align-items: flex-end;
-    }
-    h2, h3 {
-        font-weight: 400;
-        font-family: 'Times New Roman', Times, serif;
-    }
-    h2 {
-        font-size: 5vh;
-        line-height: .8;
-        letter-spacing: 2px;
-        margin-right: 5px;
-    }
-    h3 {
-        font-size: 3.4vh;
-        letter-spacing: 1px;
-        line-height: .8;
-        margin-right: 5px;
+    span {
+        font-size: 16px;
+        margin-left: 5px;
     }
     small {
-        font-size: 10px;
-        letter-spacing: 1px;
-        display: block;
-        text-align: right;
-        padding: 2px 5px 1px 0;
-    }
-    @media (max-width: 959px) {
-       margin-bottom: 20px;
+        font-size: 8px;
+        text-transform: capitalize;
+        position: absolute;
+        top: -10px;
+        right: -20px;
+        background: #0a9853;
+        border-radius: 4px;
+        padding: 0 3px;
+        color: #ccead7;
+        line-height: 11px;
+        border: 1px solid #75b998;
     }
 }
