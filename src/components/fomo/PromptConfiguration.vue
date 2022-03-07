@@ -71,10 +71,12 @@
       </md-dialog-content>
       <md-dialog-actions>
         <md-button
+          v-if="widgetData.attributes.status == 1"
           :href="`/gr/admin/#/view/widgets/${widgetData.id}`"
+          target="_blank"
           class="md-primary"
-          >Edit Widget</md-button
-        >
+          >Edit Widget <i class="ml-5 fas fa-external-link mr-0"></i
+        ></md-button>
         <md-button class="md-raised" @click="promptConfig = false"
           >Close</md-button
         >
@@ -120,7 +122,7 @@ export default {
   cursor: pointer;
   color: #000;
   font-size: 1.1em;
-  opacity: 0.2;
+  opacity: 0.3;
   line-height: 1;
   margin-left: 1em;
   &:hover {

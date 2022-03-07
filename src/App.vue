@@ -57,6 +57,12 @@ export default {
 .mt-0 {
   margin-top: 0 !important;
 }
+.mr-0 {
+  margin-right: 0 !important;
+}
+.ml-0 {
+  margin-left: 0 !important;
+}
 .mb-0 {
   margin-bottom: 0 !important;
 }
@@ -101,6 +107,27 @@ export default {
 }
 .ml-10 {
   margin-left: 10px !important;
+}
+.m-5 {
+  margin: 5px !important;
+}
+.mx-5 {
+  margin: 0 5px !important;
+}
+.my-5 {
+  margin: 5px 0 !important;
+}
+.mt-5 {
+  margin-top: 5px !important;
+}
+.mb-5 {
+  margin-bottom: 5px !important;
+}
+.mr-5 {
+  margin-right: 5px !important;
+}
+.ml-5 {
+  margin-left: 5px !important;
 }
 
 .p-0 {
@@ -274,7 +301,90 @@ export default {
     display: block;
   }
 }
-
+.toggleCheckCross {
+  position: relative;
+  display: inline-block;
+  font-size: 0.6em;
+  --false-color: #d74215;
+  --true-color: #65d300;
+  input {
+    width: 0;
+    height: 0;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+  }
+  label {
+    width: 7em;
+    background: var(--false-color);
+    height: 3em;
+    display: block;
+    border-radius: 50px;
+    position: relative;
+    transition: all 0.3s ease;
+    transform-origin: 20% center;
+    cursor: pointer;
+    &:before {
+      content: none;
+      display: block;
+      transition: all 0.2s ease;
+      width: 2.3em;
+      height: 2.3em;
+      top: 0.25em;
+      left: 0.25em;
+      border-radius: 2em;
+      border: 2px solid #88cf8f;
+      transition: 0.3s ease;
+    }
+  }
+  .check {
+    border-radius: 50%;
+    width: 2.4em;
+    height: 2.4em;
+    position: absolute;
+    background: #fff;
+    transition: 0.4s ease;
+    top: 0.25em;
+    left: 0.25em;
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      height: 0.2em;
+      border-radius: 10px;
+      background: var(--false-color);
+      transition: 0.4s ease;
+    }
+    &:before {
+      width: 1.6em;
+      transform: rotate(-45deg) translate(-0.5em, 1.1em);
+    }
+    &:after {
+      width: 1.6em;
+      transform: rotate(45deg) translate(1.1em, 0.5em);
+    }
+  }
+  input:checked + label {
+    background: var(--true-color);
+    .check {
+      left: 4.3em;
+      transform: rotate(360deg);
+      &:before,
+      &:after {
+        background: var(--true-color);
+      }
+      &:before {
+        width: 1.6em;
+        transform: rotate(-45deg) translate(-0.4em, 1.3em);
+      }
+      &:after {
+        width: 0.7em;
+        transform: rotate(45deg) translate(1.3em, 0.7em);
+      }
+    }
+  }
+}
 .switch {
   font-size: 11px;
   display: inline-block;

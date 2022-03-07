@@ -164,27 +164,44 @@
       style="margin-top: 20px"
     >
       <span class="display-flex align-items-center">
-        <label class="switch small mr-10" for="is_automatic">
+        <label
+          class="switch small mr-10"
+          for="is_automatic"
+          @click.prevent="
+            e =>
+              automatic == 1
+                ? (promptAutomatic = true)
+                : handleUpdateAutomatic()
+          "
+        >
           <input
             type="checkbox"
             name="mainSwitch"
             id="is_automatic"
             :checked="automatic == 1"
-            @change="updateAutomatic"
           />
           <i></i>
         </label>
+        <div class="relative" v-if="promptAutomatic">
+          <br />
+          <FloatingConfirmBox
+            position="bottom-right"
+            description="Prompt warning"
+            :handleCancel="e => (promptAutomatic = false)"
+            :handleProceed="handleUpdateAutomatic"
+          />
+        </div>
         Add to automatic queue
         <i class="ml-10 fas fa-info-circle">
           <md-tooltip>More info about stack </md-tooltip>
         </i>
       </span>
       <md-button
-        v-if="siteId"
+        v-if="siteId && automatic == 1"
         :href="`/gr/admin/#/${siteId}/view/widgets`"
         class="md-primary"
-        >Edit Widget</md-button
-      >
+        >Edit Widget <i class="ml-5 fas fa-external-link mr-0"></i
+      ></md-button>
     </div>
   </div>
 </template>
@@ -192,6 +209,7 @@
 import Vue from "vue";
 import Multiselect from "vue-multiselect";
 import "vue-multiselect/dist/vue-multiselect.min.css";
+import FloatingConfirmBox from "./FloatingConfirmBox.vue";
 
 export default {
   name: "FomoDisplaySetup",
@@ -203,12 +221,13 @@ export default {
     "content",
     "hidePositioning"
   ],
-  components: { Multiselect },
+  components: { Multiselect, FloatingConfirmBox },
   mixins: ["createFormData"],
   data: function() {
     return {
       formErrors: {},
-      siteId: Vue.prototype.$id_site || null
+      siteId: Vue.prototype.$id_site || null,
+      promptAutomatic: false
     };
   },
   watch: {
@@ -262,6 +281,12 @@ export default {
       set: function(v) {
         this.formData.allowed_countries = v;
       }
+    }
+  },
+  methods: {
+    handleUpdateAutomatic: function() {
+      this.promptAutomatic = false;
+      this.updateAutomatic();
     }
   }
 };

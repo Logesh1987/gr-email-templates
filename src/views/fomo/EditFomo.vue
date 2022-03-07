@@ -18,15 +18,21 @@
           </div>
           <div>
             <div class="status">
-              <label class="switch" for="c" @click.prevent="handleFomoStatus">
+              <div class="toggleCheckCross">
                 <input
+                  id="c"
                   type="checkbox"
-                  name="mainSwitch"
                   :checked="fomoInputs.status === 1"
                 />
-                <i></i>
-              </label>
-              <div>
+                <label
+                  class="toggle-item"
+                  for="c"
+                  @click.prevent="handleFomoStatus"
+                >
+                  <div class="check"></div>
+                </label>
+              </div>
+              <div class="ml-5 mr-20">
                 {{ fomoInputs.status === 1 ? "Active" : "paused" }}
               </div>
             </div>
@@ -787,7 +793,7 @@ export default {
       "fomoReady"
     ]),
     copyCode() {
-      return `<script src="https://unpkg.com/vue@2.6"><\/script><script src="${Vue.prototype.$asset_url}/assets/js/fomo/am.js"><\/script><am-fomo id="${this.$route.params.fomoid}" embed="${this.embedMode ? 'floating' : 'inline'}" />`; // eslint-disable-line
+      return `<script src="https://unpkg.com/vue@2.6"><\/script><script src="${Vue.prototype.$asset_url}/assets/js/fomo/am.js"><\/script><am-fomo id="${this.$route.params.fomoid}" embed="${this.embedMode ? "floating" : "inline"}" />`; // eslint-disable-line
     },
     dataForPreview() {
       if (!this.fomoInputs) return null;
@@ -971,6 +977,9 @@ export default {
             msg = `<i class="fas fa-exclamation-circle"></i> ${data.data.message}`;
           }
           this.updateApiResponse(msg);
+          setTimeout(() => {
+            this.dirty = false;
+          }, 500);
         })
         .catch(({ error }) => {
           msg = `<i class="fas fa-exclamation-circle"></i> ${error.data.message}`;
@@ -1051,7 +1060,8 @@ export default {
       document.head.appendChild(plugin);
     }
     window.addEventListener("beforeunload", this.beforeWindowUnload);
-    this.$router.beforeEach((to, from, next) => {// eslint-disable-line
+    this.$router.beforeEach((to, from, next) => {
+      // eslint-disable-line
       if (this.dirty) {
         this.routeUrl = to;
         this.discardChanges = true;
@@ -1109,9 +1119,6 @@ export default {
   .status {
     display: inline-flex;
     align-items: center;
-    div {
-      padding: 0 15px 0 6px;
-    }
   }
 }
 .tabMain {
