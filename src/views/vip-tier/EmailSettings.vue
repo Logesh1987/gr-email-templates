@@ -39,7 +39,14 @@
           </md-field>
         </div>
         <div class="amvip--row">
-          <span>Dynamic Variables</span>
+          <span class="span_Dynamic"
+            >Dynamic Variables
+            <span class="far fa-info-circle" v-popover:dynamicVariables></span>
+            <popover name="dynamicVariables" width="300" event="hover">
+              You can insert these dynamic variables exactly as shown, anywhere
+              in the email body.
+            </popover></span
+          >
           <span class="labelContent">{{ dynamic_variables }}</span>
         </div>
         <div class="amvip--row">
@@ -50,7 +57,26 @@
         </div>
         <div class="amvip--row center">
           <span class="spacer"></span>
-          <span>{{ email_footer }}</span>
+          <div>
+            {{ email_footer }}
+            <p class="am-credits-footer">
+              <a
+                href="https://appsmav.com/gratisfaction.php"
+                target="blank"
+                class="footer-link-gr"
+                >Gratisfaction</a
+              >
+              <span class="divider">|</span> Made with
+              <i class="icon-heart">♥</i>
+              by
+              <a
+                href="https://appsmav.com"
+                target="_blank"
+                class="footer-link-am"
+                >Apps Mav</a
+              >
+            </p>
+          </div>
         </div>
       </div>
       <footer class="amvip-actionFooter">
@@ -215,19 +241,26 @@ export default {
     },
     generateStatusPayLoad() {
       return {
-        // dynamic_variables: this.dynamic_variables,
-        // email_footer: this.email_footer,
-        // from: this.from,
         id_email: this.id_email,
         is_enabled: this.is_enabled == true ? 1 : 0,
-        // message: this.message,
-        // subject: this.subject,
-        // template: this.template,
-        // to: this.to,
       };
     },
-    saveEmailSettings() {},
-    clearForm() {},
+    saveEmailSettings() {
+      const url = this.getApiUrl("Tiers/emailTemplate");
+      Axios.post(url, this.generateUpdatePayLoad()).then((res) => {
+        if (res.data.error) {
+          return false;
+        } else {
+          console.log(res);
+          this.setDefaults(res.data.data);
+        }
+      });
+    },
+    clearForm() {
+      this.message = "";
+      this.subject = "";
+      this.goBack();
+    },
   },
 };
 </script>
@@ -263,6 +296,14 @@ export default {
     }
     &.center {
       font-size: 12px;
+    }
+  }
+  .span_Dynamic {
+    position: relative;
+    [data-popover="dynamicVariables"] {
+      top: 25px !important;
+      left: 45px !important;
+      position: absolute !important;
     }
   }
 }

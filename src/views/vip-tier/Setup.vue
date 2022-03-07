@@ -65,8 +65,11 @@
               >
                 <label>Select date to begin the program</label>
               </md-datepicker>
-              <span class="far fa-info-circle" v-popover:foo.top.left></span>
-              <popover name="foo" width="300" event="hover">
+              <span
+                class="far fa-info-circle"
+                v-popover:installDate.top.left
+              ></span>
+              <popover name="installDate" width="300" event="hover">
                 As per our record, you installed the Gratisfaction on
                 {{ installedDate | formatDate }}
               </popover>
