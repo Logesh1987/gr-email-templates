@@ -2,10 +2,10 @@
   <transition name="fade">
     <div class="amvip--dialog amvip--iconPopup" v-if="validateIcons()">
       <div class="amvip--dialogBody">
-        <span class="dialogClose" @click="hidePopup">&times;</span>
         <h2>Choose Tier Icon</h2>
         <section>
           <div class="amvip--icon">
+            <h3>Choose Tier Icon</h3>
             <div id="predefined_icon" v-if="iconArray.length > 0">
               <span
                 v-for="(icon, key) in iconArray"
@@ -51,10 +51,17 @@
               </span>
             </div>
           </div>
+          <div class="amvip--row center">
+            <span class="spacer"></span>
+            <div class="amvip-actionFooter">
+              <button class="amvip--btnSec" @click="hidePopup">Cancel</button>
+              <button class="amvip--btnPri" @click="updateAndClose">
+                Update
+              </button>
+            </div>
+          </div>
         </section>
-        <footer class="amvip-actionFooter">
-          <button class="amvip--btnPri" @click="updateAndClose">Update</button>
-        </footer>
+        <footer class="amvip-actionFooter"></footer>
       </div>
       <Loader :status="loader"></Loader>
     </div>
@@ -67,7 +74,7 @@
   .amvip--icon {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: column;
   }
   .amvip--dialogBody {
@@ -99,10 +106,8 @@
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
-    border-bottom: 2px solid #ccc;
-    margin: 0 25px;
     span.amvip--iconPreview {
-      margin: 0 20px 20px;
+      margin: 0 10px 10px 0;
       cursor: pointer;
       position: relative;
       z-index: 2;

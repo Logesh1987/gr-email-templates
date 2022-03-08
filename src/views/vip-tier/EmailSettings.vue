@@ -32,11 +32,14 @@
           <span class="labelContent">[[Customer Email Address]]</span>
         </div>
         <div class="amvip--row">
-          <span>Subject</span>
-          <md-field md-inline>
-            <label>Subject</label>
-            <md-input v-model="subject"></md-input>
-          </md-field>
+          <label for="subject">Subject</label>
+          <input
+            v-model="subject"
+            type="text"
+            id="subject"
+            name="subject"
+            placeholder="subject"
+          />
         </div>
         <div class="amvip--row">
           <span class="span_Dynamic"
@@ -50,10 +53,13 @@
           <span class="labelContent">{{ dynamic_variables }}</span>
         </div>
         <div class="amvip--row">
-          <span>Email Body</span>
-          <md-field>
-            <md-textarea v-model="template">{{ template }}</md-textarea>
-          </md-field>
+          <label for="emailBody">Email Body</label>
+          <textarea
+            v-model="template"
+            id="emailBody"
+            rows="15"
+            cols="50"
+          ></textarea>
         </div>
         <div class="amvip--row center">
           <span class="spacer"></span>
@@ -284,7 +290,7 @@ export default {
     display: flex;
     justify-content: flex-start;
     align-items: baseline;
-    padding: 10px 0;
+    margin-bottom: 20px;
     font-size: 14px;
 
     @media (max-width: 599px) {
@@ -296,6 +302,8 @@ export default {
       text-align: right;
       margin-right: 20px;
       font-weight: 600;
+      font-size: 12px;
+      color: var(--labelClr);
 
       @media (max-width: 599px) {
         text-align: left;
@@ -310,7 +318,7 @@ export default {
         max-width: 100%;
       }
     }
-    .md-field .md-textarea {
+    textarea {
       height: 275px;
       max-height: 700px;
       resize: none !important;
@@ -331,6 +339,17 @@ export default {
       left: 45px !important;
       position: absolute !important;
     }
+  }
+  input[type="text"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 8px 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
   }
 }
 </style>

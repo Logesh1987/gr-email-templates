@@ -1,64 +1,54 @@
 <template>
   <div class="amvip--wrapper">
-    <div class="amvip--container amvip--addTier">
+    <div class="amvip--addTier">
       <hgroup class="amvip--pageHeader">
-        <span class="far fa-arrow-left" @click="goBack"></span>
-        <h2>Add tier</h2>
+        <div class="headerGroup">
+          <span class="far fa-arrow-left" @click="goBack"></span>
+          <h2>Add tier</h2>
+        </div>
       </hgroup>
-      <div class="amvip--formRow">
-        <md-field :class="getValidationClass('name')">
+      <div class="amvip--container">
+        <div class="amvip--formRow" :class="getValidationClass('name')">
           <label for="name">
             Name
             <span class="amvip--mandatory">*</span>
           </label>
-          <md-input
+          <input
             name="name"
+            type="text"
             id="name"
             v-model="form.name"
             ref="name"
             :disabled="sending"
           />
-          <span class="md-error" v-if="!$v.form.name.required">
+          <div class="md-error" v-if="!$v.form.name.required">
             Name is required
-          </span>
-          <span class="md-error" v-else-if="!$v.form.name.minLenght">
+          </div>
+          <div class="md-error" v-else-if="!$v.form.name.minLenght">
             Minimum of 3 letters required
-          </span>
-        </md-field>
-      </div>
-      <div class="amvip--formRow">
-        <md-field>
+          </div>
+        </div>
+        <div class="amvip--formRow">
           <label for="description">Description</label>
-          <md-textarea
+          <textarea
             name="description"
             id="description"
             v-model="form.description"
             :disabled="sending"
-          ></md-textarea>
-        </md-field>
-      </div>
-      <div class="amvip--formRow multiCol">
-        <label for="color">Background color</label>
-        <div class="amvip--colorInfo">
-          <ColorPicker
-            ref="colorPicker"
-            id="color"
-            name="color"
-            :color="form.color"
-            v-model="form.color"
-            v-on:input="(e) => (form.color = e)"
-          ></ColorPicker>
+            rows="8"
+          ></textarea>
         </div>
-      </div>
-      <div class="amvip--formRow multiCol">
-        <md-field :class="getValidationClass('goal')">
+        <div
+          class="amvip--formRow multiCol"
+          :class="getValidationClass('goal')"
+        >
           <label for="goal">
             {{
               tierDefine == "points" ? "Points needed" : "Purchase Value needed"
             }}
             <span class="amvip--mandatory">*</span>
           </label>
-          <md-input
+          <input
             name="goal"
             id="goal"
             ref="goal"
@@ -66,106 +56,136 @@
             v-model="form.goal"
             :disabled="sending"
           />
-          <span class="md-error" v-if="!$v.form.goal.required">
+          <div class="md-error" v-if="!$v.form.goal.required">
             Points needed field is required
-          </span>
-          <span class="md-error" v-else-if="!$v.form.goal.minLenght">
+          </div>
+          <div class="md-error" v-else-if="!$v.form.goal.minLenght">
             Minimum value of point needed would be 25
-          </span>
-        </md-field>
-      </div>
-      <div class="amvip--formRow multiCol">
-        <label
-          >Tier Icon
-          <span class="amvip--mandatory">*</span>
-        </label>
-        <div class="amvip--icon">
-          <span
-            id="fileUpload"
-            class="amvip--iconPreview"
-            v-bind:class="validURL(form.icon) ? '' : form.icon"
-            v-bind:style="
-              validURL(form.icon)
-                ? {
-                    backgroundImage: 'url(' + form.icon + ')',
-                  }
-                : { color: form.color }
-            "
-            @click="showIconPopup()"
-          >
+          </div>
+        </div>
+        <div class="amvip--formRow multiCol">
+          <label for="color">Background color</label>
+          <div class="amvip--colorInfo">
+            <ColorPicker
+              ref="colorPicker"
+              id="color"
+              name="color"
+              :color="form.color"
+              v-model="form.color"
+              v-on:input="(e) => (form.color = e)"
+            ></ColorPicker>
+          </div>
+        </div>
+        <div class="amvip--formRow multiCol">
+          <label
+            >Tier Icon
+            <span class="amvip--mandatory">*</span>
+          </label>
+          <div class="amvip--icon">
             <span
-              class="custom-icon"
-              v-bind:class="
-                form.icon && form.icon.length > 0
-                  ? 'far fa-edit'
-                  : 'far fa-plus'
+              id="fileUpload"
+              class="amvip--iconPreview"
+              v-bind:class="validURL(form.icon) ? '' : form.icon"
+              v-bind:style="
+                validURL(form.icon)
+                  ? {
+                      backgroundImage: 'url(' + form.icon + ')',
+                    }
+                  : { color: form.color }
               "
-            ></span>
-          </span>
-          <span class="md-error" v-if="!$v.form.icon.required">
-            Tier icon is required
-          </span>
+              @click="showIconPopup()"
+            >
+              <span
+                class="custom-icon"
+                v-bind:class="
+                  form.icon && form.icon.length > 0
+                    ? 'far fa-edit'
+                    : 'fas fa-cloud-upload'
+                "
+              ></span>
+            </span>
+            <div class="md-error" v-if="!$v.form.icon.required">
+              Tier icon is required
+            </div>
+          </div>
+        </div>
+        <IconPopup
+          ref="iconPopupEle"
+          :showPopup="enableIcon"
+          v-on:close-btn-click="hideIconPopup"
+        ></IconPopup>
+        <div class="amvip--row center">
+          <span class="spacer"></span>
+          <div class="amvip-actionFooter">
+            <button class="amvip--btnSec" @click="clearForm">Cancel</button>
+            <button class="amvip--btnPri" @click="saveTier">Save</button>
+          </div>
         </div>
       </div>
-      <IconPopup
-        ref="iconPopupEle"
-        :showPopup="enableIcon"
-        v-on:close-btn-click="hideIconPopup"
-      ></IconPopup>
     </div>
-    <footer class="amvip-actionFooter">
-      <button class="amvip--btnSec" @click="clearForm">Cancel</button>
-      <button class="amvip--btnPri" @click="saveTier">Save</button>
-    </footer>
   </div>
 </template>
 <style lang="less">
 @import url("./../../assets/vip-tier/less/_header");
 @import url("./../../assets/vip-tier/less/_add-tier");
-.amvip--container.amvip--addTier {
-  width: 85%;
+.amvip--addTier {
+  width: 100%;
+  @media (max-width: 599px) {
+    width: 100%;
+  }
+  .amvip--pageHeader {
+    justify-content: space-between;
+    .headerGroup {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
   .amvip--colorInfo {
     z-index: 3;
   }
   .amvip--icon {
     display: flex;
-    justify-content: center;
     align-items: center;
     .amvip--iconPreview {
-      min-width: 60px;
-      max-width: 60px;
+      width: 75px;
+      height: 75px;
     }
   }
   #fileUpload {
     position: relative;
     font-size: 40px;
     .custom-icon:not(.popup-icon) {
-      font-size: 24px;
+      font-size: 40px;
       cursor: pointer;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 60px;
-      height: 60px;
       z-index: 2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       color: grey;
-      &:not(.fa-plus) {
+      &:hover {
+        color: #000000;
+      }
+      &:not(.fa-cloud-upload) {
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        width: 70px;
+        height: 70px;
+        padding: 0 0 0 15px;
+        border-radius: 50%;
+        box-sizing: border-box;
         &:hover {
           &::before {
             transition: all;
             transition-duration: 250ms;
             opacity: 1;
             top: 15px;
+            color: #000000;
           }
         }
         &::before {
           position: absolute;
           z-index: 1;
           opacity: 0;
-          top: 30px;
+          background: #fff;
         }
       }
     }

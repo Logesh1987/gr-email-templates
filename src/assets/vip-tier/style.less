@@ -15,7 +15,9 @@ button {
   margin-right: 10px;
 }
 :root {
-  --btnClr: #007aff;
+  --btnClr: #24c170;
+  --btnSec: #cfcfcf;
+  --labelClr: #66788a;
   font-size: 10px;
   @media (min-width: 960px) {
     font-size: 11px;
@@ -43,8 +45,11 @@ body {
   background: #f5f5f5;
 }
 
-span.md-error {
+.md-error {
   color: red;
+  display: block;
+  font-size: 12px;
+  margin-top: 5px;
 }
 
 // Buttons
@@ -88,10 +93,10 @@ span.md-error {
 }
 .amvip--container {
   position: relative;
-  padding: 10px 50px;
+  padding: 25px 50px;
 
   @media (max-width: 599px) {
-    padding: 10px 20px;
+    padding: 25px 20px;
   }
 }
 .amvip--pageHeader {
@@ -143,19 +148,16 @@ span.md-error {
   }
 }
 .amvip--formRow {
-  display: flex;
-  align-items: center;
-  margin-bottom: 3.5vh;
+  margin-bottom: 20px;
   @media (max-width: 599px) {
     flex-wrap: wrap;
   }
   > label {
-    font-size: 1.4rem;
-    @media (min-width: 600px) {
-      flex: 0 0 30%;
-      max-width: 200px;
-      margin-right: 20px;
-    }
+    font-weight: 600;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: var(--labelClr);
   }
   &:not(.multiCol) {
     > label {
@@ -171,6 +173,26 @@ span.md-error {
         margin-right: 20px;
       }
     }
+  }
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 8px 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    width: 540px;
+
+    @media (max-width: 599px) {
+      width: 100%;
+    }
+  }
+  input[type="number"] {
+    width: auto;
   }
 }
 .formLabel {
@@ -381,10 +403,11 @@ select,
   min-width: 120px;
   color: #fff;
   background: var(--btnClr);
+  border: none;
 }
 .amvip--btnSec {
   min-width: 120px;
-  color: var(--btnClr);
+  color: var(--btnSec);
   background: #fff;
 }
 .amvip--btnCommon {
@@ -396,6 +419,7 @@ select,
   align-items: center;
   justify-content: flex-end;
   width: 100%;
+  max-width: 540px;
   button {
     margin-left: 10px;
     &:first-child {
@@ -464,23 +488,27 @@ select,
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(0, 0, 0, 0.7);
 }
 .amvip--dialogBody {
   position: relative;
   width: 500px;
   overflow: hidden;
-  border: 1px solid #ccc;
   background: #fff;
   border-radius: 5px;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
   h2 {
-    height: 40px;
+    height: 50px;
     display: flex;
     align-items: center;
     padding: 0 20px;
-    background: #0e5144;
+    background: rgb(1,78,98);
+    background: linear-gradient(90deg, rgba(1,78,98,1) 0%, rgba(2,93,94,1) 29%, rgba(8,152,83,1) 100%);
     color: #fff;
+    font-size: 1.6rem;
+  }
+  h3 {
+    padding: 20px 0;
     font-size: 1.6rem;
   }
   section {
