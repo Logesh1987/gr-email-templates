@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     getBannerClass() {
-      return !this.showBanner ? "noBanner" : "";
+      return !this.showBanner ? "viptier-newui noBanner" : "viptier-newui";
     },
     toggleBanner(name) {
       const bannerDisabledRoutes = ["Home", "Intro", "Setup"];
