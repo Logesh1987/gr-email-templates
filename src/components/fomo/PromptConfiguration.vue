@@ -5,27 +5,31 @@
       <md-dialog-content>
         <div class="md-layout md-gutter">
           <div class="md-layout-item md-size-50">
-            <md-field>
+            <md-field :class="{ 'md-invalid': formErrors.time_duration }">
               <label>Show Time</label>
               <md-input
                 type="number"
                 v-model="widgetData.attributes.time_duration"
                 required
               ></md-input>
-              <span class="md-suffix">Seconds</span>
-              <span class="md-error"></span>
+              <span class="md-suffix">Seconds</span
+              ><span class="md-error" v-if="formErrors.time_duration">{{
+                formErrors.time_duration
+              }}</span>
             </md-field>
           </div>
           <div class="md-layout-item md-size-50">
-            <md-field>
+            <md-field :class="{ 'md-invalid': formErrors.time_interval }">
               <label>Interval Time</label>
               <md-input
                 type="number"
                 v-model="widgetData.attributes.time_interval"
                 required
               ></md-input>
-              <span class="md-suffix">Seconds</span>
-              <span class="md-error"></span>
+              <span class="md-suffix">Seconds</span
+              ><span class="md-error" v-if="formErrors.time_interval">{{
+                formErrors.time_interval
+              }}</span>
             </md-field>
           </div>
           <div
@@ -80,7 +84,10 @@
         <md-button class="md-raised" @click="promptConfig = false"
           >Close</md-button
         >
-        <md-button class="md-raised md-accent" @click="handleSave"
+        <md-button
+          class="md-raised md-accent"
+          :disabled="Object.keys(formErrors).length > 0"
+          @click="handleSave"
           >Save</md-button
         >
       </md-dialog-actions>
@@ -97,8 +104,34 @@ export default {
   data: function() {
     return {
       promptConfig: false,
+      formErrors: {},
       widgetData: null
     };
+  },
+  watch: {
+    widgetData: {
+      deep: true,
+      handler: function(val) {
+        var td = val.attributes.time_duration,
+          ti = val.attributes.time_interval;
+        td > 0
+          ? td > 4 && td < 61
+            ? delete this.formErrors["time_duration"]
+            : (this.formErrors.time_duration = "Must be in range of 5-60")
+          : (this.formErrors.time_duration = "Invalid input");
+
+        ti > 0
+          ? ti > 4 && ti < 21
+            ? delete this.formErrors["time_interval"]
+            : (this.formErrors.time_interval = "Must be in range of 5-20")
+          : (this.formErrors.time_interval = "Invalid input");
+      }
+    },
+    promptConfig: function(val) {
+      if (val) {
+        this.widgetData = JSON.parse(JSON.stringify(this.data));
+      }
+    }
   },
   methods: {
     handleSwitch: function(e) {
