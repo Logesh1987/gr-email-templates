@@ -4,21 +4,9 @@
     overflow: hidden;     
     min-height: 100vh;
     background: linear-gradient(to bottom, #0e5144, #12443b, #173631);
-
-    @media (max-width: 959px) {
-        position: relative;
-        padding-bottom: 90px;
-    }
-    @media (min-width: 960px) {
-        display: flex;
-        align-items: center;
-        
-    // position: absolute;
-    width: 100%;
-    padding-top: 100px;
-    height: 100%;
-    top: 0;
-    min-height: auto;
+    display: flex;
+    @media (max-width: 599px) {
+        flex-direction: column;
     }
     .circle1,
     .circle2 {
@@ -62,9 +50,6 @@
     }
 }
 .amvip--landingGrey {
-    @media (max-width: 959px) {
-        padding: 0;
-    }
     .circle2 {
         top: 0;
         left: 40vw;
@@ -74,10 +59,25 @@
     .circle1 {
         opacity: 0;
     }
-    .amvip--landingBrand {
-        @media (min-width: 960px) {
-            flex: 40% 0 0;
-            max-width: 40%;
+    .amvip--landingBrand,
+    .amvip--setupPage {
+        flex: 40% 0 0;
+        max-width: 40%;
+        display: flex;
+        padding: 0 5%;
+        align-items: center;
+        min-width: 400px;
+        @media (max-width: 989px) {
+            flex: 20% 0 0;
+            max-width: 20%;
+            padding: 3%;
+            align-items: flex-start;
+            min-width: 200px;
+        }
+        @media (max-width: 599px) {
+            max-width: 100%;
+            justify-content: center;
+            padding: 10%;
         }
     }
 }
@@ -282,19 +282,7 @@
 
 .amvip-twoColContent {
     background: #f5f5f5;
-    padding: 20px;
-    @media (min-width: 960px) {
-        height: 100%;
-        overflow: auto;
-        flex: 60% 0 0;
-        max-width: 60%;
-        padding: 5vh 10vh;
-    }
-    h2 {
-        font-size: 2.4rem;
-        line-height: 1.12;
-        margin-bottom: 2em;
-    }
+    width: 100%;
 }
 
 .amvip--accordionItem {
@@ -452,4 +440,8 @@
             color: #666;
         }
     }
+}
+.amvip--setupPage {
+    background: #014e62;
+    background: linear-gradient(90deg, #014e62 0%, #025d5e 29%, #089853 100%);
 }

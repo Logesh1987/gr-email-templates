@@ -1,9 +1,11 @@
 <template>
   <header class="amvip--header" v-if="showBanner">
     <div class="amvip--headerLogo">
-      <span class="icon-vip-crown"></span>
-      VIP <span>Tiers</span>
-      <small>Beta</small>
+      <img src="./../../assets/vip-tier/vip-tier-logo.png" alt="Logo" />
+      <div>
+        VIP <span>Tiers</span>
+        <small>Beta</small>
+      </div>
     </div>
   </header>
 </template>

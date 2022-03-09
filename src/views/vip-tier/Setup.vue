@@ -1,198 +1,195 @@
 <template>
   <div class="amvip--landingGrey">
-    <div class="circles">
-      <div class="circle1"></div>
-      <div class="circle2"></div>
-    </div>
-    <aside class="amvip--landingBrand">
-      <div>
-        <span class="icon-vip-crown"></span>
-        <h2>VIP</h2>
-        <h3>Tiers</h3>
-        <small>Beta</small>
-      </div>
+    <aside class="amvip--setupPage">
+      <img src="./../../assets/vip-tier/vip-tier-logo-setup.png" alt="Logo" />
     </aside>
     <section class="amvip-twoColContent" id="setupProgram">
-      <section>
-        <h2>Setup VIP tier program</h2>
-        <div class="amvip--formRow">
-          <md-field :class="getValidationClass('name')">
+      <div class="amvip--setUpTier">
+        <hgroup class="amvip--pageHeader">
+          <div class="headerGroup">
+            <span class="far fa-arrow-left" @click="goBack"></span>
+            <h2>Setup VIP tier program</h2>
+          </div>
+        </hgroup>
+        <div class="amvip--container">
+          <div class="amvip--formRow" :class="getValidationClass('name')">
             <label for="name">
-              Name
+              Tier name and FO display option
               <span class="amvip--mandatory">*</span>
+              <md-switch
+                v-model="form.tier_name_display"
+                class="tierNameDisplay"
+              ></md-switch>
             </label>
-            <md-input
+            <input
               name="name"
+              type="text"
               id="name"
               v-model="form.name"
               :disabled="sending"
               ref="name"
             />
-            <span class="md-error" v-if="!$v.form.name.required">
+            <div class="md-error" v-if="!$v.form.name.required">
               Name is required
-            </span>
-            <span class="md-error" v-else-if="!$v.form.name.minLenght">
+            </div>
+            <div class="md-error" v-else-if="!$v.form.name.minLenght">
               Minimum of 3 letters required
-            </span>
-          </md-field>
-          <md-switch v-model="form.tier_name_display" class="tierNameDisplay"
-            >Display</md-switch
-          >
-        </div>
-        <div class="amvip--formRow">
-          <md-field>
+            </div>
+          </div>
+          <div class="amvip--formRow">
             <label for="description">Description</label>
-            <md-textarea
+            <textarea
               name="description"
               id="description"
               v-model="form.description"
               :disabled="sending"
-            ></md-textarea>
-          </md-field>
-        </div>
-        <div class="amvip--formRow">
-          <div class="amvip--dateRow">
-            <div class="dateWrapper">
-              <md-datepicker
-                md-immediately
-                :class="getValidationClass('date_start')"
-                :md-disabled-dates="disabledDates"
-                name="date_start"
-                id="date_start"
-                v-model="form.date_start"
-                :disabled="sending"
-                ref="date_start"
-              >
-                <label>Select date to begin the program</label>
-              </md-datepicker>
-              <span
-                class="far fa-info-circle"
-                v-popover:installDate.top.left
-              ></span>
-              <popover name="installDate" width="300" event="hover">
+              rows="5"
+            ></textarea>
+          </div>
+          <div class="amvip--formRow">
+            <div class="amvip--dateRow">
+              <div class="dateWrapper">
+                <md-datepicker
+                  md-immediately
+                  :class="getValidationClass('date_start')"
+                  :md-disabled-dates="disabledDates"
+                  name="date_start"
+                  id="date_start"
+                  v-model="form.date_start"
+                  :disabled="sending"
+                  ref="date_start"
+                >
+                  <label>Select date to begin the program</label>
+                </md-datepicker>
+                <span
+                  class="far fa-info-circle"
+                  v-popover:installDate.top.left
+                ></span>
+                <popover name="installDate" width="300" event="hover">
+                  As per our record, you installed the Gratisfaction on
+                  {{ installedDate | formatDate }}
+                </popover>
+              </div>
+              <small style="opacity:0.8;">
                 As per our record, you installed the Gratisfaction on
                 {{ installedDate | formatDate }}
-              </popover>
+              </small>
+              <span
+                class="md-custom-error padLeft-35"
+                v-if="!$v.form.date_start.required && $v.form.date_start.$dirty"
+              >
+                Date to beign the program is required.
+              </span>
+              <span
+                class="md-custom-error padLeft-35"
+                v-else-if="
+                  !$v.form.date_start.installed_date_validator &&
+                    $v.form.date_start.$dirty
+                "
+              >
+                Program Date cannot be older than program installed date ({{
+                  installedDate | formatDate
+                }})
+              </span>
+              <span
+                class="md-custom-error padLeft-35"
+                v-else-if="
+                  !$v.form.date_start.post_date_validator &&
+                    $v.form.date_start.$dirty
+                "
+              >
+                Program Date cannot be future Date
+              </span>
             </div>
-            <small style="opacity:0.8;">
-              As per our record, you installed the Gratisfaction on
-              {{ installedDate | formatDate }}
-            </small>
-            <span
-              class="md-custom-error padLeft-35"
-              v-if="!$v.form.date_start.required && $v.form.date_start.$dirty"
-            >
-              Date to beign the program is required.
-            </span>
-            <span
-              class="md-custom-error padLeft-35"
-              v-else-if="
-                !$v.form.date_start.installed_date_validator &&
-                  $v.form.date_start.$dirty
-              "
-            >
-              Program Date cannot be older than program installed date ({{
-                installedDate | formatDate
-              }})
-            </span>
-            <span
-              class="md-custom-error padLeft-35"
-              v-else-if="
-                !$v.form.date_start.post_date_validator &&
-                  $v.form.date_start.$dirty
-              "
-            >
-              Program Date cannot be future Date
-            </span>
           </div>
-        </div>
-        <div class="amvip--radioRow">
-          <div class="formLabel">What should define your tiers</div>
-          <div>
-            <div class="amvip--customRadio">
-              <md-radio
-                v-model="form.selection_type"
-                value="points"
-                id="points"
-                ref="selection_type"
-                name="selection_type"
+          <div class="amvip--radioRow">
+            <div class="formLabel">What should define your tiers</div>
+            <div>
+              <div class="amvip--customRadio">
+                <md-radio
+                  v-model="form.selection_type"
+                  value="points"
+                  id="points"
+                  ref="selection_type"
+                  name="selection_type"
+                >
+                  Points
+                </md-radio>
+                <small>
+                  All points (Purchase and Non Purchase ) will be considered
+                </small>
+                <md-radio
+                  v-model="form.selection_type"
+                  value="value_of_purchase"
+                  id="purchase"
+                  name="selection_type"
+                  ref="selection_type"
+                >
+                  Purchase value
+                </md-radio>
+                <small>
+                  Only purchase entries will be considered
+                </small>
+              </div>
+              <span
+                class="md-custom-error top-minus-20"
+                v-if="
+                  !$v.form.selection_type.required &&
+                    $v.form.selection_type.$dirty
+                "
               >
-                Points
-              </md-radio>
-              <small>
-                All points (Purchase and Non Purchase ) will be considered
-              </small>
-              <md-radio
-                v-model="form.selection_type"
-                value="value_of_purchase"
-                id="purchase"
-                name="selection_type"
-                ref="selection_type"
-              >
-                Purchase value
-              </md-radio>
-              <small>
-                Only purchase entries will be considered
-              </small>
+                Tier type is required
+              </span>
             </div>
-            <span
-              class="md-custom-error top-minus-20"
-              v-if="
-                !$v.form.selection_type.required &&
-                  $v.form.selection_type.$dirty
-              "
-            >
-              Tier type is required
-            </span>
           </div>
-        </div>
-        <div class="amvip--radioRow btmBorder">
-          <div class="formLabel">Time to achieve a VIP tier</div>
-          <div>
-            <div class="amvip--customRadio">
-              <md-radio
-                v-model="form.time_slot"
-                value="calendar_year"
-                id="calendarYear"
-                name="time_slot"
-                ref="time_slot"
+          <div class="amvip--radioRow btmBorder">
+            <div class="formLabel">Time to achieve a VIP tier</div>
+            <div>
+              <div class="amvip--customRadio">
+                <md-radio
+                  v-model="form.time_slot"
+                  value="calendar_year"
+                  id="calendarYear"
+                  name="time_slot"
+                  ref="time_slot"
+                >
+                  Annual
+                </md-radio>
+                <small>
+                  A member qualifies for the enrolling period
+                </small>
+                <md-radio
+                  v-model="form.time_slot"
+                  value="life_time"
+                  id="lifetime"
+                  name="time_slot"
+                  ref="time_slot"
+                >
+                  Lifetime
+                </md-radio>
+                <small>
+                  Once a member achieves a tier, they will keep their status
+                  forever.
+                </small>
+              </div>
+              <span
+                class="md-custom-error top-minus-20"
+                v-if="!$v.form.time_slot.required && $v.form.time_slot.$dirty"
               >
-                Annual
-              </md-radio>
-              <small>
-                A member qualifies for the enrolling period
-              </small>
-              <md-radio
-                v-model="form.time_slot"
-                value="life_time"
-                id="lifetime"
-                name="time_slot"
-                ref="time_slot"
-              >
-                Lifetime
-              </md-radio>
-              <small>
-                Once a member achieves a tier, they will keep their status
-                forever.
-              </small>
+                Time to achieve a VIP tier is required
+              </span>
             </div>
-            <span
-              class="md-custom-error top-minus-20"
-              v-if="!$v.form.time_slot.required && $v.form.time_slot.$dirty"
-            >
-              Time to achieve a VIP tier is required
-            </span>
           </div>
+          <br />
+          <br />
+          <footer class="amvip-actionFooter">
+            <button class="amvip--btnSec" @click="confirmCancelSetup">
+              Cancel
+            </button>
+            <button class="amvip--btnPri" @click="gotoManageTier">Save</button>
+          </footer>
         </div>
-        <br />
-        <br />
-        <footer class="amvip-actionFooter">
-          <button class="amvip--btnSec" @click="confirmCancelSetup">
-            Cancel
-          </button>
-          <button class="amvip--btnPri" @click="gotoManageTier">Save</button>
-        </footer>
-      </section>
+      </div>
     </section>
     <ConfirmPopup
       v-if="showConfirmPopup"
@@ -207,8 +204,19 @@
 @import url("./../../assets/vip-tier/less/_home");
 @import url("./../../assets/vip-tier/less/_setup");
 
+.amvip--setUpTier {
+  .amvip--pageHeader {
+    justify-content: space-between;
+    .headerGroup {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
 .md-switch.tierNameDisplay {
-  margin-left: 20px;
+  margin: 0 0 0 20px;
 }
 .noBanner {
   .amvip--landingGrey {
