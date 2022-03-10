@@ -473,40 +473,12 @@
           <div class="fomo_preview_block-template">
             <am-fomo v-if="fomoReady" :preview="dataForPreview"></am-fomo>
           </div>
-          <div class="fomo_embed_visible" v-if="embedCode">
-            <div class="title">
-              <h3>Embed FOMO</h3>
-              <md-button class="md-raised btn-default" @click="doCopy(copyCode)"
-                >Copy</md-button
-              >
-            </div>
-            <div class="embedMode">
-              <h5>Embed as</h5>
-              <ul>
-                <li
-                  @click="embedMode = true"
-                  :class="`${embedMode ? 'active' : ''}`"
-                >
-                  Floating window
-                </li>
-                <li
-                  @click="embedMode = false"
-                  :class="`${!embedMode ? 'active' : ''}`"
-                >
-                  Inline window
-                </li>
-              </ul>
-            </div>
-            <div class="iframe-block">
-              <pre>
-                {{ copyCode }}
-              </pre>
-            </div>
-            <p>
-              By embedding our program on your site, you are agreeing to our API
-              Terms of Service.
-            </p>
-          </div>
+          <EmbedInfo
+            v-if="embedCode"
+            :id="fomoId"
+            :embedMode="embedMode"
+            :handleEmbedMode="e => (embedMode = e)"
+          />
         </div>
       </div>
     </div>
@@ -554,6 +526,7 @@ import CustomVariables from "@/components/CustomVariables.vue";
 import ImgUploadPreview from "@/components/ImgUploadPreview.vue";
 import FomoSetupDisplay from "@/components/fomo/FomoSetupDisplay.vue";
 import FomoSetupReward from "@/components/fomo/FomoSetupReward.vue";
+import EmbedInfo from "@/components/fomo/EmbedInfo.vue";
 import Quill from "quill";
 import { quillEditor } from "vue-quill-editor"; // require styles
 import "quill/dist/quill.core.css";
@@ -719,7 +692,8 @@ export default {
     quillEditor,
     CustomVariables,
     FomoSetupDisplay,
-    FomoSetupReward
+    FomoSetupReward,
+    EmbedInfo
   },
   mixins: [
     "createFormData",
@@ -792,9 +766,6 @@ export default {
       "fomoClanData",
       "fomoReady"
     ]),
-    copyCode() {
-      return `<script src="https://unpkg.com/vue@2.6"><\/script><script src="${Vue.prototype.$asset_url}/assets/js/fomo/am.js"><\/script><am-fomo id="${this.$route.params.fomoid}" embed="${this.embedMode ? "floating" : "inline"}" />`; // eslint-disable-line
-    },
     dataForPreview() {
       if (!this.fomoInputs) return null;
       let dd = {
@@ -1425,34 +1396,6 @@ export default {
       z-index: 5;
       background: white;
       transform: translate3d(0, 0, 0);
-    }
-  }
-}
-.embedMode {
-  border: 1px solid #ccc;
-  border-bottom: 0;
-  h5 {
-    margin: 0;
-    background: #f0f7ff;
-    padding: 3px 10px;
-    line-height: 2;
-  }
-  ul {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    list-style: none;
-  }
-  li {
-    background-color: #beddff;
-    cursor: pointer;
-    text-align: center;
-    padding: 5px;
-    width: 50%;
-    &.active {
-      background-color: #007aff;
-      color: #fff;
     }
   }
 }

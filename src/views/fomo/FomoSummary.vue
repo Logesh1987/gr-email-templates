@@ -177,26 +177,12 @@
             <div class="fomo_preview_block-template">
               <am-fomo v-if="fomoReady" :preview="dataForPreview"></am-fomo>
             </div>
-            <div class="fomo_embed_visible" v-if="embedCode">
-              <div class="title">
-                <h3>Embed FOMO</h3>
-                <md-button
-                  class="md-raised btn-default"
-                  @click="doCopy(copyCode)"
-                  >Copy</md-button
-                >
-              </div>
-              <div class="iframe-block">
-                <pre>
-                {{ copyCode }}
-              </pre
-                >
-              </div>
-              <p>
-                By embedding our program on your site, you are agreeing to our
-                API Terms of Service.
-              </p>
-            </div>
+            <EmbedInfo
+              v-if="embedCode"
+              :id="fomoId"
+              :embedMode="embedMode"
+              :handleEmbedMode="e => (embedMode = e)"
+            />
           </div>
         </div>
       </div>
@@ -207,16 +193,18 @@
 import Vue from "vue";
 import Axios from "axios";
 import { mapState, mapMutations } from "vuex";
+import EmbedInfo from "@/components/fomo/EmbedInfo.vue";
 
 export default {
   name: "FomoSummary",
   mixins: ["renderTemplate", "getAssetUrl", "getApiUrl", "doCopy"],
+  components: { EmbedInfo },
   data: function() {
     return {
       apiMessage: false,
       apiResponse: null,
       embedCode: false,
-      copyCode: `<script src="https://unpkg.com/vue"><\/script><script src="${Vue.prototype.$asset_url}/assets/js/fomo/am.js"><\/script><am-fomo id="${this.$route.params.fomoid}" />`, // eslint-disable-line
+      embedMode: true
     };
   },
   computed: {
