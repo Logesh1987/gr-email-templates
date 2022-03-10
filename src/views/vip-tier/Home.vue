@@ -1,22 +1,22 @@
 <template>
   <div class="amvip--landing">
-    <aside class="amvip--setupPage">
-      <img src="./../../assets/vip-tier/vip-tier-logo-setup.png" alt="Logo" />
-    </aside>
-    <section class="amvip--landingContent">
-      <ExpansionList
-        :expandSingle="true"
-        :dataSource="accordionData"
-        v-on:listItemClicked="accordionItemSelected"
-      ></ExpansionList>
-      <div class="amvip--landingBtnwrap">
-        <md-button
-          class="md-raised amvip--btn amvip--btnHome"
-          @click="gotoSetup"
-          >Start Program <span class="far fa-arrow-right"></span
-        ></md-button>
-      </div>
-    </section>
+    <div class="amvip--landingInner">
+      <aside class="amvip--setupPage">
+        <img src="./../../assets/vip-tier/vip-tier-logo-setup.png" alt="Logo" />
+      </aside>
+      <section class="amvip--landingContent">
+        <ExpansionList
+          :expandSingle="true"
+          :dataSource="accordionData"
+          v-on:listItemClicked="accordionItemSelected"
+        ></ExpansionList>
+        <div class="amvip--landingBtnwrap">
+          <md-button class="md-raised amvip--btn" @click="gotoSetup"
+            >Start Program <span class="far fa-arrow-right"></span
+          ></md-button>
+        </div>
+      </section>
+    </div>
   </div>
 </template>
 <style lang="less">

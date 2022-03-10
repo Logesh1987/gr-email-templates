@@ -9,10 +9,7 @@
       >
         <div class="md-list-item-text">
           <span>{{ data.title }}</span>
-          <i
-            class="fas fa-chevron-right routeIcon"
-            v-if="data.listType === 'routeList'"
-          ></i>
+          <i class="fas fa-plus" v-if="data.listType === 'routeList'"></i>
         </div>
         <section
           slot="md-expand"

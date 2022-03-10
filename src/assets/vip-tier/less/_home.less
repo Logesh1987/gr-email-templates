@@ -3,68 +3,21 @@
     position: relative;
     overflow: hidden;     
     min-height: 100vh;
-    background: linear-gradient(to bottom, #0e5144, #12443b, #173631);
-    display: flex;
-    @media (max-width: 599px) {
-        flex-direction: column;
-    }
-    .circle1,
-    .circle2 {
-        pointer-events: none;
-    }
-
-    .circle1 {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 60vw;
-        height: 60vw;
-        border-radius: 50%;
-        background: linear-gradient(100deg, rgba(255,255,255,.8), rgba(255,255,255,.01));
-        transform: translate(-24%, -45%);
-        opacity: .2;
-        z-index: 1;
-        box-shadow: -80px 70px 100px rgba(0,0,0,1);
-        transition: 0.5s;
-        @media (max-width: 959px) {
-            width: 100vw;
-            height: 100vw;
-        }        
-    }
-    .circle2 {
-        position: absolute;
-        top: 35%;
-        left: 5%;
-        width: 30vw;
-        height: 30vw;
-        border-radius: 50%;
-        background: linear-gradient(320deg, rgba(255,255,255,1), transparent);
-        opacity: .1;
-        transition: 0.5s;
-        @media (max-width: 959px) {
-            width: 70vw;
-            height: 70vw;
-            top: 10%;
-            left: 50%;
+    background: #014e62;
+    background: linear-gradient(0deg, #014e62 0%, #025d5e 29%, #089853 100%);
+    .amvip--landingInner {        
+        background: url(../vip-bg.png) center center no-repeat;
+        display: flex;
+        height: 100vh;
+        @media (max-width: 599px) {
+            flex-direction: column;
         }
     }
-}
-.amvip--landingGrey {
-    .circle2 {
-        top: 0;
-        left: 40vw;
-        transform: translate(-25%, -30%) scale(1.2);
-        opacity: .2;
-    }
-    .circle1 {
-        opacity: 0;
-    }
-    .amvip--landingBrand,
     .amvip--setupPage {
         flex: 40% 0 0;
         max-width: 40%;
         display: flex;
-        padding: 0 5%;
+        padding: 50px 5%;
         align-items: center;
         min-width: 400px;
         @media (max-width: 989px) {
@@ -82,69 +35,25 @@
     }
 }
 
-.amvip--landingBrand {    
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    line-height: 1;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 1vh;
-    @media (max-width: 959px) {
-        height: 35vh;
-        display: flex;
-    }
-    @media (min-width: 960px) {
-        font-size: 1.2vh;
-        display: inline-flex;
-        flex: 50% 0 0;
-        max-width: 50%;
-        transition: 0.5s;
-    }
-    @media (min-width: 1360px) {
-        font-size: 1.4vh;
-    }
-    @media (min-width: 1600px) {
-        font-size: 1.5vh;
-    }
-    .icon-vip-crown {
-        color: #d5c2b3;
-        font-size: 4em;
-        display: block;
-        margin-bottom: 14px;
-    }
-    h2, h3 {
-        font-weight: 400;
-        font-family: 'Times New Roman', Times, serif;
-    }
-    h2 {
-        font-size: 8em;
-        line-height: .8;
-    }
-    h3 {
-        font-size: 4em;
-    }
-    small {
-        padding: 5px;
-        font-size: 1em;
-        letter-spacing: 2px;
-        display: block;
-        text-align: right;
+.amvip--landingGrey {
+    display: flex;
+    @media (max-width: 599px) {
+        flex-direction: column;
     }
 }
 
 .amvip--landingContent {
-    @media (min-width: 960px) {
-        flex: 50% 0 0;
-        max-width: 50%;
-        padding-top: 50px;
-        margin-top: 8vh;
-        padding-right: 30px;
-        padding-bottom: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    ul {
+        margin: 0;
+        padding: 0;
     }
-    @media (min-width: 960px) and (min-height: 900px) {
-        padding-top: 60px;
-        padding-bottom: 60px;
+    .amvip--landingBtnwrap {
+        margin-top: 40px;
     }
 }
 
@@ -171,7 +80,7 @@
     li {
         position: relative;
         // padding: 3vh 0 0;
-        border-bottom: 1px solid rgba(255,255,255,0.17);
+        border-bottom: 1px solid rgba(255,255,255,0.5);
         .md-list-item-expand.md-active{
             border: none;
         }
@@ -179,7 +88,7 @@
             color: #fff;      
         }
         &.md-list-item:not(:last-of-type){
-            border-bottom: 1px solid rgba(255,255,255,0.17);
+            border-bottom: 1px solid rgba(255,255,255,0.5);
         }
         .md-icon.md-icon-font svg{
             fill: #fff;
@@ -202,57 +111,7 @@
             color: #ccc;
             display: block;
             white-space: normal;
-        }
-        // label {
-        //     position: relative;
-        //     display: block;
-        //     cursor: pointer;
-        //     section {
-        //         max-height: 0;
-        //         opacity: 0;
-        //         transition: 0.5s;
-        //         box-sizing: border-box;
-        //         margin: 1.5vh 0;
-        //         padding: 0 15px;
-        //         font-size: 1.4rem;
-        //         line-height: 1.4;
-        //         color: #ccc;
-        //     }
-        //     &:after {
-        //         position: absolute;
-        //         top: 5px;
-        //         right: 5px;
-        //         content: '+';
-        //         font-size: 32px;
-        //         line-height: 20px;
-        //     }
-        //     &:hover:after {
-        //         opacity: 1;
-        //     }
-        // }
-
-        // input[type=radio] {
-        //     display: none;
-        //     &:checked + label {
-        //         &:after {
-        //             content: '-';
-        //         }
-        //         section {
-        //             max-height: 10vh;
-        //             opacity: 1;
-        //         }
-        //     }
-        // }
-        
-    }
-}
-
-.amvip--landingBtnwrap {
-    @media (min-width: 960px) {
-        max-width: 450px;
-        margin-left: 6vw;
-        display: flex;
-        justify-content: flex-end;
+        }        
     }
 }
 
@@ -350,18 +209,7 @@
     }
 }
 
-// .amvip--rewardTabs {
-//     input[type="radio"] {
-//         display: none;
-
-//         &:checked + .amvip--rewardTabItem {
-//             display: block;
-//         }
-//     }
-// }
-
 .amvip--rewardTabItem {
-    // display: none;
     animation: fadeFromLft 0.5s ease both;
 }
 
@@ -440,8 +288,4 @@
             color: #666;
         }
     }
-}
-.amvip--setupPage {
-    background: #014e62;
-    background: linear-gradient(90deg, #014e62 0%, #025d5e 29%, #089853 100%);
 }

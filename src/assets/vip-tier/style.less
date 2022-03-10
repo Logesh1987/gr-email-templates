@@ -54,18 +54,13 @@ body {
 
 // Buttons
 .amvip--btn {
-  height: 50px;
   font-size: 1.4rem;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 3px;
   cursor: pointer;
+  padding: 0 20px;
   color: #fff;
-  background: var(--btnClr);
   transition: 0.18s;
-  &:hover {
-    background: #006adb;
-  }
+  border-radius: 4px !important;
   .fa-arrow-left {
     margin-left: 25px;
   }
@@ -76,19 +71,6 @@ body {
     transform: translateX(-50%);
     width: calc(100% - 40px);
     max-width: 300px;
-  }
-  @media (min-width: 767px) {
-    padding: 0 25px;
-  }
-  @media (min-width: 960px) and (min-height: 900px) {
-    height: 60px;
-  }
-  &.amvip--btnHome {
-    color: #333;
-    background: #fff;
-    @media (min-width: 767px) {
-      margin-top: 8vh;
-    }
   }
 }
 .amvip--container {
