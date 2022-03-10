@@ -16,23 +16,28 @@
       :md-close-on-esc="false"
       :md-click-outside-to-close="false"
     >
-      <div class="contentWrapper">
-        <div class="infoIcon"></div>
-        <div class="content">
-          <md-dialog-title>{{ popupConfig.title }}</md-dialog-title>
-          <md-dialog-content>
+      <div class="contentWrapper" v-bind:style="styleObject">
+        <div class="infoIcon" v-if="popupConfig.iconClass">
+          <i v-bind:class="popupConfig.iconClass"></i>
+        </div>
+        <div class="messageArea">
+          <div class="popupTitle">{{ popupConfig.title }}</div>
+          <div class="popupContent">
             {{ popupConfig.content }}
-          </md-dialog-content>
-          <md-dialog-actions>
-            <md-button class="secondaryBtn" @click="onCancel">{{
-              popupConfig.cancelText
-            }}</md-button>
-            <md-button class="primaryBtn" @click="onConfirm">{{
-              popupConfig.confirmText
-            }}</md-button>
-          </md-dialog-actions>
+          </div>
         </div>
       </div>
+      <md-dialog-actions>
+        <md-button
+          class="secondaryBtn"
+          @click="onCancel"
+          v-if="popupConfig.cancelText && popupConfig.cancelText.length > 0"
+          >{{ popupConfig.cancelText }}</md-button
+        >
+        <md-button class="primaryBtn" @click="onConfirm">{{
+          popupConfig.confirmText
+        }}</md-button>
+      </md-dialog-actions>
     </md-dialog>
   </div>
 </template>
@@ -47,14 +52,18 @@
   color: #e7e7e7;
   border: 1px solid #dbdbdb;
 }
-span.md-dialog-title {
+.popupTitle {
   font-size: 18px;
   font-weight: bold;
+  margin-bottom: 10px;
+}
+.popupContent {
+  font-size: 14px;
 }
 .md-dialog-actions {
   justify-content: space-around;
   box-sizing: border-box;
-  padding: 15px 15px 0 15px;
+  padding: 15px;
   button {
     width: calc(50% - 15px);
     border-radius: 5px !important;
@@ -69,8 +78,16 @@ span.md-dialog-title {
     justify-content: center;
     align-items: center;
     .infoIcon {
-      width: 80px;
-      height: 100%;
+      min-width: 80px;
+      max-width: 80px;
+      height: 80px;
+      font-size: 36px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      border: 1px solid #ccc;
+      margin-right: 15px;
     }
   }
 }
@@ -86,6 +103,9 @@ export default {
       active: false,
       value: null,
       dialogId: this.popupConfig.id,
+      styleObject: {
+        width: this.popupConfig?.width ? this.popupConfig.width : "350px",
+      },
     };
   },
   computed: {
@@ -98,6 +118,17 @@ export default {
       set: function(newValue) {
         this.$props.showPopup = newValue;
       },
+    },
+  },
+  watch: {
+    popupConfig: {
+      handler(val, oldVal) {
+        console.log({ val, oldVal });
+        this.styleObject = {
+          width: val && val.width ? val.width : "350px",
+        };
+      },
+      deep: true,
     },
   },
   methods: {

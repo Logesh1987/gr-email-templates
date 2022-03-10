@@ -203,10 +203,10 @@ export default {
       deleteRadio: "tier_down",
       showDeleteDialog: false,
       currentDeleteObj: null,
-      showLandingPopup: false,
     };
   },
   mounted() {
+    // this.landingPopup();
     const statusData = window.sessionStorage.getItem("statusData")
       ? +window.sessionStorage.getItem("statusData")
       : null;
@@ -225,9 +225,6 @@ export default {
     }
     const tierData = window.sessionStorage.getItem("tierData");
     const dataChanged = window.sessionStorage.getItem("dataChanged") == "true";
-    const landingPopupFlg = window.sessionStorage.getItem(
-      "isLandingPopupShown"
-    );
     if (!tierData || (dataChanged && tierData)) {
       const url = this.getApiUrl("Tiers/Managetiers");
       Axios.get(url).then((res) => {
@@ -241,21 +238,15 @@ export default {
             JSON.stringify(this.tierData)
           );
           window.sessionStorage.setItem("dataChanged", false);
-          this.showLandingPopup =
-            !landingPopupFlg && !this.tierStatus && !this.hasUsers();
+          this.landingPopup();
         }
       });
     } else {
       this.tierData = JSON.parse(tierData);
-      this.showLandingPopup =
-        !landingPopupFlg && !this.tierStatus && !this.hasUsers();
+      this.landingPopup();
     }
   },
   methods: {
-    closeLandingPopup() {
-      this.showLandingPopup = false;
-      window.sessionStorage.setItem("isLandingPopupShown", true);
-    },
     hasUsers() {
       let hasUser = false;
       for (let index = 0; index < this.tierData.length; index++) {
@@ -342,6 +333,23 @@ export default {
     hideIconPopup() {
       this.enableIcon = false;
     },
+    landingPopup() {
+      this.popupConfig = {
+        title: "Review and Launch!",
+        content:
+          "We have setup 4 tiers with default settings. You can review and launch.",
+        confirmText: "Okay, Review it",
+        id: "landingPopup",
+        iconClass: "far fa-rocket",
+        width: "400px",
+      };
+      const landingPopupFlg = window.sessionStorage.getItem(
+        "isLandingPopupShown"
+      );
+      this.showConfirmPopup =
+        !landingPopupFlg && !this.tierStatus && !this.hasUsers();
+      // this.showConfirmPopup = true;
+    },
     confirmTogglePromotion() {
       this.popupConfig = {
         title: "Confirm!",
@@ -349,6 +357,7 @@ export default {
         confirmText: "Agree",
         cancelText: "Disagree",
         id: "statusUpdatePopup",
+        iconClass: "far fa-ban",
       };
       this.showConfirmPopup = true;
     },
@@ -375,6 +384,9 @@ export default {
         case "finalConfirmSetup":
           this.tierStatus = 1;
           this.updateStatus();
+          break;
+        case "landingPopup":
+          window.sessionStorage.setItem("isLandingPopupShown", true);
           break;
         default:
           break;

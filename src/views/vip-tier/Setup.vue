@@ -65,7 +65,7 @@
                   class="far fa-info-circle"
                   v-popover:installDate.top.left
                 ></span>
-                <popover name="installDate" width="300" event="hover">
+                <popover name="installDate" event="hover">
                   As per our record, you installed the Gratisfaction on
                   {{ installedDate | formatDate }}
                 </popover>
@@ -378,9 +378,11 @@ export default {
       this.popupConfig = {
         title: "Confirm!",
         content: "Are you sure, you want to cancel the setup?",
-        confirmText: "OK",
-        cancelText: "Cancel",
+        confirmText: "Yes, Cancel it",
+        cancelText: "No, Keep it",
         id: "cancelSetup",
+        iconClass: "far fa-ban",
+        width: "350px",
       };
       this.showConfirmPopup = true;
     },

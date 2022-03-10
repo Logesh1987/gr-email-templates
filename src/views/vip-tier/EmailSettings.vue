@@ -45,7 +45,7 @@
           <span class="span_Dynamic"
             >Dynamic Variables
             <span class="far fa-info-circle" v-popover:dynamicVariables></span>
-            <popover name="dynamicVariables" width="300" event="hover">
+            <popover name="dynamicVariables" event="hover">
               You can insert these dynamic variables exactly as shown, anywhere
               in the email body.
             </popover></span
@@ -122,12 +122,15 @@ export default {
       subject: "",
       template: "",
       to: "",
+      testEmail: "",
       popupConfig: {
         title: "Confirm!",
-        content: `An email has been sent to ${this.to}`,
+        content: `An email will be sent to ${this.testEmail}`,
         confirmText: "Yes, Proceed it",
         cancelText: "No, Cancel it",
         id: "sendMailPopup",
+        iconClass: "fal fa-paper-plane",
+        width: "350px",
       },
       showConfirmPopup: false,
     };
@@ -155,6 +158,8 @@ export default {
           confirmText: "Yes, Stop it",
           cancelText: "No, Cancel it",
           id: "statusUpdatePopup",
+          iconClass: "far fa-ban",
+          width: "350",
         };
         this.showConfirmPopup = true;
       } else {
@@ -164,10 +169,12 @@ export default {
     confirmSendMailPopup() {
       this.popupConfig = {
         title: "Confirm!",
-        content: `An email has been sent to ${this.to}`,
+        content: `An email will be sent to ${this.testEmail}`,
         confirmText: "Yes, Proceed it",
         cancelText: "No, Cancel it",
         id: "sendMailPopup",
+        iconClass: "fal fa-paper-plane",
+        width: "350px",
       };
       this.showConfirmPopup = true;
     },
@@ -219,6 +226,7 @@ export default {
       this.subject = data.subject;
       this.template = this.convertHTMLStrings(data.template);
       this.to = data.to;
+      this.testEmail = data.testemail;
     },
     convertHTMLStrings(HTMLString) {
       var x = document.createElement("div");

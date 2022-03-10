@@ -399,6 +399,8 @@ export default {
         cancelText: "Cancel",
         id: "deleteRewardPopup",
         params: obj,
+        iconClass: "far fa-ban",
+        width: "350px",
       };
       this.showConfirmPopup = true;
     },
