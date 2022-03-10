@@ -1,16 +1,7 @@
 <template>
   <div class="amvip--landingGrey">
-    <div class="circles">
-      <div class="circle1"></div>
-      <div class="circle2"></div>
-    </div>
-    <aside class="amvip--landingBrand">
-      <div>
-        <span class="icon-vip-crown"></span>
-        <h2>VIP</h2>
-        <h3>Tiers</h3>
-        <small>Beta</small>
-      </div>
+    <aside class="amvip--setupPage">
+      <img src="./../../assets/vip-tier/vip-tier-logo-setup.png" alt="Logo" />
     </aside>
     <section class="amvip-accordContent">
       <section>

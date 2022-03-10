@@ -46,42 +46,42 @@
               rows="5"
             ></textarea>
           </div>
-          <div class="amvip--formRow">
-            <div class="amvip--dateRow">
-              <div class="dateWrapper">
-                <md-datepicker
-                  md-immediately
-                  :class="getValidationClass('date_start')"
-                  :md-disabled-dates="disabledDates"
-                  name="date_start"
-                  id="date_start"
-                  v-model="form.date_start"
-                  :disabled="sending"
-                  ref="date_start"
-                >
-                  <label>Select date to begin the program</label>
-                </md-datepicker>
-                <span
-                  class="far fa-info-circle"
-                  v-popover:installDate.top.left
-                ></span>
-                <popover name="installDate" event="hover">
-                  As per our record, you installed the Gratisfaction on
-                  {{ installedDate | formatDate }}
-                </popover>
-              </div>
+          <div class="amvip--formRow dateWrapper">
+            <label for="date_start">Select the date to begin the program</label>
+            <md-datepicker
+              md-immediately
+              :class="getValidationClass('date_start')"
+              :md-disabled-dates="disabledDates"
+              name="date_start"
+              id="date_start"
+              v-model="form.date_start"
+              :disabled="sending"
+              ref="date_start"
+            >
+            </md-datepicker>
+            <div class="infoBlock">
+              <span
+                class="fas fa-info-circle"
+                v-popover:installDate.top.left
+              ></span>
+              <popover name="installDate" event="hover">
+                As per our record, you installed the Gratisfaction on
+                {{ installedDate | formatDate }}
+              </popover>
               <small style="opacity:0.8;">
                 As per our record, you installed the Gratisfaction on
                 {{ installedDate | formatDate }}
               </small>
+            </div>
+            <div>
               <span
-                class="md-custom-error padLeft-35"
+                class="md-custom-error"
                 v-if="!$v.form.date_start.required && $v.form.date_start.$dirty"
               >
                 Date to beign the program is required.
               </span>
               <span
-                class="md-custom-error padLeft-35"
+                class="md-custom-error"
                 v-else-if="
                   !$v.form.date_start.installed_date_validator &&
                     $v.form.date_start.$dirty
@@ -92,7 +92,7 @@
                 }})
               </span>
               <span
-                class="md-custom-error padLeft-35"
+                class="md-custom-error"
                 v-else-if="
                   !$v.form.date_start.post_date_validator &&
                     $v.form.date_start.$dirty
@@ -102,9 +102,9 @@
               </span>
             </div>
           </div>
-          <div class="amvip--radioRow">
-            <div class="formLabel">What should define your tiers</div>
-            <div>
+          <div class="amvip--formRow">
+            <label id="ptspurchase">What should define your tiers</label>
+            <div class="amvip--radioRow">
               <div class="amvip--customRadio">
                 <md-radio
                   v-model="form.selection_type"
@@ -118,6 +118,9 @@
                 <small>
                   All points (Purchase and Non Purchase ) will be considered
                 </small>
+              </div>
+
+              <div class="amvip--customRadio">
                 <md-radio
                   v-model="form.selection_type"
                   value="value_of_purchase"
@@ -131,20 +134,20 @@
                   Only purchase entries will be considered
                 </small>
               </div>
-              <span
-                class="md-custom-error top-minus-20"
-                v-if="
-                  !$v.form.selection_type.required &&
-                    $v.form.selection_type.$dirty
-                "
-              >
-                Tier type is required
-              </span>
             </div>
+            <span
+              class="md-custom-error"
+              v-if="
+                !$v.form.selection_type.required &&
+                  $v.form.selection_type.$dirty
+              "
+            >
+              Tier type is required
+            </span>
           </div>
-          <div class="amvip--radioRow btmBorder">
-            <div class="formLabel">Time to achieve a VIP tier</div>
-            <div>
+          <div class="amvip--formRow">
+            <label class="formLabel">Time to achieve a VIP tier</label>
+            <div class="amvip--radioRow">
               <div class="amvip--customRadio">
                 <md-radio
                   v-model="form.time_slot"
@@ -158,6 +161,8 @@
                 <small>
                   A member qualifies for the enrolling period
                 </small>
+              </div>
+              <div class="amvip--customRadio">
                 <md-radio
                   v-model="form.time_slot"
                   value="life_time"
@@ -172,16 +177,14 @@
                   forever.
                 </small>
               </div>
-              <span
-                class="md-custom-error top-minus-20"
-                v-if="!$v.form.time_slot.required && $v.form.time_slot.$dirty"
-              >
-                Time to achieve a VIP tier is required
-              </span>
             </div>
+            <span
+              class="md-custom-error"
+              v-if="!$v.form.time_slot.required && $v.form.time_slot.$dirty"
+            >
+              Time to achieve a VIP tier is required
+            </span>
           </div>
-          <br />
-          <br />
           <footer class="amvip-actionFooter">
             <button class="amvip--btnSec" @click="confirmCancelSetup">
               Cancel
@@ -200,6 +203,7 @@
     ></ConfirmPopup>
   </div>
 </template>
+
 <style lang="less">
 @import url("./../../assets/vip-tier/less/_home");
 @import url("./../../assets/vip-tier/less/_setup");
@@ -242,21 +246,20 @@
   color: var(--md-theme-default-fieldvariant, #ff1744);
   font-size: 12px;
   text-align: left;
-  &.padLeft-35 {
-    padding-left: 35px;
-  }
-  &.top-minus-20 {
-    top: -20px;
-    position: relative;
-  }
 }
 .dateWrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  > div {
-    margin-right: 15px;
+  max-width: 540px;
+  .md-field {
+    margin: 0;
+    padding: 0;
+    min-height: auto;
+    &:after {
+      display: none;
+    }
+  }
+  .infoBlock {
+    margin: 5px 0 20px;
+    font-size: 14px;
   }
 }
 [data-popover="foo"] {
