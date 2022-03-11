@@ -1,10 +1,12 @@
 <template>
   <div class="amvip--wrapper amvip-editTier">
-    <div class="amvip--container">
-      <hgroup class="amvip--pageHeader">
+    <hgroup class="amvip--pageHeader">
+      <div class="headerGroup">
         <span class="far fa-arrow-left" @click="goBack"></span>
         <h2>Edit {{ form.name }} tier</h2>
-      </hgroup>
+      </div>
+    </hgroup>
+    <div class="amvip--container">
       <section class="amvip--editTierRow">
         <div class="amvip--editTierContent">
           <div class="amvip--formRow">

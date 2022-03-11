@@ -1,9 +1,11 @@
 <template>
   <div class="amvip--wrapper">
-    <div class="amvip--container manageContainer">
-      <hgroup class="amvip--pageHeader">
+    <hgroup class="amvip--pageHeader">
+      <div class="headerGroup">
         <!-- <span class="far fa-arrow-left" @click="goHome"></span> -->
         <h2>Manage Tiers</h2>
+      </div>
+      <div class="btnGroup">
         <div class="amvip--inlineFlex">
           <button
             class="amvip--btnCommon primaryBlueBtn"
@@ -32,26 +34,26 @@
             <label for="statusToggle" class="amvip--customToggle"></label>
           </div>
         </div>
-      </hgroup>
-      <div class="manageTierBody">
-        <div class="subHeader">
-          <button class="amvip--btnCommon primaryBtn" @click="gotoAddTier">
-            <span class="far fa-plus"></span> <span>Add Tier</span>
-          </button>
-        </div>
-        <section class="amvip--tierWrap">
-          <VipTierCard
-            :tierData="tierObj"
-            v-for="(tierObj, index) in tierData"
-            :key="index"
-            :isDeleteEnabled="tierObj.default !== 'Y'"
-            v-on:editTierIconClicked="showIconPopup(tierObj)"
-            v-on:editClicked="gotoEditTier"
-            v-on:deleteClicked="confirmDelete"
-            v-on:editRewardIconClicked="gotoEditReward"
-          ></VipTierCard>
-        </section>
       </div>
+    </hgroup>
+    <div class="amvip--container manageContainer">
+      <div class="subHeader">
+        <button class="amvip--btnCommon primaryBtn" @click="gotoAddTier">
+          <span class="far fa-plus"></span> <span>Add Tier</span>
+        </button>
+      </div>
+      <section class="amvip--tierWrap">
+        <VipTierCard
+          :tierData="tierObj"
+          v-for="(tierObj, index) in tierData"
+          :key="index"
+          :isDeleteEnabled="tierObj.default !== 'Y'"
+          v-on:editTierIconClicked="showIconPopup(tierObj)"
+          v-on:editClicked="gotoEditTier"
+          v-on:deleteClicked="confirmDelete"
+          v-on:editRewardIconClicked="gotoEditReward"
+        ></VipTierCard>
+      </section>
     </div>
     <IconPopup
       ref="iconPopupEle"
@@ -161,13 +163,6 @@
   }
   .amvip--inlineFlex > button:nth-child(1) {
     margin-right: 10px;
-  }
-  .manageTierBody {
-    padding: 0 50px 25px 50px;
-
-    @media (max-width: 599px) {
-      padding: 0 25px 20px 25px;
-    }
   }
 }
 #deleteDialog {

@@ -3,11 +3,16 @@
     <aside class="amvip--setupPage">
       <img src="./../../assets/vip-tier/vip-tier-logo-setup.png" alt="Logo" />
     </aside>
-    <section class="amvip-accordContent">
-      <section>
-        <span class="far fa-arrow-left goBack" @click="goBack"> </span>
-        <h2>Benefits of <br />VIP tiers</h2>
-
+    <section class="amvip-twoColContent">
+      <div class="amvip--setUpTier">
+        <hgroup class="amvip--pageHeader">
+          <div class="headerGroup">
+            <span class="far fa-arrow-left" @click="goBack"> </span>
+            <h2>Benefits of VIP tiers</h2>
+          </div>
+        </hgroup>
+      </div>
+      <section class="amvip--container amvip-accordContent">
         <md-list :md-expand-single="true" id="introExpansionList">
           <md-list-item md-expand :md-expanded="true">
             <span class="md-list-item-text">Rewards</span>

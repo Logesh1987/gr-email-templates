@@ -6,11 +6,31 @@
     background: #014e62;
     background: linear-gradient(0deg, #014e62 0%, #025d5e 29%, #089853 100%);
     .amvip--landingInner {        
-        background: url(../vip-bg.png) center center no-repeat;
+        background: url(../vip-bg.png) center center repeat;
         display: flex;
         height: 100vh;
+        @media screen and (min-width: 600px) and (max-width: 989px) {
+            align-items: center;
+        }
         @media (max-width: 599px) {
             flex-direction: column;
+            height: auto;
+            .amvip--landingContent {
+                margin-bottom: 40px;
+            }
+        }
+        
+        .amvip--setupPage {
+            @media screen and (min-width: 600px) and (max-width: 989px) {
+                align-items: center;
+                flex: 40% 0 0;
+                max-width: 40%;
+            }
+        }
+        .amvip--landingContent {
+            @media screen and (min-width: 600px) and (max-width: 989px) {
+                padding: 0 20px;
+            }
         }
     }
     .amvip--setupPage {
@@ -116,24 +136,6 @@
 }
 
 .amvip-accordContent {
-    position: relative;
-    background: #f5f5f5;
-    @media (max-width: 959px) {
-        min-height: 65vh;
-        padding: 5vh 5vw;
-    }
-    @media (min-width: 960px) {
-        height: 100vh;
-        overflow: auto;
-        flex: 60% 0 0;
-        max-width: 60%;
-        padding: 8vh 10vh;
-    }
-    h2 {
-        font-size: 3.6rem;
-        line-height: 1.12;
-        margin-bottom: 1em;
-    }
     .md-list{
         padding: 0;
     }

@@ -6,13 +6,15 @@
           <span class="far fa-arrow-left" @click="goBack"></span>
           <h2>Tier Email Settings</h2>
         </div>
-        <button
-          class="amvip--btnCommon rightAlign"
-          @click="confirmSendMailPopup"
-        >
-          <span class="btnIcon far fa-envelope"></span>
-          <span>Send Test Email</span>
-        </button>
+        <div class="btnGroup">
+          <button
+            class="amvip--btnCommon rightAlign"
+            @click="confirmSendMailPopup"
+          >
+            <span class="btnIcon far fa-envelope"></span>
+            <span>Send Test Email</span>
+          </button>
+        </div>
       </hgroup>
       <div class="amvip--container emailSettingsWrapper">
         <input type="hidden" name="id_email" id="id_email" v-model="id_email" />
@@ -316,6 +318,7 @@ export default {
       @media (max-width: 599px) {
         text-align: left;
         min-width: auto;
+        margin-bottom: 5px;
       }
     }
     > *:nth-child(2n) {

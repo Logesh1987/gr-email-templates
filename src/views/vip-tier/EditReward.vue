@@ -1,10 +1,12 @@
 <template>
   <div class="amvip--wrapper">
-    <div class="amvip--container amvip--manageReward">
-      <hgroup class="amvip--pageHeader">
+    <hgroup class="amvip--pageHeader">
+      <div class="headerGroup">
         <span class="far fa-arrow-left" @click="goBack"></span>
         <h2>Edit reward</h2>
-      </hgroup>
+      </div>
+    </hgroup>
+    <div class="amvip--container amvip--manageReward">
       <div class="amvip--tabs">
         <div class="amvip--tabHeader">
           <div

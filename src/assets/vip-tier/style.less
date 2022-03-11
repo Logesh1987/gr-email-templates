@@ -51,6 +51,12 @@ body {
   font-size: 12px;
   margin-top: 5px;
 }
+@media (max-width: 600px) {
+  .md-dialog-fullscreen {
+    width: auto;
+    height: auto;
+  }
+}
 
 // Buttons
 .amvip--btn {
@@ -64,36 +70,35 @@ body {
   .fa-arrow-left {
     margin-left: 25px;
   }
-  @media (max-width: 959px) {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 40px);
-    max-width: 300px;
-  }
 }
 .amvip--container {
   position: relative;
-  // padding: 25px 50px;
+  padding: 25px 50px;
 
-  // @media (max-width: 599px) {
-  //   padding: 25px 20px;
-  // }
+  @media (max-width: 599px) {
+    padding: 25px 20px;
+  }
 }
 .amvip--pageHeader {
   padding: 15px 50px;
   display: flex;
   align-items: center;
   border-bottom: 1px solid #d1d1d1;
+  justify-content: space-between;
+  gap: 20px;
 
   @media (max-width: 599px) {
     padding: 10px 20px;
+    flex-direction: column;
+    align-items: flex-start;
   }
   h2 {
     font-size: 2rem;
     & + .amvip--inlineFlex {
-      margin-left: auto;
+      @media (max-width: 599px) {
+        flex-wrap: wrap;
+        gap: 20px;
+      }
     }
   }
   .fa-arrow-left {
@@ -120,9 +125,6 @@ body {
   }
   @media (max-width: 767px) {
     flex-wrap: wrap;
-    h2 {
-      margin-bottom: 10px;
-    }
     .amvip--btnCommon,
     .amvip--customToggle {
       flex-shrink: 0;
@@ -130,7 +132,7 @@ body {
   }
 }
 .amvip--formRow {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   @media (max-width: 599px) {
     flex-wrap: wrap;
   }
@@ -160,16 +162,15 @@ body {
   input[type="number"],
   select,
   textarea {
-    width: 100%;
     padding: 8px 10px;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
     font-family: Avenir, Helvetica, Arial, sans-serif;
-    width: 540px;
+    width: 500px;
 
-    @media (max-width: 599px) {
+    @media (max-width: 767px) {
       width: 100%;
     }
   }
@@ -309,6 +310,8 @@ select,
 .amvip--inlineFlex {
   display: inline-flex;
   align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .amvip--colorInfo:extend(.amvip--inlineFlex) {
@@ -391,7 +394,7 @@ select,
   align-items: center;
   justify-content: flex-end;
   width: 100%;
-  max-width: 540px;
+  max-width: 500px;
   button {
     margin-left: 10px;
     &:first-child {
@@ -401,7 +404,6 @@ select,
 }
 .amvip--statusToggle:extend(.amvip--inlineFlex) {
   font-size: 1.4rem;
-  margin-left: 20px;
 }
 .fa-plus {
   margin-right: 10px;
@@ -511,15 +513,6 @@ select,
     background: rgba(255, 255, 255, 0.2);
   }
 }
-.goBack {
-  cursor: pointer;
-  display: inline-block;
-  font-size: 2rem;
-  transform: translateY(-20px) rotate(180deg);
-  &:hover {
-    color: var(--btnClr);
-  }
-}
 
 .sideBySide {
   display: flex;
@@ -625,7 +618,7 @@ select,
     linear-gradient(to right, #014e62 0%, #025d5e 29%, #089853 100%);
   background-origin: border-box;
   background-clip: content-box, border-box;
-  max-width: 540px;
+  max-width: 500px;
   .gradientBoxInner {
     padding: 20px;
   }

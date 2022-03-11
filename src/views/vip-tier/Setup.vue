@@ -248,13 +248,16 @@
   text-align: left;
 }
 .dateWrapper {
-  max-width: 540px;
+  max-width: 500px;
   .md-field {
     margin: 0;
     padding: 0;
     min-height: auto;
     &:after {
       display: none;
+    }
+    .md-input-action {
+      top: 0;
     }
   }
   .infoBlock {
