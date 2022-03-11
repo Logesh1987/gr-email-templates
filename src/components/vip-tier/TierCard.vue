@@ -31,7 +31,21 @@
           <h3>{{ tierData.name }}</h3>
           <h5 v-if="tierData.goal !== 0">{{ tierData.description }}</h5>
           <div class="amvip--cardAction">
-            <i class="far fa-ellipsis-h"></i>
+            <md-menu md-size="small" md-align-trigger>
+              <!-- <md-button md-menu-trigger>Align with trigger</md-button> -->
+              <span md-menu-trigger class="far fa-ellipsis-h"></span>
+              <md-menu-content>
+                <md-menu-item @click="editTier($event, tierData)"
+                  >Edit</md-menu-item
+                >
+                <md-menu-item
+                  v-if="isDeleteEnabled"
+                  @click="deleteTier($event, tierData)"
+                  >Delete</md-menu-item
+                >
+              </md-menu-content>
+            </md-menu>
+
             <!-- <span
               class="far fa-edit"
               @click="editTier($event, tierData)"
@@ -50,6 +64,7 @@
             <li>{{ tierData.goaltxt }} annually</li>
           </ul>
           <div v-else class="eligibilityDesc">{{ tierData.description }}</div>
+          <span v-if="tierData.goal !== 0" class="hrRuler"></span>
           <h4 v-if="tierData.rewards.length > 0">Benefits</h4>
           <ul class="amvip--bulletList" v-if="tierData.rewards.length > 0">
             <li
@@ -93,6 +108,21 @@ li.rewardItem {
 }
 .eligibilityDesc {
   margin: 15px 0;
+}
+.hrRuler {
+  border: 0;
+  display: inline-block;
+  width: 75%;
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0)
+  );
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
 }
 </style>
 <script>
