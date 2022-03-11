@@ -1,64 +1,73 @@
 <template>
   <div class="amvip--tierCol" :class="getTierClass(tierData)">
-    <div>
-      <header :style="{ 'background-color': tierData.color }">
-        <div
-          class="amvip--cardImg"
-          v-if="tierData.icon.length > 0"
-          :class="validURL(tierData.icon) ? '' : tierData.icon"
-          v-bind:style="
-            validURL(tierData.icon)
-              ? {
-                  backgroundImage: 'url(' + getCDNImage(tierData.icon) + ')',
-                  backgroundSize: '100% 100%',
-                }
-              : { color: tierData.color }
-          "
-        >
-          <span
-            class="far fa-edit"
-            @click="editTierIcon($event, tierData)"
-          ></span>
-        </div>
-        <div class="amvip--cardImg" v-else>
-          <span
-            class="far fa-edit"
-            @click="editTierIcon($event, tierData)"
-          ></span>
-        </div>
-        <h3>{{ tierData.name }}</h3>
-        <div class="amvip--cardAction">
-          <span class="far fa-edit" @click="editTier($event, tierData)"></span>
-          <span
-            v-if="isDeleteEnabled"
-            class="far fa-trash-alt"
-            @click="deleteTier($event, tierData)"
-          ></span>
-        </div>
-      </header>
-      <div class="amvip--tierDetails">
-        <h4 v-if="tierData.goal !== 0">Eligibility</h4>
-        <ul class="amvip--bulletList" v-if="tierData.goal !== 0">
-          <li>{{ tierData.goaltxt }} annually</li>
-        </ul>
-        <div v-else class="eligibilityDesc">{{ tierData.description }}</div>
-        <h4 v-if="tierData.rewards.length > 0">Benefits</h4>
-        <ul class="amvip--bulletList" v-if="tierData.rewards.length > 0">
-          <li
-            v-for="benefit of tierData.rewards"
-            :key="benefit.index"
-            class="rewardItem"
+    <div class="outerWrapper" :style="{ 'background-color': tierData.color }">
+      <div class="innerWrapper">
+        <header>
+          <div
+            class="amvip--cardImg"
+            v-if="tierData.icon.length > 0"
+            :class="validURL(tierData.icon) ? '' : tierData.icon"
+            v-bind:style="
+              validURL(tierData.icon)
+                ? {
+                    backgroundImage: 'url(' + getCDNImage(tierData.icon) + ')',
+                    backgroundSize: '100% 100%',
+                    backgroundColor: tierData.color,
+                  }
+                : { backgroundColor: tierData.color }
+            "
           >
-            {{ benefit.name }}
             <span
-              class="far fa-edit rewardEdit"
-              @click="editRewardIcon($event, benefit, tierData.id)"
+              class="far fa-edit"
+              @click="editTierIcon($event, tierData)"
             ></span>
-          </li>
-          <li v-if="tierData.rewards.length == 0" class="info">
-            Rewards yet to be added!!!
-          </li>
-        </ul>
+          </div>
+          <div class="amvip--cardImg" v-else>
+            <span
+              class="far fa-edit"
+              @click="editTierIcon($event, tierData)"
+            ></span>
+          </div>
+          <h3>{{ tierData.name }}</h3>
+          <h5 v-if="tierData.goal !== 0">{{ tierData.description }}</h5>
+          <div class="amvip--cardAction">
+            <i class="far fa-ellipsis-h"></i>
+            <!-- <span
+              class="far fa-edit"
+              @click="editTier($event, tierData)"
+            ></span>
+            <span
+              v-if="isDeleteEnabled"
+              class="far fa-trash-alt"
+              @click="deleteTier($event, tierData)"
+            ></span> -->
+          </div>
+        </header>
+        <span class="hrRuler"></span>
+        <div class="amvip--tierDetails">
+          <h4 v-if="tierData.goal !== 0">Eligibility</h4>
+          <ul class="amvip--bulletList" v-if="tierData.goal !== 0">
+            <li>{{ tierData.goaltxt }} annually</li>
+          </ul>
+          <div v-else class="eligibilityDesc">{{ tierData.description }}</div>
+          <h4 v-if="tierData.rewards.length > 0">Benefits</h4>
+          <ul class="amvip--bulletList" v-if="tierData.rewards.length > 0">
+            <li
+              v-for="benefit of tierData.rewards"
+              :key="benefit.index"
+              class="rewardItem"
+            >
+              {{ benefit.name }}
+              <span
+                class="far fa-edit rewardEdit"
+                @click="editRewardIcon($event, benefit, tierData.id)"
+              ></span>
+            </li>
+            <li v-if="tierData.rewards.length == 0" class="info">
+              Rewards yet to be added!!!
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -134,6 +143,9 @@ export default {
       switch (title) {
         case TierType.Gold:
           tierClass = "amvip--gold";
+          break;
+        case TierType.Diamond:
+          tierClass = "amvip--diamond";
           break;
         case TierType.Platinum:
           tierClass = "amvip--platinum";

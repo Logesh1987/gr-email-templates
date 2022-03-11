@@ -47,6 +47,10 @@
   background-color: @primary-color;
   color: #fff !important;
 }
+.primaryBlueBtn {
+  background-color: @accent-color;
+  color: #fff !important;
+}
 .secondaryBtn {
   background-color: transparent;
   color: #e7e7e7;

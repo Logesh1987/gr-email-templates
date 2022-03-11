@@ -1,20 +1,24 @@
 <template>
   <div class="amvip--wrapper">
-    <div class="amvip--container">
+    <div class="amvip--container manageContainer">
       <hgroup class="amvip--pageHeader">
         <!-- <span class="far fa-arrow-left" @click="goHome"></span> -->
         <h2>Manage Tiers</h2>
         <div class="amvip--inlineFlex">
-          <button class="amvip--btnCommon" @click="gotoEmailSettings">
+          <button
+            class="amvip--btnCommon primaryBlueBtn"
+            @click="gotoEmailSettings"
+          >
             <span class="btnIcon far fa-envelope"></span>
             <span>Email Settings</span>
           </button>
-          <router-link to="/view/tiers/editProgram" class="homeLink"
-            >Edit program</router-link
-          >
-          <button class="amvip--btnCommon" @click="gotoAddTier">
-            <span class="far fa-plus"></span> <span>Add Tier</span>
+          <button class="amvip--btnCommon primaryBtn" @click="gotoHome">
+            <span class="btnIcon far fa-pen-square"></span>
+            <span>Edit Tier Settings</span>
           </button>
+          <!-- <router-link to="/view/tiers/editProgram" class="homeLink"
+            >Edit program</router-link
+          > -->
           <div class="amvip--statusToggle">
             <span>Your Promotion is currently {{ getTierStatus() }}</span>
             <input
@@ -29,19 +33,25 @@
           </div>
         </div>
       </hgroup>
-
-      <section class="amvip--tierWrap">
-        <VipTierCard
-          :tierData="tierObj"
-          v-for="(tierObj, index) in tierData"
-          :key="index"
-          :isDeleteEnabled="tierObj.default !== 'Y'"
-          v-on:editTierIconClicked="showIconPopup(tierObj)"
-          v-on:editClicked="gotoEditTier"
-          v-on:deleteClicked="confirmDelete"
-          v-on:editRewardIconClicked="gotoEditReward"
-        ></VipTierCard>
-      </section>
+      <div class="manageTierBody">
+        <div class="subHeader">
+          <button class="amvip--btnCommon primaryBtn" @click="gotoAddTier">
+            <span class="far fa-plus"></span> <span>Add Tier</span>
+          </button>
+        </div>
+        <section class="amvip--tierWrap">
+          <VipTierCard
+            :tierData="tierObj"
+            v-for="(tierObj, index) in tierData"
+            :key="index"
+            :isDeleteEnabled="tierObj.default !== 'Y'"
+            v-on:editTierIconClicked="showIconPopup(tierObj)"
+            v-on:editClicked="gotoEditTier"
+            v-on:deleteClicked="confirmDelete"
+            v-on:editRewardIconClicked="gotoEditReward"
+          ></VipTierCard>
+        </section>
+      </div>
     </div>
     <IconPopup
       ref="iconPopupEle"
@@ -136,6 +146,29 @@
 .homeLink {
   margin: 0 20px;
   font-weight: bold;
+}
+.manageContainer {
+  .amvip--statusToggle {
+    span {
+      font-size: 14px;
+      color: rgb(80, 80, 80);
+    }
+  }
+  .subHeader {
+    padding: 10px 0 10px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .amvip--inlineFlex > button:nth-child(1) {
+    margin-right: 10px;
+  }
+  .manageTierBody {
+    padding: 0 50px 25px 50px;
+
+    @media (max-width: 599px) {
+      padding: 0 25px 20px 25px;
+    }
+  }
 }
 #deleteDialog {
   .md-dialog-container {
@@ -322,6 +355,9 @@ export default {
     },
     gotoAddTier() {
       this.$router.push("/view/tiers/add-tier");
+    },
+    gotoHome() {
+      this.$router.push("/view/tiers/editProgram");
     },
     gotoEmailSettings() {
       this.$router.push("/view/tiers/email-settings");
