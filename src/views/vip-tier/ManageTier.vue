@@ -52,6 +52,7 @@
           v-on:editClicked="gotoEditTier"
           v-on:deleteClicked="confirmDelete"
           v-on:editRewardIconClicked="gotoEditReward"
+          v-on:addBenefits="gotoAddBenefits"
         ></VipTierCard>
       </section>
     </div>
@@ -305,6 +306,11 @@ export default {
           origin: "manageTier",
         },
       });
+    },
+    gotoAddBenefits(obj) {
+      const currentTierId = obj.data.id;
+      this.currentTierId = currentTierId;
+      this.$router.push(`/view/tiers/add-reward/${this.currentTierId}`);
     },
     gotoEditTier(obj) {
       this.currentTierId = obj.data.id;

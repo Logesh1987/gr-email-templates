@@ -31,30 +31,26 @@
           <h3>{{ tierData.name }}</h3>
           <h5 v-if="tierData.goal !== 0">{{ tierData.description }}</h5>
           <div class="amvip--cardAction">
-            <md-menu md-size="small" md-align-trigger>
-              <!-- <md-button md-menu-trigger>Align with trigger</md-button> -->
+            <md-menu
+              md-size="small"
+              md-align-trigger
+              md-direction="bottom-end"
+              class="tierMenu"
+            >
               <span md-menu-trigger class="far fa-ellipsis-h"></span>
               <md-menu-content>
                 <md-menu-item @click="editTier($event, tierData)"
-                  >Edit</md-menu-item
+                  ><span class="far fa-edit btnIcon"></span
+                  ><span> Edit</span></md-menu-item
                 >
                 <md-menu-item
                   v-if="isDeleteEnabled"
                   @click="deleteTier($event, tierData)"
-                  >Delete</md-menu-item
+                  ><span class="far fa-trash-alt btnIcon"></span>
+                  <span> Delete</span></md-menu-item
                 >
               </md-menu-content>
             </md-menu>
-
-            <!-- <span
-              class="far fa-edit"
-              @click="editTier($event, tierData)"
-            ></span>
-            <span
-              v-if="isDeleteEnabled"
-              class="far fa-trash-alt"
-              @click="deleteTier($event, tierData)"
-            ></span> -->
           </div>
         </header>
         <span class="hrRuler"></span>
@@ -65,7 +61,16 @@
           </ul>
           <div v-else class="eligibilityDesc">{{ tierData.description }}</div>
           <span v-if="tierData.goal !== 0" class="hrRuler"></span>
-          <h4 v-if="tierData.rewards.length > 0">Benefits</h4>
+          <h4 v-if="tierData.rewards.length > 0">
+            Benefits
+            <md-button
+              class="md-raised secondaryBtn"
+              @click="addBenefits($event, tierData)"
+            >
+              <span class="far fa-plus"></span>
+              <span>Add</span>
+            </md-button>
+          </h4>
           <ul class="amvip--bulletList" v-if="tierData.rewards.length > 0">
             <li
               v-for="benefit of tierData.rewards"
@@ -88,8 +93,39 @@
   </div>
 </template>
 <style lang="less">
-.amvip--tierDetails.pt-20 {
-  padding-top: 20px;
+.amvip--tierCol {
+  &.pt-20 {
+    padding-top: 20px;
+  }
+
+  .md-button.md-raised.secondaryBtn {
+    padding: 0;
+    > .md-ripple {
+      padding: 0;
+    }
+  }
+}
+.md-menu-content-bottom-end {
+  .md-list-item span.btnIcon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+    margin-right: 10px;
+  }
+  .md-menu-content-container {
+    ul.md-list {
+      padding: 0 !important;
+    }
+
+    .md-list-item-content.md-ripple {
+      padding: 0 10px;
+      justify-content: flex-start;
+      min-height: 30px;
+    }
+  }
 }
 li.info {
   color: rgb(252, 76, 76);
@@ -98,7 +134,9 @@ li.rewardItem {
   .rewardEdit {
     display: none;
     cursor: pointer;
-    padding: 0 10px;
+    padding: 3px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
   }
   &:hover {
     .rewardEdit {
@@ -123,6 +161,20 @@ li.rewardItem {
   left: 50%;
   position: absolute;
   transform: translateX(-50%);
+}
+.amvip--cardAction {
+  ul.md-list {
+    padding: 0;
+  }
+  .md-list-item-content {
+    min-height: 30px;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .md-list-item-content > * {
+    font-size: 14px;
+  }
 }
 </style>
 <script>
@@ -165,6 +217,9 @@ export default {
     },
     deleteTier(eve, data) {
       this.$emit("deleteClicked", { context: this, data: data, eventObj: eve });
+    },
+    addBenefits(eve, data) {
+      this.$emit("addBenefits", { context: this, data: data, eventObj: eve });
     },
     getTierClass(data) {
       let tierClass = "";
