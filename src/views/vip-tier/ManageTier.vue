@@ -67,18 +67,6 @@
       v-on:confirmed="confirmClicked($event)"
       v-on:canceled="cancelClicked($event)"
     ></ConfirmPopup>
-    <md-dialog :md-active.sync="showLandingPopup" id="deleteDialog">
-      <md-dialog-title>Review and Launch</md-dialog-title>
-      <md-dialog-content
-        >We have setup 4 tiers with default settings. You can review and
-        launch.</md-dialog-content
-      >
-      <md-dialog-actions>
-        <md-button class="md-raised deleteBtn" @click="closeLandingPopup"
-          >Okay, Review it</md-button
-        >
-      </md-dialog-actions>
-    </md-dialog>
     <md-dialog :md-active.sync="showDeleteDialog" id="deleteDialog">
       <div id="moveCurrentUsers" v-if="getCurrentUserDetails() != 0">
         <h3>
@@ -117,28 +105,44 @@
           We will pause the tier and the users will be in the same tier.
         </p>
       </div>
-      <div class="dialogTitle">Confirm!</div>
-      <div class="dialogContent">
-        {{
-          this.deleteRadio == "same_tier" && getCurrentUserDetails() != 0
-            ? "Are you sure, you want to pause the tier?"
-            : "Are you sure, you want to delete the tier?"
-        }}
+      <div class="contentWrapper">
+        <div class="infoIcon">
+          <i
+            v-bind:class="
+              deleteRadio == 'same_tier' ? 'fal fa-pause' : 'fal fa-trash-alt'
+            "
+          ></i>
+        </div>
+        <div class="messageArea">
+          <div class="dialogTitle">Confirm!</div>
+          <div class="dialogContent">
+            {{
+              this.deleteRadio == "same_tier" && getCurrentUserDetails() != 0
+                ? "Are you sure, you want to pause the tier?"
+                : "Are you sure, you want to delete the tier?"
+            }}
+          </div>
+        </div>
       </div>
-      <md-dialog-actions>
-        <md-button class="md-raised" @click="onDeleteDialogClose(0)"
-          >No, Keep it</md-button
-        >
-        <md-button
-          class="md-raised deleteBtn"
-          @click="onDeleteDialogClose(1)"
-          >{{
-            this.deleteRadio == "same_tier" && getCurrentUserDetails() != 0
-              ? "Yes, Pause it"
-              : "Yes, Delete it"
-          }}</md-button
-        >
-      </md-dialog-actions>
+      <div class="footerContainer">
+        <div class="spacer" style="min-width:80px;"></div>
+        <md-dialog-actions>
+          <md-button
+            class="md-raised secondaryBtn"
+            @click="onDeleteDialogClose(0)"
+            >No, Keep it</md-button
+          >
+          <md-button
+            class="md-raised primaryBtn"
+            @click="onDeleteDialogClose(1)"
+            >{{
+              this.deleteRadio == "same_tier" && getCurrentUserDetails() != 0
+                ? "Yes, Pause it"
+                : "Yes, Delete it"
+            }}</md-button
+          >
+        </md-dialog-actions>
+      </div>
     </md-dialog>
   </div>
 </template>
@@ -146,6 +150,7 @@
 @import url("./../../assets/vip-tier/less/_header");
 @import url("./../../assets/vip-tier/less/_home");
 @import url("./../../assets/vip-tier/less/_tier");
+@import url("./../../assets/vip-tier/less/_variables");
 .homeLink {
   margin: 0 20px;
   font-weight: bold;
@@ -173,16 +178,38 @@
       padding: 10px 20px;
     }
   }
-
+  .md-radio.md-theme-default .md-radio-container {
+    border-color: #fff;
+    background: #fff;
+  }
+  .md-radio.md-theme-default.md-checked .md-radio-container {
+    border-color: @primary-color;
+    background: @primary-color;
+    &:after {
+      border-color: #fff;
+      background: #fff;
+    }
+  }
   .dialogTitle {
     font-weight: bold;
+    padding: 10px 0;
+  }
+  .dialogContent {
+    padding: 10px 0;
+  }
+  .md-dialog-actions {
+    width: 100%;
   }
 
   div#moveCurrentUsers {
-    background: #12443b;
+    background: @gradient-color;
     color: #fff;
     h3 {
       display: flex;
+    }
+    p {
+      font-size: 14px;
+      font-weight: normal;
     }
     #popoverWrapper {
       margin-left: 10px;
@@ -199,6 +226,16 @@
         position: absolute !important;
       }
     }
+    .md-radio.md-theme-default {
+      border: 1px solid;
+      padding: 10px 10px;
+      border-radius: 20px;
+      &.md-checked {
+        background: #fff;
+        color: #000;
+        border-color: #fff;
+      }
+    }
   }
   .md-button.md-theme-default.md-raised:not([disabled]) {
     color: #fff;
@@ -206,6 +243,12 @@
     &.deleteBtn {
       background-color: #12443b;
     }
+  }
+  .footerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
   }
 }
 </style>

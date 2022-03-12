@@ -44,17 +44,17 @@
 <style lang="less">
 @import url("./../../assets/vip-tier/less/_variables");
 .primaryBtn {
-  background-color: @primary-color;
+  background-color: @primary-color !important;
   color: #fff !important;
 }
 .primaryBlueBtn {
-  background-color: @accent-color;
+  background-color: @accent-color !important;
   color: #fff !important;
 }
 .secondaryBtn {
-  background-color: transparent;
-  color: #e7e7e7;
-  border: 1px solid #dbdbdb;
+  background-color: #fff !important;
+  color: #a9a9a9 !important;
+  border: 1px solid #a9a9a9 !important;
 }
 .popupTitle {
   font-size: 18px;
