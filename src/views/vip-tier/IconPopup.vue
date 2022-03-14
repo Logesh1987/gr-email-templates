@@ -5,7 +5,49 @@
         <h2>Choose Tier Icon</h2>
         <section>
           <div class="amvip--icon">
-            <h3>Choose Tier Icon</h3>
+            <div
+              @dragover="dragover"
+              @dragleave="dragleave"
+              @drop="drop"
+              style="width: 100%;"
+            >
+              <div class="dragDropBlock">
+                <div class="amvip--btnPri amvip--btnUpload">
+                  Browse
+                  <input
+                    type="file"
+                    multiple
+                    name="fields[assetsFieldHandle][]"
+                    id="assetsFieldHandle"
+                    class="amvip--btnUploadHidden"
+                    @change="onChange"
+                    ref="file"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                  />
+                </div>
+                <div>
+                  <label for="assetsFieldHandle">
+                    or drag your image here
+                  </label>
+                  <span>Supports JPEG, JPEG2000, PNG and SVG</span>
+                  <ul v-if="this.filelist.length" v-cloak>
+                    <li v-for="file in filelist" v-bind:key="file">
+                      ${ file.name }
+                      <button
+                        type="button"
+                        @click="remove(filelist.indexOf(file))"
+                        title="Remove file"
+                      >
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <h3>Choose from library</h3>
+
             <div id="predefined_icon" v-if="iconArray.length > 0">
               <span
                 v-for="(icon, key) in iconArray"
@@ -131,6 +173,66 @@
       }
     }
   }
+  .dragDropBlock {
+    display: flex;
+    padding: 20px;
+    border: 1px #ccc dashed;
+    border-radius: 4px;
+    background: #f8f8f8;
+    gap: 20px;
+    label {
+      font-weight: bold;
+    }
+    span {
+      display: block;
+      font-size: 12px;
+    }
+    ul {
+      margin-top: 20px;
+      li {
+        margin-bottom: 10px;
+        button {
+          border: 1px solid #d1d1d1;
+          border-radius: 50%;
+          width: 25px;
+          height: 25px;
+          color: #287cb8;
+          font-size: 12px;
+          &:hover {
+            border: 1px solid #287cb8;
+          }
+        }
+      }
+    }
+    .amvip--btnUpload {
+      position: relative;
+      height: 40px;
+      min-width: auto;
+      background: #287cb8;
+      .amvip--btnUploadHidden {
+        text-indent: -9999px;
+        height: 40px;
+        width: 88px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        cursor: pointer;
+      }
+    }
+  }
+  .dragOver {
+    .dragDropBlock {
+      background: #d1d1d1;
+    }
+  }
+  .dragLeave {
+    .dragDropBlock {
+      background: #ededed;
+    }
+  }
+}
+[v-cloak] {
+  display: none;
 }
 </style>
 
@@ -138,11 +240,13 @@
 import Axios from "axios";
 import Loader from "./../../components/Loader";
 export default {
+  delimiters: ["${", "}"], // Avoid Twig conflicts
   name: "IconPopup",
   props: ["showPopup"],
   event: ["close-btn-click", "cancel-btn-click"],
   data: function() {
     return {
+      filelist: [], // Store our uploaded files
       enablePopup: false,
       active: false,
       value: null,
@@ -302,6 +406,33 @@ export default {
     },
     chooseFiles() {
       document.getElementById("fileUploadHidden").click();
+    },
+    onChange() {
+      this.filelist = [...this.$refs.file.files];
+    },
+    remove(i) {
+      this.filelist.splice(i, 1);
+    },
+    dragover(event) {
+      event.preventDefault();
+      // Add some visual fluff to show the user can drop its files
+      if (!event.currentTarget.classList.contains("dragOver")) {
+        event.currentTarget.classList.remove("dragLeave");
+        event.currentTarget.classList.add("dragOver");
+      }
+    },
+    dragleave(event) {
+      // Clean up
+      event.currentTarget.classList.add("dragLeave");
+      event.currentTarget.classList.remove("dragOver");
+    },
+    drop(event) {
+      event.preventDefault();
+      this.$refs.file.files = event.dataTransfer.files;
+      this.onChange(); // Trigger the onChange event manually
+      // Clean up
+      event.currentTarget.classList.add("dragLeave");
+      event.currentTarget.classList.remove("dragOver");
     },
   },
 };
