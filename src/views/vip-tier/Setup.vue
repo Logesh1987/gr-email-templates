@@ -374,7 +374,9 @@ export default {
       this.validateUser();
     },
     getValidationClass(fieldName) {
-      const field = this.v$.form[fieldName].$errors.length;
+      const field =
+        this.v$.form[fieldName].$errors.length > 0 &&
+        this.v$.form[fieldName].$dirty;
       if (field) {
         return {
           error: field,

@@ -100,6 +100,9 @@
 
   .md-button.md-raised.secondaryBtn {
     padding: 0;
+    height: 28px;
+    border-radius: 5px !important;
+    min-width: 65px !important;
     > .md-ripple {
       padding: 0;
     }

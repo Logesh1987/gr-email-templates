@@ -1,16 +1,5 @@
 <template>
   <div v-if="popupConfig">
-    <!-- <md-dialog-confirm
-      :md-active.sync="openPopup"
-      :md-title="popupConfig.title"
-      :md-content="popupConfig.content"
-      :md-confirm-text="popupConfig.confirmText"
-      :md-cancel-text="popupConfig.cancelText"
-      @md-cancel="onCancel"
-      @md-confirm="onConfirm"
-      :md-close-on-esc="false"
-      :md-click-outside-to-close="false"
-    /> -->
     <md-dialog
       :md-active.sync="openPopup"
       :md-close-on-esc="false"

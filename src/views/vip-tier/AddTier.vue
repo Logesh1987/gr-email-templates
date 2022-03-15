@@ -57,7 +57,12 @@
             :disabled="sending"
           />
           <div class="md-error" v-if="!$v.form.goal.required">
-            Points needed field is required
+            {{
+              tierDefine == "points"
+                ? "Points needed "
+                : "Purchase Value needed "
+            }}
+            field is required
           </div>
           <div class="md-error" v-else-if="!$v.form.goal.minLenght">
             Minimum value of point needed would be 25
@@ -240,10 +245,14 @@ import { required, minLength, minValue } from "vuelidate/lib/validators";
 import ColorPicker from "./../../components/ColorPicker";
 import Axios from "axios";
 import IconPopup from "./IconPopup";
+import useVuelidate from "@vuelidate/core";
 export default {
   name: "AddTier",
   components: { ColorPicker, IconPopup },
   mixins: [validationMixin],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data: () => ({
     form: {
       name: null,
@@ -290,7 +299,9 @@ export default {
       this.enableIcon = false;
     },
     getValidationClass(fieldName) {
-      const field = this.$v.form[fieldName];
+      const field =
+        this.v$.form[fieldName].$errors.length > 0 &&
+        this.v$.form[fieldName].$dirty;
       if (field) {
         return {
           "md-invalid": field.$invalid && field.$dirty,
