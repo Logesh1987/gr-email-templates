@@ -24,7 +24,7 @@
           <div class="md-error" v-if="!$v.form.name.required">
             Name is required
           </div>
-          <div class="md-error" v-else-if="!$v.form.name.minLenght">
+          <div class="md-error" v-else-if="!$v.form.name.minLength">
             Minimum of 3 letters required
           </div>
         </div>
@@ -64,7 +64,7 @@
             }}
             field is required
           </div>
-          <div class="md-error" v-else-if="!$v.form.goal.minLenght">
+          <div class="md-error" v-else-if="!$v.form.goal.minValue">
             Minimum value of point needed would be 25
           </div>
         </div>
@@ -128,7 +128,7 @@
           </div>
         </div>
 
-        <div class="tierDetails">
+        <!-- <div class="tierDetails">
           <h3>Tier details</h3>
           <div class="gradientBox">
             <div class="gradientBoxInner">
@@ -167,9 +167,15 @@
             <button class="amvip--btnSec" @click="clearForm">Cancel</button>
             <button class="amvip--btnPri" @click="saveTier">Save</button>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
+    <ConfirmPopup
+      :showPopup="showConfirmPopup"
+      :popupConfig="popupConfig"
+      v-on:confirmed="confirmClicked($event)"
+      v-on:canceled="cancelClicked($event)"
+    ></ConfirmPopup>
   </div>
 </template>
 <style lang="less">
@@ -245,10 +251,11 @@ import { required, minLength, minValue } from "vuelidate/lib/validators";
 import ColorPicker from "./../../components/ColorPicker";
 import Axios from "axios";
 import IconPopup from "./IconPopup";
+import ConfirmPopup from "./ConfirmPopup";
 import useVuelidate from "@vuelidate/core";
 export default {
   name: "AddTier",
-  components: { ColorPicker, IconPopup },
+  components: { ColorPicker, IconPopup, ConfirmPopup },
   mixins: [validationMixin],
   setup() {
     return { v$: useVuelidate() };
@@ -267,6 +274,9 @@ export default {
     existingFileName: "",
     enableIcon: false,
     tierDefine: "points",
+    showConfirmPopup: false,
+    popupConfig: {},
+    currentTierId: null,
   }),
   validations: {
     form: {
@@ -291,6 +301,27 @@ export default {
     });
   },
   methods: {
+    addTierSuccessPopup() {
+      this.popupConfig = {
+        title: "Tier successfully created!",
+        content:
+          "You can create benefits for this tier by clicking below button",
+        confirmText: "Add Benefit",
+        id: "addTierSuccessPopup",
+        iconClass: "fal fa-plus-hexagon",
+      };
+      this.showConfirmPopup = true;
+    },
+    confirmClicked(eve) {
+      this.showConfirmPopup = false;
+      switch (eve.id) {
+        case "addTierSuccessPopup":
+          this.$router.push(`/view/tiers/add-reward/${this.currentTierId}`);
+          break;
+        default:
+          break;
+      }
+    },
     showIconPopup() {
       this.$refs.iconPopupEle.iconConfig = this.form;
       this.enableIcon = true;
@@ -304,7 +335,7 @@ export default {
         this.v$.form[fieldName].$dirty;
       if (field) {
         return {
-          "md-invalid": field.$invalid && field.$dirty,
+          error: field,
         };
       }
     },
@@ -335,7 +366,8 @@ export default {
             if (res.data.data.message != undefined) {
               window.sessionStorage.setItem("dataChanged", true);
             }
-            this.$router.push("/view/tiers/manage-tier");
+            this.currentTierId = res.data.data.id;
+            this.addTierSuccessPopup();
           }
         })
         .catch((err) => {
