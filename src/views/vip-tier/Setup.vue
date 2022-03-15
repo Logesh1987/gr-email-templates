@@ -32,7 +32,7 @@
             <div class="md-error" v-if="!$v.form.name.required">
               Name is required
             </div>
-            <div class="md-error" v-else-if="!$v.form.name.minLenght">
+            <div class="md-error" v-else-if="!$v.form.name.minLength">
               Minimum of 3 letters required
             </div>
           </div>
@@ -60,14 +60,11 @@
             >
             </md-datepicker>
             <div class="infoBlock">
-              <span
-                class="fas fa-info-circle"
-                v-popover:installDate.top.left
-              ></span>
-              <popover name="installDate" event="hover">
+              <span class="fas fa-info-circle"></span>
+              <!-- <popover name="installDate" event="hover">
                 As per our record, you installed the Gratisfaction on
                 {{ installedDate | formatDate }}
-              </popover>
+              </popover> -->
               <small style="opacity:0.8;">
                 As per our record, you installed the Gratisfaction on
                 {{ installedDate | formatDate }}
@@ -278,6 +275,7 @@ import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import "./../../filters/vip-tier/date.js";
 import ConfirmPopup from "./ConfirmPopup";
+import useVuelidate from "@vuelidate/core";
 import Axios from "axios";
 const Mode = {
   Create: "create",
@@ -288,6 +286,9 @@ export default {
   mixins: [validationMixin],
   components: {
     ConfirmPopup,
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data: () => ({
     form: {
@@ -373,10 +374,10 @@ export default {
       this.validateUser();
     },
     getValidationClass(fieldName) {
-      const field = this.$v.form[fieldName];
+      const field = this.v$.form[fieldName].$errors.length;
       if (field) {
         return {
-          "md-invalid": field.$invalid && field.$dirty,
+          error: field,
         };
       }
     },
