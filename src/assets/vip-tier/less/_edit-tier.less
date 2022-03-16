@@ -1,126 +1,125 @@
 .amvip--editTierRow {
-    display: flex;
+  display: flex;
+  .amvip--editTierContent {
+    flex: 1 0 auto;
+    padding-right: 30px;
+  }
+  @media (max-width: 1200px) {
+    flex-wrap: wrap;
     .amvip--editTierContent {
-        flex: 1 0 auto;
-        padding-right: 30px;        
+      padding-right: 0;
     }
-    @media (max-width: 1200px) {
-        flex-wrap: wrap;
-        .amvip--editTierContent {
-            padding-right: 0;
-        }
-        .amvip--rewardsCol {
-            flex: 1 0 100%;
-            max-width: 100%;
-            padding-left: 0;
-            padding-top: 30px;
-            border-top: 1px solid #ccc;
-            border-left: 0;
-            display: flex;
-            flex-wrap: wrap;
+    .amvip--rewardsCol {
+      flex: 1 0 100%;
+      max-width: 100%;
+      padding-left: 0;
+      padding-top: 30px;
+      border-top: 1px solid #ccc;
+      border-left: 0;
+      display: flex;
+      flex-wrap: wrap;
 
-            h3 {
-                flex: 1 0 100%;
-            }
-            .amvip-rewardItem {
-                flex: 0 0 30%;
-                min-width: 300px;
-                padding: 40px 20px 15px;
-                margin: 0 15px 15px 0;
-            }
-            .amvip--rewardItemActions {
-                bottom: auto;
-                top: 8px;
-            }
-            .amvip--rewardItemType {
-                right: auto;
-                left: 0;
-                padding: 3px 20px 3px 10px;
-                &:before {
-                    left: auto;
-                    right: -2px;
-                    transform: translateY(-50%) rotate(180deg);
-                }
-            }
+      h3 {
+        flex: 1 0 100%;
+      }
+      .amvip-rewardItem {
+        flex: 0 0 30%;
+        min-width: 300px;
+        padding: 40px 20px 15px;
+        margin: 0 15px 15px 0;
+      }
+      .amvip--rewardItemActions {
+        bottom: auto;
+        top: 8px;
+      }
+      .amvip--rewardItemType {
+        right: auto;
+        left: 0;
+        padding: 3px 20px 3px 10px;
+        &:before {
+          left: auto;
+          right: -2px;
+          transform: translateY(-50%) rotate(180deg);
         }
+      }
     }
-    @media (max-width: 599px) {
-        .amvip--rewardsCol {
-            .amvip-rewardItem {
-                flex: 0 0 100%;
-                margin-right: 0;
-            }
-        }
+  }
+  @media (max-width: 599px) {
+    .amvip--rewardsCol {
+      .amvip-rewardItem {
+        flex: 0 0 100%;
+        margin-right: 0;
+      }
     }
+  }
 }
 .amvip--rewardsCol {
-    flex: 1 0 auto;
-    min-width: 300px;
-    max-width: 24vw;
-    padding-left: 30px;
-    border-left: 1px solid #ccc;
+  flex: 1 0 auto;
+  min-width: 300px;
+  padding-left: 30px;
+  border-left: 1px solid #ccc;
 
-    h3 {
-        font-size: 1.8rem;
-        font-weight: normal;
-        margin-bottom: 1em;
-    }
+  h3 {
+    font-size: 1.8rem;
+    font-weight: normal;
+    margin-bottom: 1em;
+  }
 }
 .amvip-rewardItem {
-    position: relative;
-    display: flex;
-    align-items: center;
-    min-height: 100px;
-    padding: 20px 100px 20px 20px;
-    margin-bottom: 20px;
-    font-size: 1.4rem;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    border-radius: 3px;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100px;
+  padding: 20px 100px 20px 20px;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 
-    > img {
-        margin-right: 10px;
-    }
+  > img {
+    margin-right: 10px;
+  }
 }
 .amvip--rewardItemActions {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    > * {
-        font-size: 20px;
-        margin-left: 10px;
-        cursor: pointer;
-        opacity: .8;
-        transition: 0.2s;
-        &:hover {
-            opacity: 1;
-        }
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  > * {
+    font-size: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: 0.2s;
+    &:hover {
+      opacity: 1;
     }
+  }
 }
 .amvip--rewardItemType {
+  position: absolute;
+  top: 7px;
+  right: 0;
+  padding: 3px 10px 3px 20px;
+  font-size: 12px;
+  color: #fff;
+  background: #0e5144;
+
+  &.onGoing {
+    background: #e28600;
+  }
+
+  &:before {
+    content: "";
     position: absolute;
-    top: 7px;
-    right: 0;
-    padding: 3px 10px 3px 20px;
-    font-size: 12px;
-    color: #fff;
-    background: #0e5144;
-
-    &.onGoing {
-        background: #e28600;
-    }
-
-    &:before {
-        content: '';
-        position: absolute;
-        left: -2px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 0;
-        height: 0;
-        border-left: 10px solid #fff;
-        border-top: 8px solid transparent;
-        border-bottom: 10px solid transparent;
-    }
+    left: -2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid #fff;
+    border-top: 8px solid transparent;
+    border-bottom: 10px solid transparent;
+  }
 }

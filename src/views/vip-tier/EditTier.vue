@@ -112,14 +112,66 @@
           </div>
         </div>
         <div class="amvip--rewardsCol" v-if="rewardData.length > 0">
-          <h3>Added rewards</h3>
-          <VipRewardCard
+          <div class="tierDetails">
+            <h3>Tier details</h3>
+            <div class="gradientBox">
+              <div class="gradientBoxInner">
+                <div class="tierDetailsPlan">
+                  <span
+                    class="tierIcon"
+                    v-bind:style="{ background: form.color }"
+                    ><span
+                      v-bind:class="validURL(form.icon) ? '' : form.icon"
+                      v-bind:style="
+                        validURL(form.icon)
+                          ? {
+                              backgroundImage: 'url(' + form.icon + ')',
+                            }
+                          : ''
+                      "
+                    ></span
+                  ></span>
+                  <div>
+                    <h3>{{ form.name }}</h3>
+                    <small>{{ form.description }}</small>
+                  </div>
+                </div>
+                <div class="borderShadow"></div>
+                <div class="amvip--formRow eligibilityInput">
+                  <label for="earnPts">Eligibility:</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">Earn</span>
+                    <input
+                      readonly
+                      type="number"
+                      class="form-control"
+                      :value="form.goal"
+                      id="earnPts"
+                      min="0"
+                      max="100000"
+                    />
+                  </div>
+                  <small>
+                    Points per year
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h3>Tier Benefits</h3>
+          <!-- <VipRewardCard
             :rewardData="rewardItem"
             v-for="rewardItem of rewardData"
             :key="rewardItem.index"
             @editClicked="editCurrentReward($event)"
             @deleteClicked="confirmDeleteReward($event)"
-          ></VipRewardCard>
+          ></VipRewardCard> -->
+          <div class="gradientBox">
+            <div class="gradientBoxInner">
+              <div class="tierDetailsPlan"></div>
+              <div class="borderShadow"></div>
+            </div>
+          </div>
         </div>
         <IconPopup
           ref="iconPopupEle"
@@ -196,13 +248,13 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import ColorPicker from "./../../components/ColorPicker";
-import VipRewardCard from "./../../components/vip-tier/RewardCard";
+// import VipRewardCard from "./../../components/vip-tier/RewardCard";
 import ConfirmPopup from "./ConfirmPopup";
 import Axios from "axios";
 import IconPopup from "./IconPopup";
 export default {
   name: "EditTier",
-  components: { ColorPicker, VipRewardCard, ConfirmPopup, IconPopup },
+  components: { ColorPicker, ConfirmPopup, IconPopup },
   mixins: [validationMixin],
   props: ["currentRewardId"],
   data: () => ({

@@ -127,54 +127,12 @@
             <button class="amvip--btnPri" @click="saveTier">Save</button>
           </div>
         </div>
-
-        <!-- <div class="tierDetails">
-          <h3>Tier details</h3>
-          <div class="gradientBox">
-            <div class="gradientBoxInner">
-              <div class="tierDetailsPlan">
-                <span class="tierIcon"><i class="fas fa-fire"></i></span>
-                <div>
-                  <h3>Gold</h3>
-                  <small>1.5x Points on ongoing basis</small>
-                </div>
-              </div>
-              <div class="borderShadow"></div>
-              <div class="amvip--formRow eligibilityInput">
-                <label for="earnPts">Eligibility:</label>
-                <div class="input-group">
-                  <span class="input-group-addon">Earn</span>
-                  <input
-                    type="number"
-                    class="form-control"
-                    value="0"
-                    id="earnPts"
-                    min="0"
-                    max="100000"
-                  />
-                </div>
-                <small>
-                  Points per year
-                </small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="amvip--row center">
-          <span class="spacer"></span>
-          <div class="amvip-actionFooter">
-            <button class="amvip--btnSec" @click="clearForm">Cancel</button>
-            <button class="amvip--btnPri" @click="saveTier">Save</button>
-          </div>
-        </div> -->
       </div>
     </div>
     <ConfirmPopup
       :showPopup="showConfirmPopup"
       :popupConfig="popupConfig"
       v-on:confirmed="confirmClicked($event)"
-      v-on:canceled="cancelClicked($event)"
     ></ConfirmPopup>
   </div>
 </template>

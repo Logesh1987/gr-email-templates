@@ -282,16 +282,6 @@
                     >
                       Fixed points
                     </md-radio>
-                    <!-- <md-radio
-                      v-model="form.coupon_type"
-                      value="percetageBonus"
-                      ref="coupon_type"
-                      id="percetageBonus"
-                      name="coupon_type"
-                      v-if="form.type != 'ongoing'"
-                    >
-                      Percentage points
-                    </md-radio> -->
                   </div>
                 </div>
                 <div
@@ -415,51 +405,7 @@
                     </md-field>
                   </div>
                 </div>
-                <div class="amvip--twolColumnRow vertical">
-                  <div class="amvip--formRow">
-                    <!-- <div class="expiryDate">
-                      <md-datepicker
-                        md-immediately
-                        :class="getValidationClass('expiry')"
-                        name="expiry"
-                        id="expiry"
-                        v-model="form.expiry"
-                        :disabled="sending"
-                      >
-                        <label>Select point expiry date</label>
-                      </md-datepicker>
-                    <div
-                      class="md-custom-error padLeft-35"
-                      v-if="!$v.form.expiry.required && $v.form.expiry.$dirty"
-                    >
-                      Bonus expiry date is required.
-                    </div>
-                    </div> -->
-                  </div>
-                </div>
               </section>
-              <!-- <section
-                id="perks"
-                class="tabSection vertical right"
-                v-if="form.rewardtype === 'perk_expeience'"
-              >
-                <div class="amvip--twolColumnRow vertical">
-                  <div class="amvip--formRow">
-                    <md-field :class="getValidationClass('email')">
-                      <label for="email">
-                        Email
-                      </label>
-                      <md-input
-                        name="email"
-                        id="email"
-                        v-model="form.email"
-                        :disabled="sending"
-                        type="email"
-                      />
-                    </md-field>
-                  </div>
-                </div>
-              </section> -->
             </div>
           </div>
         </div>
@@ -469,6 +415,12 @@
         <button class="amvip--btnPri" @click="saveRewardData">Save</button>
       </footer>
     </div>
+    <ConfirmPopup
+      :showPopup="showConfirmPopup"
+      :popupConfig="popupConfig"
+      v-on:confirmed="confirmClicked($event)"
+      v-on:canceled="cancelClicked($event)"
+    ></ConfirmPopup>
   </div>
 </template>
 <style lang="less">
@@ -515,9 +467,11 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength, requiredIf } from "vuelidate/lib/validators";
 import Axios from "axios";
+import ConfirmPopup from "./ConfirmPopup";
 export default {
   name: "AddReward",
   mixins: [validationMixin],
+  components: { ConfirmPopup },
   data: () => ({
     form: {
       name: null,
@@ -537,6 +491,8 @@ export default {
     warnClass: "",
     sending: false,
     readOnlyPrefix: "",
+    showConfirmPopup: false,
+    popupConfig: {},
   }),
   validations: {
     form: {
@@ -579,6 +535,37 @@ export default {
     this.readOnlyPrefix = window.sessionStorage.getItem("couponPrefix");
   },
   methods: {
+    addRewardPopup() {
+      this.popupConfig = {
+        title: "Successfully created!",
+        content: "Click add more to create more benefits for this tier.",
+        confirmText: "Add More",
+        cancelText: "View Tier",
+        id: "addRewardPopup",
+        iconClass: "fal fa-check-circle",
+      };
+      this.showConfirmPopup = true;
+    },
+    confirmClicked(eve) {
+      this.showConfirmPopup = false;
+      switch (eve.id) {
+        case "addRewardPopup":
+          this.$v.$reset();
+          break;
+        default:
+          break;
+      }
+    },
+    cancelClicked(eve) {
+      this.showConfirmPopup = false;
+      switch (eve.id) {
+        case "addRewardPopup":
+          this.$router.push("/view/tiers/edit-tier/" + this.currentTierId);
+          break;
+        default:
+          break;
+      }
+    },
     validateCouponAmount() {
       if (this.form.couponamount == "" || this.form.couponamount <= 2) {
         this.warnClass = "";
@@ -661,7 +648,8 @@ export default {
             window.sessionStorage.setItem("dataChanged", true);
             this.showSnackbar =
               this.responseData && this.responseData.length > 0;
-            this.goBack();
+            // this.goBack();
+            this.addRewardPopup();
           }
         });
     },
