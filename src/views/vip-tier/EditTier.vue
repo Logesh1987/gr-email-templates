@@ -103,13 +103,6 @@
               </span>
             </div>
           </div>
-          <div class="amvip--formRow multiCol">
-            <label>Rewards</label>
-            <div class="amvip--btnCommon" @click="gotoAddReward">
-              <span class="far fa-plus"></span>
-              <span>Add reward</span>
-            </div>
-          </div>
         </div>
         <div class="amvip--rewardsCol" v-if="rewardData.length > 0">
           <div class="tierDetails">
@@ -159,18 +152,21 @@
             </div>
           </div>
           <h3>Tier Benefits</h3>
-          <!-- <VipRewardCard
-            :rewardData="rewardItem"
-            v-for="rewardItem of rewardData"
-            :key="rewardItem.index"
-            @editClicked="editCurrentReward($event)"
-            @deleteClicked="confirmDeleteReward($event)"
-          ></VipRewardCard> -->
-          <div class="gradientBox">
-            <div class="gradientBoxInner">
-              <div class="tierDetailsPlan"></div>
-              <div class="borderShadow"></div>
-            </div>
+          <div class="rewardSection">
+            <VipRewardCard
+              v-bind:rewardData="oneTimeData"
+              type="oneTime"
+              @addClicked="gotoAddReward"
+              @editClicked="editCurrentReward"
+              @deleteClicked="confirmDeleteReward"
+            ></VipRewardCard>
+            <VipRewardCard
+              v-bind:rewardData="annualData"
+              type="annual"
+              @addClicked="gotoAddReward"
+              @editClicked="editCurrentReward"
+              @deleteClicked="confirmDeleteReward"
+            ></VipRewardCard>
           </div>
         </div>
         <IconPopup
@@ -195,7 +191,11 @@
 <style lang="less">
 @import url("./../../assets/vip-tier/less/_header");
 @import url("./../../assets/vip-tier/less/_edit-tier");
+
 .amvip-editTier {
+  .headerGroup {
+    display: flex;
+  }
   .amvip--colorInfo {
     z-index: 3;
   }
@@ -248,13 +248,13 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import ColorPicker from "./../../components/ColorPicker";
-// import VipRewardCard from "./../../components/vip-tier/RewardCard";
 import ConfirmPopup from "./ConfirmPopup";
 import Axios from "axios";
 import IconPopup from "./IconPopup";
+import VipRewardCard from "./../../components/vip-tier/RewardCard";
 export default {
   name: "EditTier",
-  components: { ColorPicker, ConfirmPopup, IconPopup },
+  components: { ColorPicker, ConfirmPopup, IconPopup, VipRewardCard },
   mixins: [validationMixin],
   props: ["currentRewardId"],
   data: () => ({
@@ -268,6 +268,8 @@ export default {
     showConfirmPopup: false,
     popupConfig: {},
     rewardData: [],
+    oneTimeData: [],
+    annualData: [],
     sending: false,
     currentTierId: null,
     tierData: [],
@@ -323,8 +325,16 @@ export default {
             res.data.data[0]?.rewards?.length > 0
               ? res.data.data[0].rewards
               : [];
-          if (this.rewardData.length > 0 && this.rewardData.settings) {
-            this.rewardData.settings = JSON.parse(this.rewardData.settings);
+          if (this.rewardData.length > 0) {
+            this.oneTimeData = this.rewardData.filter((currentData) => {
+              return currentData.is_onetime_ongoing == 2;
+            });
+            this.annualData = this.rewardData.filter((currentData) => {
+              return currentData.is_onetime_ongoing == 1;
+            });
+            if (this.rewardData.settings) {
+              this.rewardData.settings = JSON.parse(this.rewardData.settings);
+            }
           }
         }
       });
@@ -446,13 +456,14 @@ export default {
       });
     },
     confirmDeleteReward(obj) {
+      console.log(obj);
       this.popupConfig = {
         title: "Confirm!",
         content: "Are you sure, you want to delete the reward?",
         confirmText: "OK",
         cancelText: "Cancel",
         id: "deleteRewardPopup",
-        params: obj,
+        // params: obj,
         iconClass: "far fa-ban",
         width: "350px",
       };

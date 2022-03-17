@@ -1,7 +1,8 @@
+@import url("./_variables");
 .amvip--editTierRow {
   display: flex;
   .amvip--editTierContent {
-    flex: 1 0 auto;
+    // flex: 1 0 auto;
     padding-right: 30px;
   }
   @media (max-width: 1200px) {
@@ -63,6 +64,55 @@
     font-size: 1.8rem;
     font-weight: normal;
     margin-bottom: 1em;
+  }
+  .rewardSection {
+    display: flex;
+    width: 100%;
+    > .gradientBox {
+      width: 50%;
+      margin: 0 10px;
+    }
+    .rewardContent {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ccc;
+      margin: 0 -20px;
+      padding: 0 20px 15px 20px;
+      > h3 {
+        padding: 0;
+        margin: 0;
+      }
+      > .secondaryBtn {
+        padding: 0;
+        margin: 0;
+        border-radius: 5px !important;
+        min-width: 65px;
+      }
+    }
+    .rewardItems {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ccc;
+      margin: 0 -20px;
+      padding: 15px 20px;
+      border-collapse: collapse;
+      .benefitContent {
+        .pointer {
+          color: @primary-color;
+        }
+      }
+      .actionIcons {
+        > span {
+          margin: 0 5px;
+          border: 1px solid #ccc;
+          padding: 5px 5px;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+      }
+    }
   }
 }
 .amvip-rewardItem {
