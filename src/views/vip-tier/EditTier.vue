@@ -195,7 +195,7 @@
 .amvip-editTier {
   .amvip-actionFooter {
     padding: 20px;
-    max-width: auto;
+    max-width: 100%;
   }
   .headerGroup {
     display: flex;
