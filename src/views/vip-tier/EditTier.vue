@@ -3,32 +3,31 @@
     <hgroup class="amvip--pageHeader">
       <div class="headerGroup">
         <span class="far fa-arrow-left" @click="goBack"></span>
-        <h2>Edit {{ form.name }} tier</h2>
+        <h2>{{ form.name }}</h2>
       </div>
     </hgroup>
     <div class="amvip--container">
       <section class="amvip--editTierRow">
         <div class="amvip--editTierContent">
-          <div class="amvip--formRow">
-            <md-field :class="getValidationClass('name')">
-              <label for="name">
-                Name
-                <span class="amvip--mandatory">*</span>
-              </label>
-              <md-input
-                name="name"
-                id="name"
-                v-model="form.name"
-                ref="name"
-                :disabled="sending"
-              />
-              <span class="md-error" v-if="!$v.form.name.required">
-                Name is required
-              </span>
-              <span class="md-error" v-else-if="!$v.form.name.minLenght">
-                Minimum of 3 letters required
-              </span>
-            </md-field>
+          <div class="amvip--formRow" :class="getValidationClass('name')">
+            <label for="name">
+              Name
+              <span class="amvip--mandatory">*</span>
+            </label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              v-model="form.name"
+              ref="name"
+              :disabled="sending"
+            />
+            <span class="md-error" v-if="!$v.form.name.required">
+              Name is required
+            </span>
+            <span class="md-error" v-else-if="!$v.form.name.minLength">
+              Minimum of 3 letters required
+            </span>
           </div>
           <div class="amvip--formRow">
             <md-field>
@@ -54,31 +53,32 @@
               ></ColorPicker>
             </div>
           </div>
-          <div class="amvip--formRow multiCol">
-            <md-field :class="getValidationClass('goal')">
-              <label for="goal">
-                {{
-                  tierDefine == "points"
-                    ? "Points needed"
-                    : "Purchase Value needed"
-                }}
-                <span class="amvip--mandatory">*</span>
-              </label>
-              <md-input
-                name="goal"
-                id="goal"
-                ref="goal"
-                type="number"
-                v-model="form.goal"
-                :disabled="sending"
-              />
-              <span class="md-error" v-if="!$v.form.goal.required">
-                Points needed field is required
-              </span>
-              <span class="md-error" v-else-if="!$v.form.goal.customMinValue">
-                Minimum value of point needed would be 25
-              </span>
-            </md-field>
+          <div
+            class="amvip--formRow multiCol"
+            :class="getValidationClass('goal')"
+          >
+            <label for="goal">
+              {{
+                tierDefine == "points"
+                  ? "Points needed"
+                  : "Purchase Value needed"
+              }}
+              <span class="amvip--mandatory">*</span>
+            </label>
+            <input
+              name="goal"
+              id="goal"
+              ref="goal"
+              type="number"
+              v-model="form.goal"
+              :disabled="sending"
+            />
+            <span class="md-error" v-if="!$v.form.goal.required">
+              Points needed field is required
+            </span>
+            <span class="md-error" v-else-if="!$v.form.goal.customMinValue">
+              Minimum value of point needed would be 25
+            </span>
           </div>
           <div class="amvip--formRow multiCol">
             <label>Tier Icon <span class="amvip--mandatory">*</span></label>
@@ -168,6 +168,10 @@
               @deleteClicked="confirmDeleteReward"
             ></VipRewardCard>
           </div>
+          <footer class="amvip-actionFooter">
+            <button class="amvip--btnSec" @click="clearForm">Cancel</button>
+            <button class="amvip--btnPri" @click="updateTier">Save</button>
+          </footer>
         </div>
         <IconPopup
           ref="iconPopupEle"
@@ -176,10 +180,6 @@
         ></IconPopup>
       </section>
     </div>
-    <footer class="amvip-actionFooter">
-      <button class="amvip--btnSec" @click="clearForm">Cancel</button>
-      <button class="amvip--btnPri" @click="updateTier">Save</button>
-    </footer>
     <ConfirmPopup
       :showPopup="showConfirmPopup"
       :popupConfig="popupConfig"
@@ -193,6 +193,10 @@
 @import url("./../../assets/vip-tier/less/_edit-tier");
 
 .amvip-editTier {
+  .amvip-actionFooter {
+    padding: 20px;
+    max-width: auto;
+  }
   .headerGroup {
     display: flex;
   }
@@ -201,22 +205,23 @@
   }
   .amvip--icon {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     .amvip--iconPreview {
-      min-width: 60px;
-      max-width: 60px;
+      width: 75px;
+      min-width: 75px;
+      height: 75px;
     }
   }
   #fileUpload {
     position: relative;
-    font-size: 40px;
+    font-size: 50px;
     .custom-icon:not(.popup-icon) {
-      font-size: 24px;
+      font-size: 28px;
       cursor: pointer;
       position: absolute;
-      width: 60px;
-      height: 60px;
+      width: 75px;
+      height: 75px;
       z-index: 2;
       display: flex;
       justify-content: center;
@@ -277,6 +282,7 @@ export default {
     existingFile: null,
     enableIcon: false,
     tierDefine: "points",
+    currentDeleteReward: null,
   }),
   mounted() {
     const url = this.getApiUrl(`Tiers/Setupvip`);
@@ -457,20 +463,20 @@ export default {
     },
     confirmDeleteReward(obj) {
       console.log(obj);
+      this.currentDeleteReward = obj.data;
       this.popupConfig = {
         title: "Confirm!",
-        content: "Are you sure, you want to delete the reward?",
-        confirmText: "OK",
-        cancelText: "Cancel",
+        content:
+          "User received this benefit already still can able to use it. Are you sure you want to delete the Benefits?",
+        confirmText: "Yes, Delete it",
+        cancelText: "No, Keep it",
         id: "deleteRewardPopup",
-        // params: obj,
-        iconClass: "far fa-ban",
-        width: "350px",
+        iconClass: "far fa-trash-alt",
       };
       this.showConfirmPopup = true;
     },
-    deleteCurrentReward(obj) {
-      const currentRewardId = obj.data.id_tier_rewards;
+    deleteCurrentReward() {
+      const currentRewardId = this.currentDeleteReward.id_tier_rewards;
       const url = this.getApiUrl("Tiers/Rewards/" + currentRewardId);
       Axios.delete(url).then((res) => {
         if (res.data.error) {
@@ -480,6 +486,7 @@ export default {
             window.sessionStorage.setItem("dataChanged", true);
           }
           this.renderData();
+          this.currentDeleteReward = null;
         }
       });
     },
@@ -487,7 +494,7 @@ export default {
       this.showConfirmPopup = false;
       switch (eve.id) {
         case "deleteRewardPopup":
-          this.deleteCurrentReward(eve.params);
+          this.deleteCurrentReward();
           break;
         default:
           break;
@@ -496,11 +503,8 @@ export default {
     cancelClicked(eve) {
       this.showConfirmPopup = false;
       switch (eve.id) {
-        case "deleteTierPopup":
-          break;
-        case "statusUpdatePopup":
-          this.tierStatus = !this.tierStatus;
-          this.getTierStatus();
+        case "deleteRewardPopup":
+          this.currentDeleteReward = null;
           break;
         default:
           break;

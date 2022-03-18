@@ -1,31 +1,8 @@
 <template>
-  <!-- <div class="amvip-rewardItem">
-    <img
-      v-if="rewardData.reward_icon && rewardData.reward_icon.length > 0"
-      :src="getImgUrl(rewardData.reward_icon)"
-      alt="rewardData.reward_icon"
-    /><span>{{ rewardData.name }}</span>
-    <div class="amvip--rewardItemActions">
-      <span class="far fa-edit" @click="editReward($event, rewardData)"></span
-      ><span
-        class="far fa-trash-alt"
-        @click="deleteReward($event, rewardData)"
-      ></span>
-    </div>
-    <span
-      class="amvip--rewardItemType"
-      :class="rewardData.is_onetime_ongoing == 2 ? 'onGoing' : 'oneTime'"
-      >{{
-        rewardData.is_onetime_ongoing == 2
-          ? "In-Tier Benefits"
-          : "Welcome reward"
-      }}</span
-    >
-  </div> -->
   <div class="gradientBox oneTimeSection">
     <div class="gradientBoxInner">
       <div class="rewardContent">
-        <h3>{{ getBenefitCategory() }}</h3>
+        <h4>{{ getBenefitCategory() }}</h4>
         <md-button class="md-raised secondaryBtn" @click="addReward($event)">
           <span class="far fa-plus"></span>
           <span>Add</span>
@@ -41,19 +18,23 @@
         </div>
         <div class="actionIcons">
           <span
-            class="far fa-edit rewardEdit"
-            @click="editReward($event, benefit)"
+            class="far fa-trash-alt rewardDelete"
+            @click="deleteReward($event, benefit)"
           ></span>
           <span
-            class="far fa-trash rewardDelete"
-            @click="deleteReward($event, benefit)"
+            class="far fa-edit rewardEdit"
+            @click="editReward($event, benefit)"
           ></span>
         </div>
       </div>
     </div>
   </div>
 </template>
-<style lang="less"></style>
+<style lang="less">
+.rewardItems {
+  font-size: 1.2rem;
+}
+</style>
 <script>
 export default {
   name: "VipRewardCard",

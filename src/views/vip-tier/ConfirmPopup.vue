@@ -130,7 +130,7 @@ export default {
       this.active = false;
       this.$emit("confirmed", {
         id: this.popupConfig.id,
-        params: this.popupConfig.params,
+        context: this,
       });
     },
     onCancel() {
@@ -138,7 +138,7 @@ export default {
       this.active = false;
       this.$emit("canceled", {
         id: this.popupConfig.id,
-        params: this.popupConfig.params,
+        context: this,
       });
     },
   },
