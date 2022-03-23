@@ -1,6 +1,6 @@
 <template>
   <div class="amvip--wrapper">
-    <div class="amvip--addTier">
+    <div class="amvip--addReward">
       <hgroup class="amvip--pageHeader">
         <div class="headerGroup">
           <span class="far fa-arrow-left" @click="goBack"></span>
@@ -8,111 +8,109 @@
         </div>
       </hgroup>
       <div class="amvip--container amvip--manageReward">
-        <div class="amvip--tabs">
-          <div class="amvip--tabHeader">
-            <div
-              class="amvip--tabTitle"
-              v-bind:class="form.type == 'onetime' ? 'active' : ''"
-              data-value="onetime"
-              @click="changeType('oneTime')"
-            >
-              Welcome reward
+        <div class="sideBySide">
+          <div
+            class="amvip--twolColumnRow vertical"
+            v-bind:class="form.rewardtype === 'perk_expeience' ? '' : 'left'"
+          >
+            <div class="amvip--formRow" :class="getValidationClass('name')">
+              <label for="name">
+                Name
+                <span class="amvip--mandatory">*</span>
+              </label>
+              <input
+                name="name"
+                id="name"
+                ref="name"
+                type="text"
+                v-model="form.name"
+                :disabled="sending"
+              />
+              <span class="md-error" v-if="!$v.form.name.required">
+                Name is required
+              </span>
+              <span class="md-error" v-else-if="!$v.form.name.minLength">
+                Minimum of 3 letters required
+              </span>
             </div>
-            <div
-              class="amvip--tabTitle"
-              v-bind:class="form.type == 'ongoing' ? 'active' : ''"
-              data-value="ongoing"
-              @click="changeType('ongoing')"
-            >
-              In-Tier Benefits
+            <div class="amvip--formRow">
+              <label for="description">Description</label>
+              <md-textarea
+                name="description"
+                id="description"
+                v-model="form.description"
+                :disabled="sending"
+                placeholder="Description"
+                :md-counter="50"
+              ></md-textarea>
             </div>
           </div>
-          <div class="amvip--tabContent">
-            <div class="amvip--rewardRadio">
-              <div class="amvip--customRadio">
-                <md-radio
-                  v-model="form.rewardtype"
-                  value="coupon"
-                  id="rewardCoupons"
-                  name="rewardCoupons"
-                  ref="rewardtype"
-                  v-if="form.type == 'onetime'"
-                  @change="rewardTypeChange('coupon')"
-                >
-                  Coupons
-                </md-radio>
-              </div>
-              <div class="amvip--customRadio">
-                <md-radio
-                  v-model="form.rewardtype"
-                  value="points"
-                  ref="rewardtype"
-                  id="rewardPoints"
-                  name="rewardPoints"
-                  @change="rewardTypeChange('points')"
-                >
-                  Points
-                </md-radio>
-              </div>
-              <div class="amvip--customRadio">
-                <md-radio
-                  v-model="form.rewardtype"
-                  ref="rewardtype"
-                  value="perk_expeience"
-                  id="rewardExperience"
-                  name="rewardExperience"
-                  @change="rewardTypeChange('perk_expeience')"
-                >
-                  Perks & Experience
-                </md-radio>
-              </div>
-            </div>
-            <div
-              class="md-custom-error top-minus-35 txt-center"
-              v-if="!$v.form.rewardtype.required && $v.form.rewardtype.$dirty"
-            >
-              Reward type is required
-            </div>
-            <div class="sideBySide">
+          <div class="amvip--tabs amvip--twolColumnRow vertical right">
+            <div class="amvip--tabHeader">
               <div
-                class="amvip--twolColumnRow vertical"
-                v-bind:class="
-                  form.rewardtype === 'perk_expeience' ? '' : 'left'
-                "
+                class="amvip--tabTitle"
+                v-bind:class="form.type == 'onetime' ? 'active' : ''"
+                data-value="onetime"
+                @click="changeType('oneTime')"
               >
-                <div class="amvip--formRow">
-                  <md-field :class="getValidationClass('name')">
-                    <label for="name">
-                      Name
-                      <span class="amvip--mandatory">*</span>
-                    </label>
-                    <md-input
-                      name="name"
-                      id="name"
-                      ref="name"
-                      v-model="form.name"
-                      :disabled="sending"
-                    />
-                    <span class="md-error" v-if="!$v.form.name.required">
-                      Name is required
-                    </span>
-                    <span class="md-error" v-else-if="!$v.form.name.minLength">
-                      Minimum of 3 letters required
-                    </span>
-                  </md-field>
+                Welcome reward
+              </div>
+              <div
+                class="amvip--tabTitle"
+                v-bind:class="form.type == 'ongoing' ? 'active' : ''"
+                data-value="ongoing"
+                @click="changeType('ongoing')"
+              >
+                In-Tier Benefits
+              </div>
+            </div>
+            <div class="amvip--tabContent">
+              <div class="amvip--rewardRadio amvip--formRow">
+                <div class="amvip--customRadio">
+                  <md-radio
+                    v-model="form.rewardtype"
+                    value="coupon"
+                    id="rewardCoupons"
+                    name="rewardCoupons"
+                    ref="rewardtype"
+                    v-if="form.type == 'onetime'"
+                    @change="rewardTypeChange('coupon')"
+                  >
+                    Coupons
+                  </md-radio>
                 </div>
-                <div class="amvip--formRow">
-                  <md-field>
-                    <label for="description">Description</label>
-                    <md-textarea
-                      name="description"
-                      id="description"
-                      v-model="form.description"
-                      :disabled="sending"
-                    ></md-textarea>
-                  </md-field>
+                <div class="amvip--customRadio">
+                  <md-radio
+                    v-model="form.rewardtype"
+                    value="points"
+                    ref="rewardtype"
+                    id="rewardPoints"
+                    name="rewardPoints"
+                    @change="rewardTypeChange('points')"
+                  >
+                    Points
+                  </md-radio>
+                </div>
+                <div class="amvip--customRadio">
+                  <md-radio
+                    v-model="form.rewardtype"
+                    ref="rewardtype"
+                    value="perk_expeience"
+                    id="rewardExperience"
+                    name="rewardExperience"
+                    @change="rewardTypeChange('perk_expeience')"
+                  >
+                    Perks & Experience
+                  </md-radio>
                 </div>
               </div>
+              <div
+                class="md-custom-error top-minus-35 txt-center"
+                v-if="!$v.form.rewardtype.required && $v.form.rewardtype.$dirty"
+              >
+                Reward type is required
+              </div>
+
               <section
                 id="coupons"
                 class="tabSection vertical right"
@@ -160,66 +158,67 @@
                 </div>
                 <div class="amvip--twolColumnRow vertical">
                   <div
+                    :class="getValidationClass('couponamount')"
                     class="amvip--formRow"
                     v-if="form.coupon_type !== 'freeShipping'"
                   >
-                    <md-field :class="getValidationClass('couponamount')">
-                      <label for="couponamount">
-                        Coupon amount
-                        <span class="amvip--mandatory">*</span>
-                      </label>
-                      <md-input
-                        name="couponamount"
-                        ref="couponamount"
-                        id="couponamount"
-                        v-model="form.couponamount"
-                        :disabled="sending"
-                        type="number"
-                      />
-                      <span
-                        class="md-error"
-                        v-if="!$v.form.couponamount.required"
-                      >
-                        Coupon amount is required
-                      </span>
-                      <span
-                        class="md-error"
-                        v-else-if="!$v.form.couponamount.minValue"
-                      >
-                        The minimum value shoube greater than or equal to 5
-                      </span>
-                    </md-field>
+                    <label for="couponamount">
+                      Coupon amount
+                      <span class="amvip--mandatory">*</span>
+                    </label>
+                    <input
+                      name="couponamount"
+                      ref="couponamount"
+                      id="couponamount"
+                      v-model="form.couponamount"
+                      :disabled="sending"
+                      type="number"
+                    />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.couponamount.required"
+                    >
+                      Coupon amount is required
+                    </span>
+                    <span
+                      class="md-error"
+                      v-else-if="!$v.form.couponamount.minValue"
+                    >
+                      The minimum value shoube greater than or equal to 5
+                    </span>
                   </div>
-                  <div class="amvip--formRow" v-if="form.type != 'onetime'">
-                    <md-field :class="getValidationClass('minspend')">
-                      <label for="minspend">
-                        Minimum Spend
-                      </label>
-                      <md-input
-                        name="minspend"
-                        id="minspend"
-                        v-model="form.minspend"
-                        :disabled="sending"
-                        type="number"
-                      />
-                    </md-field>
+                  <div
+                    class="amvip--formRow"
+                    v-if="form.type != 'onetime'"
+                    :class="getValidationClass('minspend')"
+                  >
+                    <label for="minspend">
+                      Minimum Spend
+                    </label>
+                    <input
+                      name="minspend"
+                      id="minspend"
+                      v-model="form.minspend"
+                      :disabled="sending"
+                      type="number"
+                    />
                   </div>
                 </div>
                 <div class="amvip--twolColumnRow vertical">
                   <div class="amvip--formRow">
-                    <md-field>
-                      <label for="realtime_coupon_prefix">
-                        Coupon Prefix
-                      </label>
-                      <label class="md-prefix">{{ readOnlyPrefix }}</label>
-                      <md-input
+                    <label for="realtime_coupon_prefix">
+                      Coupon Prefix
+                    </label>
+                    <div class="inputPrefix">
+                      <span class="md-prefix">{{ readOnlyPrefix }}</span>
+                      <input
                         name="realtime_coupon_prefix"
                         id="realtime_coupon_prefix"
                         v-model="form.realtime_coupon_prefix"
                         :disabled="sending"
                         type="text"
                       />
-                    </md-field>
+                    </div>
                   </div>
                   <div class="amvip--formRow">
                     <div class="expiryDate">
@@ -233,11 +232,11 @@
                   </div>
                   <div class="amvip--formRow" v-if="form.set_expiry_date == 1">
                     <div class="expiryDate">
-                      <md-field>
-                        <label for="coupon_expiry_in">
-                          Coupon expires in
-                        </label>
-                        <md-input
+                      <label for="coupon_expiry_in">
+                        Coupon expires in
+                      </label>
+                      <div class="inputSuffix">
+                        <input
                           name="coupon_expiry_in"
                           id="coupon_expiry_in"
                           v-model="form.expire_in"
@@ -245,7 +244,7 @@
                           type="number"
                         />
                         <span class="md-suffix">day(s)</span>
-                      </md-field>
+                      </div>
                       <span class="md-error" v-if="!$v.form.expire_in.required">
                         Coupon expires in is required
                       </span>
@@ -296,16 +295,17 @@
                   <div
                     class="amvip--formRow"
                     v-if="form.coupon_type == 'multiple'"
+                    :class="getValidationClass('couponamount')"
                   >
-                    <md-field :class="getValidationClass('couponamount')">
-                      <label for="couponamount">
-                        Multiples
-                        <span class="amvip--mandatory">*</span>
-                        <span class="warnMessage" v-bind:class="warnClass"
-                          >Not recommended</span
-                        >
-                      </label>
-                      <md-input
+                    <label for="couponamount">
+                      Multiples
+                      <span class="amvip--mandatory">*</span>
+                      <span class="warnMessage" v-bind:class="warnClass"
+                        >Not recommended</span
+                      >
+                    </label>
+                    <div class="inputSuffix">
+                      <input
                         name="couponamount"
                         id="couponamount"
                         v-model="form.couponamount"
@@ -315,29 +315,30 @@
                         @keyup="validateCouponAmount"
                       />
                       <span class="md-suffix">X</span>
-                      <span class="md-helper-text"
-                        >E.g. 2X (If the customer would have normally earned 100
-                        points as per your points setup, at 2X they earn a total
-                        of 200 points.)</span
-                      >
-                      <span
-                        class="md-error"
-                        v-if="!$v.form.couponamount.required"
-                      >
-                        Multiple is required
-                      </span>
-                    </md-field>
+                    </div>
+                    <span class="md-helper-text"
+                      >E.g. 2X (If the customer would have normally earned 100
+                      points as per your points setup, at 2X they earn a total
+                      of 200 points.)</span
+                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.couponamount.required"
+                    >
+                      Multiple is required
+                    </span>
                   </div>
                   <div
                     class="amvip--formRow"
+                    :class="getValidationClass('couponamount')"
                     v-if="form.coupon_type == 'percetageBonus'"
                   >
-                    <md-field :class="getValidationClass('couponamount')">
-                      <label for="couponamount">
-                        Percentage bonus points
-                        <span class="amvip--mandatory">*</span>
-                      </label>
-                      <md-input
+                    <label for="couponamount">
+                      Percentage bonus points
+                      <span class="amvip--mandatory">*</span>
+                    </label>
+                    <div class="inputSuffix">
+                      <input
                         name="couponamount"
                         ref="couponamount"
                         id="couponamount"
@@ -346,29 +347,30 @@
                         type="number"
                       />
                       <span class="md-suffix">%</span>
-                      <span class="md-helper-text"
-                        >E.g. 10% bonus points (If the customer would have
-                        normally earned 100 points, they will now earn 100
-                        points + 10% bonus= 110 points)</span
-                      >
-                      <span
-                        class="md-error"
-                        v-if="!$v.form.couponamount.required"
-                      >
-                        Percentage bonus point is required
-                      </span>
-                    </md-field>
+                    </div>
+                    <span class="md-helper-text"
+                      >E.g. 10% bonus points (If the customer would have
+                      normally earned 100 points, they will now earn 100 points
+                      + 10% bonus= 110 points)</span
+                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.couponamount.required"
+                    >
+                      Percentage bonus point is required
+                    </span>
                   </div>
                   <div
                     class="amvip--formRow"
+                    :class="getValidationClass('couponamount')"
                     v-if="form.coupon_type == 'fixed'"
                   >
-                    <md-field :class="getValidationClass('couponamount')">
-                      <label for="couponamount">
-                        Fixed points
-                        <span class="amvip--mandatory">*</span>
-                      </label>
-                      <md-input
+                    <label for="couponamount">
+                      Fixed points
+                      <span class="amvip--mandatory">*</span>
+                    </label>
+                    <div class="inputSuffix">
+                      <input
                         name="couponamount"
                         ref="couponamount"
                         id="couponamount"
@@ -377,43 +379,47 @@
                         type="number"
                       />
                       <span class="md-suffix">Pts</span>
-                      <span class="md-helper-text"
-                        >E.g. 10 bonus points (If the customer would have
-                        normally earned 100 points, they will now earn 100
-                        points + 10 bonus points= 110 points)</span
-                      >
-                      <span
-                        class="md-error"
-                        v-if="!$v.form.couponamount.required"
-                      >
-                        fixed bonus point is required
-                      </span>
-                    </md-field>
+                    </div>
+                    <span class="md-helper-text"
+                      >E.g. 10 bonus points (If the customer would have normally
+                      earned 100 points, they will now earn 100 points + 10
+                      bonus points= 110 points)</span
+                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.couponamount.required"
+                    >
+                      fixed bonus point is required
+                    </span>
                   </div>
-                  <div class="amvip--formRow" v-if="form.type != 'onetime'">
-                    <md-field :class="getValidationClass('minspend')">
-                      <label for="minspend">
-                        Minimum Spend
-                      </label>
-                      <md-input
-                        name="minspend"
-                        id="minspend"
-                        v-model="form.minspend"
-                        :disabled="sending"
-                        type="number"
-                      />
-                    </md-field>
+                  <div
+                    class="amvip--formRow"
+                    v-if="form.type != 'onetime'"
+                    :class="getValidationClass('minspend')"
+                  >
+                    <label for="minspend">
+                      Minimum Spend
+                    </label>
+                    <md-input
+                      name="minspend"
+                      id="minspend"
+                      v-model="form.minspend"
+                      :disabled="sending"
+                      type="number"
+                    />
                   </div>
                 </div>
               </section>
             </div>
+            <footer class="amvip-actionFooter">
+              <button class="amvip--btnSec" @click="clearForm">Cancel</button>
+              <button class="amvip--btnPri" @click="saveRewardData">
+                Save
+              </button>
+            </footer>
           </div>
         </div>
       </div>
-      <footer class="amvip-actionFooter">
-        <button class="amvip--btnSec" @click="clearForm">Cancel</button>
-        <button class="amvip--btnPri" @click="saveRewardData">Save</button>
-      </footer>
     </div>
     <ConfirmPopup
       :showPopup="showConfirmPopup"
