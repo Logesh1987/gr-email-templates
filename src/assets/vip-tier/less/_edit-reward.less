@@ -9,11 +9,20 @@
   }
   .sideBySide {
     display: flex;
+    flex-direction: column;
     > .amvip--twolColumnRow {
-      min-width: 40%;
-      margin: 0 20px;
-      &.right {
-        width: 100%;
+      width: 100%;
+      padding: 0 20px;
+    }
+    .amvip--formRow textarea {
+      width: 100% !important;
+    }
+  }
+  @media screen and (min-width: 1200px) {
+    .sideBySide {
+      flex-direction: row;
+      > .amvip--twolColumnRow {
+        min-width: 50%;
       }
     }
   }

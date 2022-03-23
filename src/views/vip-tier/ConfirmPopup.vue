@@ -97,7 +97,7 @@ export default {
       value: null,
       dialogId: this.popupConfig.id,
       styleObject: {
-        width: this.popupConfig?.width ? this.popupConfig.width : "350px",
+        maxWidth: this.popupConfig?.width ? this.popupConfig.width : "350px",
       },
     };
   },
@@ -118,7 +118,7 @@ export default {
       handler(val, oldVal) {
         console.log({ val, oldVal });
         this.styleObject = {
-          width: val && val.width ? val.width : "350px",
+          maxWidth: val && val.width ? val.width : "350px",
         };
       },
       deep: true,

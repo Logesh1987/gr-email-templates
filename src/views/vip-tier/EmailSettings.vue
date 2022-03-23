@@ -161,7 +161,7 @@ export default {
           cancelText: "No, Cancel it",
           id: "statusUpdatePopup",
           iconClass: "far fa-ban",
-          width: "350",
+          width: "350px",
         };
         this.showConfirmPopup = true;
       } else {
