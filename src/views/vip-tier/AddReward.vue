@@ -471,7 +471,12 @@
 </style>
 <script>
 import { validationMixin } from "vuelidate";
-import { required, minLength, requiredIf } from "vuelidate/lib/validators";
+import {
+  required,
+  minLength,
+  requiredIf,
+  minValue,
+} from "vuelidate/lib/validators";
 import Axios from "axios";
 import ConfirmPopup from "./ConfirmPopup";
 export default {
@@ -516,6 +521,7 @@ export default {
             this.form.coupon_type !== "freeShipping"
           );
         }),
+        minValue: minValue(5),
       },
       coupon_type: {
         required: requiredIf(function() {
