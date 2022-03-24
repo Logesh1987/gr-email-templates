@@ -244,7 +244,7 @@ export default {
         return false;
       } else {
         // this.setDefaults(res.data.data);
-        this.fetchTemplate();
+        // this.fetchTemplate();
       }
     },
     generateUpdatePayLoad() {
@@ -273,7 +273,8 @@ export default {
           return false;
         } else {
           console.log(res);
-          this.setDefaults(res.data.data);
+          // this.setDefaults(res.data.data);
+          this.fetchTemplate();
         }
       });
     },

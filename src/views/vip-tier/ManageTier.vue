@@ -144,6 +144,12 @@
         </md-dialog-actions>
       </div>
     </md-dialog>
+    <Popover
+      popoverId="grPopover"
+      targetId="dummy"
+      @afterPopoverClose="popoverClose"
+      @actionBtnClicked="popoverBtnClicked"
+    ></Popover>
   </div>
 </template>
 <style lang="less">
@@ -256,6 +262,7 @@
 import IconPopup from "./IconPopup";
 import ConfirmPopup from "./ConfirmPopup";
 import VipTierCard from "./../../components/vip-tier/TierCard";
+import Popover from "./../../components/vip-tier/Popover";
 import Axios from "axios";
 export default {
   name: "ManageTier",
@@ -263,6 +270,7 @@ export default {
     IconPopup,
     ConfirmPopup,
     VipTierCard,
+    Popover,
   },
   props: ["currentTierId"],
   data: function() {
@@ -319,6 +327,12 @@ export default {
     }
   },
   methods: {
+    popoverClose(eve) {
+      console.log("closed", eve);
+    },
+    popoverBtnClicked(eve) {
+      console.log("popover btn click", eve);
+    },
     hasUsers() {
       let hasUser = false;
       for (let index = 0; index < this.tierData.length; index++) {

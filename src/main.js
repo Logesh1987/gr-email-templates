@@ -27,8 +27,8 @@ if (hostname == "localhost") {
 
 //Vue.prototype.$shop_id = "2100";
 //Vue.prototype.$email = "akash@appsmav.com";
-Vue.prototype.$shop_id = "2374";
-Vue.prototype.$email = "jinisha.appsmav@gmail.com";
+Vue.prototype.$shop_id = "1916";
+Vue.prototype.$email = "logesh@appsmav.com";
 Vue.prototype.$asset_url = `${Vue.prototype.$callback_url}/public`;
 
 new Vue({
