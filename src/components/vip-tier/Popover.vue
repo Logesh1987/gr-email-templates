@@ -1,5 +1,9 @@
 <template>
-  <div v-bind:id="eleId" class="popoverWrapper" v-bind:class="cssClass">
+  <div
+    v-bind:id="eleId"
+    class="popoverWrapper"
+    v-bind:class="generateClasses()"
+  >
     <span
       class="fal fa-times closeIcon"
       @click="closeIconClick($event)"
@@ -16,12 +20,17 @@
         >{{ buttonData.value }}</md-button
       >
     </div>
+    <div
+      class="container__arrow"
+      v-if="enablePointer"
+      v-bind:class="pointerPositionClass"
+    ></div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Popover",
+  name: "gr-popover",
   events: ["afterPopoverClose", "actionBtnClicked"],
   props: [
     "targetId",
@@ -31,6 +40,9 @@ export default {
     "showButtons",
     "buttonData",
     "popoverId",
+    "showPointer",
+    "pointerPosition",
+    "showOnLoad",
   ],
   data: () => {
     return {
@@ -45,31 +57,68 @@ export default {
           value: "OK",
         },
       ],
+      enablePointer: true,
+      pointerPositionClass: "container__arrow--tc",
+      enableOnLoad: false,
     };
   },
   mounted() {
     if (this.popoverId) {
       this.eleId = this.popoverId;
     }
-    if (this.showCloseIcon) {
-      this.enableCloseIcon = this.showCloseIcon;
-    }
     if (this.popoverContent) {
       this.content = this.popoverContent;
-    }
-    if (this.showButtons) {
-      this.enableButtons = this.showButtons;
     }
     if (this.buttonData) {
       this.buttons = this.buttonData;
     }
+    this.enableCloseIcon =
+      this.showCloseIcon != undefined && this.showCloseIcon != null
+        ? this.showCloseIcon
+        : true;
+    this.enableButtons =
+      this.showButtons != undefined && this.showButtons != null
+        ? this.showButtons
+        : false;
+    this.enablePointer =
+      this.showPointer != undefined && this.showPointer != null
+        ? this.showPointer
+        : true;
+    this.enableOnLoad =
+      this.showOnLoad != undefined && this.showOnLoad != null
+        ? this.showOnLoad
+        : false;
+    this.pointerPositionClass = this.generatePositionClass();
     const targetEle = document.getElementById(this.targetId);
-    targetEle.addEventListener("hover", (eve) => {
-      console.log(eve);
+    console.log(targetEle);
+    targetEle.addEventListener("mouseover", (eve) => {
+      console.log("enter", eve);
+      if (!this.enableOnLoad) {
+        this.$el.classList.add("show");
+      }
     });
+    targetEle.addEventListener("mouseleave", (eve) => {
+      console.log("leave", eve);
+      if (!this.enableOnLoad) {
+        this.$el.classList.remove("show");
+      }
+    });
+    setTimeout(() => {
+      this.calculatePosition(targetEle);
+    }, 350);
   },
   computed: {},
   methods: {
+    generateClasses() {
+      let returnClasses = "";
+      if (this.enableOnLoad) {
+        returnClasses += "show ";
+      }
+      if (this.cssClass) {
+        returnClasses += this.cssClass + " ";
+      }
+      return returnClasses;
+    },
     closeIconClick(eve) {
       console.log("close clicked");
       this.$emit("afterPopoverClose", { context: this, event: eve });
@@ -77,6 +126,23 @@ export default {
     buttonClick(eve, data) {
       console.log("Button clicked");
       this.$emit("actionBtnClicked", { context: this, event: eve, data });
+    },
+    generatePositionClass() {
+      let pointerClass = "container__arrow--tc";
+      if (this.pointerPosition && this.pointerPosition.length > 0) {
+        pointerClass = "container__arrow--" + this.pointerPosition;
+      }
+      return pointerClass;
+    },
+    calculatePosition(target) {
+      let targetTop = target.offsetTop;
+      let targetLeft = target.offsetLeft;
+      // let targetWidth = target.offsetWidth;
+      let targetHeight = target.offsetHeight;
+      // let popoverWidth = this.$el.offsetWidth;
+      // let popoverHeight = this.$el.offsetHeight;
+      this.$el.style.top = targetTop + targetHeight + 15 + "px";
+      this.$el.style.left = targetLeft + "px";
     },
   },
 };
@@ -86,14 +152,17 @@ export default {
 .popoverWrapper {
   display: none;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  // top: 50%;
+  // left: 50%;
+  // transform: translate(-50%, -50%);
   border: 1px solid rgb(204, 204, 204);
   padding: 15px;
   border-radius: 5px;
   background: #fff;
-  box-shadow: 5px 5px 5px #ccc;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 10%);
+  &.show {
+    display: block;
+  }
   .closeIcon {
     cursor: pointer;
     position: absolute;
@@ -109,6 +178,146 @@ export default {
     padding: 10px;
     display: flex;
     justify-content: center;
+  }
+  .container__arrow {
+    /* Size */
+    height: 16px;
+    width: 16px;
+
+    background-color: #fff;
+    position: absolute;
+    /* Border */
+    &.container__arrow--tl {
+      /* Position at the top left corner */
+      left: 32px;
+      top: 0px;
+
+      /* Border */
+      border-left: 1px solid rgba(0, 0, 0, 0.3);
+      border-top: 1px solid rgba(0, 0, 0, 0.3);
+      transform: translate(50%, -50%) rotate(45deg);
+    }
+
+    &.container__arrow--tc {
+      /* Position at the top center */
+      left: 50%;
+      top: 0px;
+
+      /* Border */
+      border-left: 1px solid rgba(0, 0, 0, 0.3);
+      border-top: 1px solid rgba(0, 0, 0, 0.3);
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    &.container__arrow--tr {
+      /* Position at the top right corner */
+      right: 32px;
+      top: 0px;
+
+      /* Border */
+      border-left: 1px solid rgba(0, 0, 0, 0.3);
+      border-top: 1px solid rgba(0, 0, 0, 0.3);
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    &.container__arrow--rt {
+      /* Position at the right top corner */
+      right: 0;
+      top: 32px;
+
+      /* Border */
+      border-right: 1px solid rgba(0, 0, 0, 0.3);
+      border-top: 1px solid rgba(0, 0, 0, 0.3);
+      transform: translate(50%, 50%) rotate(45deg);
+    }
+
+    &.container__arrow--rc {
+      /* Position at the right center */
+      right: 0;
+      top: 50%;
+
+      /* Border */
+      border-right: 1px solid rgba(0, 0, 0, 0.3);
+      border-top: 1px solid rgba(0, 0, 0, 0.3);
+      transform: translate(50%, -50%) rotate(45deg);
+    }
+
+    &.container__arrow--rb {
+      /* Position at the right bottom corner */
+      bottom: 32px;
+      right: 0;
+
+      /* Border */
+      border-right: 1px solid rgba(0, 0, 0, 0.3);
+      border-top: 1px solid rgba(0, 0, 0, 0.3);
+      transform: translate(50%, -50%) rotate(45deg);
+    }
+
+    &.container__arrow--bl {
+      /* Position at the bottom left corner */
+      bottom: -16px;
+      left: 32px;
+
+      /* Border */
+      border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+      border-right: 1px solid rgba(0, 0, 0, 0.3);
+      transform: translate(50%, -50%) rotate(45deg);
+    }
+
+    &.container__arrow--bc {
+      /* Position at the bottom center */
+      bottom: -16px;
+      left: 50%;
+
+      /* Border */
+      border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+      border-right: 1px solid rgba(0, 0, 0, 0.3);
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    &.container__arrow--br {
+      /* Position at the bottom right corner */
+      bottom: -16px;
+      right: 32px;
+
+      /* Border */
+      border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+      border-right: 1px solid rgba(0, 0, 0, 0.3);
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    &.container__arrow--lt {
+      /* Position at the left top corner */
+      left: 0;
+      top: 32px;
+
+      /* Border */
+      border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+      border-left: 1px solid rgba(0, 0, 0, 0.3);
+      transform: translate(-50%, 50%) rotate(45deg);
+    }
+
+    &.container__arrow--lc {
+      /* Position at the left center */
+      left: 0;
+      top: 50%;
+
+      /* Border */
+      border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+      border-left: 1px solid rgba(0, 0, 0, 0.3);
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    &.container__arrow--lb {
+      /* Position at the left bottom corner */
+      bottom: 32px;
+      left: 0;
+
+      /* Border */
+      border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+      border-left: 1px solid rgba(0, 0, 0, 0.3);
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
   }
 }
 </style>

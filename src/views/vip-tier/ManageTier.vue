@@ -8,6 +8,7 @@
       <div class="btnGroup">
         <div class="amvip--inlineFlex">
           <button
+            id="emailSettings"
             class="amvip--btnCommon primaryBlueBtn"
             @click="gotoEmailSettings"
           >
@@ -144,12 +145,12 @@
         </md-dialog-actions>
       </div>
     </md-dialog>
-    <Popover
+    <GrPopover
       popoverId="grPopover"
-      targetId="dummy"
+      targetId="emailSettings"
       @afterPopoverClose="popoverClose"
       @actionBtnClicked="popoverBtnClicked"
-    ></Popover>
+    ></GrPopover>
   </div>
 </template>
 <style lang="less">
@@ -262,7 +263,7 @@
 import IconPopup from "./IconPopup";
 import ConfirmPopup from "./ConfirmPopup";
 import VipTierCard from "./../../components/vip-tier/TierCard";
-import Popover from "./../../components/vip-tier/Popover";
+import GrPopover from "./../../components/vip-tier/Popover";
 import Axios from "axios";
 export default {
   name: "ManageTier",
@@ -270,7 +271,7 @@ export default {
     IconPopup,
     ConfirmPopup,
     VipTierCard,
-    Popover,
+    GrPopover,
   },
   props: ["currentTierId"],
   data: function() {
