@@ -5,7 +5,6 @@
         <header>
           <div
             class="amvip--cardImg"
-            v-if="tierData.icon.length > 0"
             :class="validURL(tierData.icon) ? '' : tierData.icon"
             v-bind:style="
               validURL(tierData.icon)
@@ -16,18 +15,7 @@
                   }
                 : { backgroundColor: tierData.color }
             "
-          >
-            <span
-              class="far fa-edit"
-              @click="editTierIcon($event, tierData)"
-            ></span>
-          </div>
-          <div class="amvip--cardImg" v-else>
-            <span
-              class="far fa-edit"
-              @click="editTierIcon($event, tierData)"
-            ></span>
-          </div>
+          ></div>
           <h3>{{ tierData.name }}</h3>
           <h5 v-if="tierData.goal !== 0">{{ tierData.description }}</h5>
           <div class="amvip--cardAction">
@@ -43,11 +31,15 @@
                   ><span class="far fa-edit btnIcon"></span
                   ><span> Edit</span></md-menu-item
                 >
+                <md-menu-item @click="changeTheme($event, tierData)"
+                  ><span class="far fa-fire btnIcon"></span>
+                  <span> Change Icon</span></md-menu-item
+                >
                 <md-menu-item
                   v-if="isDeleteEnabled"
                   @click="deleteTier($event, tierData)"
                   ><span class="far fa-trash-alt btnIcon"></span>
-                  <span> Delete</span></md-menu-item
+                  <span> Delete Tier</span></md-menu-item
                 >
               </md-menu-content>
             </md-menu>
@@ -57,14 +49,18 @@
         <div class="amvip--tierDetails">
           <h4 v-if="tierData.goal !== 0">Eligibility</h4>
           <ul class="amvip--bulletList" v-if="tierData.goal !== 0">
-            <li>{{ tierData.goaltxt }} annually</li>
+            <li>
+              <h5>{{ tierData.goaltxt }}</h5>
+            </li>
           </ul>
-          <div v-else class="eligibilityDesc">{{ tierData.description }}</div>
+          <div v-else class="eligibilityDesc">
+            <h5>{{ tierData.description }}</h5>
+          </div>
           <span v-if="tierData.goal !== 0" class="hrRuler"></span>
           <h4 v-if="tierData.rewards.length > 0">
             Benefits
             <md-button
-              class="md-raised secondaryBtn"
+              class="md-raised secondaryBtn addBtn"
               @click="addBenefits($event, tierData)"
             >
               <span class="far fa-plus"></span>
@@ -77,7 +73,7 @@
               :key="benefit.index"
               class="rewardItem"
             >
-              {{ benefit.name }}
+              <h5>{{ benefit.name }}</h5>
               <span
                 class="far fa-edit rewardEdit"
                 @click="editRewardIcon($event, benefit, tierData.id)"
@@ -92,17 +88,32 @@
     </div>
   </div>
 </template>
+
 <style lang="less">
+.md-list-item button {
+  font-size: 13px;
+}
 .amvip--tierCol {
   &.pt-20 {
     padding-top: 20px;
+  }
+  h5 {
+    font-size: 14px;
+    font-weight: normal;
   }
 
   .md-button.md-raised.secondaryBtn {
     padding: 0;
     height: 28px;
     border-radius: 5px !important;
-    min-width: 65px !important;
+    min-width: 55px !important;
+    &.addBtn {
+      font-size: 12px;
+      color: #000 !important;
+      .fa-plus {
+        margin-right: 5px;
+      }
+    }
     > .md-ripple {
       padding: 0;
     }
@@ -134,12 +145,14 @@ li.info {
   color: rgb(252, 76, 76);
 }
 li.rewardItem {
+  color: #838384;
   .rewardEdit {
     display: none;
     cursor: pointer;
     padding: 3px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-size: 1rem;
   }
   &:hover {
     .rewardEdit {
@@ -191,10 +204,10 @@ export const TierType = {
 export default {
   name: "VipTierCard",
   props: ["tierData", "isDeleteEnabled"],
-  model: {
-    event:
-      "editClicked, deleteClicked, editTierIconClicked, editRewardIconClicked",
-  },
+  event: [
+    "editClicked, deleteClicked, editRewardIconClicked",
+    "changeIconClicked",
+  ],
   data: () => ({}),
   methods: {
     getImgUrl(image) {
@@ -203,19 +216,19 @@ export default {
     editTier(eve, data) {
       this.$emit("editClicked", { context: this, data: data, eventObj: eve });
     },
-    editTierIcon(eve, data) {
-      this.$emit("editTierIconClicked", {
-        context: this,
-        data: data,
-        event: eve,
-      });
-    },
     editRewardIcon(eve, data, tierId) {
       this.$emit("editRewardIconClicked", {
         context: this,
         data: data,
         event: eve,
         tierId: tierId,
+      });
+    },
+    changeTheme(eve, data) {
+      this.$emit("changeIconClicked", {
+        context: this,
+        data: data,
+        event: eve,
       });
     },
     deleteTier(eve, data) {

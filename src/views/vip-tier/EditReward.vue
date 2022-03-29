@@ -433,11 +433,6 @@
   }
   .amvip--pageHeader {
     justify-content: space-between;
-    .headerGroup {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
   }
 }
 .md-custom-error {

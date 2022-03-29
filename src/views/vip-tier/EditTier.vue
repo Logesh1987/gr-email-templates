@@ -197,9 +197,6 @@
     padding: 20px;
     max-width: 100%;
   }
-  .headerGroup {
-    display: flex;
-  }
   .amvip--colorInfo {
     z-index: 3;
   }
@@ -217,7 +214,7 @@
     position: relative;
     font-size: 50px;
     .custom-icon:not(.popup-icon) {
-      font-size: 28px;
+      font-size: 20px;
       cursor: pointer;
       position: absolute;
       width: 75px;
@@ -227,19 +224,20 @@
       justify-content: center;
       align-items: center;
       color: grey;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       &:hover {
         &::before {
           transition: all;
           transition-duration: 250ms;
           opacity: 1;
-          top: 15px;
         }
       }
       &::before {
         position: absolute;
         z-index: 1;
         opacity: 0;
-        top: 30px;
       }
     }
   }

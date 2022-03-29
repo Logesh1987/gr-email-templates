@@ -146,11 +146,6 @@
   }
   .amvip--pageHeader {
     justify-content: space-between;
-    .headerGroup {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
   }
   .amvip--colorInfo {
     z-index: 3;
@@ -176,27 +171,30 @@
       }
       &:not(.fa-cloud-upload) {
         position: absolute;
-        top: 1px;
-        left: 1px;
         width: 70px;
         height: 70px;
         padding: 0 0 0 15px;
         border-radius: 50%;
         box-sizing: border-box;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         &:hover {
           &::before {
             transition: all;
             transition-duration: 250ms;
             opacity: 1;
-            top: 15px;
-            color: #000000;
           }
         }
         &::before {
           position: absolute;
+          font-size: 20px;
           z-index: 1;
           opacity: 0;
           background: #fff;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
         }
       }
     }

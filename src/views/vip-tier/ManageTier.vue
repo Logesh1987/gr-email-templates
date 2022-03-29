@@ -32,7 +32,11 @@
               v-model="tierStatus"
               @change="confirmTogglePromotion"
             />
-            <label for="statusToggle" class="amvip--customToggle"></label>
+            <label
+              for="statusToggle"
+              id="statusToggleLable"
+              class="amvip--customToggle"
+            ></label>
           </div>
         </div>
       </div>
@@ -49,11 +53,11 @@
           v-for="(tierObj, index) in tierData"
           :key="index"
           :isDeleteEnabled="tierObj.default !== 'Y'"
-          v-on:editTierIconClicked="showIconPopup(tierObj)"
           v-on:editClicked="gotoEditTier"
           v-on:deleteClicked="confirmDelete"
           v-on:editRewardIconClicked="gotoEditReward"
           v-on:addBenefits="gotoAddBenefits"
+          v-on:changeIconClicked="showIconPopup(tierObj)"
         ></VipTierCard>
       </section>
     </div>
@@ -148,8 +152,18 @@
     <GrPopover
       popoverId="grPopover"
       targetId="emailSettings"
-      @afterPopoverClose="popoverClose"
-      @actionBtnClicked="popoverBtnClicked"
+      cssClass="emailPopover"
+      popoverTitle="VIP Tier Goal Achieved Email"
+      popoverContent="This email will be sent to user once they acheived a new tier goal."
+      :showOnLoad="true"
+    ></GrPopover>
+    <GrPopover
+      popoverId="grPopover_statusToggle"
+      targetId="statusToggleLable"
+      cssClass="statusPopover"
+      popoverTitle="Activate Now"
+      popoverContent="If you complete Please activate"
+      :showOnLoad="true"
     ></GrPopover>
   </div>
 </template>
@@ -158,6 +172,9 @@
 @import url("./../../assets/vip-tier/less/_home");
 @import url("./../../assets/vip-tier/less/_tier");
 @import url("./../../assets/vip-tier/less/_variables");
+#grPopover {
+  width: 250px;
+}
 .homeLink {
   margin: 0 20px;
   font-weight: bold;

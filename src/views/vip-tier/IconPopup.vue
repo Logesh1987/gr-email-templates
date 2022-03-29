@@ -20,7 +20,7 @@
                     name="fields[assetsFieldHandle][]"
                     id="assetsFieldHandle"
                     class="amvip--btnUploadHidden"
-                    @change="onChange"
+                    @change="selectedFile"
                     ref="file"
                     accept=".pdf,.jpg,.jpeg,.png"
                   />
@@ -31,8 +31,8 @@
                   </label>
                   <span>Supports JPEG, JPEG2000, PNG and SVG</span>
                   <ul v-if="this.filelist.length" v-cloak>
-                    <li v-for="file in filelist" v-bind:key="file">
-                      ${ file.name }
+                    <li v-for="file in filelist" v-bind:key="file.index">
+                      {{ JSON.stringify(file) }}
                       <button
                         type="button"
                         @click="remove(filelist.indexOf(file))"
@@ -61,22 +61,18 @@
                   v-if="selectedCustomIconIndex === key && isPredefinedicon"
                 ></span>
               </span>
-              <input
+              <!-- <input
                 id="fileUploadHidden"
                 type="file"
                 accept="image/*"
                 style="display:none;"
                 hidden
                 @change="selectedFile"
-              />
+              /> -->
               <span
+                v-if="selectedIcon.length > 0 && !isPredefinedicon"
                 id="fileUpload"
                 class="amvip--iconPreview custom-icon popup-icon"
-                v-bind:class="
-                  selectedIcon.length > 0 && !isPredefinedicon
-                    ? 'far fa-edit'
-                    : 'far fa-plus'
-                "
                 v-bind:style="
                   selectedIcon.length > 0 && !isPredefinedicon
                     ? {
@@ -84,12 +80,8 @@
                       }
                     : ''
                 "
-                @click="chooseFiles()"
               >
-                <span
-                  class="fas fa-check-circle checkIcon"
-                  v-if="selectedIcon.length > 0 && !isPredefinedicon"
-                ></span>
+                <span class="fas fa-check-circle checkIcon"></span>
               </span>
             </div>
           </div>

@@ -1,0 +1,64 @@
+@supports not (font-variation-settings: normal) {
+  @font-face {
+    font-family: "Heebo-Black";
+    src: url("./static/Heebo-Black.ttf");
+    font-weight: normal;
+  }
+
+  @font-face {
+    font-family: "Heebo-Bold";
+    src: url("./static/Heebo-Bold.ttf");
+    font-weight: bold;
+  }
+  @font-face {
+    font-family: "Heebo-ExtraBold";
+    src: url("./static/Heebo-ExtraBold.ttf");
+    font-weight: bolder;
+  }
+  @font-face {
+    font-family: "Heebo-ExtraLight";
+    src: url("./static/Heebo-ExtraLight.ttf");
+    font-weight: 100;
+  }
+  @font-face {
+    font-family: "Heebo-Light";
+    src: url("./static/Heebo-Light.ttf");
+    font-weight: 200;
+  }
+  @font-face {
+    font-family: "Heebo-Medium";
+    src: url("./static/Heebo-Medium.ttf");
+    font-weight: 300;
+  }
+  @font-face {
+    font-family: "Heebo-Regular";
+    src: url("./static/Heebo-Regular.ttf");
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "Heebo-SemiBold";
+    src: url("./static/Heebo-SemiBold.ttf");
+    font-weight: 500;
+  }
+  @font-face {
+    font-family: "Heebo-Thin";
+    src: url("./static/Heebo-Thin.ttf");
+    font-weight: 100;
+  }
+
+  body {
+    font-family: "Heebo";
+  }
+}
+
+/* Set up Roboto for modern browsers, all weights */
+@supports (font-variation-settings: normal) {
+  @font-face {
+    font-family: "Heebo";
+    src: url("./Heebo-VariableFont_wght.ttf")
+        format("woff2 supports variations"),
+      url("./Heebo-VariableFont_wght.ttf") format("woff2-variations");
+    font-weight: 100 1000;
+    font-stretch: 25% 151%;
+  }
+}
