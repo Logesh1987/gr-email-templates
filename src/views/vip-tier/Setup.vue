@@ -59,7 +59,7 @@
               ref="date_start"
             >
             </md-datepicker>
-            <div class="infoBlock">
+            <div class="vip-infoBlock">
               <span class="fas fa-info-circle"></span>
               <!-- <popover name="installDate" event="hover">
                 As per our record, you installed the Gratisfaction on
@@ -206,6 +206,9 @@
 @import url("./../../assets/vip-tier/less/_setup");
 
 .amvip--setUpTier {
+  .amvip--formRow > label {
+    display: flex;
+  }
   .amvip--pageHeader {
     justify-content: space-between;
   }
@@ -252,7 +255,7 @@
       top: 0;
     }
   }
-  .infoBlock {
+  .vip-infoBlock {
     margin: 5px 0 20px;
     font-size: 14px;
   }

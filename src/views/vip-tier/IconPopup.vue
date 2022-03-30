@@ -16,7 +16,7 @@
                   Browse
                   <input
                     type="file"
-                    multiple
+                    multiple="false"
                     name="fields[assetsFieldHandle][]"
                     id="assetsFieldHandle"
                     class="amvip--btnUploadHidden"
@@ -30,12 +30,12 @@
                     or drag your image here
                   </label>
                   <span>Supports JPEG, JPEG2000, PNG and SVG</span>
-                  <ul v-if="this.filelist.length" v-cloak>
-                    <li v-for="file in filelist" v-bind:key="file.index">
-                      {{ JSON.stringify(file) }}
+                  <ul v-if="filelist.length > 0" v-cloak>
+                    <li>
+                      {{ filelist[0].name }}
                       <button
                         type="button"
-                        @click="remove(filelist.indexOf(file))"
+                        @click="removeFiles()"
                         title="Remove file"
                       >
                         <i class="fa fa-trash"></i>
@@ -247,7 +247,7 @@ export default {
       responseData: null,
       defaultIcon: "",
       isPredefinedicon: false,
-      selectedIcon: "",
+      selectedIcon: [],
       iconArray: [
         `icon-vip-crown_1`,
         `icon-vip-crown_3`,
@@ -316,6 +316,7 @@ export default {
     },
     selectedFile(event) {
       const file = event.target.files;
+      this.filelist = file;
       if (file.length === 0) {
         return false;
       }
@@ -402,8 +403,9 @@ export default {
     onChange() {
       this.filelist = [...this.$refs.file.files];
     },
-    remove(i) {
-      this.filelist.splice(i, 1);
+    removeFiles() {
+      this.filelist = [];
+      this.selectedIcon = [];
     },
     dragover(event) {
       event.preventDefault();
@@ -421,7 +423,8 @@ export default {
     drop(event) {
       event.preventDefault();
       this.$refs.file.files = event.dataTransfer.files;
-      this.onChange(); // Trigger the onChange event manually
+      const dropEvent = { target: { files: event.dataTransfer.files } };
+      this.selectedFile(dropEvent); // Trigger the onChange event manually
       // Clean up
       event.currentTarget.classList.add("dragLeave");
       event.currentTarget.classList.remove("dragOver");
