@@ -2,7 +2,7 @@
   <div class="amvip--landing">
     <div class="amvip--landingInner">
       <aside class="amvip--setupPage">
-        <img src="./../../assets/vip-tier/vip-tier-logo-setup.png" alt="Logo" />
+        <div class="brandLogo"></div>
       </aside>
       <section class="amvip--landingContent">
         <ExpansionList
