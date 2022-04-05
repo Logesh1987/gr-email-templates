@@ -153,7 +153,6 @@ export default {
       return returnClasses;
     },
     closeIconClick(eve) {
-      console.log("close clicked");
       this.$el.classList.remove("show");
       this.$emit("afterPopoverClose", { context: this, event: eve });
     },
@@ -189,6 +188,12 @@ export default {
       }
       this.$el.style.top = top + "px";
       this.$el.style.left = left + "px";
+    },
+    hidePopover() {
+      this.$el.classList.remove("show");
+    },
+    showPopover() {
+      this.$el.classList.add("show");
     },
   },
 };

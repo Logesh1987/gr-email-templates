@@ -150,20 +150,24 @@
       </div>
     </md-dialog>
     <GrPopover
+      v-if="emailSettingPopover"
       popoverId="grPopover"
       targetId="emailSettings"
       cssClass="emailPopover"
       popoverTitle="VIP Tier Goal Achieved Email"
       popoverContent="This email will be sent to user once they acheived a new tier goal."
       :showOnLoad="true"
+      @afterPopoverClose="popoverClose($event)"
     ></GrPopover>
     <GrPopover
+      v-if="statusPopover"
       popoverId="grPopover_statusToggle"
       targetId="statusToggleLable"
       cssClass="statusPopover"
       popoverTitle="Activate Now"
       popoverContent="If you complete Please activate"
       :showOnLoad="true"
+      @afterPopoverClose="popoverClose($event)"
     ></GrPopover>
   </div>
 </template>
@@ -197,6 +201,7 @@
 }
 #deleteDialog {
   .md-dialog-container {
+    width: 350px;
     background: #eee;
     > div {
       padding: 10px 20px;
@@ -301,6 +306,8 @@ export default {
       deleteRadio: "tier_down",
       showDeleteDialog: false,
       currentDeleteObj: null,
+      emailSettingPopover: true,
+      statusPopover: true,
     };
   },
   mounted() {
@@ -343,13 +350,32 @@ export default {
       this.tierData = JSON.parse(tierData);
       this.landingPopup();
     }
+    this.showOrHidePopover();
   },
   methods: {
+    showOrHidePopover() {
+      var grPopover = window.sessionStorage.getItem("hideSettingPopover");
+      var grPopover_statusToggle = window.sessionStorage.getItem(
+        "hideStatusPopover"
+      );
+      this.emailSettingPopover = !(grPopover && grPopover == "true");
+      this.statusPopover = !(
+        grPopover_statusToggle && grPopover_statusToggle == "true"
+      );
+    },
     popoverClose(eve) {
       console.log("closed", eve);
-    },
-    popoverBtnClicked(eve) {
-      console.log("popover btn click", eve);
+      const popoverId = eve.context.eleId;
+      switch (popoverId) {
+        case "grPopover":
+          window.sessionStorage.setItem("hideSettingPopover", true);
+          break;
+        case "grPopover_statusToggle":
+          window.sessionStorage.setItem("hideStatusPopover", true);
+          break;
+        default:
+          break;
+      }
     },
     hasUsers() {
       let hasUser = false;
@@ -488,7 +514,9 @@ export default {
       this.showConfirmPopup = false;
       switch (eve.id) {
         case "deleteTierPopup":
-          this.deleteTier(eve.params);
+          this.deleteTier();
+          this.showDeleteDialog = false;
+          // this.deleteTier(eve.params);
           break;
         case "statusUpdatePopup":
           this.updateStatus();
@@ -508,6 +536,8 @@ export default {
       this.showConfirmPopup = false;
       switch (eve.id) {
         case "deleteTierPopup":
+          this.showDeleteDialog = false;
+          this.currentDeleteObj = null;
           break;
         case "statusUpdatePopup":
           this.tierStatus = !this.tierStatus;

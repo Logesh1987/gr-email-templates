@@ -11,7 +11,10 @@ import VueMaterial from "vue-material";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
 import Popover from "vue-js-popover";
-import "@/assets/icon/fontawesome.min.css";
+if (process.env.NODE_ENV == "development") {
+  require("@/assets/icon/fontawesome.min.css");
+}
+// import "@/assets/icon/fontawesome.min.css";
 
 Vue.use(VueMaterial);
 Vue.use(Popover);
