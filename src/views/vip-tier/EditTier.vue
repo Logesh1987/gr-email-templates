@@ -331,10 +331,10 @@ export default {
               : [];
           if (this.rewardData.length > 0) {
             this.oneTimeData = this.rewardData.filter((currentData) => {
-              return currentData.is_onetime_ongoing == 2;
+              return currentData.is_onetime_ongoing == 1;
             });
             this.annualData = this.rewardData.filter((currentData) => {
-              return currentData.is_onetime_ongoing == 1;
+              return currentData.is_onetime_ongoing == 2;
             });
             if (this.rewardData.settings) {
               this.rewardData.settings = JSON.parse(this.rewardData.settings);
