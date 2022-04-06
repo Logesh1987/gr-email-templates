@@ -49,15 +49,35 @@
       padding: 7px 7px 6px 7px;
       border-radius: 3px;
       z-index: 1;
+      border: 1px solid #ccc;
+      padding: 5px 10px;
+      background: #fff;
     }
     > .md-prefix {
-      margin-right: 1px;
+      border-right: none;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
     }
     > .md-suffix {
-      margin-left: 1px;
+      border-left: none;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
     }
     input {
       text-indent: 5px;
+      padding: 7px 8px 10px;
+    }
+  }
+  .inputPrefix {
+    input {
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
+    }
+  }
+  .inputSuffix {
+    input {
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 0px;
     }
   }
   .amvip-actionFooter {

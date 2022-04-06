@@ -73,14 +73,14 @@
       v-on:canceled="cancelClicked($event)"
     ></ConfirmPopup>
     <md-dialog :md-active.sync="showDeleteDialog" id="deleteDialog">
-      <div id="moveCurrentUsers" v-if="getCurrentUserDetails() != 0">
+      <div id="moveCurrentUsers" v-if="getCurrentUserDetails != 0">
         <h3>
           Move current users
           <div id="popoverWrapper">
             <span class="far fa-info-circle" v-popover:foo></span>
             <popover name="foo" event="hover">
               There are
-              {{ getCurrentUserDetails() }}
+              {{ getCurrentUserDetails }}
               User(s) in the current Tier
             </popover>
           </div>
@@ -96,7 +96,7 @@
           <md-radio v-model="deleteRadio" value="same_tier">Same tier</md-radio>
         </div>
         <p>
-          There are {{ getCurrentUserDetails() }} User(s) in the current Tier.
+          There are {{ getCurrentUserDetails }} User(s) in the current Tier.
         </p>
         <p v-if="deleteRadio == 'tier_down'">
           We will directly moved all the users in current tier to
@@ -122,7 +122,7 @@
           <div class="dialogTitle">Confirm!</div>
           <div class="dialogContent">
             {{
-              this.deleteRadio == "same_tier" && getCurrentUserDetails() != 0
+              this.deleteRadio == "same_tier" && getCurrentUserDetails != 0
                 ? "Are you sure, you want to pause the tier?"
                 : "Are you sure, you want to delete the tier?"
             }}
@@ -141,7 +141,7 @@
             class="md-raised primaryBtn"
             @click="onDeleteDialogClose(1)"
             >{{
-              this.deleteRadio == "same_tier" && getCurrentUserDetails() != 0
+              this.deleteRadio == "same_tier" && getCurrentUserDetails != 0
                 ? "Yes, Pause it"
                 : "Yes, Delete it"
             }}</md-button
@@ -377,22 +377,6 @@ export default {
           break;
       }
     },
-    hasUsers() {
-      let hasUser = false;
-      for (let index = 0; index < this.tierData.length; index++) {
-        const data = this.tierData[index];
-        if (data.users > 0) {
-          hasUser = true;
-          break;
-        }
-      }
-      return hasUser;
-    },
-    getCurrentUserDetails() {
-      return this.currentDeleteObj && this.currentDeleteObj?.data?.users
-        ? this.currentDeleteObj.data.users
-        : "0";
-    },
     getTierStatus() {
       return this.tierStatus ? "Active" : "Inactive";
     },
@@ -485,7 +469,7 @@ export default {
         "isLandingPopupShown"
       );
       this.showConfirmPopup =
-        !landingPopupFlg && !this.tierStatus && !this.hasUsers();
+        !landingPopupFlg && this.tierStatus == 0 && !this.hasUsers;
       // this.showConfirmPopup = true;
     },
     confirmTogglePromotion() {
@@ -556,6 +540,24 @@ export default {
     },
     goHome() {
       this.$router.push("/view/tiers/home");
+    },
+  },
+  computed: {
+    getCurrentUserDetails: function() {
+      return this.currentDeleteObj && this.currentDeleteObj?.data?.users
+        ? this.currentDeleteObj.data.users
+        : "0";
+    },
+    hasUsers: function() {
+      let hasUser = false;
+      for (let index = 0; index < this.tierData.length; index++) {
+        const data = this.tierData[index];
+        if (data.users > 0) {
+          hasUser = true;
+          break;
+        }
+      }
+      return hasUser;
     },
   },
 };
