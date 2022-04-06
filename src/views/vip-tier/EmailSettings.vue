@@ -55,13 +55,26 @@
           <span class="labelContent">{{ dynamic_variables }}</span>
         </div>
         <div class="amvip--row">
-          <label for="emailBody">Email Body</label>
-          <textarea
-            v-model="template"
-            id="emailBody"
-            rows="15"
-            cols="50"
-          ></textarea>
+          <span>Email Body</span>
+          <!-- <md-field>
+            <md-textarea v-model="template">{{ template }}</md-textarea>
+          </md-field> -->
+          <div class="mailBody">
+            <quillEditor
+              :options="eOptions"
+              @focus="onEditorFocus($event)"
+              @change="onEditorChange($event)"
+              @blur="onEditorBlur($event)"
+              ref="quillEditor"
+            ></quillEditor>
+            <small
+              v-if="template.trim() == ''"
+              class="fieldError"
+              style="display: block"
+            >
+              This field cannot be empty
+            </small>
+          </div>
         </div>
         <div class="amvip--row center">
           <span class="spacer"></span>
@@ -109,9 +122,121 @@
 <script>
 import Axios from "axios";
 import ConfirmPopup from "./ConfirmPopup";
+import Quill from "quill";
+import { quillEditor } from "vue-quill-editor"; // require styles
+import "quill/dist/quill.core.css";
+// import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
+var Parchment = Quill.import("parchment");
+var Delta = Quill.import("delta");
+let Break = Quill.import("blots/break");
+let Embed = Quill.import("blots/embed");
+function lineBreakMatcher() {
+  var newDelta = new Delta();
+  newDelta.insert({ break: "" });
+  return newDelta;
+}
+var options = {
+  modules: {
+    clipboard: {
+      matchers: [["BR", lineBreakMatcher]],
+    },
+    keyboard: {
+      bindings: {
+        handleEnter: {
+          key: 13,
+          handler: function(range, context) {
+            if (range.length > 0) {
+              this.quill.scroll.deleteAt(range.index, range.length); // So we do not trigger text-change
+            }
+            let lineFormats = Object.keys(context.format).reduce(function(
+              lineFormats,
+              format
+            ) {
+              if (
+                Parchment.query(format, Parchment.Scope.BLOCK) &&
+                !Array.isArray(context.format[format])
+              ) {
+                lineFormats[format] = context.format[format];
+              }
+              return lineFormats;
+            },
+            {});
+            var previousChar = this.quill.getText(range.index - 1, 1);
+            // Earlier scroll.deleteAt might have messed up our selection,
+            // so insertText's built in selection preservation is not reliable
+            this.quill.insertText(
+              range.index,
+              "\n",
+              lineFormats,
+              Quill.sources.USER
+            );
+            if (previousChar == "" || previousChar == "\n") {
+              this.quill.setSelection(range.index + 2, Quill.sources.SILENT);
+            } else {
+              this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
+            }
+            this.quill.selection.scrollIntoView();
+            Object.keys(context.format).forEach((name) => {
+              if (lineFormats[name] != null) return;
+              if (Array.isArray(context.format[name])) return;
+              if (name === "link") return;
+              this.quill.format(name, context.format[name], Quill.sources.USER);
+            });
+          },
+        },
+        linebreak: {
+          key: 13,
+          shiftKey: true,
+          handler: function(range) {
+            var nextChar = this.quill.getText(range.index + 1, 1);
+            this.quill.insertEmbed(range.index, "break", true, "user");
+            if (nextChar.length == 0) {
+              // second line break inserts only at the end of parent element
+              this.quill.insertEmbed(range.index, "break", true, "user");
+            }
+            this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
+          },
+        },
+      },
+    },
+    toolbar: [
+      [
+        { indent: "-1" },
+        { indent: "+1" },
+        { list: "ordered" },
+        { list: "bullet" },
+        { align: [] },
+        { direction: "rtl" },
+        { size: ["small", false, "large", "huge"] },
+        { header: [1, 2, 3, 4, 5, 6, false] },
+      ],
+      [
+        { color: [] },
+        { background: [] },
+        "bold",
+        "italic",
+        "underline",
+        "strike",
+        "link",
+      ],
+    ],
+  },
+};
+
+Break.prototype.insertInto = function(parent, ref) {
+  Embed.prototype.insertInto.call(this, parent, ref);
+};
+Break.prototype.length = function() {
+  return 1;
+};
+Break.prototype.value = function() {
+  return "\n";
+};
+
 export default {
   name: "EmailSettings",
-  components: { ConfirmPopup },
+  components: { ConfirmPopup, quillEditor },
   data: function() {
     return {
       label: "Email Settings",
@@ -123,6 +248,8 @@ export default {
       message: "",
       subject: "",
       template: "",
+      quillEditor: {},
+      eOptions: options,
       to: "",
       testEmail: "",
       popupConfig: {
@@ -226,15 +353,20 @@ export default {
       this.is_enabled = data.is_enabled == 1;
       this.message = data.message;
       this.subject = data.subject;
-      this.template = this.convertHTMLStrings(data.template);
+      // this.template = this.convertHTMLStrings(data.template);
+      this.template = data.template;
       this.to = data.to;
       this.testEmail = data.testemail;
+      const quilEditor = this.$refs.quillEditor.quill.container.querySelector(
+        ".ql-editor"
+      );
+      quilEditor.innerHTML = this.convertHTMLStrings(this.template);
     },
     convertHTMLStrings(HTMLString) {
       var x = document.createElement("div");
       x.innerHTML = HTMLString;
       x.innerHTML = x.innerText;
-      return x.innerText;
+      return x.innerHTML;
     },
     async changeStatus(eve) {
       console.log("Status", eve);
@@ -242,9 +374,6 @@ export default {
       const res = await Axios.put(url, this.generateStatusPayLoad());
       if (res.data.error) {
         return false;
-      } else {
-        // this.setDefaults(res.data.data);
-        // this.fetchTemplate();
       }
     },
     generateUpdatePayLoad() {
@@ -265,6 +394,20 @@ export default {
         id_email: this.id_email,
         is_enabled: this.is_enabled == true ? 1 : 0,
       };
+    },
+    onEditorFocus: function(quill) {
+      this.quillEditor = quill.selection.savedRange.index;
+    },
+    onEditorBlur: function(eve) {
+      console.log(eve);
+    },
+    onEditorChange: function({ quill }) {
+      const limit = 3000;
+      if (quill.getLength() > limit) {
+        quill.deleteText(limit, quill.getLength());
+      }
+      const quillEditor = quill.container.querySelector(".ql-editor");
+      this.template = quillEditor.innerHTML;
     },
     saveEmailSettings() {
       const url = this.getApiUrl("Tiers/emailTemplate");
