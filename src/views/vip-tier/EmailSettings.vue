@@ -171,7 +171,7 @@ export default {
     confirmSendMailPopup() {
       this.popupConfig = {
         title: "Confirm!",
-        content: `An email will be sent to ${this.testEmail}`,
+        content: `An email will be sent to <a href="mailto:${this.testEmail}">${this.testEmail}</a>`,
         confirmText: "Yes, Proceed it",
         cancelText: "No, Cancel it",
         id: "sendMailPopup",

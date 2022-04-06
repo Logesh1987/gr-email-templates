@@ -11,9 +11,7 @@
         </div>
         <div class="messageArea">
           <div class="popupTitle">{{ popupConfig.title }}</div>
-          <div class="popupContent">
-            {{ popupConfig.content }}
-          </div>
+          <div class="popupContent" v-html="popupConfig.content"></div>
         </div>
       </div>
       <md-dialog-actions>

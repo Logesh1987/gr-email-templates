@@ -202,7 +202,7 @@
 #deleteDialog {
   .md-dialog-container {
     width: 350px;
-    background: #eee;
+    background: #fff;
     > div {
       padding: 10px 20px;
     }
