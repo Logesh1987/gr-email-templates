@@ -1,5 +1,5 @@
 <template>
-  <div :class="`confirmationInfoBox ${position || 'top-right'}`">
+  <div :class="`confirmationInfoBoxVue ${position || 'top-right'}`">
     <h5>{{ title || "Important!" }}</h5>
     <p>{{ description }}</p>
     <nav>
@@ -27,7 +27,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.confirmationInfoBox {
+.confirmationInfoBoxVue {
   background: #ff6a48;
   border-radius: 5px;
   color: #fff;

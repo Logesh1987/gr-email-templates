@@ -141,10 +141,10 @@
                   <li v-if="allowedCountries.length">
                     visible only in countries {{ allowedCountries }}.
                   </li>
-                  <li v-if="dInfo.scroll_percentage !== 0">
+                  <li v-if="parseInt(dInfo.scroll_percentage) !== 0">
                     visible only after {{ dInfo.scroll_percentage }}% scroll.
                   </li>
-                  <li v-if="dInfo.seconds !== 0">
+                  <li v-if="parseInt(dInfo.seconds) !== 0">
                     visible only after {{ dInfo.seconds }} seconds.
                   </li>
                   <li v-if="fomoData.is_automatic === 1">

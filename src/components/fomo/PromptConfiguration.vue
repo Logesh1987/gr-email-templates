@@ -76,7 +76,9 @@
       <md-dialog-actions>
         <md-button
           v-if="widgetData.attributes.status == 1"
-          :href="`/gr/admin/#/view/widgets/${widgetData.id}`"
+          :href="
+            `${Vue.prototype.$callback_url}/admin/#/view/widgets/${widgetData.id}`
+          "
           target="_blank"
           class="md-primary"
           >Edit Widget <i class="ml-5 fas fa-external-link mr-0"></i

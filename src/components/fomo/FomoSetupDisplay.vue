@@ -198,7 +198,7 @@
       </span>
       <md-button
         v-if="siteId && automatic == 1"
-        :href="`/gr/admin/#/${siteId}/view/widgets`"
+        :href="`${Vue.prototype.$callback_url}/admin/#/${siteId}/view/widgets`"
         class="md-primary"
         >Edit Widget <i class="ml-5 fas fa-external-link mr-0"></i
       ></md-button>
@@ -234,19 +234,19 @@ export default {
     formData: {
       deep: true,
       handler: function(data) {
-        `${data.horizontal}`.length && data.horizontal >= 0
+        data.horizontal.length && data.horizontal >= 0
           ? delete this.formErrors["horizontal"]
           : (this.formErrors.horizontal = "Invalid input");
 
-        `${data.vertical}`.length && data.vertical >= 0
+        data.vertical.length && data.vertical >= 0
           ? delete this.formErrors["vertical"]
           : (this.formErrors.vertical = "Invalid input");
 
-        data.seconds >= 0
+        data.seconds.length && data.seconds >= 0
           ? delete this.formErrors["delay"]
           : (this.formErrors.delay = "Invalid input");
 
-        data.scroll_percentage >= 0
+        data.scroll_percentage.length && data.scroll_percentage >= 0
           ? delete this.formErrors["scroll"]
           : (this.formErrors.scroll = "Invalid input");
 
