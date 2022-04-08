@@ -198,7 +198,7 @@
       </span>
       <md-button
         v-if="siteId && automatic == 1"
-        :href="`${Vue.prototype.$callback_url}/admin/#/${siteId}/view/widgets`"
+        :href="`${callbackUrl}/admin/#/${siteId}/view/widgets`"
         class="md-primary"
         >Edit Widget <i class="ml-5 fas fa-external-link mr-0"></i
       ></md-button>
@@ -227,6 +227,7 @@ export default {
     return {
       formErrors: {},
       siteId: Vue.prototype.$id_site || null,
+      callbackUrl: Vue.prototype.$callback_url || null,
       promptAutomatic: false
     };
   },

@@ -76,9 +76,7 @@
       <md-dialog-actions>
         <md-button
           v-if="widgetData.attributes.status == 1"
-          :href="
-            `${Vue.prototype.$callback_url}/admin/#/view/widgets/${widgetData.id}`
-          "
+          :href="`${callbackUrl}/admin/#/view/widgets/${widgetData.id}`"
           target="_blank"
           class="md-primary"
           >Edit Widget <i class="ml-5 fas fa-external-link mr-0"></i
@@ -100,6 +98,7 @@
   </div>
 </template>
 <script>
+import Vue from "vue";
 export default {
   name: "PromptConfiguration",
   props: ["data", "saveWidgetData"],
@@ -107,7 +106,8 @@ export default {
     return {
       promptConfig: false,
       formErrors: {},
-      widgetData: null
+      widgetData: null,
+      callbackUrl: Vue.prototype.$callback_url || null
     };
   },
   watch: {
