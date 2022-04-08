@@ -1130,6 +1130,9 @@ export default {
       height: 100%;
       --md-theme-default-primary-on-background: #333;
     }
+    .md-tabs-content {
+      height: auto !important;
+    }
     .md-tabs-navigation {
       display: flex;
       border: 1px solid var(--stroke-grey);

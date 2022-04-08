@@ -1158,6 +1158,9 @@ export default {
 .ql-snow .ql-picker.ql-expanded .ql-picker-options {
   z-index: 99;
 }
+.ql-snow strong {
+  font-weight: bold;
+}
 .md-overlay {
   z-index: 10000;
 }
