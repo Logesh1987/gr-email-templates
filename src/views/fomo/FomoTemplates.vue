@@ -2,7 +2,7 @@
   <div class="changeTemplateView">
     <div class="fixedHeaderBlock">
       <div class="fixedHeaderBlockInner">
-        <a class="link-back" @click.prevent="handleBack">
+        <a class="link-back" @click.prevent="handleTemplateBack">
           <i class="fa fa-long-arrow-left"
             ><md-tooltip md-direction="right">Back</md-tooltip></i
           >
@@ -89,7 +89,7 @@ export default {
       "updateApiResponse"
     ]),
     ...mapActions(["getFomo"]),
-    handleBack: function() {
+    handleTemplateBack: function() {
       this.$router.back();
     },
     handlePublish: function() {
