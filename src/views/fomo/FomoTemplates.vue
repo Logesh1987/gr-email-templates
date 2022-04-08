@@ -90,7 +90,7 @@ export default {
     ]),
     ...mapActions(["getFomo"]),
     handleBack: function() {
-      window.history.back();
+      this.$router.back();
     },
     handlePublish: function() {
       const url = this.getApiUrl("fomo/updateStatus");
