@@ -19,7 +19,7 @@
           <md-field
             :class="{ 'md-invalid': formErrors.horizontal, 'mt-20': true }"
           >
-            <label>Horizontal Position (px)</label>
+            <label>Horizontal</label>
             <md-input
               v-model="formData.horizontal"
               type="number"
@@ -35,7 +35,7 @@
           <md-field
             :class="{ 'md-invalid': formErrors.vertical, 'mt-20': true }"
           >
-            <label>Vertical Position (px)</label>
+            <label>Vertical</label>
             <md-input v-model="formData.vertical" type="number"></md-input>
             <span class="md-suffix">pixels</span>
             <span class="md-error" v-if="formErrors.vertical">{{
@@ -168,7 +168,7 @@
           class="switch small mr-10"
           for="is_automatic"
           @click.prevent="
-            e =>
+            (e) =>
               automatic == 1
                 ? (promptAutomatic = true)
                 : handleUpdateAutomatic()
@@ -187,7 +187,7 @@
           <FloatingConfirmBox
             position="bottom-right"
             description="Prompt warning"
-            :handleCancel="e => (promptAutomatic = false)"
+            :handleCancel="(e) => (promptAutomatic = false)"
             :handleProceed="handleUpdateAutomatic"
           />
         </div>
@@ -219,7 +219,7 @@ export default {
     "updateSecondaryError",
     "updateAutomatic",
     "content",
-    "hidePositioning"
+    "hidePositioning",
   ],
   components: { Multiselect, FloatingConfirmBox },
   mixins: ["createFormData"],
@@ -228,7 +228,7 @@ export default {
       formErrors: {},
       siteId: Vue.prototype.$id_site || null,
       callbackUrl: Vue.prototype.$callback_url || null,
-      promptAutomatic: false
+      promptAutomatic: false,
     };
   },
   watch: {
@@ -254,16 +254,16 @@ export default {
         Object.keys(this.formErrors).length > 0
           ? this.updateSecondaryError(true)
           : this.updateSecondaryError(false);
-      }
-    }
+      },
+    },
   },
   computed: {
     allCountries: function() {
       const all = [];
-      Object.keys(this.content.countries).forEach(key => {
+      Object.keys(this.content.countries).forEach((key) => {
         all.push({
           label: this.content.countries[key],
-          value: key
+          value: key,
         });
       });
       return all;
@@ -275,21 +275,21 @@ export default {
           ? this.formData.allowed_countries.length > 0
             ? this.formData.allowed_countries
                 .split(",")
-                .map(k => ({ value: k, label: this.content.countries[k] }))
+                .map((k) => ({ value: k, label: this.content.countries[k] }))
             : []
           : this.formData.allowed_countries;
       },
       set: function(v) {
         this.formData.allowed_countries = v;
-      }
-    }
+      },
+    },
   },
   methods: {
     handleUpdateAutomatic: function() {
       this.promptAutomatic = false;
       this.updateAutomatic();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

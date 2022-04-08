@@ -1310,6 +1310,7 @@ export default {
       line-height: 0.9;
       display: flex;
       align-items: center;
+      gap: 5px;
       font-weight: 400;
       margin: 0 0 8px;
     }

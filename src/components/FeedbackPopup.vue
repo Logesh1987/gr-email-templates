@@ -17,7 +17,7 @@
           <div class="md-error" v-if="!$v.feedback.required">
             Field is required
           </div>
-          <div class="md-error" v-if="!$v.feedback.minLength">
+          <div class="md-error" v-else-if="!$v.feedback.minLength">
             Feedback must be atleast 40 charectars
           </div>
         </md-field>
@@ -69,11 +69,11 @@ export default {
       showDialog: false,
       feedback: "",
       loading: false,
-      success: false
+      success: false,
     };
   },
   validations: {
-    feedback: { required, minLength: minLength(40) }
+    feedback: { required, minLength: minLength(40) },
   },
   methods: {
     closeDialog: function() {
@@ -86,7 +86,7 @@ export default {
     handleSubmit: function() {
       this.loading = true;
       const params = {
-        review: this.feedback
+        review: this.feedback,
       };
       Axios.post(this.url, this.createFormData(params)).then(({ data }) => {
         this.loading = false;
@@ -95,8 +95,8 @@ export default {
           this.closeDialog();
         }, 4000);
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
