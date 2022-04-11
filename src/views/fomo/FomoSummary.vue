@@ -164,7 +164,12 @@
               <i class="tabUi"><em></em></i>
               <h2>Fomo Preview</h2>
               <div class="previewBlockBtn">
-                <router-link :to="`/view/fomo/templates/${fomoId}`">
+                <router-link
+                  :to="{
+                    name: 'FomoTemplates',
+                    params: { history: 'summary' }
+                  }"
+                >
                   <md-button class="md-raised">Change template</md-button>
                 </router-link>
                 <md-button

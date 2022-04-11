@@ -90,7 +90,9 @@ export default {
     ]),
     ...mapActions(["getFomo"]),
     handleTemplateBack: function() {
-      this.$router.back();
+      if (this.$route.params.history)
+        this.$router.push(`../${this.$route.params.history}/${this.fomoId}`);
+      else this.$router.push(`../edit/${this.fomoId}`);
     },
     handlePublish: function() {
       const url = this.getApiUrl("fomo/updateStatus");
