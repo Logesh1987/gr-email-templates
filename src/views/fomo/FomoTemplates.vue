@@ -78,7 +78,7 @@ export default {
   name: "SelectTemplates",
   mixins: ["renderTemplate", "getAssetUrl", "getApiUrl"],
   computed: {
-    ...mapState(["fomoId", "fomoType", "fomoData", "fomoTemplates"])
+    ...mapState(["fomoId", "fomoType", "fomoData", "fomoTemplates"]),
   },
   methods: {
     ...mapMutations([
@@ -86,17 +86,17 @@ export default {
       "toggleLoader",
       "updateFomoData",
       "updateFomoTemplates",
-      "updateApiResponse"
+      "updateApiResponse",
     ]),
     ...mapActions(["getFomo"]),
     handleTemplateBack: function() {
-      this.$router.back();
+      this.$router.push(`../edit/${this.fomoId}`);
     },
     handlePublish: function() {
       const url = this.getApiUrl("fomo/updateStatus");
       const params = {
         id: this.fomoId,
-        status: this.fomoData.status == 0 ? 1 : 0
+        status: this.fomoData.status == 0 ? 1 : 0,
       };
       this.toggleLoader(true);
       var msg = null;
@@ -121,7 +121,7 @@ export default {
       const url = this.getApiUrl("fomo/activateTemplate");
       const params = {
         id_fomo: this.fomoId,
-        id_template: id
+        id_template: id,
       };
       this.toggleLoader(true);
       Axios.post(url, this.createFormData(params))
@@ -129,7 +129,7 @@ export default {
           if (data.data.status == "success") {
             var msg = `<i class="fas fa-check-circle"></i> ${data.data.message}`;
             this.updateApiResponse(msg);
-            this.getFomo().then(res => {
+            this.getFomo().then((res) => {
               if (res) {
                 this.$router.push(`../edit/${this.fomoId}`);
               }
@@ -141,13 +141,13 @@ export default {
           this.updateApiResponse(msg);
           this.toggleLoader(false);
         });
-    }
+    },
   },
   mounted: function() {
     if (this.fomoId !== this.$route.params.fomoid) {
       this.updateFomoId(this.$route.params.fomoid);
     }
-  }
+  },
 };
 </script>
 <style lang="less" scoped>
