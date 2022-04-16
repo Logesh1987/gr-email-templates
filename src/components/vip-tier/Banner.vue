@@ -1,7 +1,12 @@
 <template>
   <header class="amvip--header" v-if="showBanner">
     <div class="amvip--headerLogo">
-      <span class="vipTierLogoSmall"></span>
+      <span
+        class="vipTierLogoSmall"
+        :style="{
+          backgroundImage: 'url(' + getAssetUrl('vip-tier-logo.png') + ')',
+        }"
+      ></span>
       <div>
         VIP <span>Tiers</span>
         <small>Beta</small>

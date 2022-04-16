@@ -4,18 +4,23 @@
       <div class="innerWrapper">
         <header>
           <div
+            v-if="validURL(tierData.icon)"
             class="amvip--cardImg"
-            :class="validURL(tierData.icon) ? '' : tierData.icon"
-            v-bind:style="
-              validURL(tierData.icon)
-                ? {
-                    backgroundImage: 'url(' + getCDNImage(tierData.icon) + ')',
-                    backgroundSize: '100% 100%',
-                    backgroundColor: tierData.color,
-                  }
-                : { backgroundColor: tierData.color }
-            "
+            v-bind:style="{
+              backgroundImage: 'url(' + getCDNImage(tierData.icon) + ')',
+              backgroundSize: '100% 100%',
+              backgroundColor: tierData.color,
+            }"
           ></div>
+          <div
+            v-else
+            class="amvip--cardImg"
+            v-bind:style="{ backgroundColor: tierData.color }"
+          >
+            <svg :class="`icon-vip-${tierData.icon}`">
+              <use :xlink:href="`#icon-vip-${tierData.icon}`"></use>
+            </svg>
+          </div>
           <h3>{{ tierData.name }}</h3>
           <h5 v-if="tierData.goal !== 0">{{ tierData.description }}</h5>
           <div class="amvip--cardAction">
@@ -210,9 +215,9 @@ export default {
   ],
   data: () => ({}),
   methods: {
-    getImgUrl(image) {
-      return require("./../../assets/vip-tier/images/" + image);
-    },
+    // getImgUrl(image) {
+    //   return require("./../../assets/vip-tier/images/" + image);
+    // },
     editTier(eve, data) {
       this.$emit("editClicked", { context: this, data: data, eventObj: eve });
     },

@@ -1,8 +1,17 @@
 <template>
   <div class="amvip--landing">
-    <div class="amvip--landingInner">
+    <div
+      class="amvip--landingInner"
+      :style="{ backgroundImage: 'url(' + getAssetUrl('vip-bg.png') + ')' }"
+    >
       <aside class="amvip--setupPage">
-        <div class="brandLogo"></div>
+        <div
+          class="brandLogo"
+          :style="{
+            backgroundImage:
+              'url(' + getAssetUrl('vip-tier-logo-setup.png') + ')',
+          }"
+        ></div>
       </aside>
       <section class="amvip--landingContent">
         <ExpansionList

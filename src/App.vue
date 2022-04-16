@@ -11,9 +11,9 @@ import VueMaterial from "vue-material";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
 import Popover from "vue-js-popover";
-if (process.env.NODE_ENV == "development") {
-  require("@/assets/icon/fontawesome.min.css");
-}
+// if (process.env.NODE_ENV == "development") {
+//   require("@/assets/icon/fontawesome.min.css");
+// }
 // import "@/assets/icon/fontawesome.min.css";
 
 Vue.use(VueMaterial);
@@ -44,7 +44,7 @@ Vue.mixin({
       return formData;
     },
     getAssetUrl: function(url) {
-      return `${Vue.prototype.$asset_url}/assets/img/${url}`;
+      return `${Vue.prototype.$asset_url}/assets/img/vip_tiers/${url}`;
     },
     getImgUrl: function(value) {
       return `${window.Config.s3_image_url}/${value}`;

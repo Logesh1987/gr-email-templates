@@ -53,22 +53,16 @@
                 v-for="(icon, key) in iconArray"
                 :key="key"
                 class="amvip--iconPreview"
-                :class="icon"
                 @click="selectIcon(key, icon)"
               >
+                <svg :class="`icon-vip-${icon}`">
+                  <use :xlink:href="`#icon-vip-${icon}`"></use>
+                </svg>
                 <span
                   class="fas fa-check-circle checkIcon"
                   v-if="selectedCustomIconIndex === key && isPredefinedicon"
                 ></span>
               </span>
-              <!-- <input
-                id="fileUploadHidden"
-                type="file"
-                accept="image/*"
-                style="display:none;"
-                hidden
-                @change="selectedFile"
-              /> -->
               <span
                 v-if="selectedIcon.length > 0 && !isPredefinedicon"
                 id="fileUpload"
@@ -248,13 +242,7 @@ export default {
       defaultIcon: "",
       isPredefinedicon: false,
       selectedIcon: [],
-      iconArray: [
-        `icon-vip-crown_1`,
-        `icon-vip-crown_3`,
-        `icon-vip-star_1`,
-        `icon-vip-star_2`,
-        `icon-vip-star_3`,
-      ],
+      iconArray: [`crown_1`, `crown_3`, `star_1`, `star_2`, `star_3`],
       selectedCustomIconIndex: -1,
       initialShow: true,
     };

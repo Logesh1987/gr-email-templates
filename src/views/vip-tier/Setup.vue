@@ -1,7 +1,13 @@
 <template>
   <div class="amvip--landingGrey">
     <aside class="amvip--setupPage">
-      <div class="brandLogo"></div>
+      <div
+        class="brandLogo"
+        :style="{
+          backgroundImage:
+            'url(' + getAssetUrl('vip-tier-logo-setup.png') + ')',
+        }"
+      ></div>
     </aside>
     <section class="amvip-twoColContent" id="setupProgram">
       <div class="amvip--setUpTier">
