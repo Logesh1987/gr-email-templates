@@ -22,8 +22,8 @@ export default {
     "cancelBtn",
     "handleCancel",
     "handleProceed",
-    "position"
-  ]
+    "position",
+  ],
 };
 </script>
 <style lang="less" scoped>

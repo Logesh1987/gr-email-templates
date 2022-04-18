@@ -107,7 +107,7 @@ export default {
       promptConfig: false,
       formErrors: {},
       widgetData: null,
-      callbackUrl: Vue.prototype.$callback_url || null
+      callbackUrl: Vue.prototype.$callback_url || null,
     };
   },
   watch: {
@@ -127,13 +127,13 @@ export default {
             ? delete this.formErrors["time_interval"]
             : (this.formErrors.time_interval = "Must be in range of 5-20")
           : (this.formErrors.time_interval = "Invalid input");
-      }
+      },
     },
     promptConfig: function(val) {
       if (val) {
         this.widgetData = JSON.parse(JSON.stringify(this.data));
       }
-    }
+    },
   },
   methods: {
     handleSwitch: function(e) {
@@ -145,11 +145,11 @@ export default {
     handleSave: async function() {
       var result = await this.saveWidgetData(this.widgetData);
       if (result) this.promptConfig = false;
-    }
+    },
   },
   mounted: function() {
     this.widgetData = JSON.parse(JSON.stringify(this.data));
-  }
+  },
 };
 </script>
 <style lang="less" scoped>

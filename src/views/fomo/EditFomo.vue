@@ -240,7 +240,7 @@
                           <ImgUploadPreview
                             :id="`${key}-${name}`"
                             :handleFileChange="
-                              e => handleImgChange(e, key, name)
+                              (e) => handleImgChange(e, key, name)
                             "
                             :data="control"
                           />
@@ -252,7 +252,7 @@
                         </div>
                         <ColorPicker
                           :color="control.value"
-                          v-on:input="e => (control.value = e)"
+                          v-on:input="(e) => (control.value = e)"
                         ></ColorPicker>
                       </div>
                     </div>
@@ -423,7 +423,7 @@
                       <ImgUploadPreview
                         :id="`${appearanceIndex}-${name}`"
                         :handleFileChange="
-                          e => handleImgChange(e, appearanceIndex, name)
+                          (e) => handleImgChange(e, appearanceIndex, name)
                         "
                         :data="control"
                       />
@@ -435,7 +435,7 @@
                     </div>
                     <ColorPicker
                       :color="control.value"
-                      v-on:input="e => (control.value = e)"
+                      v-on:input="(e) => (control.value = e)"
                     ></ColorPicker>
                   </div>
                 </div>
@@ -463,7 +463,7 @@
               <router-link
                 :to="{
                   name: 'FomoTemplates',
-                  params: { history: 'edit' }
+                  params: { history: 'edit' },
                 }"
               >
                 <md-button class="md-raised">Change template</md-button>
@@ -482,7 +482,7 @@
             v-if="embedCode"
             :id="fomoId"
             :embedMode="embedMode"
-            :handleEmbedMode="e => (embedMode = e)"
+            :handleEmbedMode="(e) => (embedMode = e)"
           />
         </div>
       </div>
@@ -547,7 +547,7 @@ let Embed = Quill.import("blots/embed");
 var Block = Quill.import("blots/block");
 Block.tagName = "DIV";
 Quill.register({
-  "modules/htmlEditButton": htmlEditButton
+  "modules/htmlEditButton": htmlEditButton,
 });
 Quill.register(Block, true);
 var Size = Quill.import("attributors/style/size");
@@ -564,7 +564,7 @@ Size.whitelist = [
   "2.25em",
   "2.5em",
   "2.75em",
-  "3em"
+  "3em",
 ];
 Quill.register(Size, true);
 function lineBreakMatcher() {
@@ -575,7 +575,7 @@ function lineBreakMatcher() {
 var options = {
   modules: {
     clipboard: {
-      matchers: [["BR", lineBreakMatcher]]
+      matchers: [["BR", lineBreakMatcher]],
     },
     keyboard: {
       bindings: {
@@ -613,13 +613,13 @@ var options = {
               this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
             }
             this.quill.selection.scrollIntoView();
-            Object.keys(context.format).forEach(name => {
+            Object.keys(context.format).forEach((name) => {
               if (lineFormats[name] != null) return;
               if (Array.isArray(context.format[name])) return;
               if (name === "link") return;
               this.quill.format(name, context.format[name], Quill.sources.USER);
             });
-          }
+          },
         },
         linebreak: {
           key: 13,
@@ -632,9 +632,9 @@ var options = {
               this.quill.insertEmbed(range.index, "break", true, "user");
             }
             this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
-          }
-        }
-      }
+          },
+        },
+      },
     },
     htmlEditButton: {},
     toolbar: [
@@ -659,9 +659,9 @@ var options = {
             "2.25em",
             "2.5em",
             "2.75em",
-            "3em"
-          ]
-        }
+            "3em",
+          ],
+        },
         // { header: [1, 2, 3, 4, 5, 6, false] }
       ],
       [
@@ -673,10 +673,10 @@ var options = {
         "italic",
         "underline",
         "strike",
-        "link"
-      ]
-    ]
-  }
+        "link",
+      ],
+    ],
+  },
 };
 
 Break.prototype.insertInto = function(parent, ref) {
@@ -698,14 +698,14 @@ export default {
     CustomVariables,
     FomoSetupDisplay,
     FomoSetupReward,
-    EmbedInfo
+    EmbedInfo,
   },
   mixins: [
     "createFormData",
     "renderTemplate",
     "getImgUrl",
     "getApiUrl",
-    "doCopy"
+    "doCopy",
   ],
   props: ["mainTab"],
   data: function() {
@@ -724,7 +724,7 @@ export default {
       pauseFomoPrompt: false,
       publishFomoPrompt: false,
       discardChanges: false,
-      routeUrl: null
+      routeUrl: null,
     };
   },
   watch: {
@@ -744,7 +744,7 @@ export default {
         if (oldVal !== null) {
           this.dirty = true;
         }
-      }
+      },
     },
     templateSettings: {
       deep: true,
@@ -752,7 +752,7 @@ export default {
         if (oldVal !== null) {
           this.dirty = true;
         }
-      }
+      },
     },
     appearanceSettings: {
       deep: true,
@@ -760,8 +760,8 @@ export default {
         if (oldVal !== null) {
           this.dirty = true;
         }
-      }
-    }
+      },
+    },
   },
   computed: {
     ...mapState([
@@ -769,7 +769,7 @@ export default {
       "fomoType",
       "fomoData",
       "fomoClanData",
-      "fomoReady"
+      "fomoReady",
     ]),
     dataForPreview() {
       if (!this.fomoInputs) return null;
@@ -785,15 +785,15 @@ export default {
           vertical:
             this.fomoInputs.display_settings.vertical < 300
               ? this.fomoInputs.display_settings.vertical
-              : 300
+              : 300,
         },
         template: {
           position: this.fomoInputs.display_settings.position,
-          settings: {}
-        }
+          settings: {},
+        },
       };
-      this.templateSettings.forEach(data =>
-        Object.keys(data.attributes).forEach(key => {
+      this.templateSettings.forEach((data) =>
+        Object.keys(data.attributes).forEach((key) => {
           if ("status" in data.attributes[key]) {
             if (data.attributes[key].status == 1)
               dd.template.settings[key] = data.attributes[key].value;
@@ -803,8 +803,8 @@ export default {
           }
         })
       );
-      this.appearanceSettings.forEach(data =>
-        Object.keys(data.attributes).forEach(key => {
+      this.appearanceSettings.forEach((data) =>
+        Object.keys(data.attributes).forEach((key) => {
           if ("status" in data.attributes[key]) {
             if (data.attributes[key].status == 1)
               dd.template.settings[key] = data.attributes[key].value;
@@ -824,31 +824,31 @@ export default {
     templateSettings() {
       return this.fomoData
         ? this.fomoData.template_settings.settings.filter(
-            i => i.type !== "common"
+            (i) => i.type !== "common"
           )
         : null;
     },
     appearanceSettings() {
       return this.fomoData
         ? this.fomoData.template_settings.settings.filter(
-            i => i.type == "common"
+            (i) => i.type == "common"
           )
         : null;
     },
     appearanceIndex() {
       return this.fomoData
         ? this.fomoData.template_settings.settings.findIndex(
-            i => i.type == "common"
+            (i) => i.type == "common"
           )
         : null;
-    }
+    },
   },
   methods: {
     ...mapMutations([
       "updateFomoId",
       "toggleLoader",
       "updateFomoData",
-      "updateApiResponse"
+      "updateApiResponse",
     ]),
     setMainActiveTab: function(e) {
       this.mainActiveTab = e;
@@ -888,7 +888,7 @@ export default {
               msg = `<i class="fas fa-check-circle"></i> Uploaded successfully`;
             }
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
             msg = `<i class="fas fa-exclamation-circle"></i> ${err}`;
           })
@@ -923,7 +923,7 @@ export default {
           comp.value.slice(0, index) + item + comp.value.slice(index);
         comp.value = text;
         const dataRef = this.fomoData.template_settings.settings.find(
-          item => item.type == this.activeTab
+          (item) => item.type == this.activeTab
         );
         if (dataRef) dataRef.attributes[name].value = text;
       } else {
@@ -939,7 +939,7 @@ export default {
       const url = this.getApiUrl("fomo/updateStatus");
       const params = {
         id: this.fomoId,
-        status: this.fomoInputs.status == 0 ? 1 : 0
+        status: this.fomoInputs.status == 0 ? 1 : 0,
       };
       this.toggleLoader(true);
       var msg = null;
@@ -969,7 +969,7 @@ export default {
       this.toggleLoader(true);
       this.fomoInputs.template_settings.settings = [
         ...this.templateSettings,
-        ...this.appearanceSettings
+        ...this.appearanceSettings,
       ];
       const params = {
         id_fomo: this.fomoId,
@@ -978,7 +978,7 @@ export default {
         name: this.fomoInputs.name,
         status: this.fomoInputs.status,
         display_settings: JSON.stringify(this.fomoInputs.display_settings),
-        template_settings: JSON.stringify(this.fomoInputs.template_settings)
+        template_settings: JSON.stringify(this.fomoInputs.template_settings),
       };
 
       if (Object.keys(this.fomoInputs["reward_settings"]).length) {
@@ -997,7 +997,7 @@ export default {
             this.dirty = false;
           }, 500);
         })
-        .catch(err => console.log(err))
+        .catch((err) => console.log(err))
         .finally(() => this.toggleLoader(false));
     },
     beforeWindowUnload: function(event) {
@@ -1009,7 +1009,7 @@ export default {
     handleDiscard: function() {
       this.dirty = false;
       this.$router.push(this.routeUrl.path);
-    }
+    },
   },
   mounted: function() {
     if (!window.Vue) {
@@ -1049,7 +1049,7 @@ export default {
   },
   beforeDestroy: function() {
     window.removeEventListener("beforeunload", this.beforeWindowUnload);
-  }
+  },
 };
 </script>
 <style lang="less" scoped>

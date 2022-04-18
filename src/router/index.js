@@ -22,13 +22,13 @@ const routes = [
   {
     path: "/view/email/templates/",
     name: "EmailListing",
-    component: EmailListing
+    component: EmailListing,
   },
   {
     path: "/view/email/templates/:emailId",
     name: "EmailEdit",
     props: true,
-    component: EmailEdit
+    component: EmailEdit,
   },
   {
     path: "/view/fomo",
@@ -37,32 +37,32 @@ const routes = [
       {
         path: "/",
         name: "FomoListing",
-        component: FomoListing
+        component: FomoListing,
       },
       {
         path: "summary/:fomoid",
         name: "FomoSummary",
         props: true,
-        component: FomoSummary
+        component: FomoSummary,
       },
       {
         path: "templates/:fomoid",
         name: "FomoTemplates",
         props: true,
-        component: FomoTemplates
+        component: FomoTemplates,
       },
       {
         path: "edit/:fomoid",
         name: "EditFomo",
         props: true,
-        component: EditFomo
-      }
-    ]
-  }
+        component: EditFomo,
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({
-  routes
+  routes,
 });
 
 export default router;

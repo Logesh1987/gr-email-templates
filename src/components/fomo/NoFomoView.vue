@@ -26,7 +26,7 @@
 <script>
 export default {
   name: "NoFomoView",
-  mixins: ["getAssetUrl"]
+  mixins: ["getAssetUrl"],
 };
 </script>
 <style lang="less" scoped>

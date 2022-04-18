@@ -43,8 +43,8 @@ export default {
   computed: {
     copyCode() {
       return `<script src="https://unpkg.com/vue@2.6"><\/script><script src="${Vue.prototype.$asset_url}/assets/js/fomo/am.js"><\/script><am-fomo id="${this.id}" embed="${this.embedMode ? "floating" : "inline"}" />`; // eslint-disable-line
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

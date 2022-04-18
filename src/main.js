@@ -5,7 +5,7 @@ import store from "./store";
 
 Vue.config.productionTip = false;
 
-Vue.config.errorHandler = err => {
+Vue.config.errorHandler = (err) => {
   if (process.env.NODE_ENV !== "production") {
     // Show any error but this one
     if (
@@ -22,7 +22,7 @@ if (window.location.origin.includes("localhost")) {
     cdn_img_url: "https://gr-v1.devam.pro/public",
     cdn_raw_url: "https://gr-v1.devam.pro/public",
     s3_image_url: "https://s3.us-east-1.amazonaws.com/devam.pro/gr/master",
-    id_site: 4598
+    id_site: 4598,
   };
 }
 
@@ -46,5 +46,5 @@ Vue.prototype.$asset_url = `${Vue.prototype.$callback_url}/public`;
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#email-app");

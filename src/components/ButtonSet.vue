@@ -1,6 +1,8 @@
-<template> </template>
+<template>
+  <div style="display:none">Dummy</div>
+</template>
 <script>
 export default {
-  name: "ButtonSet"
+  name: "ButtonSet",
 };
 </script>

@@ -69,7 +69,7 @@
                   ><md-tooltip md-direction="left">Edit</md-tooltip></i
                 >
               </router-link>
-              <a href="#" @click.prevent="e => sendTestEmail(mail.id_email)">
+              <a href="#" @click.prevent="(e) => sendTestEmail(mail.id_email)">
                 <i class="far fa-paper-plane"
                   ><md-tooltip md-direction="left"
                     >Send Test Email</md-tooltip
@@ -122,7 +122,10 @@
                     ><md-tooltip md-direction="left">Edit</md-tooltip></i
                   >
                 </router-link>
-                <a href="#" @click.prevent="e => sendTestEmail(mail.id_email)">
+                <a
+                  href="#"
+                  @click.prevent="(e) => sendTestEmail(mail.id_email)"
+                >
                   <i class="far fa-paper-plane"
                     ><md-tooltip md-direction="left"
                       >Send Test Email</md-tooltip
@@ -212,7 +215,7 @@ export default {
       listData: [],
       emailMessage: false,
       emailResponse: null,
-      loader: false
+      loader: false,
     };
   },
   components: { Loader },
@@ -223,14 +226,14 @@ export default {
     },
     inactiveList: function() {
       return this.listData.filter(({ is_enabled }) => is_enabled == 0);
-    }
+    },
   },
   methods: {
     changeEmailStatus: function(id, status) {
       this.loader = true;
       const params = {
         is_enabled: status ? 0 : 1,
-        id_email: id
+        id_email: id,
       };
       const formData = new FormData();
       for (var key in params) {
@@ -243,7 +246,7 @@ export default {
         this.loader = false;
         if (status == 200) {
           this.emailResponse = `<i class="fas fa-check-circle"></i> ${data.msg}`;
-          this.listData = this.listData.map(item =>
+          this.listData = this.listData.map((item) =>
             item.id_email == id
               ? { ...item, is_enabled: params.is_enabled }
               : item
@@ -266,7 +269,7 @@ export default {
           this.emailResponse = `<i class="fas fa-exclamation-circle"></i> There was an error sending mail to ${data.mail_to}`;
         this.emailMessage = true;
       });
-    }
+    },
   },
   mounted: function() {
     this.loader = true;
@@ -276,7 +279,7 @@ export default {
       this.listData = data.data;
       this.loader = false;
     });
-  }
+  },
 };
 </script>
 

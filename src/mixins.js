@@ -1,6 +1,6 @@
 import Vue from "vue";
 export default {
-  renderTemplate: data =>
+  renderTemplate: (data) =>
     data.email_template.length > 5
       ? data.email_template.replace(/\[\[(.*?)\]]/g, (full, property) =>
           data.json_fields[property]
@@ -8,7 +8,7 @@ export default {
             : property
         )
       : "<div>Invalid Template</div>",
-  createFormData: data => {
+  createFormData: (data) => {
     let formData = new FormData();
     for (let key in data) {
       if (typeof data[key] === "object") {
@@ -57,5 +57,5 @@ export default {
         document.body.removeChild(textarea);
       }
     }
-  }
+  },
 };

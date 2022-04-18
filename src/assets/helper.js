@@ -1,4 +1,4 @@
-export const createFormData = data => {
+export const createFormData = (data) => {
   let formData = new FormData();
   for (let key in data) {
     if (typeof data[key] === "object") {
@@ -12,7 +12,7 @@ export const createFormData = data => {
   return formData;
 };
 
-export const renderTemplate = data =>
+export const renderTemplate = (data) =>
   data.email_template.length > 5
     ? data.email_template.replace(/\[\[(.*?)\]]/g, (full, property) =>
         data.json_fields[property] ? data.json_fields[property].value : property

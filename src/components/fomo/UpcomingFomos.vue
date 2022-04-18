@@ -103,6 +103,6 @@
 </template>
 <script>
 export default {
-  name: "UpcomingFomos"
+  name: "UpcomingFomos",
 };
 </script>

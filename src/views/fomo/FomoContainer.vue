@@ -30,11 +30,11 @@ export default {
   mixins: ["getApiUrl"],
   data: function() {
     return {
-      apiMsgStatus: false
+      apiMsgStatus: false,
     };
   },
   computed: {
-    ...mapState(["loading", "apiResponse", "fomoId", "fomoTemplateId"])
+    ...mapState(["loading", "apiResponse", "fomoId", "fomoTemplateId"]),
   },
   watch: {
     fomoId: function(val, oldVal) {
@@ -47,15 +47,15 @@ export default {
         this.apiMsgStatus = true;
         setTimeout(() => this.updateApiResponse(null), 4500);
       }
-    }
+    },
   },
   methods: {
     ...mapActions(["getFomo"]),
     ...mapMutations(["updateApiResponse"]),
     setProp: function(name, data) {
       this[name] = data;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

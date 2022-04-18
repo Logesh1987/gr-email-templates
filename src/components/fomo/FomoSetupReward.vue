@@ -131,7 +131,7 @@
                     </h6>
                     <md-field
                       :class="{
-                        'md-invalid': formErrors.realtime_coupon_value
+                        'md-invalid': formErrors.realtime_coupon_value,
                       }"
                     >
                       <md-input
@@ -273,7 +273,7 @@ export default {
   // components: { ImgUploadPreview },
   data: function() {
     return {
-      formErrors: {}
+      formErrors: {},
     };
   },
   watch: {
@@ -311,9 +311,9 @@ export default {
         Object.keys(this.formErrors).length > 0
           ? this.updateSecondaryError(true)
           : this.updateSecondaryError(false);
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

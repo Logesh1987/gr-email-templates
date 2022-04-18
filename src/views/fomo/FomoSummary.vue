@@ -41,7 +41,7 @@
                   <router-link
                     :to="{
                       name: 'EditFomo',
-                      params: { fomoId: `${fomoId}`, mainTab: 'tab-template' }
+                      params: { fomoId: `${fomoId}`, mainTab: 'tab-template' },
                     }"
                   >
                     <i class="fas fa-edit editIcn"
@@ -76,7 +76,7 @@
                   <router-link
                     :to="{
                       name: 'EditFomo',
-                      params: { fomoId: `${fomoId}`, mainTab: 'tab-reward' }
+                      params: { fomoId: `${fomoId}`, mainTab: 'tab-reward' },
                     }"
                   >
                     <i class="fas fa-edit editIcn"
@@ -104,7 +104,7 @@
                   <router-link
                     :to="{
                       name: 'EditFomo',
-                      params: { fomoId: `${fomoId}`, mainTab: 'tab-display' }
+                      params: { fomoId: `${fomoId}`, mainTab: 'tab-display' },
                     }"
                   >
                     <i class="fas fa-edit editIcn"
@@ -167,7 +167,7 @@
                 <router-link
                   :to="{
                     name: 'FomoTemplates',
-                    params: { history: 'summary' }
+                    params: { history: 'summary' },
                   }"
                 >
                   <md-button class="md-raised">Change template</md-button>
@@ -186,7 +186,7 @@
               v-if="embedCode"
               :id="fomoId"
               :embedMode="embedMode"
-              :handleEmbedMode="e => (embedMode = e)"
+              :handleEmbedMode="(e) => (embedMode = e)"
             />
           </div>
         </div>
@@ -209,7 +209,7 @@ export default {
       apiMessage: false,
       apiResponse: null,
       embedCode: false,
-      embedMode: true
+      embedMode: true,
     };
   },
   computed: {
@@ -219,7 +219,7 @@ export default {
       "fomoData",
       "fomoTemplates",
       "fomoClanData",
-      "fomoReady"
+      "fomoReady",
     ]),
     dataForPreview() {
       if (!this.fomoData) return null;
@@ -235,15 +235,15 @@ export default {
           vertical:
             this.fomoData.display_settings.vertical < 300
               ? this.fomoData.display_settings.vertical
-              : 300
+              : 300,
         },
         template: {
           position: this.fomoData.display_settings.position,
-          settings: {}
-        }
+          settings: {},
+        },
       };
-      this.fomoData.template_settings.settings.forEach(data =>
-        Object.keys(data.attributes).forEach(key => {
+      this.fomoData.template_settings.settings.forEach((data) =>
+        Object.keys(data.attributes).forEach((key) => {
           if ("status" in data.attributes[key]) {
             if (data.attributes[key].status == 1)
               dd.template.settings[key] = data.attributes[key].value;
@@ -266,7 +266,7 @@ export default {
         typeof this.fomoData.display_settings.allowed_countries !== "string"
       ) {
         return this.fomoData.display_settings.allowed_countries
-          .map(i => i.label)
+          .map((i) => i.label)
           .join(", ");
       } else {
         return "";
@@ -274,22 +274,22 @@ export default {
     },
     activeTemplate: function() {
       return this.fomoTemplates
-        ? this.fomoTemplates.find(item => item.attributes.is_activated == 1)
+        ? this.fomoTemplates.find((item) => item.attributes.is_activated == 1)
         : null;
-    }
+    },
   },
   methods: {
     ...mapMutations([
       "updateFomoId",
       "toggleLoader",
       "updateApiResponse",
-      "updateFomoData"
+      "updateFomoData",
     ]),
     handlePublish: function() {
       const url = this.getApiUrl("fomo/updateStatus");
       const params = {
         id: this.fomoId,
-        status: this.fomoData.status == 0 ? 1 : 0
+        status: this.fomoData.status == 0 ? 1 : 0,
       };
       this.toggleLoader(true);
       var msg = null;
@@ -309,7 +309,7 @@ export default {
           console.log(error);
         })
         .finally(() => this.toggleLoader(false));
-    }
+    },
   },
   mounted: function() {
     if (!window.Vue) {
@@ -328,7 +328,7 @@ export default {
       plugin.async = true;
       document.head.appendChild(plugin);
     }
-  }
+  },
 };
 </script>
 <style lang="less" scoped>

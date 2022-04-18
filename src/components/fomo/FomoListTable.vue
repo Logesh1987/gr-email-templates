@@ -29,7 +29,7 @@
                 class="switch"
                 :for="data.id"
                 @click="
-                  e => updateStatus('status', data.id, data.attributes.status)
+                  (e) => updateStatus('status', data.id, data.attributes.status)
                 "
               >
                 <input
@@ -44,11 +44,11 @@
               <label
                 :class="[
                   'switch',
-                  `${data.attributes.status == 0 ? 'disabled' : ''}`
+                  `${data.attributes.status == 0 ? 'disabled' : ''}`,
                 ]"
                 :for="data.id"
                 @click="
-                  e =>
+                  (e) =>
                     updateStatus(
                       'is_automatic',
                       data.id,
@@ -89,15 +89,15 @@ export default {
     return {
       categories: {
         signup_bonus: "Signup Bonus",
-        new_product_release: "New Product"
-      }
+        new_product_release: "New Product",
+      },
     };
   },
   methods: {
     mapCategory: function(type) {
       return this.categories[type];
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

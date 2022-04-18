@@ -20,7 +20,7 @@ Vue.use(VueMaterial);
 
 // GLOBAL MIXINS - HELPER FUNCTIONS
 Vue.mixin({
-  methods: mixins
+  methods: mixins,
 });
 
 export default {
@@ -28,7 +28,7 @@ export default {
   mounted: function() {
     document.documentElement.classList.remove("md-theme-default");
     document.querySelector("#app").classList.add("md-theme-default");
-  }
+  },
 };
 </script>
 

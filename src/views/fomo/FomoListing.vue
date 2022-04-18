@@ -152,7 +152,7 @@ export default {
       errored: false,
       showNavigation: false,
       promptConfig: false,
-      showSidepanel: false
+      showSidepanel: false,
     };
   },
   computed: {
@@ -162,13 +162,13 @@ export default {
     },
     inactiveFomo: function() {
       return this.listData.filter(({ attributes }) => attributes.status == 0);
-    }
+    },
   },
   methods: {
     ...mapMutations([
       "updateAllFomoTypes",
       "toggleLoader",
-      "updateApiResponse"
+      "updateApiResponse",
     ]),
     fetchSiteFomo: function() {
       const url = this.getApiUrl("fomo");
@@ -207,8 +207,8 @@ export default {
           name: "EditFomo",
           params: {
             fomoid: data.data.id,
-            created: true
-          }
+            created: true,
+          },
         });
       });
     },
@@ -218,21 +218,21 @@ export default {
       const url = this.getApiUrl(`fomo/${urlTag}`);
       const params = {
         id: id,
-        [statusName]: status == 0 ? 1 : 0
+        [statusName]: status == 0 ? 1 : 0,
       };
       this.toggleLoader(true);
       var msg = null;
       Axios.post(url, this.createFormData(params))
         .then(({ data }) => {
           if (data.data.status === "success") {
-            this.listData = this.listData.map(item =>
+            this.listData = this.listData.map((item) =>
               item.id === id
                 ? {
                     ...item,
                     attributes: {
                       ...item.attributes,
-                      [statusName]: params[statusName]
-                    }
+                      [statusName]: params[statusName],
+                    },
                   }
                 : item
             );
@@ -253,7 +253,7 @@ export default {
         id: value.id,
         is_looping: value.attributes.is_looping,
         time_duration: value.attributes.time_duration,
-        time_interval: value.attributes.time_interval
+        time_interval: value.attributes.time_interval,
       };
       postArray.push(
         Axios.post(
@@ -264,7 +264,7 @@ export default {
       if (value.attributes.status !== this.widgetData.attributes.status) {
         var params2 = {
           id: value.id,
-          status: value.attributes.status
+          status: value.attributes.status,
         };
         postArray.push(
           Axios.post(
@@ -276,7 +276,7 @@ export default {
       this.toggleLoader(true);
       var msg = null;
       return Axios.all(postArray)
-        .then(data => {
+        .then((data) => {
           msg = `<i class="fas fa-check-circle"></i> ${data[0].data.data.message}`;
           this.widgetData.attributes = value.attributes;
           return true;
@@ -289,13 +289,13 @@ export default {
           this.toggleLoader(false);
           this.updateApiResponse(msg);
         });
-    }
+    },
   },
   mounted: function() {
     this.toggleLoader(true);
     this.fetchSiteFomo();
     this.fetchAllFomo();
-  }
+  },
 };
 </script>
 

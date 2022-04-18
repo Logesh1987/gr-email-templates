@@ -22,7 +22,7 @@
             >
             <md-button
               @click.prevent="
-                e =>
+                (e) =>
                   editted > 2 ? (showUnsavedpop = 'change') : togglePageview()
               "
               class="md-raised md-accent"
@@ -89,7 +89,7 @@
                     <div
                       :class="[
                         'eAccordion-items',
-                        { active: activeAccordion == key }
+                        { active: activeAccordion == key },
                       ]"
                       v-for="(item, key) in eData.json_fields"
                       :key="key"
@@ -98,7 +98,7 @@
                         v-if="item.data && item.name !== 'footer'"
                         class="eAccordion-title"
                         @click.prevent="
-                          e => item.data.length !== 0 && toggleAccordion(key)
+                          (e) => item.data.length !== 0 && toggleAccordion(key)
                         "
                       >
                         <i
@@ -221,7 +221,7 @@
                                     type="file"
                                     accept="image/*"
                                     @change="
-                                      e =>
+                                      (e) =>
                                         handleFileChange(
                                           e,
                                           key,
@@ -252,7 +252,7 @@
                               </div>
                               <ColorPicker
                                 :color="control.value"
-                                v-on:input="e => (control.value = e)"
+                                v-on:input="(e) => (control.value = e)"
                               ></ColorPicker>
                             </div>
                           </div>
@@ -268,14 +268,14 @@
                     'eAccordion-footer',
                     {
                       active:
-                        activeAccordion == 'footer' && isWl == 1 && wlImage
-                    }
+                        activeAccordion == 'footer' && isWl == 1 && wlImage,
+                    },
                   ]"
                 >
                   <div
                     class="eAccordion-title"
                     @click.prevent="
-                      e =>
+                      (e) =>
                         footerSection.data.length !== 0 && isWl == 1 && wlImage
                           ? toggleAccordion('footer')
                           : (upgradePopup = true)
@@ -304,7 +304,7 @@
                                 title="Update status"
                                 for="footer"
                                 @click.prevent="
-                                  e => {
+                                  (e) => {
                                     if (control.value === 1) {
                                       control.value = 0;
                                       handleWlImg(true);
@@ -374,7 +374,7 @@
                           <PreviewRenderer
                             v-for="(block, index) in eData.json_fields"
                             :handleClick="
-                              e =>
+                              (e) =>
                                 (activeAccordion =
                                   block.name == 'footer' ? 'footer' : index)
                             "
@@ -408,7 +408,7 @@
               "
               md-confirm-text="Confirm"
               md-cancel-text="Cancel"
-              @md-cancel="e => (resetAction = false)"
+              @md-cancel="(e) => (resetAction = false)"
               @md-confirm="confirmReset"
             />
             <md-dialog-confirm
@@ -424,9 +424,9 @@
               "
               md-confirm-text="Confirm"
               md-cancel-text="Cancel"
-              @md-cancel="e => (showUnsavedpop = false)"
+              @md-cancel="(e) => (showUnsavedpop = false)"
               @md-confirm="
-                e =>
+                (e) =>
                   showUnsavedpop == 'change'
                     ? togglePageview()
                     : pushtoLanguageTab()
@@ -440,7 +440,7 @@
               "
               md-confirm-text="Confirm"
               md-cancel-text="Cancel"
-              @md-cancel="e => (promptAction = null)"
+              @md-cancel="(e) => (promptAction = null)"
               @md-confirm="confirmAction"
             />
             <md-dialog-confirm
@@ -505,7 +505,7 @@ function lineBreakMatcher() {
 var options = {
   modules: {
     clipboard: {
-      matchers: [["BR", lineBreakMatcher]]
+      matchers: [["BR", lineBreakMatcher]],
     },
     keyboard: {
       bindings: {
@@ -543,13 +543,13 @@ var options = {
               this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
             }
             this.quill.selection.scrollIntoView();
-            Object.keys(context.format).forEach(name => {
+            Object.keys(context.format).forEach((name) => {
               if (lineFormats[name] != null) return;
               if (Array.isArray(context.format[name])) return;
               if (name === "link") return;
               this.quill.format(name, context.format[name], Quill.sources.USER);
             });
-          }
+          },
         },
         linebreak: {
           key: 13,
@@ -562,9 +562,9 @@ var options = {
               this.quill.insertEmbed(range.index, "break", true, "user");
             }
             this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
-          }
-        }
-      }
+          },
+        },
+      },
     },
     toolbar: [
       [
@@ -575,7 +575,7 @@ var options = {
         { align: [] },
         { direction: "rtl" },
         { size: ["small", false, "large", "huge"] },
-        { header: [1, 2, 3, 4, 5, 6, false] }
+        { header: [1, 2, 3, 4, 5, 6, false] },
       ],
       [
         { color: [] },
@@ -584,10 +584,10 @@ var options = {
         "italic",
         "underline",
         "strike",
-        "link"
-      ]
-    ]
-  }
+        "link",
+      ],
+    ],
+  },
 };
 
 Break.prototype.insertInto = function(parent, ref) {
@@ -609,7 +609,7 @@ export default {
     Loader,
     quillEditor,
     PreviewRenderer,
-    draggable
+    draggable,
   },
   mixins: ["createFormData", "renderTemplate", "getImgUrl"],
   data: function() {
@@ -639,7 +639,7 @@ export default {
       footerAction: false,
       showUnsavedpop: false,
       upgradePopup: false,
-      editted: 0
+      editted: 0,
     };
   },
   watch: {
@@ -662,7 +662,7 @@ export default {
           this.disableTest = true;
           this.editted = this.editted + 1;
         }
-      }
+      },
     },
     showMsg: function() {
       if (this.showMsg) {
@@ -675,20 +675,20 @@ export default {
           this.wlImage = true;
         }
       });
-    }
+    },
   },
   computed: {
     footerSection() {
-      return this.eData.json_fields.find(item => item.name === "footer");
+      return this.eData.json_fields.find((item) => item.name === "footer");
     },
     dragOptions() {
       return {
         animation: 0,
         group: "description",
         disabled: false,
-        ghostClass: "ghost"
+        ghostClass: "ghost",
       };
-    }
+    },
   },
   methods: {
     setEdata: function(id) {
@@ -784,7 +784,7 @@ export default {
         id_theme: id_theme,
         type: this.emailType,
         is_enabled: 1,
-        json_fields: JSON.stringify(json_fields)
+        json_fields: JSON.stringify(json_fields),
       };
 
       Axios.post(
@@ -827,9 +827,9 @@ export default {
         `${window.Config.callback_url}/services/v2/email/resetEmailTemplate`,
         this.createFormData({
           id_email: this.id,
-          id_theme: this.eData.id_theme
+          id_theme: this.eData.id_theme,
         })
-      ).then(res => {
+      ).then((res) => {
         if (res.status == 200) {
           this.fetchTemplateData();
           this.emailResponse = `<i class="fas fa-check-circle"></i> Template reset successfully`;
@@ -853,7 +853,7 @@ export default {
           themes,
           is_wl,
           title,
-          type
+          type,
         } = data.data;
         this.dVars = dynamic_variables.split(",");
         this.allData = themes;
@@ -914,7 +914,7 @@ export default {
     },
     gotoPlans: function() {
       window.location.href = `${window.Config.callback_url}/admin/#/plans`;
-    }
+    },
   },
   mounted: function() {
     this.fetchTemplateData();
@@ -925,7 +925,7 @@ export default {
     const emailFooter = document.querySelector(".emailFooterTxt");
     if (emailFooter)
       emailFooter.addEventListener("click", this.triggerFooterListener);
-  }
+  },
 };
 </script>
 <style lang="less" scoped>

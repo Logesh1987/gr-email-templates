@@ -16,7 +16,7 @@ export default new Vuex.Store({
     fomoTemplates: null,
     fomoVariables: null,
     fomoClanData: null,
-    fomoReady: false
+    fomoReady: false,
   },
   mutations: {
     toggleLoader: (state, payload) => {
@@ -48,7 +48,7 @@ export default new Vuex.Store({
     },
     updateFomoClanData: (state, payload) => {
       state.fomoClanData = payload;
-    }
+    },
   },
   actions: {
     getFomo: ({ commit, state }) => {
@@ -72,7 +72,7 @@ export default new Vuex.Store({
           return false;
         })
         .finally(() => commit("toggleLoader", false));
-    }
+    },
   },
-  modules: {}
+  modules: {},
 });

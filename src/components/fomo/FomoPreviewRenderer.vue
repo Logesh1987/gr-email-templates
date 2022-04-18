@@ -8,7 +8,7 @@ export default {
   computed: {
     templateOutput: function() {
       return this.tData ? this.renderTemplate(this.tData, this.tHtml) : null;
-    }
+    },
   },
   methods: {
     renderTemplate: (data, html) =>
@@ -22,7 +22,7 @@ export default {
               return `[[${property}]]`;
             }
           })
-        : "<div>Invalid Template</div>"
-  }
+        : "<div>Invalid Template</div>",
+  },
 };
 </script>

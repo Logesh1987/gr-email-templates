@@ -15,6 +15,6 @@ import VCalendar from "v-calendar";
 Vue.use(VCalendar);
 export default {
   name: "DateTimePicker",
-  props: ["title", "onChange", "mode"]
+  props: ["title", "onChange", "mode"],
 };
 </script>
