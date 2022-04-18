@@ -292,6 +292,23 @@ export default {
   },
 };
 </script>
+<style lang="less">
+.pageDisplay {
+  input {
+    width: 100%;
+  }
+}
+@media all and (max-width: 1220px) {
+  .displaySetting {
+    .display-flex.hv-position {
+      flex-direction: column;
+      .display-flex {
+        width: 100%;
+      }
+    }
+  }
+}
+</style>
 <style lang="less" scoped>
 .md-field {
   input {
@@ -301,9 +318,6 @@ export default {
     left: auto;
     right: 0;
   }
-}
-.pageDisplay input {
-  width: 100%;
 }
 .bLabel {
   font-size: 1.1em;
