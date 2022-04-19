@@ -134,18 +134,28 @@
                     {{ fomoClanData.prompt_positions[dInfo.position] }}.
                   </li>
                   <li>Visible to {{ dInfo.visible_to }}.</li>
-                  <li>Displayed in {{ dInfo.show_on_page }} pages.</li>
+                  <li>Displayed in {{ dInfo.show_on_page }} page/s.</li>
                   <li v-if="dInfo.show_on_first_visit == 1">
                     Displayed on first visit only.
                   </li>
                   <li v-if="allowedCountries.length">
-                    visible only in countries {{ allowedCountries }}.
+                    visible only in country/s {{ allowedCountries }}.
                   </li>
-                  <li v-if="parseInt(dInfo.scroll_percentage) !== 0">
+                  <li
+                    v-if="
+                      parseInt(dInfo.scroll_percentage) !== 0 &&
+                        fomoData.is_automatic !== 1
+                    "
+                  >
                     visible only after {{ dInfo.scroll_percentage }}% scroll.
                   </li>
-                  <li v-if="parseInt(dInfo.seconds) !== 0">
-                    visible only after {{ dInfo.seconds }} seconds.
+                  <li
+                    v-if="
+                      parseInt(dInfo.seconds) !== 0 &&
+                        fomoData.is_automatic !== 1
+                    "
+                  >
+                    visible only after {{ dInfo.seconds }} second/s.
                   </li>
                   <li v-if="fomoData.is_automatic === 1">
                     Added to automatic queue.
