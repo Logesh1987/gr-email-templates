@@ -177,7 +177,7 @@
                 <router-link
                   :to="{
                     name: 'FomoTemplates',
-                    params: { history: 'summary' },
+                    params: { history: 'FomoSummary' },
                   }"
                 >
                   <md-button class="md-raised">Change template</md-button>

@@ -90,9 +90,14 @@ export default {
     ]),
     ...mapActions(["getFomo"]),
     handleTemplateBack: function() {
-      if (this.$route.params.history)
-        this.$router.push(`../${this.$route.params.history}/${this.fomoId}`);
-      else this.$router.push(`../edit/${this.fomoId}`);
+      // if (this.$route.params.history)
+      //   this.$router.push(`../${this.$route.params.history}/${this.fomoId}`);
+      // else this.$router.push(`../edit/${this.fomoId}`);
+      // window.history.back();
+      this.$router.push({
+        name: this.$route.params.history,
+        params: { fomoid: this.fomoId },
+      });
     },
     handlePublish: function() {
       const url = this.getApiUrl("fomo/updateStatus");

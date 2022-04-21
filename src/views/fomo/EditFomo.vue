@@ -463,7 +463,7 @@
               <router-link
                 :to="{
                   name: 'FomoTemplates',
-                  params: { history: 'edit' },
+                  params: { history: 'EditFomo' },
                 }"
               >
                 <md-button class="md-raised">Change template</md-button>
