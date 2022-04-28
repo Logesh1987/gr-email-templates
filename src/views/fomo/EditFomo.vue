@@ -4,11 +4,11 @@
       <div class="fixedHeaderBlock">
         <div class="fixedHeaderBlockInner">
           <div class="linkBackBlock">
-            <router-link class="link-back" to="/view/fomo">
+            <a class="link-back" @click.prevent="handleTemplateBack">
               <i class="fa fa-long-arrow-left"
                 ><md-tooltip md-direction="right">Back</md-tooltip></i
               >
-            </router-link>
+            </a>
             <div class="title">
               <md-icon class="icon">
                 <i :class="`fomoIcon icon_${fomoType}`"></i>
@@ -850,6 +850,9 @@ export default {
       "updateFomoData",
       "updateApiResponse",
     ]),
+    handleTemplateBack: function() {
+      window.history.back();
+    },
     setMainActiveTab: function(e) {
       this.mainActiveTab = e;
     },

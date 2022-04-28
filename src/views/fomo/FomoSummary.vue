@@ -41,7 +41,11 @@
                   <router-link
                     :to="{
                       name: 'EditFomo',
-                      params: { fomoId: `${fomoId}`, mainTab: 'tab-template' },
+                      params: {
+                        fomoId: `${fomoId}`,
+                        mainTab: 'tab-template',
+                        history: 'FomoSummary',
+                      },
                     }"
                   >
                     <i class="fas fa-edit editIcn"
@@ -76,7 +80,11 @@
                   <router-link
                     :to="{
                       name: 'EditFomo',
-                      params: { fomoId: `${fomoId}`, mainTab: 'tab-reward' },
+                      params: {
+                        fomoId: `${fomoId}`,
+                        mainTab: 'tab-reward',
+                        history: 'FomoSummary',
+                      },
                     }"
                   >
                     <i class="fas fa-edit editIcn"
@@ -104,7 +112,11 @@
                   <router-link
                     :to="{
                       name: 'EditFomo',
-                      params: { fomoId: `${fomoId}`, mainTab: 'tab-display' },
+                      params: {
+                        fomoId: `${fomoId}`,
+                        mainTab: 'tab-display',
+                        history: 'FomoSummary',
+                      },
                     }"
                   >
                     <i class="fas fa-edit editIcn"
