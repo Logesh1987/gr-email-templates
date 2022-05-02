@@ -49,7 +49,7 @@
             </label>
             Enable looping
             <i class="ml-10 fas fa-info-circle" style="color: black">
-              <md-tooltip
+              <md-tooltip class="customPopupOverTooltipClass"
                 >Enable fomos to loop after a cycle completed</md-tooltip
               >
             </i>
@@ -152,6 +152,11 @@ export default {
   },
 };
 </script>
+<style lang="less">
+.customPopupOverTooltipClass {
+  z-index: 999999;
+}
+</style>
 <style lang="less" scoped>
 .configSettingsCta {
   cursor: pointer;
