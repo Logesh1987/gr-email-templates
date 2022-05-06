@@ -113,6 +113,7 @@ export default {
     font-weight: bold;
     padding: 10px;
     text-align: left;
+    min-width: 100px;
   }
 
   tr:nth-child(odd) > td {
