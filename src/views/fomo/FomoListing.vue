@@ -169,6 +169,7 @@ export default {
       "updateAllFomoTypes",
       "toggleLoader",
       "updateApiResponse",
+      "updateReviewData",
     ]),
     fetchSiteFomo: function() {
       const url = this.getApiUrl("fomo");
@@ -176,6 +177,13 @@ export default {
         .then(({ data }) => {
           this.listData = data.data.fomos;
           this.widgetData = data.data.includes.widget;
+          if (data.data.includes.review.id) {
+            this.updateReviewData(data.data.includes.review);
+            window.localStorage.setItem(
+              `fomo_review`,
+              JSON.stringify(data.data.includes.review)
+            );
+          }
         })
         .catch(({ response }) => {
           var msg = `<i class="fas fa-exclamation-circle"></i> ${response.data.errors.message}`;

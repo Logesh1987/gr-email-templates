@@ -31,16 +31,16 @@ var hostname = window.location.hostname;
 var pathname = window.location.pathname;
 
 if (hostname == "localhost") {
-  Vue.prototype.$callback_url = "https://arun.devam.pro/gr";
+  Vue.prototype.$callback_url = "https://logesh.devam.pro/gr";
 } else if (pathname.includes("/gr/")) {
   Vue.prototype.$callback_url = "https://" + hostname + "/gr";
 } else {
   Vue.prototype.$callback_url = "https://" + hostname;
 }
 
-Vue.prototype.$shop_id = "2495";
+Vue.prototype.$shop_id = "1916";
 Vue.prototype.$id_site = window.Config.id_site;
-Vue.prototype.$email = "arun@appsmav.com";
+Vue.prototype.$email = "logesh@appsmav.com";
 Vue.prototype.$asset_url = `${Vue.prototype.$callback_url}/public`;
 
 new Vue({

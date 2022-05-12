@@ -57,6 +57,7 @@
 </template>
 <script>
 import Axios from "axios";
+import { mapMutations } from "vuex";
 import { required, minLength } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 
@@ -76,6 +77,7 @@ export default {
     feedback: { required, minLength: minLength(40) },
   },
   methods: {
+    ...mapMutations(["updateReviewData"]),
     closeDialog: function() {
       this.feedback = "";
       this.loading = false;
@@ -91,6 +93,7 @@ export default {
       Axios.post(this.url, this.createFormData(params)).then(({ data }) => {
         this.loading = false;
         this.success = data.data.message;
+        this.updateReviewData({ id: "anonymous" });
         setTimeout(() => {
           this.closeDialog();
         }, 4000);

@@ -17,6 +17,7 @@ export default new Vuex.Store({
     fomoVariables: null,
     fomoClanData: null,
     fomoReady: false,
+    reviewData: null,
   },
   mutations: {
     toggleLoader: (state, payload) => {
@@ -48,6 +49,9 @@ export default new Vuex.Store({
     },
     updateFomoClanData: (state, payload) => {
       state.fomoClanData = payload;
+    },
+    updateReviewData: (state, payload) => {
+      state.reviewData = payload;
     },
   },
   actions: {

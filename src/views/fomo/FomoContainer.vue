@@ -16,7 +16,7 @@
     >
       <span v-html="apiResponse"></span>
     </md-snackbar>
-    <FeedbackPopup :url="getApiUrl('fomo/sendReview')" />
+    <FeedbackPopup v-if="!review" :url="getApiUrl('fomo/sendReview')" />
     <Loader :status="loading" />
   </div>
 </template>
@@ -31,16 +31,26 @@ export default {
   data: function() {
     return {
       apiMsgStatus: false,
+      review: false,
     };
   },
   computed: {
-    ...mapState(["loading", "apiResponse", "fomoId", "fomoTemplateId"]),
+    ...mapState([
+      "loading",
+      "apiResponse",
+      "fomoId",
+      "fomoTemplateId",
+      "reviewData",
+    ]),
   },
   watch: {
     fomoId: function(val, oldVal) {
       if (val !== oldVal) {
         this.getFomo();
       }
+    },
+    reviewData: function(val) {
+      if (val.id) this.review = true;
     },
     apiResponse: function(val) {
       if (val !== null) {
@@ -55,6 +65,11 @@ export default {
     setProp: function(name, data) {
       this[name] = data;
     },
+  },
+  mounted: function() {
+    if (window.localStorage.getItem(`fomo_review`)) {
+      this.review = true;
+    }
   },
 };
 </script>
