@@ -156,7 +156,7 @@
                   <li
                     v-if="
                       parseInt(dInfo.scroll_percentage) !== 0 &&
-                        fomoData.is_automatic !== 1
+                        fomoData.is_automatic == 1
                     "
                   >
                     visible only after {{ dInfo.scroll_percentage }}% scroll.
@@ -164,7 +164,7 @@
                   <li
                     v-if="
                       parseInt(dInfo.seconds) !== 0 &&
-                        fomoData.is_automatic !== 1
+                        fomoData.is_automatic == 1
                     "
                   >
                     visible only after {{ dInfo.seconds }} second/s.
