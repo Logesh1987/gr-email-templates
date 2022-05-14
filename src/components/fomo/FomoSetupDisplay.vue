@@ -298,16 +298,16 @@ export default {
     width: 100%;
   }
 }
-@media all and (max-width: 1220px) {
-  .displaySetting {
-    .display-flex.hv-position {
-      flex-direction: column;
-      .display-flex {
-        width: 100%;
-      }
+// @media all and (max-width: 1220px) {
+.displaySetting {
+  .display-flex.hv-position {
+    flex-direction: column;
+    .display-flex {
+      width: 100%;
     }
   }
 }
+// }
 </style>
 <style lang="less" scoped>
 .md-field {
