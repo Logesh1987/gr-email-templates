@@ -853,7 +853,11 @@ export default {
       "updateApiResponse",
     ]),
     handleTemplateBack: function() {
-      window.history.back();
+      if (this.dirty) {
+        this.discardChanges = true;
+      } else {
+        window.history.back();
+      }
     },
     setMainActiveTab: function(e) {
       this.mainActiveTab = e;
@@ -1024,7 +1028,7 @@ export default {
     },
     handleDiscard: function() {
       this.dirty = false;
-      this.$router.push(this.routeUrl.path);
+      window.history.back();
     },
   },
   mounted: function() {
@@ -1051,21 +1055,21 @@ export default {
       plugin.async = true;
       document.head.appendChild(plugin);
     }
-    window.addEventListener("beforeunload", this.beforeWindowUnload);
-    this.$router.beforeEach((to, from, next) => {
-      // eslint-disable-line
-      if (this.dirty) {
-        this.routeUrl = to;
-        this.discardChanges = true;
-        next(false);
-      } else {
-        next();
-      }
-    });
+    // window.addEventListener("beforeunload", this.beforeWindowUnload);
+    // this.$router.beforeEach((to, from, next) => {
+    //   // eslint-disable-line
+    //   if (this.dirty) {
+    //     this.routeUrl = to;
+    //     this.discardChanges = true;
+    //     next(false);
+    //   } else {
+    //     next();
+    //   }
+    // });
   },
-  beforeDestroy: function() {
-    window.removeEventListener("beforeunload", this.beforeWindowUnload);
-  },
+  // beforeDestroy: function() {
+  //   window.removeEventListener("beforeunload", this.beforeWindowUnload);
+  // },
 };
 </script>
 <style lang="less" scoped>
