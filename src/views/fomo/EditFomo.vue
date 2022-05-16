@@ -185,9 +185,10 @@
                               :index="key"
                               :click="appendVarToKey"
                             />
-                            <span class="charCount"
-                              >{{ control.value.length }} /
-                              {{ control.max_length }}</span
+                            <span
+                              class="charCount"
+                              :id="`charCount-${key}-${name}`"
+                              >0/0</span
                             >
                           </div>
                         </div>
@@ -196,8 +197,9 @@
                             v-model="control.value"
                             :options="eOptions"
                             @focus="onEditorFocus($event, name)"
-                            @change="onEditorChange($event, control, name)"
+                            @change="onEditorChange($event, control, name, key)"
                             :ref="`${key}-${name}`"
+                            @ready="onEditorReady($event, control, name, key)"
                           ></quillEditor>
                         </div>
                         <small v-if="hasError[name]" class="fieldError">
@@ -368,9 +370,8 @@
                           :index="appearanceIndex"
                           :click="appendVarToKey"
                         />
-                        <span class="charCount"
-                          >{{ control.value.length }} /
-                          {{ control.max_length }}</span
+                        <span class="charCount" :id="`charCount-${key}-${name}`"
+                          >0/0</span
                         >
                       </div>
                     </div>
@@ -379,7 +380,8 @@
                         v-model="control.value"
                         :options="eOptions"
                         @focus="onEditorFocus($event, name)"
-                        @change="onEditorChange($event, control, name)"
+                        @change="onEditorChange($event, control, name, key)"
+                        @ready="onEditorReady($event, control, name, key)"
                         :ref="`${appearanceIndex}-${name}`"
                       ></quillEditor>
                     </div>
@@ -901,15 +903,26 @@ export default {
           });
       }
     },
+    onEditorReady: function(quill, data, name, key) {
+      const trimmedText = quill.getText().trim();
+      const textCount = trimmedText.length;
+      const limit = data.max_length;
+      document.querySelector(`#charCount-${key}-${name}`).innerHTML =
+        textCount + "/" + limit;
+    },
     onEditorFocus: function(quill, name) {
       this.quillEditor[name] = quill.selection.savedRange.index;
     },
-    onEditorChange: function({ quill }, data, name) {
+    onEditorChange: function({ quill }, data, name, key) {
       this.checkforError(data, name);
-      const limit = 3000;
-      if (quill.getLength() > limit) {
-        quill.deleteText(limit, quill.getLength());
+      const trimmedText = data.value.trim();
+      const textCount = trimmedText.length;
+      const limit = data.max_length;
+      if (textCount > limit) {
+        quill.deleteText(limit, textCount);
       }
+      document.querySelector(`#charCount-${key}-${name}`).innerHTML =
+        quill.getText().trim().length + "/" + limit;
     },
     checkforError: function(data, name) {
       if (Boolean(data.required) && data.value.trim() == "") {
