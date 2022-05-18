@@ -142,16 +142,18 @@
                     >.
                   </li>
                   <li>
-                    positioned at
+                    Positioned at
                     {{ fomoClanData.prompt_positions[dInfo.position] }}.
                   </li>
-                  <li>Visible to {{ dInfo.visible_to }}.</li>
+                  <li v-if="fomoType !== 'signup_bonus'">
+                    Visible to {{ dInfo.visible_to }}.
+                  </li>
                   <li>Displayed in {{ dInfo.show_on_page }} page/s.</li>
                   <li v-if="dInfo.show_on_first_visit == 1">
                     Displayed on first visit only.
                   </li>
                   <li v-if="allowedCountries.length">
-                    visible only in country/s {{ allowedCountries }}.
+                    Visible only in country/s {{ allowedCountries }}.
                   </li>
                   <li
                     v-if="
@@ -159,7 +161,7 @@
                         fomoData.is_automatic == 1
                     "
                   >
-                    visible only after {{ dInfo.scroll_percentage }}% scroll.
+                    Visible only after {{ dInfo.scroll_percentage }}% scroll.
                   </li>
                   <li
                     v-if="
@@ -167,7 +169,7 @@
                         fomoData.is_automatic == 1
                     "
                   >
-                    visible only after {{ dInfo.seconds }} second/s.
+                    Visible only after {{ dInfo.seconds }} second/s.
                   </li>
                   <li v-if="fomoData.is_automatic === 1">
                     Added to automatic queue.
