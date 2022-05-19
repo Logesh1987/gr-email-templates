@@ -243,13 +243,29 @@ export default {
           ? delete this.formErrors["vertical"]
           : (this.formErrors.vertical = "Invalid input");
 
-        `${data.seconds}`.length && data.seconds >= 0
-          ? delete this.formErrors["delay"]
-          : (this.formErrors.delay = "Invalid input");
+        if (
+          `${data.seconds}`.length == 0 ||
+          data.seconds == undefined ||
+          data.seconds == null
+        ) {
+          this.formErrors.delay = "Invalid input";
+        } else if (data.seconds > 60) {
+          this.formErrors.delay = "Shouldn't be greater than a minute";
+        } else {
+          delete this.formErrors["delay"];
+        }
 
-        `${data.scroll_percentage}`.length && data.scroll_percentage >= 0
-          ? delete this.formErrors["scroll"]
-          : (this.formErrors.scroll = "Invalid input");
+        if (
+          `${data.scroll_percentage}`.length == 0 ||
+          data.scroll_percentage == undefined ||
+          data.scroll_percentage == null
+        ) {
+          this.formErrors.scroll = "Invalid input";
+        } else if (data.scroll_percentage > 50) {
+          this.formErrors.scroll = "Shouldn't be greater than 50%";
+        } else {
+          delete this.formErrors["scroll"];
+        }
 
         Object.keys(this.formErrors).length > 0
           ? this.updateSecondaryError(true)
