@@ -124,9 +124,10 @@ export default {
     border-bottom: 1px solid #eee;
     vertical-align: middle;
     padding: 10px;
-
+    white-space: pre-wrap;
     &:first-child {
       border-left: 1px solid #eee;
+      min-width: 200px;
     }
     &:last-child {
       border-right: 1px solid #eee;

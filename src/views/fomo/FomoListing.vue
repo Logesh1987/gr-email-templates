@@ -1,13 +1,15 @@
 <template>
   <div class="home">
-    <div class="fomoContainer">
+    <div class="fomoContainer am-cscroll">
       <div class="fomo_block">
         <div class="active_fomo">
           <div class="fomoHeader">
             <div>
               <h2>
-                <i class="fal fa-fire"></i>Fomo Prompts
-                <small class="beta">Beta</small>
+                <div>
+                  <i class="fal fa-fire"></i>Fomo Prompts
+                  <small class="beta">Beta</small>
+                </div>
                 <PromptConfiguration
                   v-if="listData"
                   :data="widgetData"
@@ -34,12 +36,13 @@
           </div>
           <div class="fomoList" v-if="listData">
             <md-tabs class="fomo-tabs" v-if="listData.length > 0">
-              <template slot="md-tab" slot-scope="{ tab }">
+              <template slot="md-tab" slot-scope="{ tab }" class="am-cscroll">
                 {{ tab.label }}
                 <small v-if="tab.data.badge">({{ tab.data.badge }})</small>
               </template>
               <md-tab
                 id="tab-all"
+                class="am-cscroll"
                 md-label="All Prompts"
                 :md-template-data="{ badge: listData.length }"
               >
@@ -50,6 +53,7 @@
               </md-tab>
               <md-tab
                 id="tab-home"
+                class="am-cscroll"
                 md-label="Active Prompts"
                 :md-template-data="{ badge: activeFomo.length }"
               >
@@ -60,6 +64,7 @@
               </md-tab>
               <md-tab
                 id="tab-pages"
+                class="am-cscroll"
                 md-label="Paused Prompts"
                 :md-template-data="{ badge: inactiveFomo.length }"
               >
@@ -108,20 +113,30 @@
           <div class="create_fomo">
             <div class="titleBlock">
               <h2>Create New</h2>
-              <a href="#" class="btn_link btn_link-small">View all templates</a>
+              <!-- <a href="#" class="btn_link btn_link-small">View all templates</a> -->
             </div>
             <div class="newFomoList">
               <div v-for="template in allFomoTypes" :key="template.id">
-                <div class="new_list" v-if="!template.attributes.disabled">
+                <div class="new_list">
                   <md-icon class="fomo_icon">
-                    <span>V</span>
                     <i :class="`fomoIcon icon_${template.type}`"></i>
                   </md-icon>
                   <div class="fomo_details">
                     <h3>{{ template.attributes.name }}</h3>
                   </div>
-                  <md-button :md-ripple="false" class="md-dense btn"
+                  <md-button
+                    v-if="!template.attributes.disabled"
+                    :md-ripple="false"
+                    class="md-dense btn"
+                    @click="createFomo(template.id)"
                     >Add</md-button
+                  >
+                  <md-button
+                    v-else
+                    :md-ripple="false"
+                    class="md-raised md-dense btn"
+                    disabled
+                    >Active</md-button
                   >
                 </div>
               </div>
@@ -313,6 +328,7 @@ export default {
   background: #f9f9f9;
   overflow: hidden;
   position: relative;
+  min-width: 420px;
 
   h2 {
     font-size: 36px;
@@ -320,6 +336,10 @@ export default {
     line-height: 41px;
     color: #333;
     margin: 30px 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
     small {
       background-color: var(--main-blue);
       color: #fff;
@@ -386,6 +406,9 @@ export default {
   .fomo_block {
     flex-direction: column;
   }
+  .btnDrawer {
+    margin-top: 25px;
+  }
 }
 
 /* Active FOMO */
@@ -431,6 +454,7 @@ export default {
 
 .active_fomo {
   flex: 2;
+  width: calc(100% - 400px);
 }
 .fomoHeader {
   // background: url("https://i.imgur.com/Dd9h0Qr.png") no-repeat scroll 0 center;
@@ -439,10 +463,14 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-direction: column;
   > div {
     max-width: 1000px;
     width: 80%;
     margin: auto;
+  }
+  p {
+    text-align: center;
   }
 }
 .statusBlock {
@@ -585,6 +613,9 @@ export default {
   .mobile {
     display: block;
   }
+  .active_fomo {
+    width: 100%;
+  }
 
   .btnDrawer {
     background: #474747;
@@ -652,6 +683,26 @@ export default {
   --md-theme-default-accent: var(--main-blue) !important;
   --md-theme-default-accent-on-background: var(--main-blue) !important;
 }
+.am-cscroll,
+.fomo-tabs .md-tabs-navigation {
+  // padding-right: 0.5em;
+  overflow: auto;
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0);
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.7);
+    background-color: transparent;
+  }
+}
 .fomoList {
   margin: 0 auto;
   width: 80%;
@@ -686,6 +737,7 @@ export default {
     height: 55px;
     color: var(--main-blue) !important;
     max-width: 100% !important;
+    min-width: 125px;
   }
 
   &.md-theme-default .md-tabs-indicator {

@@ -1072,6 +1072,13 @@ export default {
   // },
 };
 </script>
+<style lang="less">
+.fomo-tabs {
+  .md-tabs-content {
+    height: auto !important;
+  }
+}
+</style>
 <style lang="less" scoped>
 .fixedHeaderBlock .fixedHeaderBlockInner {
   justify-content: space-between;
