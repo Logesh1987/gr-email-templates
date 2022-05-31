@@ -16,6 +16,7 @@ Vue.config.errorHandler = (err) => {
   }
 };
 
+// For Emailtemplates API
 if (window.location.origin.includes("localhost")) {
   window.Config = {
     callback_url: "https://gr-v1.devam.pro",
@@ -26,7 +27,7 @@ if (window.location.origin.includes("localhost")) {
   };
 }
 
-// FOMO API
+// For FOMO API
 var hostname = window.location.hostname;
 var pathname = window.location.pathname;
 
