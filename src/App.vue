@@ -593,6 +593,9 @@ export default {
     }
   }
 }
+.vc-chrome {
+  z-index: 2;
+}
 // Quill editor font sizes
 .ql-size-small {
   font-size: 0.8em;

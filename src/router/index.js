@@ -1,12 +1,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import EmailListing from "../views/EmailListing.vue";
-import EmailEdit from "../views/EmailEdit.vue";
 import VueMaterial from "vue-material";
 import VueSimpleAccordion from "vue-simple-accordion";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/black-green-light.css";
 
+import EmailContainer from "../views/email/EmailContainer.vue";
+import EmailListing from "../views/email/EmailListing.vue";
+import EmailEdit from "../views/email/EmailEdit.vue";
 import FomoContainer from "../views/fomo/FomoContainer.vue";
 import FomoListing from "../views/fomo/FomoListing.vue";
 import FomoSummary from "../views/fomo/FomoSummary.vue";
@@ -20,15 +21,21 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/view/email/templates/",
-    name: "EmailListing",
-    component: EmailListing,
-  },
-  {
-    path: "/view/email/templates/:emailId",
-    name: "EmailEdit",
-    props: true,
-    component: EmailEdit,
+    path: "/view/email",
+    component: EmailContainer,
+    children: [
+      {
+        path: "templates",
+        name: "EmailListing",
+        component: EmailListing,
+      },
+      {
+        path: "templates/:emailId",
+        name: "EmailEdit",
+        props: true,
+        component: EmailEdit,
+      },
+    ],
   },
   {
     path: "/view/fomo",
