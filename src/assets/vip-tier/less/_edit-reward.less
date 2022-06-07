@@ -1,0 +1,131 @@
+@import url("./_variables");
+.amvip--addReward,
+.amvip--editReward {
+  textarea {
+    min-height: 225px;
+  }
+  .sideBySide {
+    display: flex;
+    flex-direction: column;
+    > .amvip--twolColumnRow {
+      width: 100%;
+      padding: 0 20px;
+    }
+    .amvip--formRow textarea {
+      width: 100% !important;
+    }
+  }
+  @media screen and (min-width: 1200px) {
+    .sideBySide {
+      flex-direction: row;
+      > .amvip--twolColumnRow {
+        min-width: 50%;
+      }
+    }
+  }
+  .amvip--formRow input:not([type="radio"]) {
+    width: 100%;
+  }
+  .amvip--formRow {
+    margin: 0;
+    .md-error {
+      margin-bottom: 10px;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 5px;
+      font-size: 12px;
+      color: var(--labelClr);
+    }
+  }
+  .inputPrefix,
+  .inputSuffix {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > .md-prefix,
+    .md-suffix {
+      border-radius: 3px;
+      z-index: 1;
+      border: 1px solid #ccc;
+      background: #fff;
+    }
+    > .md-prefix {
+      border-right: none;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      padding: 5px 10px 6px 10px;
+    }
+    > .md-suffix {
+      border-left: none;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      padding: 4px 10px 5px 10px;
+    }
+    input {
+      text-indent: 5px;
+    }
+  }
+  .inputPrefix {
+    input {
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
+    }
+  }
+  .inputSuffix {
+    input {
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 0px;
+      padding: 7px 8px 10px;
+    }
+  }
+  .amvip-actionFooter {
+    margin: 20px 0px;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+.amvip--tabContent {
+  padding: 20px;
+  border: 1px solid #ccc;
+  > .tabSection {
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+}
+.amvip--tabHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-left: 30px;
+}
+.amvip--tabTitle {
+  position: relative;
+  min-width: 150px;
+  height: 2.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #222;
+  font-size: 1.2rem;
+  background: #eaeaea;
+  cursor: pointer;
+  @media (max-width: 767px) {
+    min-width: 45%;
+  }
+  @media (min-width: 768px) {
+    min-width: 150px;
+  }
+  &:hover:not(.active) {
+    background: #eaeaea;
+  }
+  &.active {
+    color: #fff;
+    background: @primary-color;
+  }
+}
+.md-helper-text {
+  font-size: 12px;
+  color: rgb(124, 124, 124);
+}

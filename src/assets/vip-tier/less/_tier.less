@@ -1,0 +1,176 @@
+@import url("./_variables");
+.amvip--tierWrap {
+  display: flex;
+  flex-wrap: wrap;
+  @media (min-width: 600px) {
+    margin: 0 -10px;
+  }
+}
+.amvip--tierCol {
+  flex: 100% 0 0;
+  margin: 0 0 20px;
+
+  &.paused {
+    > div {
+      opacity: 0.5;
+    }
+  }
+  @media (min-width: 600px) {
+    flex: 50% 0 0;
+    max-width: 50%;
+    padding: 0 10px;
+  }
+  @media (min-width: 960px) {
+    flex: 33.33% 0 0;
+    max-width: 33.33%;
+  }
+  @media (min-width: 1200px) {
+    flex: 25% 0 0;
+    max-width: 25%;
+  }
+
+  > div {
+    border: 1px solid #ccc;
+    height: 100%;
+    border-radius: 10px;
+  }
+  .outerWrapper,
+  .innerWrapper {
+    background-color: #fff;
+    height: 100%;
+  }
+  .innerWrapper {
+    height: calc(100% - 10px);
+    position: relative;
+    top: 5px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    width: calc(100% + 2px);
+    left: -1px;
+    border: 1px solid #ccc;
+  }
+  header {
+    position: relative;
+    min-height: 180px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 10px 10px 0 0;
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 10px 10px 0 0;
+      height: 8px;
+      right: 0;
+    }
+  }
+  &.amvip--diamond header {
+    background: @diamond-color;
+  }
+  &.amvip--gold header {
+    background: @gold-color;
+  }
+  &.amvip--silver header {
+    background: @silver-color;
+  }
+  &.amvip--bronze header {
+    background: @bronze-color;
+  }
+
+  h3 {
+    font-size: 2rem;
+  }
+  h5 {
+    // font-size: 0.8rem;
+    color: #838384;
+    // font-weight: normal;
+  }
+}
+.amvip--cardImg {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 15px 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 20px;
+  border-radius: 50%;
+  box-shadow: inset 1px 1px 15px 2px rgba(0, 0, 0, 0.35);
+  transition: 0.18s;
+  color: #fff;
+  cursor: pointer;
+  &::before {
+    font-size: 75px;
+  }
+  .fa-edit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-size: 24px;
+    color: #000;
+    opacity: 0;
+    transition: 0.2s;
+  }
+  svg[class*="icon-vip-"] {
+    width: 80%;
+    height: 80%;
+  }
+  img {
+    max-width: 90%;
+    max-height: 90%;
+    transition: 0.2s;
+  }
+  &:hover {
+    img {
+      opacity: 0.3;
+    }
+    .fa-edit {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      width: 60px;
+      height: 60px;
+      text-align: center;
+      border-radius: 50%;
+      line-height: 60px;
+    }
+  }
+}
+.amvip--cardAction {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
+  > * {
+    margin-left: 10px;
+    cursor: pointer;
+    color: #000;
+    opacity: 0.82;
+    transition: 0.15s;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+.amvip--tierDetails {
+  padding: 0 15px 10px;
+  h4 {
+    font-size: 1.4rem;
+    margin: 0.5rem 0;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  p {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+  }
+}

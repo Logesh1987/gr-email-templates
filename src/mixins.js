@@ -27,6 +27,9 @@ export default {
   getImgUrl: function(value) {
     return `${window.Config.s3_image_url}/${value}`;
   },
+  getCDNImage: function(value) {
+    return value;
+  },
   getApiUrl: function(url) {
     var hostname = window.location.hostname;
     if (hostname == "localhost") {
@@ -35,6 +38,37 @@ export default {
     } else {
       return `${Vue.prototype.$callback_url}/${url}`;
     }
+  },
+  focusFirstStatus(formData, refrences) {
+    // 1. Loop the keys
+    for (let key in Object.keys(formData)) {
+      // 2. Extract the input
+      const input = Object.keys(formData)[key];
+      // 3. Remove special properties
+      if (input.includes("$")) return false;
+
+      // 4. Check for errors
+      if (formData[input]?.$error) {
+        // 5. Focus the input with the error
+        refrences[input]?.$el.focus();
+
+        // 6. Break out of the loop
+        break;
+      }
+    }
+  },
+  validURL(str) {
+    var pattern = new RegExp(
+      "^(https?:\\/\\/)?" + // protocol
+      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+      "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+      "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+        "(\\#[-a-z\\d_]*)?$",
+      "i"
+    ); // fragment locator
+    // console.log(`string: ${str}, pattern: ${!!pattern.test(str)}`);
+    return !!pattern.test(str);
   },
   doCopy: function(code) {
     if (window.clipboardData && window.clipboardData.setData) {

@@ -10,13 +10,15 @@ import Vue from "vue";
 import VueMaterial from "vue-material";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
+import Popover from "vue-js-popover";
 import mixins from "./mixins";
 
-if (process.env.NODE_ENV == "development") {
-  require("@/assets/icon/fontawesome.min.css");
-}
+// if (process.env.NODE_ENV == "development") {
+//   require("@/assets/icon/fontawesome.min.css");
+// }
 
 Vue.use(VueMaterial);
+Vue.use(Popover);
 
 // GLOBAL MIXINS - HELPER FUNCTIONS
 Vue.mixin({
@@ -28,6 +30,13 @@ export default {
   mounted: function() {
     document.documentElement.classList.remove("md-theme-default");
     document.querySelector("#app").classList.add("md-theme-default");
+  },
+  destroyed() {
+    console.log(
+      `At this point, watchers, child components, and event listeners have been torn down.`
+    );
+    console.log("Component destroyed.");
+    window.sessionStorage.clear();
   },
 };
 </script>

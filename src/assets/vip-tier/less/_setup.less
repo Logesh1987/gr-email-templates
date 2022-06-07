@@ -1,0 +1,24 @@
+.amvip--radioRow {
+    display: flex;
+    gap:20px;
+    margin-bottom: 20px;
+    @media (max-width: 767px) {
+        flex-direction: column;
+    }
+    .amvip--customRadio {
+        max-width: 250px;
+        @media (max-width: 767px) {
+            max-width: none;
+        }
+        .md-radio {
+            margin: 0 !important;
+            label {
+                font-weight: 600;
+                display: block;
+                margin-bottom: 5px;
+                font-size: 12px;
+                color: var(--labelClr);
+            }
+        }
+    }
+}
