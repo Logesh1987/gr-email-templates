@@ -188,24 +188,14 @@
           </ul>
         </div>
       </div>
-      <md-snackbar
-        class="msgSnack"
-        md-position="center"
-        :md-duration="4000"
-        :md-active.sync="emailMessage"
-      >
-        <span v-html="emailResponse"></span>
-      </md-snackbar>
     </div>
-    <Loader :status="loader" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
-import Loader from "@/components/Loader.vue";
 import Axios from "axios";
+import { mapMutations } from "vuex";
 
 export default {
   name: "EmailListing",
@@ -213,12 +203,8 @@ export default {
     return {
       bol: 1,
       listData: [],
-      emailMessage: false,
-      emailResponse: null,
-      loader: false,
     };
   },
-  components: { Loader },
   mixins: ["createFormData"],
   computed: {
     activeList: function() {
@@ -229,8 +215,9 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(["toggleLoader", "updateApiResponse"]),
     changeEmailStatus: function(id, status) {
-      this.loader = true;
+      this.toggleLoader(true);
       const params = {
         is_enabled: status ? 0 : 1,
         id_email: id,
@@ -243,41 +230,47 @@ export default {
         `${window.Config.callback_url}/services/v2/email/updateEmailStatus`,
         formData
       ).then(({ data, status }) => {
-        this.loader = false;
+        this.toggleLoader(false);
         if (status == 200) {
-          this.emailResponse = `<i class="fas fa-check-circle"></i> ${data.msg}`;
+          this.updateApiResponse(
+            `<i class="fas fa-check-circle"></i> ${data.msg}`
+          );
           this.listData = this.listData.map((item) =>
             item.id_email == id
               ? { ...item, is_enabled: params.is_enabled }
               : item
           );
         } else
-          this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
-        this.emailMessage = true;
+          this.updateApiResponse(
+            `<i class="fas fa-exclamation-circle"></i> ${data.msg}`
+          );
       });
     },
     sendTestEmail: function(id) {
-      this.loader = true;
+      this.toggleLoader(true);
       Axios.post(
         `${window.Config.callback_url}/services/v2/email/sendTestEmail`,
         this.createFormData({ id_email: id })
       ).then(({ data, status }) => {
-        this.loader = false;
+        this.toggleLoader(false);
         if (status == 200) {
-          this.emailResponse = `<i class="fas fa-check-circle"></i> An email has been sent to ${data.mail_to}`;
+          this.updateApiResponse(
+            `<i class="fas fa-check-circle"></i> An email has been sent to ${data.mail_to}`
+          );
         } else
-          this.emailResponse = `<i class="fas fa-exclamation-circle"></i> There was an error sending mail to ${data.mail_to}`;
-        this.emailMessage = true;
+          this.updateApiResponse(
+            `<i class="fas fa-exclamation-circle"></i> There was an error sending mail to ${data.mail_to}`
+          );
       });
     },
   },
   mounted: function() {
-    this.loader = true;
+    this.toggleLoader(true);
     Axios.get(
       `${window.Config.callback_url}/services/v2/email/getEmailTemplates`
     ).then(({ data }) => {
       this.listData = data.data;
-      this.loader = false;
+      this.toggleLoader(false);
     });
   },
 };

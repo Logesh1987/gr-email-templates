@@ -391,14 +391,6 @@
                 </div>
               </div>
             </div>
-            <md-snackbar
-              class="msgSnack"
-              md-position="center"
-              :md-active.sync="showMsg"
-              md-persistent
-            >
-              <span v-html="emailResponse"></span>
-            </md-snackbar>
             <md-dialog-confirm
               class="warn"
               :md-active.sync="resetAction"
@@ -476,7 +468,6 @@
         />
       </div>
     </div>
-    <Loader :status="loader" />
   </div>
 </template>
 <script>
@@ -486,10 +477,10 @@ import { quillEditor } from "vue-quill-editor"; // require styles
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
-import ColorPicker from "../components/ColorPicker.vue";
-import CustomVariables from "../components/CustomVariables.vue";
-import EmailTemplates from "./EmailTemplates.vue";
-import Loader from "@/components/Loader.vue";
+import { mapMutations } from "vuex";
+import ColorPicker from "@/components/ColorPicker.vue";
+import CustomVariables from "@/components/CustomVariables.vue";
+import EmailTemplates from "../email/EmailTemplates.vue";
 import PreviewRenderer from "@/components/PreviewRenderer.vue";
 import draggable from "vuedraggable";
 
@@ -606,7 +597,6 @@ export default {
     ColorPicker,
     CustomVariables,
     EmailTemplates,
-    Loader,
     quillEditor,
     PreviewRenderer,
     draggable,
@@ -629,9 +619,6 @@ export default {
       dVars: null,
       quillEditor: {},
       eOptions: options,
-      showMsg: false,
-      emailResponse: null,
-      loader: false,
       fromEditPage: false,
       disableTest: false,
       promptAction: false,
@@ -664,11 +651,6 @@ export default {
         }
       },
     },
-    showMsg: function() {
-      if (this.showMsg) {
-        setTimeout(() => (this.showMsg = false), 4000);
-      }
-    },
     editPageView: function() {
       setTimeout(() => {
         if (this.isWl == 1 && document.querySelector(".footerWlImage")) {
@@ -691,6 +673,7 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(["toggleLoader", "updateApiResponse"]),
     setEdata: function(id) {
       this.eData = this.allData.find(({ id_theme }) => id_theme == id);
       this.disableTest = false;
@@ -722,7 +705,7 @@ export default {
 
       if (file) {
         let formData = new FormData();
-        this.loader = true;
+        this.toggleLoader(true);
         formData.append("Filedata", file);
         formData.append("suffix", name);
         formData.append("id_template", 1);
@@ -733,19 +716,23 @@ export default {
           formData
         )
           .then(({ data }) => {
-            this.loader = false;
+            this.toggleLoader(false);
             if (!data.error) {
               this.eData.json_fields[index].data[name].value = data.img_name;
-              this.emailResponse = `<i class="fas fa-check-circle"></i> Uploaded successfully`;
+              this.updateApiResponse(
+                `<i class="fas fa-check-circle"></i> Uploaded successfully`
+              );
             } else {
-              this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
+              this.updateApiResponse(
+                `<i class="fas fa-exclamation-circle"></i> ${data.msg}`
+              );
             }
-            this.showMsg = true;
           })
           .catch(({ data }) => {
-            this.loader = false;
-            this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
-            this.showMsg = true;
+            this.toggleLoader(false);
+            this.updateApiResponse(
+              `<i class="fas fa-exclamation-circle"></i> ${data.msg}`
+            );
           });
       }
     },
@@ -774,7 +761,7 @@ export default {
       this.togglePageview();
     },
     handleSave: function() {
-      this.loader = true;
+      this.toggleLoader(true);
 
       const { id_theme, subject, json_fields } = this.eData;
 
@@ -792,37 +779,44 @@ export default {
         this.createFormData(params)
       )
         .then(({ data, status }) => {
-          this.loader = false;
+          this.toggleLoader(false);
           if (status == 200) {
-            this.emailResponse = `<i class="fas fa-check-circle"></i> ${data.msg}`;
+            this.updateApiResponse(
+              `<i class="fas fa-check-circle"></i> ${data.msg}`
+            );
             this.fetchTemplateData();
           } else
-            this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
-          this.showMsg = true;
+            this.updateApiResponse(
+              `<i class="fas fa-exclamation-circle"></i> ${data.msg}`
+            );
           this.disableTest = false;
         })
         .catch(() => {
-          this.loader = false;
-          this.emailResponse = `<i class="fas fa-exclamation-circle"></i> Something went wrong`;
-          this.showMsg = true;
+          this.toggleLoader(false);
+          this.updateApiResponse(
+            `<i class="fas fa-exclamation-circle"></i> Something went wrong`
+          );
         });
     },
     sendTestEmail: function() {
-      this.loader = true;
+      this.toggleLoader(true);
       Axios.post(
         `${window.Config.callback_url}/services/v2/email/sendTestEmail`,
         this.createFormData({ id_email: this.id })
       ).then(({ data, status }) => {
-        this.loader = false;
+        this.toggleLoader(false);
         if (status == 200) {
-          this.emailResponse = `<i class="fas fa-check-circle"></i> An email has been sent to ${data.mail_to}`;
+          this.updateApiResponse(
+            `<i class="fas fa-check-circle"></i> An email has been sent to ${data.mail_to}`
+          );
         } else
-          this.emailResponse = `<i class="fas fa-exclamation-circle"></i> There was an error sending mail to ${data.mail_to}`;
-        this.showMsg = true;
+          this.updateApiResponse(
+            `<i class="fas fa-exclamation-circle"></i> There was an error sending mail to ${data.mail_to}`
+          );
       });
     },
     resetTemplate: function() {
-      this.loader = true;
+      this.toggleLoader(true);
       Axios.post(
         `${window.Config.callback_url}/services/v2/email/resetEmailTemplate`,
         this.createFormData({
@@ -832,16 +826,19 @@ export default {
       ).then((res) => {
         if (res.status == 200) {
           this.fetchTemplateData();
-          this.emailResponse = `<i class="fas fa-check-circle"></i> Template reset successfully`;
+          this.updateApiResponse(
+            `<i class="fas fa-check-circle"></i> Template reset successfully`
+          );
         } else {
-          this.emailResponse = `<i class="fas fa-exclamation-circle"></i> There was an error in resetting`;
-          this.loader = true;
+          this.updateApiResponse(
+            `<i class="fas fa-exclamation-circle"></i> There was an error in resetting`
+          );
+          this.toggleLoader(true);
         }
-        this.showMsg = true;
       });
     },
     fetchTemplateData: function() {
-      this.loader = true;
+      this.toggleLoader(true);
       this.eData = null;
       // `${window.Config.callback_url}/services/v2/email/getEmailTemplate/${this.id}`
       Axios.get(
@@ -863,7 +860,7 @@ export default {
         this.emailTitle = title;
         this.emailType = type;
         this.setEdata(active_id_theme);
-        this.loader = false;
+        this.toggleLoader(false);
       });
     },
     handleBack: function() {
@@ -873,15 +870,17 @@ export default {
       let jFields = [...this.eData.json_fields];
       jFields.splice(index + 1, 0, JSON.parse(JSON.stringify(jFields[index])));
       this.eData = { ...this.eData, json_fields: jFields };
-      this.emailResponse = `<i class="fas fa-check-circle"></i> ${jFields[index].label} cloned successfully`;
-      this.showMsg = true;
+      this.updateApiResponse(
+        `<i class="fas fa-check-circle"></i> ${jFields[index].label} cloned successfully`
+      );
     },
     deleteBlock: function(index) {
       let jFields = [...this.eData.json_fields];
       jFields.splice(index, 1);
       this.eData = { ...this.eData, json_fields: jFields };
-      this.emailResponse = `<i class="fas fa-check-circle"></i> ${jFields[index].label} deleted successfully`;
-      this.showMsg = true;
+      this.updateApiResponse(
+        `<i class="fas fa-check-circle"></i> ${jFields[index].label} deleted successfully`
+      );
     },
     confirmAction: function() {
       if (this.promptAction.type == "Clone")
@@ -996,11 +995,6 @@ export default {
     background: none;
     border: none;
     display: inline;
-    .vc-chrome {
-      position: relative;
-      right: -30px;
-      top: -8px;
-    }
   }
 
   .md-list {
@@ -1129,189 +1123,6 @@ export default {
   justify-content: space-between;
   h3 {
     margin: 0.6em 0;
-  }
-}
-</style>
-
-<style lang="less">
-:root {
-  --md-theme-default-accent: #187aff !important;
-  --md-theme-default-accent-on-background: #187aff !important;
-  --md-theme-default-primary-on-background: #187aff !important;
-}
-.quill-editor {
-  background-color: #fff;
-}
-.ql-toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  .ql-formats {
-    margin-right: 5px !important;
-  }
-}
-.ql-snow .ql-tooltip {
-  left: -1px !important;
-  position: static;
-  transform: none;
-}
-.ql-snow .ql-picker.ql-expanded .ql-picker-options {
-  z-index: 99;
-}
-.ql-snow strong {
-  font-weight: bold;
-}
-.md-overlay {
-  z-index: 10000;
-}
-.md-dialog {
-  z-index: 10001;
-}
-.previewBlock a {
-  pointer-events: none;
-}
-.hide {
-  display: none !important;
-}
-.flip-list-move {
-  transition: transform 0.5s;
-}
-.no-move {
-  transition: transform 0s;
-}
-.ghost {
-  opacity: 0.5;
-  background: #c8ebfb;
-}
-.md-button {
-  text-transform: capitalize;
-  padding: 0 10px;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  margin: 0;
-  i {
-    margin-right: 10px;
-  }
-  &[disabled] {
-    pointer-events: none;
-  }
-}
-
-.btn-custom-default {
-  border: 1px solid #005dff;
-  color: #005dff !important;
-  background: transparent !important;
-}
-.btn-custom-active {
-  color: #fff !important;
-}
-.md-list {
-  border: 1px solid #e8e8e8;
-  --vsa-highlight-color: #d2d2d2;
-
-  &--is-active .vsa-item__heading,
-  .md-list-item:not(:last-of-type) {
-    border-bottom: 1px solid #e8e8e8;
-  }
-
-  .md-list-item-text {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    padding-left: 10px;
-    font-weight: 600;
-    font-size: 1.7rem;
-    font-size: 14px;
-    color: #757575;
-    nav {
-      width: auto;
-      display: flex;
-      a {
-        margin-left: 5px;
-      }
-    }
-  }
-  .md-list-expand-icon {
-    margin-left: 0 !important;
-  }
-  .md-list-item-expand.md-active .md-list-expand {
-    padding: 10px;
-  }
-}
-.eAccordion {
-  display: flex;
-  background-color: #fff;
-  flex-direction: column;
-  &-title {
-    cursor: pointer;
-    padding: 10px;
-    border: 1px solid #e8e8e8;
-    position: relative;
-    transition: background-color 0.5s;
-    nav {
-      display: flex;
-      align-items: center;
-      padding-right: 5px;
-      position: absolute;
-      font-size: 1.1em;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      a {
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.5s;
-      }
-      i {
-        margin: 0 5px;
-        transition: transform 0.5s;
-      }
-    }
-    i.fa-arrows-alt {
-      cursor: grab;
-    }
-    &:hover a {
-      opacity: 1;
-      pointer-events: auto;
-    }
-  }
-  &-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.8s, background-color 0.5s;
-    > div {
-      border: 1px solid #e8e8e8;
-      padding: 10px;
-      border-top: 0;
-    }
-  }
-  &-items {
-    &.active {
-      .eAccordion-content {
-        max-height: 2000px;
-        background-color: #eef9f9;
-        animation: 1s o-visible 1s forwards;
-        > div {
-          border-color: #afafaf;
-        }
-      }
-      .eAccordion-title {
-        border-color: #afafaf;
-        background-color: #187aff;
-        color: #fff;
-        a {
-          color: #fff !important;
-        }
-        .fa-chevron-right {
-          transform: rotate(90deg);
-        }
-      }
-    }
-  }
-}
-@keyframes o-visible {
-  to {
-    overflow: visible;
   }
 }
 </style>
